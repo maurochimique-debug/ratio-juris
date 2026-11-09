@@ -1,3 +1,35 @@
+## Conclusão editorial do 47º EOU — 09/11/2026 — Questões 61–80
+
+**Banco completo para o 47º Exame na plataforma RatioJuris:** são 80 registros por caderno, sendo **79 comentários autorais individualizados e 1 questão oficialmente anulada** (nº 47 do Tipo 1; equivalentes nº 48 no Tipo 2, nº 49 no Tipo 3 e nº 50 no Tipo 4). Os enunciados e alternativas integrais continuam disponíveis nos **PDFs oficiais da OAB/FGV**, não são reproduzidos integralmente no código.
+
+### Lote incorporado 61–80
+
+- **Penal, 61–62:** limite da medida de segurança com base na **Súmula 527/STJ**; distinção entre calúnia e injúria (CP, arts. 138 e 140)
+- **Processo Penal, 63–68:** perda de metade da fiança quebrada (CPP, arts. 341 e 343); competência federal (CF, art. 109); ação penal pública (CPP, arts. 24/29); embargos infringentes (CPP, art. 609, parágrafo único); ANPP (CPP, art. 28-A); comunhão da prova
+- **Previdenciário, 69–70:** acidente de qualquer natureza e dispensa de carência no benefício por incapacidade temporária (Lei 8.213, art. 26, II); RGPS obrigatório por atividade remunerada concomitante ao cargo público com RPPS (Lei 8.213, art. 12, § 1º)
+- **Trabalho, 71–75:** banco de horas individual escrito até seis meses (CLT, art. 59, § 5º); equiparação (art. 461); proteção da gestante (CLT, art. 391-A/ADCT 10 II b e Súmula 244/TST); descontos (art. 462, § 1º); suspensão superior a trinta dias (art. 474)
+- **Processo do Trabalho, 76–80:** homologação extrajudicial (CLT, arts. 855-B a 855-E); competência da JT (CF, art. 114); preparo recursal (CLT, arts. 789 e 899, sujeito aos limites atualizados); recurso adesivo (Súmula 283/TST); ação de cumprimento (CLT, art. 872, parágrafo único)
+
+### Verificação, limites e governança
+
+- **Gabarito histórico imutável:** confrontado com a folha definitiva da OAB/FGV de 23/09/2026 e com a tabela de correspondência Tipo 1–4
+- **Precedentes identificados:** 13 questões com pelo menos um vínculo documental; isso não significa revisão exaustiva ou confirmação de ausência de alteração posterior
+- **Revisão de legislação:** fundamentos comparados às compilações oficiais disponíveis em 09/11/2026, com notas específicas para possíveis alterações posteriores às provas
+- **Os exames 46º a 10º** continuam apenas **catalogados** com fontes externas — não foram importados nem revisados como questões integrais
+- **A plataforma não possui monitoramento de atualização legislativa automática**, validação visual E2E completa nem homologação editorial por advogado identificado
+- **Retorno de usuário:** manter aviso de que a referência legal e jurisprudencial é material educacional e não substitui análise individual do ordenamento
+
+### Fontes
+
+- Caderno Tipo 1: https://s.oab.org.br/arquivos/2026/09/7d502f11-d906-4378-bd43-27e0c854b981.pdf
+- Gabarito definitivo e correlação entre cadernos: https://s.oab.org.br/arquivos/2026/09/572dc8e2-78a0-4e37-b6de-20709e2c59ab.pdf
+- Súmula 527/STJ: https://scon.stj.jus.br/SCON/sumstj/toc.jsp?livre=%40num%3D527
+- Lei 8.213/91 compilada: https://www2.camara.leg.br/legin/fed/lei/1991/lei-8213-24-julho-1991-363650-normaatualizada-pl.html
+- CLT compilada: https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452compilado.htm
+- Código de Processo Penal: https://www.planalto.gov.br/ccivil_03/decreto-lei/del3689.htm
+
+---
+
 ## Revisão jurídico-editorial — 09/11/2026 — Questões 41–60
 
 A base do **47º EOU** agora possui **60 registros**: 59 comentários com fundamentos jurídicos/doutrinários e a questão 47 (Tipo 1) identificada como **ANULADA**. Os quatro cadernos são relacionados pela correspondência oficial; o gabarito definitivo histórico não é alterado.
