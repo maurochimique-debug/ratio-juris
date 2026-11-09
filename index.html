@@ -187,7 +187,7 @@
         <div id="oabFolhaBloco">
           <p class="text-sm text-slate-700 dark:text-slate-300 mb-4">Leia as 80 questões no caderno PDF oficial da cor selecionada e marque suas respostas abaixo. A questão anulada recebe pontuação automática. Use o botão de correção quando terminar.</p>
           <div class="mb-4 p-3 rounded-xl bg-purple-50 dark:bg-purple-950/30 border border-purple-500/30">
-            <p class="text-xs sm:text-sm font-semibold text-slate-900 dark:text-slate-100">Revisão em andamento: 60 registros do 47º EOU: 59 questões com comentários jurídicos ou doutrinários (incluindo as questões 41–46 e 48–60) e a questão 47 oficialmente anulada. Atualizações de 2026 consideradas nos dispositivos relevantes. A análise jurisprudencial integral ainda não está concluída.</p>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 dark:text-slate-100">Acervo comentado do 47º Exame: 80 registros do 47º EOU: 79 questões comentadas com referências legislativas, doutrinárias ou jurisprudenciais e a questão 47 oficialmente anulada. A legislação foi consultada em 09/11/2026; precedentes específicos estão identificados quando disponíveis, mas a revisão jurisprudencial integral e a atualização automática continuam pendentes.</p>
           </div>
           <div class="flex flex-wrap items-center gap-3 mb-4">
             <button type="button" onclick="corrigirFolha47()" class="px-5 py-3 rounded-lg bg-emerald-700 text-white font-bold text-sm">Corrigir minha prova</button>
@@ -196,7 +196,7 @@
           </div>
           <label class="flex items-center gap-2 text-sm font-semibold text-slate-800 dark:text-slate-200 mb-4">
             <input type="checkbox" id="oabSomenteComentadas" onchange="desenharFolha47()" class="accent-purple-600 w-4 h-4"/>
-            Mostrar somente questões comentadas ou anuladas (60/80)
+            Mostrar somente questões com precedentes jurisprudenciais vinculados (13/80)
           </label>
           <div id="oabResultado" class="hidden mb-4 p-4 rounded-xl border border-purple-500 bg-purple-50 dark:bg-purple-950/40 text-slate-900 dark:text-white" role="status" aria-live="polite"></div>
           <div id="oabFolha" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"></div>
@@ -912,10 +912,10 @@
       container.replaceChildren();
       const resumo=document.getElementById('oabResultado');
       if(!resultado){resumo.classList.add('hidden');resumo.textContent='';}
-      const somenteComentadas=Boolean(document.getElementById('oabSomenteComentadas').checked);
+      const somenteComPrecedentes=Boolean(document.getElementById('oabSomenteComentadas').checked);
       for(let i=0;i<80;i++) {
         const comentario=comentarioOAB47(tipo,i+1);
-        if(somenteComentadas&&!comentario)continue;
+        if(somenteComPrecedentes&&(!comentario||!Array.isArray(comentario.precedentesValidados)||comentario.precedentesValidados.length===0))continue;
         const materia=materiaTipo47(tipo,i+1);
         const card=document.createElement('div');
         card.className='rounded-xl border border-slate-300 dark:border-ratio-borderDark p-3 bg-slate-50 dark:bg-[#12161A] text-sm';
