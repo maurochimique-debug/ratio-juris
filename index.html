@@ -589,7 +589,7 @@
       const entrada = document.getElementById('gabineteSearchInput').value.trim();
       if (!entrada) { abrirCardModal('Pesquisa','Digite uma referência ou palavra-chave para consultar.','Campo vazio'); return; }
       const termo = normalizar(entrada);
-      const encontrado = referencias.find(item => item.termos.some(t => normalizar(t)===termo || (termo.length>=4 && normalizar(t).includes(termo))));
+      const encontrado = referencias.find(item => item.termos.some(t => normalizar(t)===termo || (termo.length>=4 && (normalizar(t).includes(termo) || termo.includes(normalizar(t))))));
       const container = document.getElementById('resultadoBuscaContainer');
       const titulo = document.getElementById('resultadoTitulo');
       const descricao = document.getElementById('resultadoDescricao');
