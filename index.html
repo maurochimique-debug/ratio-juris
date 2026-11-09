@@ -217,11 +217,11 @@
             📊
           </div>
           <div>
-            <span class="text-xs font-mono text-ratio-purple uppercase font-bold tracking-wider">Estatística de desempenho (ciclo de 30 respostas, com repetição de questões)</span>
+            <span class="text-xs font-mono text-ratio-purple uppercase font-bold tracking-wider">Desempenho acumulado — questões respondidas</span>
             <div class="flex gap-4 mt-1 text-sm font-bold">
               <span class="text-emerald-500">Acertos: <strong id="contadorAcertosGeral">0</strong></span>
               <span class="text-rose-500">Erros: <strong id="contadorErrosGeral">0</strong></span>
-              <span class="text-slate-400">Total: <strong id="contadorTotalGeral">0</strong> / 30</span>
+              <span class="text-slate-400">Respondidas: <strong id="contadorTotalGeral">0</strong></span>
             </div>
           </div>
         </div>
@@ -255,6 +255,7 @@
       <!-- Filtro por banca: sempre questões autorais e identificadas -->
       <div class="mb-8 p-5 sm:p-6 rounded-2xl bg-slate-50 dark:bg-ratio-cardDark border border-slate-200 dark:border-ratio-borderDark" role="group" aria-label="Selecionar banca de treinamento">
         <h3 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">Selecione a banca do treino autoral</h3>
+        <p class="mt-2 text-xs text-slate-600 dark:text-slate-300">As questões exibidas ficam marcadas como vistas neste navegador e não reaparecem automaticamente, mesmo após atualizar a página. Reinicie a banca para estudá-las novamente. Os 80 registros oficiais da OAB estão no módulo acima, separado deste treino autoral.</p>
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-4">
           <button id="btnBanca_FGV" type="button" aria-pressed="true" onclick="selecionarBanca('FGV')" class="btn-touch p-3 rounded-xl border-2 border-ratio-purple bg-ratio-purple text-white font-bold">FGV / OAB</button>
           <button id="btnBanca_CEBRASPE" type="button" aria-pressed="false" onclick="selecionarBanca('CEBRASPE')" class="btn-touch p-3 rounded-xl border border-slate-300 dark:border-ratio-borderDark text-slate-900 dark:text-white font-bold">CEBRASPE</button>
@@ -262,6 +263,10 @@
           <button id="btnBanca_FCC" type="button" aria-pressed="false" onclick="selecionarBanca('FCC')" class="btn-touch p-3 rounded-xl border border-slate-300 dark:border-ratio-borderDark text-slate-900 dark:text-white font-bold">FCC</button>
         </div>
         <p id="bancaStatus" class="mt-3 text-sm text-slate-600 dark:text-slate-300" role="status">FGV: cinco questões autorais de treino. Questões originais das bancas não foram reproduzidas.</p>
+        <div class="flex flex-wrap items-center gap-3 mt-4">
+          <span id="statusQuestoesIneditas" class="text-sm font-semibold text-slate-800 dark:text-slate-100" aria-live="polite">Carregando questões inéditas...</span>
+          <button type="button" onclick="reiniciarHistoricoBanca()" class="px-4 py-2 border border-purple-600 rounded-lg text-purple-800 dark:text-purple-300 font-semibold text-xs sm:text-sm hover:bg-purple-100 dark:hover:bg-purple-950/40">Reiniciar questões desta banca</button>
+        </div>
       </div>
 
       <!-- CARD DA QUESTÃO RESPONSIVO -->
@@ -319,7 +324,7 @@
             <a id="btnPlanalto" href="#" target="_blank" rel="noopener noreferrer" class="btn-touch w-full sm:w-auto px-5 py-3 rounded-lg bg-slate-100 dark:bg-ratio-cardDark border border-slate-300 dark:border-ratio-borderDark hover:border-ratio-purple text-xs sm:text-sm font-bold text-slate-800 dark:text-white flex items-center justify-center gap-2 transition">
               <i class="fa-solid fa-arrow-up-right-from-square text-amber-600 dark:text-ratio-amber"></i> Abrir Fundamento Oficial
             </a>
-            <button onclick="proximaQuestaoAleatoria()" class="btn-touch w-full sm:w-auto px-7 py-3 rounded-lg bg-ratio-purpleDeep hover:bg-purple-700 text-white text-xs sm:text-sm font-bold transition flex items-center justify-center gap-2">
+            <button id="btnProximaQuestao" type="button" onclick="proximaQuestaoAleatoria()" class="btn-touch w-full sm:w-auto px-7 py-3 rounded-lg bg-ratio-purpleDeep hover:bg-purple-700 text-white text-xs sm:text-sm font-bold transition flex items-center justify-center gap-2">
               Próxima Questão <i class="fa-solid fa-arrow-right"></i>
             </button>
           </div>
@@ -639,11 +644,10 @@
     }
     let materiaAtual = 'TODAS';
     let questaoAtualObj = null;
-    let ultimaQuestaoObj = null;
     let respostaRegistrada = false;
     const placar = (function () {
       const valores = ['ratio_total','ratio_acertos','ratio_erros'].map(k => Number.parseInt(lerArmazenamento(k,'0'),10));
-      if (valores.some(v => !Number.isFinite(v) || v < 0 || v > 30) || valores[1] + valores[2] !== valores[0]) return {total:0,acertos:0,erros:0};
+      if (valores.some(v => !Number.isFinite(v) || v < 0 || v > 100000000) || valores[1] + valores[2] !== valores[0]) return {total:0,acertos:0,erros:0};
       return {total:valores[0],acertos:valores[1],erros:valores[2]};
     })();
     function atualizarPlacar() {
@@ -723,21 +727,102 @@
         a.textContent=item.nome; descricao.appendChild(a);
       });
     }
+    // Uma questão é marcada como vista ao ser apresentada. O histórico
+    // é compartilhado por todos os filtros de disciplina da mesma banca.
+    // Não existe reinício automático ao esgotar o banco.
+    const historicosVistos = {};
+    const todosItens = Object.values(baseQuestoes).flat();
+    function chaveQuestao(questao) {
+      return questao.id || questao.banca+'::'+questao.enunciado;
+    }
+    const idsGlobais=new Set();
+    todosItens.forEach(function(q) {
+      const id=chaveQuestao(q);
+      if(idsGlobais.has(id))throw new Error('Questão duplicada no banco: '+id);
+      idsGlobais.add(id);
+    });
+    bancasDisponiveis.forEach(function(banca){
+      let salvas=[];
+      try {
+        const valor=JSON.parse(lerArmazenamento('ratio_vistas_v2_'+banca,'[]'));
+        if(Array.isArray(valor))salvas=valor.filter(x=>typeof x==='string');
+      }catch(_){}
+      const permitidas=new Set(todosItens.filter(q=>q.banca===banca).map(chaveQuestao));
+      historicosVistos[banca]=new Set(salvas.filter(x=>permitidas.has(x)));
+    });
+    function guardarHistorico(banca) {
+      gravarArmazenamento('ratio_vistas_v2_'+banca,JSON.stringify([...historicosVistos[banca]]));
+    }
+    function todasQuestoesFiltradas() {
+      const lista=materiaAtual==='TODAS' ? todosItens : (baseQuestoes[materiaAtual]||[]);
+      return lista.filter(q=>q.banca===bancaAtual);
+    }
+    function obterQuestoesIneditas() {
+      const vistas=historicosVistos[bancaAtual];
+      return todasQuestoesFiltradas().filter(q=>!vistas.has(chaveQuestao(q)));
+    }
+    function atualizarStatusTreino() {
+      const totalBanca=todosItens.filter(q=>q.banca===bancaAtual).length;
+      const vistas=historicosVistos[bancaAtual].size;
+      const restantes=obterQuestoesIneditas().length;
+      const totalFiltro=todasQuestoesFiltradas().length;
+      const texto=bancaAtual+': '+vistas+'/'+totalBanca+' questões vistas; '+restantes+
+        ' inédita(s) no filtro de '+totalFiltro+' questão(ões).';
+      document.getElementById('statusQuestoesIneditas').textContent=texto;
+      document.getElementById('bancaStatus').textContent=bancaAtual==='FGV' ?
+        'FGV: cinco questões autorais distintas. O caderno oficial da OAB com 80 questões fica na seção anterior.' :
+        bancaAtual+': uma questão autoral distinta disponível nesta versão; banco oficial ainda não importado.';
+      const proxima=document.getElementById('btnProximaQuestao');
+      if(proxima) {
+        proxima.disabled=restantes===0;
+        proxima.setAttribute('aria-disabled',restantes===0?'true':'false');
+        proxima.classList.toggle('opacity-50',restantes===0);
+        proxima.classList.toggle('cursor-not-allowed',restantes===0);
+        proxima.title=restantes===0?'Nenhuma questão inédita disponível. Reinicie a banca para refazer.':'Avançar para uma questão inédita';
+      }
+      return restantes;
+    }
+    function mostrarBancoEsgotado() {
+      questaoAtualObj=null;
+      respostaRegistrada=true;
+      document.getElementById('labelMateria').textContent='BANCO CONCLUÍDO';
+      document.getElementById('labelSubtema').textContent=bancaAtual+' • '+(materiaAtual==='TODAS'?'Todas as matérias':'Matéria selecionada');
+      document.getElementById('cenarioDescricao').textContent='O conteúdo de treino autoral deste filtro foi apresentado. Não haverá repetição automática.';
+      document.getElementById('badgeBancaAtiva').textContent='Sem inéditas';
+      document.getElementById('contadorQuestao').textContent='Treino concluído';
+      document.getElementById('enunciadoTexto').textContent='Não há mais questões inéditas neste filtro. Escolha outra matéria ou banca, ou clique em “Reiniciar questões desta banca” para refazer as anteriores. O acervo do 47º Exame da OAB permanece disponível no módulo acima.';
+      document.getElementById('containerAlternativas').replaceChildren();
+      document.getElementById('cardAutopsia').classList.add('hidden');
+      atualizarStatusTreino();
+    }
+    function reiniciarHistoricoBanca() {
+      historicosVistos[bancaAtual].clear();
+      guardarHistorico(bancaAtual);
+      // Reiniciar questões não apaga a estatística acumulada de respostas.
+      questaoAtualObj=null;
+      respostaRegistrada=false;
+      proximaQuestaoAleatoria();
+    }
     function selecionarMateria(materia) {
       if(materia!=='TODAS'&&!materiasDisponiveis().includes(materia)) {
-        abrirCardModal('Em preparação','Ainda não há questão independente e revisada para essa disciplina.','Indisponível');
+        abrirCardModal('Em preparação','Ainda não há questão independente para essa disciplina nesta banca.','Indisponível');
         return;
       }
-      materiaAtual = materia;
+      if(materiaAtual===materia && questaoAtualObj) {
+        atualizarStatusTreino();
+        return;
+      }
+      materiaAtual=materia;
       proximaQuestaoAleatoria();
     }
     function selecionarBanca(banca) {
       if(!bancasDisponiveis.includes(banca))return;
+      if(banca===bancaAtual && materiaAtual==='TODAS' && questaoAtualObj) {
+        atualizarStatusTreino();
+        return;
+      }
       bancaAtual=banca;
       materiaAtual='TODAS';
-      document.getElementById('bancaStatus').textContent=banca==='FGV' ?
-        'FGV / OAB: cinco questões autorais de treino; o acervo real do 47º tem folha de correção própria acima.' :
-        banca+': uma questão autoral demonstrativa no estilo da banca. Não é questão oficial.';
       bancasDisponiveis.forEach(function(nome) {
         const btn=document.getElementById('btnBanca_'+nome);
         const ativo=nome===banca;
@@ -746,25 +831,27 @@
           'border-ratio-purple bg-ratio-purple text-white' :
           'border-slate-300 dark:border-ratio-borderDark bg-white dark:bg-[#12161A] text-slate-900 dark:text-white');
       });
-      renderizarMaterias();proximaQuestaoAleatoria();
+      renderizarMaterias();
+      proximaQuestaoAleatoria();
     }
     function proximaQuestaoAleatoria() {
-      if(placar.total>=30) {
-        placar.total=0; placar.acertos=0;placar.erros=0;atualizarPlacar();
-        abrirCardModal('Novo ciclo','O ciclo de 30 respostas foi concluído. Um novo ciclo foi iniciado; as mesmas cinco questões podem reaparecer.','Reinício');
+      const ineditas=obterQuestoesIneditas();
+      if(!ineditas.length) {
+        mostrarBancoEsgotado();
+        return;
       }
-      let lista = materiaAtual==='TODAS' ? Object.values(baseQuestoes).flat() : (baseQuestoes[materiaAtual] || []);
-      lista=lista.filter(q=>q.banca===bancaAtual);
-      if (!lista.length) return;
-      const opcoes = lista.length > 1 ? lista.filter(q => q !== ultimaQuestaoObj) : lista;
-      questaoAtualObj = opcoes[Math.floor(Math.random()*opcoes.length)];
-      ultimaQuestaoObj = questaoAtualObj;
-      respostaRegistrada = false;
+      // Sorteio sem reposição: nenhuma questão exibida pode ser sorteada
+      // novamente até o usuário reiniciar explicitamente o histórico da banca.
+      const escolhida=ineditas[Math.floor(Math.random()*ineditas.length)];
+      historicosVistos[bancaAtual].add(chaveQuestao(escolhida));
+      guardarHistorico(bancaAtual);
+      questaoAtualObj=escolhida;
+      respostaRegistrada=false;
       document.getElementById('labelMateria').textContent=questaoAtualObj.materia;
       document.getElementById('labelSubtema').textContent=questaoAtualObj.subtema;
       document.getElementById('cenarioDescricao').textContent=questaoAtualObj.cenario;
       document.getElementById('badgeBancaAtiva').textContent='Autoral • '+bancaAtual;
-      document.getElementById('contadorQuestao').textContent='Treino autoral • '+bancaAtual;
+      document.getElementById('contadorQuestao').textContent='Questão inédita • '+bancaAtual;
       document.getElementById('enunciadoTexto').textContent=questaoAtualObj.enunciado;
       const container=document.getElementById('containerAlternativas');
       container.replaceChildren();
@@ -776,12 +863,14 @@
         letra.className='w-7 h-7 rounded-lg bg-slate-100 dark:bg-ratio-cardDark font-mono font-bold text-xs flex items-center justify-center shrink-0';
         letra.textContent=op.letra;
         const texto=document.createElement('span');
-        texto.className='leading-relaxed';texto.textContent=op.texto;
+        texto.className='leading-relaxed';
+        texto.textContent=op.texto;
         btn.append(letra,texto);
         btn.addEventListener('click',function(){selecionarAlternativa(op,btn);});
         container.appendChild(btn);
       });
       document.getElementById('cardAutopsia').classList.add('hidden');
+      atualizarStatusTreino();
     }
     function proximaQuestao(){ proximaQuestaoAleatoria(); }
     function selecionarAlternativa(opcao,btn) {
@@ -801,6 +890,7 @@
         (opcao.correta?'':' Resposta correta: '+respostaCorreta.letra+'.');
       document.getElementById('btnPlanalto').href=questaoAtualObj.linkPlanalto;
       const card=document.getElementById('cardAutopsia');card.classList.remove('hidden');
+      atualizarStatusTreino();
       card.scrollIntoView({behavior:'smooth',block:'nearest'});
     }
     function falarTextoAcessibilidade(texto){
