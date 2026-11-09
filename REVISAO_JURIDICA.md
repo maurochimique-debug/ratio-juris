@@ -1,3 +1,32 @@
+## Revisão jurídico-editorial — 09/11/2026 — Questões 41–60
+
+A base do **47º EOU** agora possui **60 registros**: 59 comentários com fundamentos jurídicos/doutrinários e a questão 47 (Tipo 1) identificada como **ANULADA**. Os quatro cadernos são relacionados pela correspondência oficial; o gabarito definitivo histórico não é alterado.
+
+### Áreas incorporadas nesta etapa
+
+- Direito Civil (41–42): uso não autorizado de imagem e Súmula 403/STJ; multiparentalidade e Tema 622/STF
+- ECA (43–44): convivência de criança com genitor privado de liberdade; impossibilidade de reparar o dano (arts. 19, §4º, e 116)
+- Consumidor (45–46): boa-fé/adimplemento substancial, sujeito a pressupostos; vício de quantidade (art. 19 CDC)
+- Empresarial (47–50): questão 47 anulada; sociedade simples; transformação de sociedade e renúncia à retirada; juros na falência
+- Processo Civil (51–56): prova possessória, parcelamento inadequado no cumprimento de sentença, consignação, preparo de recurso do advogado, ação declaratória e cumprimento por cálculos
+- Penal (57–60): escusa absolutória, arrependimento posterior, incomunicabilidade da reincidência e substituição de pena
+
+### Alterações legislativas recentes verificadas
+
+- **Lei 15.397/2026** modificou penas patrimoniais e a disciplina do furto no Código Penal, relevante para ler os itens 57 e 59 em sua redação vigente. Ela não revogou as regras da escusa absolutória e do concurso de pessoas analisadas aqui.
+- **Lei 15.450/2026** prevê modificação futura do ECA, art. 14, com vigência 180 dias após a publicação. Em **09/11/2026** a alteração ainda não está vigente, e não interfere nas regras dos arts. 19, §4º, e 116 usadas nos itens 43 e 44.
+- O **CPC compilado** deve ser consultado em sua versão atual, especialmente arts. 99, 509, 561 e 916; não alterar o gabarito histórico sem comunicado oficial da banca.
+
+### Limitações
+
+- Os registros não reproduzem os enunciados integrais da FGV: consultar o PDF oficial.
+- Os links para STJ, STF e legislação incluem precedentes selecionados; **não há homologação de revisão jurisprudencial exaustiva**.
+- A questão 47 é identificada como anulada, **sem explicação de uma alternativa correta inexistente**.
+- Restam as questões **61 a 80** do 47º EOU; os 46º–10º continuam catalogados sem correção local completa.
+- Testes de interface em browser autenticado e acessibilidade pública continuam pendentes.
+
+---
+
 ## Avanço: questões 21–40 do 47º EOU (09/11/2026)
 
 - **40/80 comentários históricos**: os comentários novos cobrem Direito Internacional (21–22), Financeiro (23–24), Tributário (25–29), Administrativo (30–34), Ambiental (35–36) e Civil/LGPD (37–40).
