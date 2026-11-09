@@ -187,7 +187,7 @@
         <div id="oabFolhaBloco">
           <p class="text-sm text-slate-700 dark:text-slate-300 mb-4">Leia as 80 questões no caderno PDF oficial da cor selecionada e marque suas respostas abaixo. A questão anulada recebe pontuação automática. Use o botão de correção quando terminar.</p>
           <div class="mb-4 p-3 rounded-xl bg-purple-50 dark:bg-purple-950/30 border border-purple-500/30">
-            <p class="text-xs sm:text-sm font-semibold text-slate-900 dark:text-slate-100">Revisão em andamento: 8 questões do 47º EOU (Ética Profissional) com fundamento legal específico conferido em 09/11/2026. Jurisprudência específica ainda não homologada.</p>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 dark:text-slate-100">Revisão em andamento: 16 questões do 47º EOU comentadas: Ética (1–8), Filosofia (9–10) e Constitucional (11–16). Fundamentos legais ou doutrinários conferidos em 09/11/2026; revisão jurisprudencial ampla ainda pendente.</p>
           </div>
           <div class="flex flex-wrap items-center gap-3 mb-4">
             <button type="button" onclick="corrigirFolha47()" class="px-5 py-3 rounded-lg bg-emerald-700 text-white font-bold text-sm">Corrigir minha prova</button>
@@ -196,7 +196,7 @@
           </div>
           <label class="flex items-center gap-2 text-sm font-semibold text-slate-800 dark:text-slate-200 mb-4">
             <input type="checkbox" id="oabSomenteComentadas" onchange="desenharFolha47()" class="accent-purple-600 w-4 h-4"/>
-            Mostrar somente questões com comentário jurídico específico (8/80)
+            Mostrar somente questões com comentário jurídico específico (16/80)
           </label>
           <div id="oabResultado" class="hidden mb-4 p-4 rounded-xl border border-purple-500 bg-purple-50 dark:bg-purple-950/40 text-slate-900 dark:text-white" role="status" aria-live="polite"></div>
           <div id="oabFolha" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"></div>
@@ -960,13 +960,16 @@
             details.className='mt-3 rounded-lg p-3 border border-purple-300 dark:border-purple-800 bg-white dark:bg-ratio-cardDark';
             const summary=document.createElement('summary');
             summary.className='font-bold text-sm cursor-pointer text-purple-700 dark:text-purple-300';
-            summary.textContent='Explicação legal conferida';
+            summary.textContent=comentario.natureza==='DOUTRINARIA'?'Explicação doutrinária conferida':'Fundamento jurídico conferido';
             details.appendChild(summary);
+            const revisao=comentario.natureza==='DOUTRINARIA' ?
+              'Referência doutrinária consultada em '+comentario.revisaoDoutrinaria+'. Não há artigo legal específico nesta questão.' :
+              'Base legislativa consultada em '+comentario.revisaoLegislacao+'. Revisão jurisprudencial completa pendente.';
             const fields=[
               ['Fundamento',comentario.dispositivo],
               ['Razão do gabarito',comentario.fundamentacao],
               ['Ponto de atenção',comentario.observacoes],
-              ['Revisão', 'Base legal consultada em '+comentario.revisaoLegislacao+'. Precedente jurisprudencial individual ainda pendente de verificação.']
+              ['Revisão',revisao]
             ];
             fields.forEach(function(field){
               const par=document.createElement('p');
@@ -975,10 +978,23 @@
               details.appendChild(par);
             });
             const legal=document.createElement('a');
-            legal.href=comentario.fonteLegal;legal.target='_blank';legal.rel='noopener noreferrer';
+            legal.href=comentario.fonteLegal||comentario.fonteDoutrinaria||comentario.fonteCaderno;
+            legal.target='_blank';legal.rel='noopener noreferrer';
             legal.className='block mt-3 underline text-purple-700 dark:text-purple-300 text-xs font-bold';
-            legal.textContent='Consultar o Estatuto da Advocacia atualizado — Câmara dos Deputados';
+            legal.textContent=comentario.natureza==='DOUTRINARIA'?
+              'Consultar referência acadêmica de Filosofia do Direito':'Consultar texto legal consolidado na fonte oficial';
             details.appendChild(legal);
+            (comentario.precedentesValidados||[]).forEach(function(precedente){
+              const note=document.createElement('p');
+              note.className='mt-2 text-xs text-slate-700 dark:text-slate-200';
+              note.textContent='Jurisprudência relacionada ('+precedente.tipo+'): '+precedente.contexto;
+              details.appendChild(note);
+              const pLink=document.createElement('a');
+              pLink.href=precedente.url;pLink.target='_blank';pLink.rel='noopener noreferrer';
+              pLink.className='block underline text-purple-700 dark:text-purple-300 text-xs font-semibold mt-1';
+              pLink.textContent='Consultar '+precedente.tribunal+' — '+precedente.processo;
+              details.appendChild(pLink);
+            });
             card.appendChild(details);
           } else {
             const pendencia=document.createElement('p');
@@ -986,7 +1002,7 @@
             pendencia.textContent='Comentário jurídico individual em preparação. O gabarito apresentado é histórico.';
             card.appendChild(pendencia);
           }
-          if(materia) {
+          if(materia&&!comentario) {
             const link=document.createElement('a');
             link.href=materia.base;
             link.target='_blank';
