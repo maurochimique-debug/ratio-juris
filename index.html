@@ -186,11 +186,18 @@
         </div>
         <div id="oabFolhaBloco">
           <p class="text-sm text-slate-700 dark:text-slate-300 mb-4">Leia as 80 questões no caderno PDF oficial da cor selecionada e marque suas respostas abaixo. A questão anulada recebe pontuação automática. Use o botão de correção quando terminar.</p>
+          <div class="mb-4 p-3 rounded-xl bg-purple-50 dark:bg-purple-950/30 border border-purple-500/30">
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 dark:text-slate-100">Revisão em andamento: 8 questões do 47º EOU (Ética Profissional) com fundamento legal específico conferido em 09/11/2026. Jurisprudência específica ainda não homologada.</p>
+          </div>
           <div class="flex flex-wrap items-center gap-3 mb-4">
             <button type="button" onclick="corrigirFolha47()" class="px-5 py-3 rounded-lg bg-emerald-700 text-white font-bold text-sm">Corrigir minha prova</button>
             <button type="button" onclick="limparFolha47()" class="px-5 py-3 rounded-lg border border-slate-400 text-slate-900 dark:text-white font-bold text-sm">Limpar respostas</button>
             <span id="oabProgresso" class="text-sm font-bold text-slate-700 dark:text-slate-300" aria-live="polite"></span>
           </div>
+          <label class="flex items-center gap-2 text-sm font-semibold text-slate-800 dark:text-slate-200 mb-4">
+            <input type="checkbox" id="oabSomenteComentadas" onchange="desenharFolha47()" class="accent-purple-600 w-4 h-4"/>
+            Mostrar somente questões com comentário jurídico específico (8/80)
+          </label>
           <div id="oabResultado" class="hidden mb-4 p-4 rounded-xl border border-purple-500 bg-purple-50 dark:bg-purple-950/40 text-slate-900 dark:text-white" role="status" aria-live="polite"></div>
           <div id="oabFolha" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"></div>
           <p class="mt-5 text-xs text-slate-600 dark:text-slate-400">As referências por disciplina são apenas pontos de partida; não representam fundamentação individual da questão. A legislação, os precedentes e o gabarito histórico podem divergir. Conteúdo sem revisão jurídico-editorial individual não recebe selo de atualizado.</p>
@@ -463,6 +470,7 @@
   </footer>
 
   <script src="/oab-data.js"></script>
+  <script src="/oab47-comentarios.js"></script>
   <!-- Lógica de treinamento autoral, catálogo oficial e correção por caderno -->
   <script>
     "use strict";
@@ -876,6 +884,19 @@
       }
       return dados.disciplinas.find(m=>numeroTipo1>=m.start&&numeroTipo1<=m.end)||null;
     }
+    function comentarioOAB47(tipo,numeroTipo) {
+      const data=window.RATIO_COMENTARIOS_OAB47;
+      if(!data || !Array.isArray(data.questoes))return null;
+      const exame=fonteOAB().exam47;
+      const canonical=tipo===1 ? numeroTipo :
+        exame.correspondencia.findIndex(item=>item[tipo-2]===numeroTipo)+1;
+      if(canonical<1)return null;
+      const comentario=data.questoes.find(item=>item.numeroTipo1===canonical);
+      if(!comentario)return null;
+      const gabarito=exame.gabaritos[tipo-1][numeroTipo-1];
+      if(gabarito !== comentario.respostaHistorica)return null;
+      return comentario;
+    }
     function atualizarProgresso47() {
       const tipo=tipoOABAtual();
       const lista=obterRespostas47(tipo);
@@ -891,7 +912,10 @@
       container.replaceChildren();
       const resumo=document.getElementById('oabResultado');
       if(!resultado){resumo.classList.add('hidden');resumo.textContent='';}
+      const somenteComentadas=Boolean(document.getElementById('oabSomenteComentadas').checked);
       for(let i=0;i<80;i++) {
+        const comentario=comentarioOAB47(tipo,i+1);
+        if(somenteComentadas&&!comentario)continue;
         const materia=materiaTipo47(tipo,i+1);
         const card=document.createElement('div');
         card.className='rounded-xl border border-slate-300 dark:border-ratio-borderDark p-3 bg-slate-50 dark:bg-[#12161A] text-sm';
@@ -919,12 +943,49 @@
           document.getElementById('oabResultado').classList.add('hidden');
         });
         card.append(header,descricao,sel);
+        if(comentario) {
+          const tema=document.createElement('p');
+          tema.className='text-xs text-purple-700 dark:text-purple-300 font-semibold mt-2';
+          tema.textContent='Tema conferido: '+comentario.tema;
+          card.appendChild(tema);
+        }
         if(resultado) {
           const correto=gabarito[i];
           const status=document.createElement('p');
           status.className='mt-2 text-xs font-bold '+(correto==='*'||respostas[i]===correto?'text-emerald-600 dark:text-emerald-400':'text-red-600 dark:text-red-400');
           status.textContent=correto==='*'?'Anulada: ponto automático':('Gabarito definitivo: '+correto+(respostas[i]===correto?' ✓':' • confira a resposta'));
           card.appendChild(status);
+          if(comentario) {
+            const details=document.createElement('details');
+            details.className='mt-3 rounded-lg p-3 border border-purple-300 dark:border-purple-800 bg-white dark:bg-ratio-cardDark';
+            const summary=document.createElement('summary');
+            summary.className='font-bold text-sm cursor-pointer text-purple-700 dark:text-purple-300';
+            summary.textContent='Explicação legal conferida';
+            details.appendChild(summary);
+            const fields=[
+              ['Fundamento',comentario.dispositivo],
+              ['Razão do gabarito',comentario.fundamentacao],
+              ['Ponto de atenção',comentario.observacoes],
+              ['Revisão', 'Base legal consultada em '+comentario.revisaoLegislacao+'. Precedente jurisprudencial individual ainda pendente de verificação.']
+            ];
+            fields.forEach(function(field){
+              const par=document.createElement('p');
+              par.className='mt-2 text-xs text-slate-700 dark:text-slate-200';
+              par.textContent=field[0]+': '+field[1];
+              details.appendChild(par);
+            });
+            const legal=document.createElement('a');
+            legal.href=comentario.fonteLegal;legal.target='_blank';legal.rel='noopener noreferrer';
+            legal.className='block mt-3 underline text-purple-700 dark:text-purple-300 text-xs font-bold';
+            legal.textContent='Consultar o Estatuto da Advocacia atualizado — Câmara dos Deputados';
+            details.appendChild(legal);
+            card.appendChild(details);
+          } else {
+            const pendencia=document.createElement('p');
+            pendencia.className='mt-2 text-xs text-amber-700 dark:text-amber-400';
+            pendencia.textContent='Comentário jurídico individual em preparação. O gabarito apresentado é histórico.';
+            card.appendChild(pendencia);
+          }
           if(materia) {
             const link=document.createElement('a');
             link.href=materia.base;
