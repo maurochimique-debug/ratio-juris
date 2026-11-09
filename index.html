@@ -187,7 +187,7 @@
         <div id="oabFolhaBloco">
           <p class="text-sm text-slate-700 dark:text-slate-300 mb-4">Leia as 80 questões no caderno PDF oficial da cor selecionada e marque suas respostas abaixo. A questão anulada recebe pontuação automática. Use o botão de correção quando terminar.</p>
           <div class="mb-4 p-3 rounded-xl bg-purple-50 dark:bg-purple-950/30 border border-purple-500/30">
-            <p class="text-xs sm:text-sm font-semibold text-slate-900 dark:text-slate-100">Revisão em andamento: 40 questões do 47º EOU comentadas: Ética (1–8), Filosofia (9–10), Constitucional (11–16), Direitos Humanos (17–18), Eleitoral (19–20), Internacional (21–22), Financeiro (23–24), Tributário (25–29), Administrativo (30–34), Ambiental (35–36) e Civil/LGPD (37–40). Fundamentos e precedentes selecionados revisados em 09/11/2026; revisão jurisprudencial integral ainda pendente.</p>
+            <p class="text-xs sm:text-sm font-semibold text-slate-900 dark:text-slate-100">Revisão em andamento: 60 registros do 47º EOU: 59 questões com comentários jurídicos ou doutrinários (incluindo as questões 41–46 e 48–60) e a questão 47 oficialmente anulada. Atualizações de 2026 consideradas nos dispositivos relevantes. A análise jurisprudencial integral ainda não está concluída.</p>
           </div>
           <div class="flex flex-wrap items-center gap-3 mb-4">
             <button type="button" onclick="corrigirFolha47()" class="px-5 py-3 rounded-lg bg-emerald-700 text-white font-bold text-sm">Corrigir minha prova</button>
@@ -196,7 +196,7 @@
           </div>
           <label class="flex items-center gap-2 text-sm font-semibold text-slate-800 dark:text-slate-200 mb-4">
             <input type="checkbox" id="oabSomenteComentadas" onchange="desenharFolha47()" class="accent-purple-600 w-4 h-4"/>
-            Mostrar somente questões com comentário jurídico específico (40/80)
+            Mostrar somente questões comentadas ou anuladas (60/80)
           </label>
           <div id="oabResultado" class="hidden mb-4 p-4 rounded-xl border border-purple-500 bg-purple-50 dark:bg-purple-950/40 text-slate-900 dark:text-white" role="status" aria-live="polite"></div>
           <div id="oabFolha" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"></div>
@@ -946,7 +946,8 @@
         if(comentario) {
           const tema=document.createElement('p');
           tema.className='text-xs text-purple-700 dark:text-purple-300 font-semibold mt-2';
-          tema.textContent='Tema conferido: '+comentario.tema;
+          tema.textContent=(comentario.natureza==='REGISTRO_DE_ANULACAO'?
+          'Questão anulada: ':'Tema comentado: ')+comentario.tema;
           card.appendChild(tema);
         }
         if(resultado) {
@@ -960,9 +961,12 @@
             details.className='mt-3 rounded-lg p-3 border border-purple-300 dark:border-purple-800 bg-white dark:bg-ratio-cardDark';
             const summary=document.createElement('summary');
             summary.className='font-bold text-sm cursor-pointer text-purple-700 dark:text-purple-300';
-            summary.textContent=comentario.natureza==='DOUTRINARIA'?'Explicação doutrinária conferida':'Fundamento jurídico conferido';
+            summary.textContent=comentario.natureza==='REGISTRO_DE_ANULACAO'?'Questão anulada — gabarito oficial':
+              comentario.natureza==='DOUTRINARIA'?'Explicação doutrinária conferida':'Fundamento jurídico e fontes consultadas';
             details.appendChild(summary);
-            const revisao=comentario.natureza==='DOUTRINARIA' ?
+            const revisao=comentario.natureza==='REGISTRO_DE_ANULACAO' ?
+              'Anulação oficial: não existe alternativa correta a ensinar. A questão recebe o ponto da anulação.' :
+              comentario.natureza==='DOUTRINARIA' ?
               'Referência doutrinária consultada em '+comentario.revisaoDoutrinaria+'. Não há artigo legal específico nesta questão.' :
               'Base legislativa consultada em '+comentario.revisaoLegislacao+'. Revisão jurisprudencial completa pendente.';
             const fields=[
@@ -981,7 +985,9 @@
             legal.href=comentario.fonteLegal||comentario.fonteDoutrinaria||comentario.fonteCaderno;
             legal.target='_blank';legal.rel='noopener noreferrer';
             legal.className='block mt-3 underline text-purple-700 dark:text-purple-300 text-xs font-bold';
-            legal.textContent=comentario.natureza==='DOUTRINARIA'?
+            legal.textContent=comentario.natureza==='REGISTRO_DE_ANULACAO'?
+              'Consultar gabarito definitivo da OAB (questão anulada)' :
+              comentario.natureza==='DOUTRINARIA'?
               'Consultar referência acadêmica de Filosofia do Direito':'Consultar texto legal consolidado na fonte oficial';
             details.appendChild(legal);
             (comentario.precedentesValidados||[]).forEach(function(precedente){
