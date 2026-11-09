@@ -1,3 +1,20 @@
+## Correção de repetição no Super Simulador — 09/11/2026
+
+A questão de repetição ocorria no **Super Simulador autoral**: havia apenas 8 enunciados independentes, sendo 5 da FGV, 1 da CEBRASPE, 1 da VUNESP e 1 da FCC. O sorteio anterior excluía apenas a questão imediatamente anterior, causando repetição rápida.
+
+**Comportamento corrigido:**
+- A seleção de enunciados é feita **sem reposição**; a questão exibida é registrada como vista.
+- O histórico de questões vistas é salvo em `localStorage` por banca, compartilhado entre seus filtros de disciplina. A troca de banca, o filtro e a atualização da página não reiniciam o histórico.
+- Quando não há mais inéditas no filtro, o aplicativo exibe **BANCO CONCLUÍDO**. O botão "Próxima questão" fica desabilitado; não há repetição automática após completar o ciclo.
+- "Reiniciar questões desta banca" limpa apenas o histórico da banca selecionada, por ação expressa do aluno; as estatísticas acumuladas de acertos e erros não são apagadas.
+- Foi retirado o reinício automático do placar a cada 30 respostas.
+- O app mostra contagem de questões vistas e inéditas por filtro. A navegação para outra matéria pode apresentar banco esgotado quando todas as questões daquela matéria já foram vistas.
+- O módulo oficial do 47º EOU (80 registros, quatro cadernos e gabaritos) **é separado** do Super Simulador e mantém sua folha de respostas sem alterações.
+
+**Limitações:** O bloqueio de repetição não cria novas questões. As outras bancas continuam com uma questão autoral, e a FGV com cinco, até ampliação de conteúdo. Como o histórico está no navegador, seu uso em outros aparelhos/perfis não é sincronizado. Não houve homologação visual E2E sob autenticação SSO. Foram aprovados 22 testes simulados em 09/11/2026, incluindo exaustão, ausência de repetição, armazenamento, reinício explícito, mudança de filtro e pontuação.
+
+---
+
 ## Conclusão editorial do 47º EOU — 09/11/2026 — Questões 61–80
 
 **Banco completo para o 47º Exame na plataforma RatioJuris:** são 80 registros por caderno, sendo **79 comentários autorais individualizados e 1 questão oficialmente anulada** (nº 47 do Tipo 1; equivalentes nº 48 no Tipo 2, nº 49 no Tipo 3 e nº 50 no Tipo 4). Os enunciados e alternativas integrais continuam disponíveis nos **PDFs oficiais da OAB/FGV**, não são reproduzidos integralmente no código.
