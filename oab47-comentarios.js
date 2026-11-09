@@ -1,9 +1,9 @@
-/* Comentários autorais com fontes auditáveis; enunciados oficiais permanecem no PDF de origem. */
+/* Questões 1–20 do 47º OAB: comentários autorais, gabarito definitivo e fontes auditáveis. */
 window.RATIO_COMENTARIOS_OAB47 = {
   "versao": "2026-11-09",
-  "origem": "47º Exame OAB, caderno Tipo 1, questões 1 a 16; gabarito definitivo",
+  "origem": "47º EOU, Tipo 1, questões 1 a 20; gabarito definitivo",
   "statusGlobal": "REVISAO_LEGISLATIVA_PARCIAL; REVISAO_JURISPRUDENCIAL_PENDENTE",
-  "referenciaAtualizacao": "16 questões revisadas em nível de fundamento legal/doutrinário; não significa homologação de toda jurisprudência. Há um precedente ilustrativo identificado na questão 13.",
+  "referenciaAtualizacao": "20 comentários de fundamentação jurídica ou doutrinária com fonte por questão; revisões jurisprudenciais específicas e cobertura integral permanecem pendentes",
   "totalQuestoes": 80,
   "questoes": [
     {
@@ -333,6 +333,94 @@ window.RATIO_COMENTARIOS_OAB47 = {
       "revisaoDoutrinaria": null,
       "revisaoJurisprudencia": "PENDENTE",
       "precedentesValidados": [],
+      "situacao": "LEGISLACAO_CONFERIDA_JURISPRUDENCIA_PENDENTE",
+      "licencaTexto": "RESUMO_AUTORAL_SEM_TRANSCRICAO"
+    },
+    {
+      "numeroTipo1": 17,
+      "exame": 47,
+      "banca": "FGV",
+      "tipoProva": 1,
+      "respostaHistorica": "D",
+      "tema": "Tratado de Marraqueche e equivalência constitucional",
+      "dispositivo": "Constituição Federal, art. 5º, § 3º; Decreto Legislativo 261/2015; Decreto 9.522/2018",
+      "fundamentacao": "O Tratado de Marraqueche foi aprovado pelo Congresso Nacional conforme o procedimento qualificado do art. 5º, § 3º, da Constituição e promulgado pelo Decreto 9.522/2018, recebendo equivalência às emendas constitucionais.",
+      "observacoes": "A Declaração Universal e o Pacto de São José têm regimes jurídicos próprios; não atribuir a todos os tratados de direitos humanos o mesmo status sem verificar o procedimento de aprovação.",
+      "natureza": "LEGAL",
+      "lei": "Constituição Federal / Tratado de Marraqueche",
+      "fonteLegal": "https://www4.planalto.gov.br/legislacao/internacional/tratados%20-equivalentes-a-emendas-constitucionais",
+      "fonteCaderno": "https://s.oab.org.br/arquivos/2026/09/7d502f11-d906-4378-bd43-27e0c854b981.pdf",
+      "revisaoLegislacao": "2026-11-09",
+      "revisaoJurisprudencia": "PENDENTE",
+      "precedentesValidados": [],
+      "situacao": "LEGISLACAO_CONFERIDA_JURISPRUDENCIA_PENDENTE",
+      "licencaTexto": "RESUMO_AUTORAL_SEM_TRANSCRICAO"
+    },
+    {
+      "numeroTipo1": 18,
+      "exame": 47,
+      "banca": "FGV",
+      "tipoProva": 1,
+      "respostaHistorica": "A",
+      "tema": "Competência temporal do Tribunal Penal Internacional",
+      "dispositivo": "Estatuto de Roma, art. 11; Decreto 4.388/2002",
+      "fundamentacao": "O Tribunal Penal Internacional possui competência temporal, em regra, para crimes cometidos após a entrada em vigor do Estatuto de Roma; para Estado que aderiu posteriormente, observam-se as disposições específicas do art. 11.",
+      "observacoes": "A competência do TPI não é retroativa em termos gerais. A questão trata da regra de competência temporal, não da responsabilidade individual de agentes públicos.",
+      "natureza": "LEGAL",
+      "lei": "Estatuto de Roma / Decreto 4.388/2002",
+      "fonteLegal": "https://www2.camara.leg.br/legin/fed/decret/2002/decreto-4388-25-setembro-2002-465778-publicacaooriginal-1-pe.html",
+      "fonteCaderno": "https://s.oab.org.br/arquivos/2026/09/7d502f11-d906-4378-bd43-27e0c854b981.pdf",
+      "revisaoLegislacao": "2026-11-09",
+      "revisaoJurisprudencia": "PENDENTE",
+      "precedentesValidados": [],
+      "situacao": "LEGISLACAO_CONFERIDA_JURISPRUDENCIA_PENDENTE",
+      "licencaTexto": "RESUMO_AUTORAL_SEM_TRANSCRICAO"
+    },
+    {
+      "numeroTipo1": 19,
+      "exame": 47,
+      "banca": "FGV",
+      "tipoProva": 1,
+      "respostaHistorica": "C",
+      "tema": "Legitimidade para impugnação de registro de candidatura",
+      "dispositivo": "Lei Complementar 64/1990, art. 3º",
+      "fundamentacao": "Na fase e no prazo próprios, candidato concorrente, partido político, coligação e Ministério Público possuem legitimidade para apresentar impugnação fundamentada de registro de candidatura, inclusive por inelegibilidade infraconstitucional.",
+      "observacoes": "O fato de o partido da candidata não agir não lhe retira, por si só, a legitimidade individual conferida pelo art. 3º da LC 64/1990.",
+      "natureza": "LEGAL",
+      "lei": "Lei Complementar nº 64/1990",
+      "fonteLegal": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp64.htm",
+      "fonteCaderno": "https://s.oab.org.br/arquivos/2026/09/7d502f11-d906-4378-bd43-27e0c854b981.pdf",
+      "revisaoLegislacao": "2026-11-09",
+      "revisaoJurisprudencia": "PENDENTE",
+      "precedentesValidados": [],
+      "situacao": "LEGISLACAO_CONFERIDA_JURISPRUDENCIA_PENDENTE",
+      "licencaTexto": "RESUMO_AUTORAL_SEM_TRANSCRICAO"
+    },
+    {
+      "numeroTipo1": 20,
+      "exame": 47,
+      "banca": "FGV",
+      "tipoProva": 1,
+      "respostaHistorica": "B",
+      "tema": "Captação ilícita de sufrágio e prazo para representação",
+      "dispositivo": "Lei 9.504/1997, art. 41-A, §§ 1º e 3º; Resolução TSE 23.735/2024, art. 13",
+      "fundamentacao": "A captação ilícita de sufrágio não exige pedido explícito de voto quando demonstrado o dolo específico da oferta. A representação por captação ilícita de sufrágio pode ser ajuizada até a data da diplomação.",
+      "observacoes": "A existência de uma promessa concreta dirigida a eleitor determinado pode caracterizar a conduta, observados os elementos probatórios. O tratamento do período de incidência e da impugnação é distinto de outras infrações eleitorais.",
+      "natureza": "LEGAL",
+      "lei": "Lei 9.504/1997 e orientações do TSE",
+      "fonteLegal": "https://www.tse.jus.br/legislacao/codigo-eleitoral/lei-das-eleicoes/lei-das-eleicoes-lei-nb0-9.504-de-30-de-setembro-de-1997",
+      "fonteCaderno": "https://s.oab.org.br/arquivos/2026/09/7d502f11-d906-4378-bd43-27e0c854b981.pdf",
+      "revisaoLegislacao": "2026-11-09",
+      "revisaoJurisprudencia": "PRECEDENTE_ESPECIFICO_VERIFICADO; REVISAO_INTEGRAL_PENDENTE",
+      "precedentesValidados": [
+        {
+          "tribunal": "TSE",
+          "processo": "AgR-REspe 35932 (01/06/2010)",
+          "tipo": "PRECEDENTE_RELACIONADO",
+          "url": "https://temasselecionados.tse.jus.br/temas-selecionados/captacao-de-sufragio/representacao-ou-investigacao-judicial",
+          "contexto": "Julgado citado pelo TSE sobre cabimento da representação por captação ilícita de sufrágio até a diplomação."
+        }
+      ],
       "situacao": "LEGISLACAO_CONFERIDA_JURISPRUDENCIA_PENDENTE",
       "licencaTexto": "RESUMO_AUTORAL_SEM_TRANSCRICAO"
     }
