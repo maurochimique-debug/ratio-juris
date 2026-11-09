@@ -1,4 +1,4 @@
-/* Dados documentais oficiais do OAB 47. Nunca apresente como texto de questões. */
+/* Gabaritos históricos oficiais. Não constituem parecer de atualização jurídica. */
 window.RATIO_OAB_DATA = {
   "version": "2026-11-09",
   "metadata": {
@@ -249,19 +249,23 @@ window.RATIO_OAB_DATA = {
     "cadernos": [
       {
         "tipo": 1,
-        "cor": "Branca"
+        "cor": "Branca",
+        "pdf": "https://s.oab.org.br/arquivos/2026/09/7d502f11-d906-4378-bd43-27e0c854b981.pdf"
       },
       {
         "tipo": 2,
-        "cor": "Verde"
+        "cor": "Verde",
+        "pdf": "https://s.oab.org.br/arquivos/2026/09/b33cc8dc-3730-41d4-8acc-7651d67ec6e7.pdf"
       },
       {
         "tipo": 3,
-        "cor": "Amarela"
+        "cor": "Amarela",
+        "pdf": "https://s.oab.org.br/arquivos/2026/09/4602e8f9-828b-4ae7-a1cc-7a87c0f9f5f7.pdf"
       },
       {
         "tipo": 4,
-        "cor": "Azul"
+        "cor": "Azul",
+        "pdf": "https://s.oab.org.br/arquivos/2026/09/fc8c5341-bad3-49a5-918e-3b99e63c286b.pdf"
       }
     ],
     "gabaritos": [
