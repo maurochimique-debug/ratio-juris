@@ -799,6 +799,154 @@
         abrirCardModal('Recursos de acessibilidade','O conteúdo de questões e respostas está disponível em texto, com navegação por teclado e recurso opcional de leitura por voz do navegador. Legendas em tempo real e recursos avançados ainda não foram implementados.','Informações');
       }
     }
+    // Arquivo oficial e correção do 47º Exame. A correção não substitui o PDF.
+    function fonteOAB() {
+      const dados=window.RATIO_OAB_DATA;
+      if(!dados||!dados.exam47||!Array.isArray(dados.archive))throw new Error('Base oficial OAB ausente');
+      return dados;
+    }
+    function obterRespostas47(tipo) {
+      const valor=lerArmazenamento('ratio_oab47_tipo'+tipo,'[]');
+      try {
+        const parsed=JSON.parse(valor);
+        if(Array.isArray(parsed)&&parsed.length===80) {
+          return parsed.map(x=>['A','B','C','D'].includes(x)?x:'');
+        }
+      }catch(_){}
+      return Array(80).fill('');
+    }
+    function salvarRespostas47(tipo,lista) {
+      gravarArmazenamento('ratio_oab47_tipo'+tipo,JSON.stringify(lista));
+    }
+    function tipoOABAtual() {
+      const n=Number(document.getElementById('oabTipoSelect').value);
+      return Number.isInteger(n)&&n>=1&&n<=4?n:1;
+    }
+    function iniciarArquivoOAB() {
+      const dados=fonteOAB();
+      const sel=document.getElementById('oabExamSelect');
+      sel.replaceChildren();
+      dados.archive.forEach(function(entry) {
+        const op=document.createElement('option');
+        op.value=String(entry.exame);
+        op.textContent=entry.exame+'º Exame de Ordem Unificado';
+        sel.appendChild(op);
+      });
+      sel.value='47';
+      document.getElementById('oabTipoSelect').value='1';
+      atualizarArquivoOAB();
+    }
+    function atualizarArquivoOAB() {
+      const dados=fonteOAB();
+      const num=Number(document.getElementById('oabExamSelect').value);
+      const entry=dados.archive.find(x=>x.exame===num);
+      if(!entry)return;
+      const atual=num===47;
+      document.getElementById('oabPaginaOficial').href=entry.fgvUrl;
+      document.getElementById('oabTipoSelect').disabled=!atual;
+      document.getElementById('oabFolhaBloco').classList.toggle('hidden',!atual);
+      document.getElementById('oabCadernoPdf').classList.toggle('hidden',!atual);
+      document.getElementById('oabGabaritoPdf').classList.toggle('hidden',!atual);
+      if(atual) {
+        const tipo=tipoOABAtual();
+        const info=dados.exam47.cadernos[tipo-1];
+        document.getElementById('oabStatus').textContent='47º EOU — prova objetiva de 06/09/2026, caderno Tipo '+tipo+' ('+info.cor+'). Gabarito definitivo verificado e 1 questão anulada. O texto completo permanece no PDF oficial.';
+        document.getElementById('oabCadernoPdf').href=info.pdf;
+        document.getElementById('oabGabaritoPdf').href=dados.exam47.gabaritoPDF;
+        desenharFolha47();
+      } else {
+        document.getElementById('oabStatus').textContent=num+'º EOU — acesso à página oficial FGV. O gabarito deste exame não foi importado nesta etapa. Consulte o caderno e as publicações definitivas na origem; a correção local e a revisão jurídica estão pendentes.';
+      }
+    }
+    function materiaTipo47(tipo,num) {
+      const dados=fonteOAB().exam47;
+      let numeroTipo1=num;
+      if(tipo!==1) {
+        const i=dados.correspondencia.findIndex(c=>c[tipo-2]===num);
+        numeroTipo1=i+1;
+      }
+      return dados.disciplinas.find(m=>numeroTipo1>=m.start&&numeroTipo1<=m.end)||null;
+    }
+    function atualizarProgresso47() {
+      const tipo=tipoOABAtual();
+      const lista=obterRespostas47(tipo);
+      const preenchidas=lista.filter(x=>x).length;
+      document.getElementById('oabProgresso').textContent=preenchidas+' / 80 respostas marcadas';
+    }
+    function desenharFolha47(resultado) {
+      const dados=fonteOAB().exam47;
+      const tipo=tipoOABAtual();
+      const respostas=obterRespostas47(tipo);
+      const gabarito=dados.gabaritos[tipo-1];
+      const container=document.getElementById('oabFolha');
+      container.replaceChildren();
+      const resumo=document.getElementById('oabResultado');
+      if(!resultado){resumo.classList.add('hidden');resumo.textContent='';}
+      for(let i=0;i<80;i++) {
+        const materia=materiaTipo47(tipo,i+1);
+        const card=document.createElement('div');
+        card.className='rounded-xl border border-slate-300 dark:border-ratio-borderDark p-3 bg-slate-50 dark:bg-[#12161A] text-sm';
+        const header=document.createElement('div');
+        header.className='font-bold text-slate-900 dark:text-white mb-1';
+        header.textContent='Questão '+(i+1)+(gabarito[i]==='*'?' • ANULADA':'');
+        const descricao=document.createElement('p');
+        descricao.className='text-xs text-slate-500 dark:text-slate-400 mb-2';
+        descricao.textContent=materia?materia.name:'Disciplina a identificar';
+        const sel=document.createElement('select');
+        sel.id='oab47_'+tipo+'_'+(i+1);
+        sel.setAttribute('aria-label','Resposta da questão '+(i+1)+', caderno tipo '+tipo);
+        sel.className='w-full p-2 rounded-lg border border-slate-300 dark:border-ratio-borderDark bg-white dark:bg-ratio-cardDark text-slate-900 dark:text-white';
+        ['', 'A','B','C','D'].forEach(function(c){
+          const op=document.createElement('option');
+          op.value=c;op.textContent=c||'Não respondida';
+          sel.appendChild(op);
+        });
+        sel.value=respostas[i];
+        sel.addEventListener('change',function(){
+          const current=obterRespostas47(tipo);
+          current[i]=sel.value;
+          salvarRespostas47(tipo,current);
+          atualizarProgresso47();
+          document.getElementById('oabResultado').classList.add('hidden');
+        });
+        card.append(header,descricao,sel);
+        if(resultado) {
+          const correto=gabarito[i];
+          const status=document.createElement('p');
+          status.className='mt-2 text-xs font-bold '+(correto==='*'||respostas[i]===correto?'text-emerald-600 dark:text-emerald-400':'text-red-600 dark:text-red-400');
+          status.textContent=correto==='*'?'Anulada: ponto automático':('Gabarito definitivo: '+correto+(respostas[i]===correto?' ✓':' • confira a resposta'));
+          card.appendChild(status);
+          if(materia) {
+            const link=document.createElement('a');
+            link.href=materia.base;
+            link.target='_blank';
+            link.rel='noopener noreferrer';
+            link.className='block mt-2 underline text-purple-700 dark:text-purple-300 text-xs';
+            link.textContent='Legislação por disciplina (não específica desta questão)';
+            card.appendChild(link);
+          }
+        }
+        container.appendChild(card);
+      }
+      atualizarProgresso47();
+    }
+    function corrigirFolha47() {
+      const tipo=tipoOABAtual();
+      const oficial=fonteOAB().exam47.gabaritos[tipo-1];
+      const respostas=obterRespostas47(tipo);
+      const acertos=Array.from({length:80},(_,i)=>oficial[i]==='*'||respostas[i]===oficial[i]).filter(Boolean).length;
+      const preenchidas=respostas.filter(Boolean).length;
+      const res=document.getElementById('oabResultado');
+      res.classList.remove('hidden');
+      res.textContent='Resultado da prova Tipo '+tipo+': '+acertos+'/80 pontos (inclui 1 ponto por questão anulada). Respostas assinaladas: '+preenchidas+'/80. '+(acertos>=40?'Alcançou 40 pontos neste treino.':'Ainda não alcançou 40 pontos neste treino.')+' Gabarito histórico definitivo, não avaliação de legislação vigente.';
+      desenharFolha47(true);
+      res.classList.remove('hidden');
+    }
+    function limparFolha47() {
+      const tipo=tipoOABAtual();
+      salvarRespostas47(tipo,Array(80).fill(''));
+      desenharFolha47();
+    }
     window.addEventListener('DOMContentLoaded',function(){
       renderizarMaterias(); atualizarPlacar(); proximaQuestaoAleatoria(); iniciarArquivoOAB();
     });
