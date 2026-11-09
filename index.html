@@ -779,6 +779,7 @@
         proxima.classList.toggle('opacity-50',restantes===0);
         proxima.classList.toggle('cursor-not-allowed',restantes===0);
         proxima.title=restantes===0?'Nenhuma questão inédita disponível. Reinicie a banca para refazer.':'Avançar para uma questão inédita';
+        proxima.textContent=restantes===0?'Sem questões inéditas':'Próxima questão inédita';
       }
       return restantes;
     }
