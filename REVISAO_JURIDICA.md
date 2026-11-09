@@ -1,3 +1,18 @@
+## Avanço de revisão: 9 de novembro de 2026
+
+Foram acrescentadas **20 notas autorais fundamentadas** para o 47º Exame (Tipo 1, questões 1–20), com correspondência aos Tipos 2–4, sem republicar os enunciados completos. Os gabaritos definitivos históricos são preservados. Questões 1–8: Ética; 9–10: Filosofia; 11–16: Constitucional; 17–18: Direitos Humanos; 19–20: Eleitoral.
+
+- **Revisão de base legal ou doutrinária:** 20/80, com referência específica e data.
+- **Jurisprudência:** 2 precedentes relacionados e documentados (STF ADPF 130, caráter ilustrativo da Q13; TSE AgR-REspe 35932, prazo para representação da Q20). Isso **não** corresponde a uma revisão jurisprudencial exaustiva.
+- **Questões restantes do 47º:** 60/80 ainda aguardam comentário individual.
+- **Exames 46º ao 10º:** catalogados com links oficiais, sem importação individual.
+- **Bancas CEBRASPE, VUNESP e FCC:** apenas questões autorais iniciais, sem corpus oficial completo.
+- **Controle editorial:** `oab47-comentarios.js` guarda gabarito histórico, artigo, comentário, fonte, situação de revisão e precedentes quando verificados.
+
+Os testes automatizados simulam a interface e o mapeamento; não substituem homologação em navegador ou revisão jurídica por profissional habilitado.
+
+---
+
 # RatioJuris — Política de integridade do banco jurídico
 
 Atualizado em: **09/11/2026**. O conteúdo a seguir documenta o **estado efetivamente implantado**, não uma validação jurídica concluída.
