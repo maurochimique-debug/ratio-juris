@@ -1,3 +1,17 @@
+## Avanço: questões 21–40 do 47º EOU (09/11/2026)
+
+- **40/80 comentários históricos**: os comentários novos cobrem Direito Internacional (21–22), Financeiro (23–24), Tributário (25–29), Administrativo (30–34), Ambiental (35–36) e Civil/LGPD (37–40).
+- **Conferência de gabarito**: cada uma das 40 respostas do Tipo 1 coincide com o gabarito definitivo da OAB; a correspondência de numeração para os quatro tipos deve ser testada antes de publicar.
+- **Tema 1.348/STF (Q26)**: decisão de mérito em 19/10/2026, posterior à prova, sobre ITBI e integralização de capital; conferir novas publicações e o eventual inteiro teor do acórdão.
+- **Lei 15.190/2025 (Q35)**: Lei Geral do Licenciamento Ambiental, alterada pela Lei 15.300/2025; a questão histórica de EIA está marcada como **sensível a mudanças normativas**; manter distinção entre resposta de prova e enquadramento jurídico atual.
+- **Precedentes específicos relacionados**: Q26 STF Temas 796 e 1.348; Q35 STF ADI 1086 e ADI 6618; Q36 STF RE 548181; Q37 STJ Súmula 596. Os links identificam a fonte e o alcance do precedente; não se afirma revisão jurisprudencial exaustiva de todos os itens.
+- **Status**: 40 questões faltantes (41–80); arquivos dos exames 46º–10º continuam catalogados, sem revisão completa.
+- **Direitos autorais**: enunciados da OAB não foram copiados para o código. O usuário deve consultar o PDF oficial.
+
+Os campos `situacao`, `revisaoJurisprudencia` e `observacoes` comunicam ressalvas específicas. Atualização jurídica automática contínua **não implementada**.
+
+---
+
 ## Avanço de revisão: 9 de novembro de 2026
 
 Foram acrescentadas **20 notas autorais fundamentadas** para o 47º Exame (Tipo 1, questões 1–20), com correspondência aos Tipos 2–4, sem republicar os enunciados completos. Os gabaritos definitivos históricos são preservados. Questões 1–8: Ética; 9–10: Filosofia; 11–16: Constitucional; 17–18: Direitos Humanos; 19–20: Eleitoral.
