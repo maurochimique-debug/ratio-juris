@@ -317,6 +317,7 @@
               <button type="button" onclick="responderQuestaoOficial('C')" class="btn-touch rounded-xl px-5 py-3 border-2 border-purple-500 text-purple-800 dark:text-purple-300 font-black">C</button>
               <button type="button" onclick="responderQuestaoOficial('D')" class="btn-touch rounded-xl px-5 py-3 border-2 border-purple-500 text-purple-800 dark:text-purple-300 font-black">D</button>
             </div>
+            <button id="btnConferirQuestaoOficial" type="button" onclick="conferirQuestaoOficial()" class="btn-touch mt-4 px-5 py-3 rounded-lg border-2 border-amber-600 bg-amber-50 dark:bg-[#2b2318] text-amber-950 dark:text-amber-200 font-bold text-sm">Conferir esta questão e ver fundamento jurídico</button>
             <p id="feedbackQuestaoOficial" class="text-sm font-semibold text-slate-800 dark:text-slate-200 mt-4" role="status" aria-live="polite">Selecione A, B, C ou D após ler a questão oficial.</p>
             <aside id="fundamentacaoErroOficial" class="hidden mt-5 rounded-xl border-2 border-amber-500 bg-amber-50 dark:bg-[#252016] p-4 sm:p-5" role="region" aria-labelledby="tituloFundamentacaoErro">
               <h5 id="tituloFundamentacaoErro" class="text-base font-black text-amber-950 dark:text-amber-200">Entenda o fundamento da questão</h5>
@@ -895,6 +896,30 @@
         '. O entendimento pode ter sido alterado; consulte a redação legal e a jurisprudência vigentes. A resposta histórica da banca permanece preservada.';
       return {comReferencia:true,dispositivo:comentario.dispositivo};
     }
+    // A conferência individual nunca altera a nota total até a correção da prova.
+    // Guarda a escolha conferida, para não exibir a resposta após alteração posterior.
+    const conferenciasIndividuais=new Map();
+    function chaveConferencia(numero,tipo,pos){return numero+'-'+tipo+'-'+pos;}
+    function conferirQuestaoOficial(){
+      const ctx=obterExameParaSimulador();
+      if(!ctx)return false;
+      const pos=obterPosicaoOficial(ctx.numero,ctx.tipo);
+      const gabarito=ctx.exam.gabaritos[ctx.tipo-1][pos-1];
+      const marcada=obterRespostasOficiais(ctx.numero,ctx.tipo)[pos-1];
+      if(gabarito==='*'){
+        renderizarSimuladorOficial();
+        return true;
+      }
+      if(!marcada){
+        document.getElementById('feedbackQuestaoOficial').textContent=
+          'Marque uma alternativa para conferir esta questão.';
+        return false;
+      }
+      conferenciasIndividuais.set(chaveConferencia(ctx.numero,ctx.tipo,pos),marcada);
+      renderizarSimuladorOficial();
+      document.getElementById('feedbackQuestaoOficial').focus?.();
+      return true;
+    }
     function renderizarSimuladorOficial() {
       const ctx=obterExameParaSimulador();
       const painel=document.getElementById('simulador-oficial');
@@ -918,6 +943,8 @@
       const gabarito=exam.gabaritos[tipo-1][pos-1];
       const anulada=gabarito==='*';
       const avaliada=lerArmazenamento(chaveAvaliacaoOAB(numero,tipo),'0')==='1';
+      const conferida=conferenciasIndividuais.get(chaveConferencia(numero,tipo,pos))===escolha&&!!escolha;
+      const revelar=avaliada||conferida;
       const caderno=exam.cadernos[tipo-1];
       const marcadas=respostas.filter(Boolean).length;
       document.getElementById('questaoOficialTitulo').textContent=
@@ -958,18 +985,21 @@
           'border-purple-500 bg-white dark:bg-[#12161A] text-purple-800 dark:text-purple-300'
         )+(anulada?' opacity-60 cursor-not-allowed':'');
       });
+      const botaoConferir=document.getElementById('btnConferirQuestaoOficial');
+      botaoConferir.disabled=anulada||!escolha;
+      botaoConferir.setAttribute('aria-disabled',botaoConferir.disabled?'true':'false');
       const feedback=document.getElementById('feedbackQuestaoOficial');
       if(anulada){
         feedback.textContent='ANULADA no gabarito definitivo. Ponto automático, sem exigir resposta.';
       }else if(!escolha){
         feedback.textContent='Nenhuma resposta marcada. Abra o caderno oficial para ler o enunciado e escolha uma alternativa.';
-      }else if(!avaliada){
-        feedback.textContent='Alternativa '+escolha+' registrada. Use “Corrigir minha prova” para conferir o gabarito e atualizar a estatística.';
+      }else if(!revelar){
+        feedback.textContent='Alternativa '+escolha+' registrada. Escolha “Conferir esta questão” para ver seu resultado e a fundamentação disponível, ou corrija toda a prova.';
       }else{
         feedback.textContent='Alternativa '+escolha+' — '+(escolha===gabarito?'ACERTO':'ERRO')+
           '. Gabarito definitivo: '+gabarito+'.';
       }
-      atualizarFundamentacaoErroOficial(ctx,pos,escolha,gabarito,avaliada);
+      atualizarFundamentacaoErroOficial(ctx,pos,escolha,gabarito,revelar);
       const anterior=document.getElementById('btnQuestaoAnterior');
       const proxima=document.getElementById('btnQuestaoProxima');
       anterior.disabled=pos===1;
@@ -1003,6 +1033,7 @@
       if(gabarito==='*')return false;
       const respostas=obterRespostasOficiais(ctx.numero,ctx.tipo);
       respostas[pos-1]=letra;
+      conferenciasIndividuais.delete(chaveConferencia(ctx.numero,ctx.tipo,pos));
       salvarRespostasOficiais(ctx.numero,ctx.tipo,respostas);
       invalidarEstatisticaOAB();
       // Sincroniza imediatamente a folha completa com os botões A–D.
