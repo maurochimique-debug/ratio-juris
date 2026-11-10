@@ -320,35 +320,56 @@
     <p id="modalCardDesc"></p>
   </div>
 
-  <!-- MODO GABINETE DE PESQUISA JURÍDICA -->
+  <!-- MODO GABINETE — consulta a artigos de legislação oficial -->
   <section id="gabinete" class="py-14 sm:py-20 bg-slate-50 dark:bg-[#0E1216]">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
       <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xl">
-        <h2 class="text-xl font-semibold text-white flex items-center mb-2 font-serif">
-          <i class="fa-solid fa-magnifying-glass text-ratio-purple mr-2"></i> Modo Gabinete — Consulta Demonstrativa
+        <h2 class="text-2xl font-semibold text-white flex items-center mb-2 font-serif">
+          <i class="fa-solid fa-scale-balanced text-ratio-purple mr-2" aria-hidden="true"></i> Modo Gabinete — Artigo por artigo
         </h2>
-        <p class="text-xs sm:text-sm text-slate-400 mb-6">Consulte as referências cadastradas nesta demonstração (por exemplo, Súmula 473/STF, Súmula 366/STJ cancelada, art. 366/CC e Súmula Vinculante 20). Não há busca em tempo real em tribunais.</p>
-        
-        <div class="flex gap-2">
-          <div class="relative flex-grow">
-            <i class="fa-solid fa-search absolute left-3.5 top-3.5 text-slate-500 text-sm"></i>
-            <input type="text" id="gabineteSearchInput" placeholder="Ex: 473 stf, 366 stj, 366 cc, Súmula Vinculante 20..." onkeydown="if(event.key==='Enter'){executarPesquisaGabinete();}" class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-ratio-purple">
+        <p class="text-sm text-slate-300 mb-6">Escolha a lei e o artigo. O RatioJuris prepara um link à fonte oficial do Planalto com localização do trecho no navegador, quando compatível. Não altera nem substitui a redação oficial.</p>
+        <div class="grid grid-cols-1 sm:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] gap-3">
+          <div>
+            <label for="gabineteLeiSelect" class="block text-white text-sm font-semibold mb-2">Qual legislação?</label>
+            <select id="gabineteLeiSelect" class="w-full rounded-xl bg-slate-950 border-2 border-slate-600 text-white p-3 text-sm" aria-label="Selecionar a legislação a consultar">
+              <option value="cc">Código Civil — Lei 10.406/2002</option>
+              <option value="cf">Constituição Federal de 1988</option>
+              <option value="cp">Código Penal</option>
+              <option value="cpp">Código de Processo Penal</option>
+              <option value="cpc">Código de Processo Civil</option>
+              <option value="clt">CLT — Consolidação das Leis do Trabalho</option>
+              <option value="ctn">Código Tributário Nacional</option>
+              <option value="cdc">Código de Defesa do Consumidor</option>
+              <option value="eca">Estatuto da Criança e do Adolescente</option>
+              <option value="lindb">LINDB — Decreto-Lei 4.657/1942</option>
+              <option value="oab">Estatuto da Advocacia — Lei 8.906/1994</option>
+              <option value="l14133">Lei 14.133/2021 — Licitações</option>
+              <option value="l9784">Lei 9.784/1999 — Processo Administrativo</option>
+            </select>
           </div>
-          <button onclick="executarPesquisaGabinete()" class="btn-touch bg-ratio-purple hover:bg-purple-600 text-white px-6 py-3 rounded-xl text-sm font-semibold transition shadow-lg shadow-ratio-purple/20">
-            Pesquisar
-          </button>
-        </div>
-
-        <!-- Container de Resultados da Busca -->
-        <div id="resultadoBuscaContainer" class="mt-4 hidden space-y-3">
-          <div class="p-4 bg-slate-950 border border-ratio-purple/40 rounded-xl shadow-inner">
-            <div class="flex items-center justify-between">
-              <span id="resultadoTitulo" class="text-xs font-bold text-ratio-purple uppercase tracking-wider">Resultado Encontrado</span>
-              <span class="text-xs text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800/50">Referências para conferência em portais oficiais</span>
-            </div>
-            <p id="resultadoDescricao" class="text-sm text-slate-200 mt-2.5 leading-relaxed"></p>
+          <div>
+            <label for="gabineteArtigoInput" class="block text-white text-sm font-semibold mb-2">Número do artigo</label>
+            <input type="text" id="gabineteArtigoInput" inputmode="text" maxlength="12" autocomplete="off" placeholder="Ex.: 366, 20, 28-A" class="w-full rounded-xl bg-slate-950 border-2 border-slate-600 text-white p-3 text-sm" aria-label="Número do artigo, exemplo 366 ou 28-A" onkeydown="if(event.key==='Enter'){pesquisarArtigoPlanalto();}"/>
           </div>
         </div>
+        <div class="flex flex-wrap gap-3 mt-4 items-center">
+          <button type="button" onclick="pesquisarArtigoPlanalto()" class="btn-touch bg-ratio-purpleDeep hover:bg-purple-700 text-white px-5 py-3 rounded-xl text-sm font-bold">Localizar artigo no Planalto</button>
+          <span class="text-xs text-slate-300">Exemplo: Código Civil, art. 366; LINDB, art. 20</span>
+        </div>
+        <div class="border-t border-slate-700 mt-6 pt-5">
+          <label for="gabineteSearchInput" class="block text-white text-sm font-semibold mb-2">Busca por referência ou jurisprudência</label>
+          <div class="flex flex-wrap sm:flex-nowrap gap-2">
+            <input type="search" id="gabineteSearchInput" placeholder="Ex.: art. 366 CC, art. 20 LINDB, Súmula 473 STF" onkeydown="if(event.key==='Enter'){executarPesquisaGabinete();}" class="flex-1 min-w-0 w-full bg-slate-950 border border-slate-600 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-400"/>
+            <button type="button" onclick="executarPesquisaGabinete()" class="btn-touch bg-ratio-purple hover:bg-purple-600 text-white px-5 py-3 rounded-xl text-sm font-semibold">Pesquisar referência</button>
+          </div>
+        </div>
+        <div id="resultadoBuscaContainer" class="mt-5 hidden" aria-live="polite" aria-atomic="false">
+          <div class="p-5 bg-slate-950 border border-purple-500 rounded-xl">
+            <h3 id="resultadoTitulo" class="text-base font-bold text-purple-300">Resultado</h3>
+            <div id="resultadoDescricao" class="text-sm text-slate-200 mt-3 leading-relaxed"></div>
+          </div>
+        </div>
+        <p class="mt-4 text-xs text-slate-300">A localização direta utiliza fragmentos de texto aceitos por navegadores compatíveis (especialmente Chromium). Se o artigo não ficar destacado automaticamente, use Ctrl+F ou Buscar na página com o número indicado. Algumas páginas do Planalto podem limitar o acesso dependendo do navegador ou da rede.</p>
       </div>
     </div>
   </section>
@@ -447,39 +468,128 @@
       box.classList.remove('hidden');box.focus();
     }
     function fecharCardModal(){document.getElementById('cardModalBox').classList.add('hidden');}
-    const referencias = [
-      {termos:['473 stf','sumula 473','súmula 473'],titulo:'Súmula 473 do STF — autotutela administrativa',descricao:'A Administração pode anular atos ilegais e revogar atos por conveniência ou oportunidade, observados direitos adquiridos e controle judicial.',url:'https://jurisprudencia.stf.jus.br/pages/search/seq-sumula473/false'},
-      {termos:['366 stj','sumula 366','súmula 366'],titulo:'Súmula 366 do STJ — CANCELADA',descricao:'A Súmula 366 do STJ foi cancelada pela Corte Especial em 16/09/2009. O enunciado anterior não deve ser apresentado como orientação vigente; consulte a jurisprudência atual.',url:'https://www.stj.jus.br/sites/portalp/Jurisprudencia/Sumulas'},
-      {termos:['366 cc','artigo 366','art 366','novacao','novação'],titulo:'Art. 366 do Código Civil — novação e fiador',descricao:'A novação feita com o devedor principal sem consentimento do fiador importa exoneração deste.',url:'https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm'},
-      {termos:['vinculante 20','sv 20','gdata'],titulo:'Súmula Vinculante 20 do STF — GDATA',descricao:'Trata do pagamento da Gratificação de Desempenho de Atividade Técnico-Administrativa (GDATA) a inativos, segundo períodos e pontuações previstos no enunciado. Consulte o texto integral.',url:'https://portal.stf.jus.br/jurisprudencia/sumariosumulas.asp?base=26&sumula=1252'},
-      {termos:['lindb','4.657','lei 4657'],titulo:'LINDB — Decreto-Lei nº 4.657/1942',descricao:'O art. 20 trata das consequências práticas na aplicação de valores jurídicos abstratos em decisões administrativas, controladoras e judiciais.',url:'https://www.planalto.gov.br/ccivil_03/decreto-lei/del4657compilado.htm'}
+    // Fontes previamente identificadas: jamais aceitar URL fornecida pelo campo do usuário.
+    const fontesLegaisPlanalto = Object.freeze({
+      cc:{nome:'Código Civil',url:'https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm'},
+      cf:{nome:'Constituição Federal',url:'https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm'},
+      cp:{nome:'Código Penal',url:'https://www.planalto.gov.br/ccivil_03/decreto-lei/del2848compilado.htm'},
+      cpp:{nome:'Código de Processo Penal',url:'https://www.planalto.gov.br/ccivil_03/decreto-lei/del3689.htm'},
+      cpc:{nome:'Código de Processo Civil',url:'https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm'},
+      clt:{nome:'CLT',url:'https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452compilado.htm'},
+      ctn:{nome:'Código Tributário Nacional',url:'https://www.planalto.gov.br/ccivil_03/leis/l5172compilado.htm'},
+      cdc:{nome:'Código de Defesa do Consumidor',url:'https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm'},
+      eca:{nome:'Estatuto da Criança e do Adolescente',url:'https://www.planalto.gov.br/ccivil_03/leis/l8069.htm'},
+      lindb:{nome:'LINDB',url:'https://www.planalto.gov.br/ccivil_03/decreto-lei/del4657compilado.htm'},
+      oab:{nome:'Estatuto da Advocacia',url:'https://www.planalto.gov.br/ccivil_03/leis/l8906.htm'},
+      l14133:{nome:'Lei de Licitações 14.133/2021',url:'https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/l14133.htm'},
+      l9784:{nome:'Lei do Processo Administrativo 9.784/1999',url:'https://www.planalto.gov.br/ccivil_03/leis/l9784.htm'}
+    });
+    const referenciasJurisprudenciais=[
+      {termos:['473 stf','sumula 473','súmula 473'],titulo:'Súmula 473 do STF — autotutela administrativa',descricao:'Entendimento sumulado sobre anulação e revogação de atos da Administração.',url:'https://jurisprudencia.stf.jus.br/pages/search/seq-sumula473/false'},
+      {termos:['366 stj','sumula 366 stj','súmula 366 stj'],titulo:'Súmula 366 do STJ — CANCELADA',descricao:'A Súmula 366/STJ foi cancelada em 16/09/2009; não representa orientação vigente.',url:'https://www.stj.jus.br/sites/portalp/Jurisprudencia/Sumulas'},
+      {termos:['vinculante 20','sv 20','gdata'],titulo:'Súmula Vinculante 20 do STF — GDATA',descricao:'Trata da GDATA para inativos; confira o inteiro teor no STF.',url:'https://portal.stf.jus.br/jurisprudencia/sumariosumulas.asp?base=26&sumula=1252'}
     ];
-    function normalizar(str) {return str.toLocaleLowerCase('pt-BR').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();}
-    function executarPesquisaGabinete() {
-      const entrada = document.getElementById('gabineteSearchInput').value.trim();
-      if (!entrada) { abrirCardModal('Pesquisa','Digite uma referência ou palavra-chave para consultar.','Campo vazio'); return; }
-      const termo = normalizar(entrada);
-      const encontrado = referencias.find(item => item.termos.some(t => normalizar(t)===termo || (termo.length>=4 && (normalizar(t).includes(termo) || termo.includes(normalizar(t))))));
-      const container = document.getElementById('resultadoBuscaContainer');
-      const titulo = document.getElementById('resultadoTitulo');
-      const descricao = document.getElementById('resultadoDescricao');
-      container.classList.remove('hidden');
-      titulo.textContent = encontrado ? encontrado.titulo : 'Sem resultado na base demonstrativa';
-      descricao.replaceChildren();
-      const p = document.createElement('p');
-      p.textContent = encontrado ? encontrado.descricao : 'A pesquisa não encontrou correspondência entre as cinco referências cadastradas. Nenhuma consulta ou indexação externa foi realizada. Consulte diretamente os portais oficiais.';
-      descricao.appendChild(p);
-      const links = encontrado ? [{nome:'Conferir fonte oficial',url:encontrado.url}] : [
-        {nome:'Legislação — Planalto',url:'https://www.planalto.gov.br/ccivil_03/'},
-        {nome:'Jurisprudência — STF',url:'https://jurisprudencia.stf.jus.br/'},
-        {nome:'Jurisprudência — STJ',url:'https://scon.stj.jus.br/SCON/'}
+    function normalizar(str){return String(str||'').toLocaleLowerCase('pt-BR').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();}
+    function acharLeiNoTexto(entrada){
+      const t=normalizar(entrada);
+      const checks=[
+        ['lindb',/\blindb\b|4\.657|4657|introducao as normas/],
+        ['oab',/\boab\b|advocacia|8\.906|8906/],
+        ['l14133',/14\.133|14133|licitac/],
+        ['l9784',/9\.784|9784|processo administrativo/],
+        ['cpp',/\bcpp\b|processo penal/],
+        ['cpc',/\bcpc\b|processo civil/],
+        ['ctn',/\bctn\b|tributario/],
+        ['cdc',/\bcdc\b|consumidor/],
+        ['eca',/\beca\b|crianca|adolescente/],
+        ['clt',/\bclt\b|trabalho/],
+        ['cf',/\bcf\b|constituicao|constitucional/],
+        ['cc',/\bcc\b|codigo civil|\bcivil\b/],
+        ['cp',/\bcp\b|codigo penal|\bpenal\b/]
       ];
-      links.forEach(function(item) {
-        const a=document.createElement('a');
-        a.href=item.url;a.target='_blank';a.rel='noopener noreferrer';
-        a.className='block mt-2 underline text-purple-300 font-semibold';
-        a.textContent=item.nome; descricao.appendChild(a);
+      return (checks.find(pair=>pair[1].test(t))||[])[0]||null;
+    }
+    function normalizarNumeroArtigo(value) {
+      const text=String(value||'').trim().replace(/^art(?:igo)?\.?\s*/i,'').replace(/[º°]\s*$/,'');
+      const match=/^(\d{1,4})(?:\s*[-–]\s*([A-Za-z]))?$/.exec(text);
+      if(!match)return null;
+      const n=Number(match[1]);
+      if(!Number.isInteger(n)||n<1||n>9999)return null;
+      return String(n)+(match[2]?'-'+match[2].toUpperCase():'');
+    }
+    // Text fragment do navegador; o Planalto não possui âncora estável em todos os diplomas.
+    // Usar apenas URLs oficiais pré-cadastradas. Nenhuma requisição remota pelo app.
+    function construirUrlArtigoPlanalto(lei,numero) {
+      const norma=fontesLegaisPlanalto[lei];
+      const art=normalizarNumeroArtigo(numero);
+      if(!norma||!art)return null;
+      const label='Art. '+art+((lei==='cf'||lei==='oab')?'º':'.');
+      return norma.url+'#:~:text='+encodeURIComponent(label);
+    }
+    function mostrarResultadoGabinete(titulo,descricao,links,nota){
+      const pane=document.getElementById('resultadoBuscaContainer');
+      const target=document.getElementById('resultadoDescricao');
+      document.getElementById('resultadoTitulo').textContent=titulo;
+      pane.classList.remove('hidden');
+      target.replaceChildren();
+      const p=document.createElement('p');p.textContent=descricao;target.appendChild(p);
+      (links||[]).forEach(item=>{
+        const anchor=document.createElement('a');
+        anchor.href=item.url;anchor.target='_blank';anchor.rel='noopener noreferrer';
+        anchor.className='inline-block mt-3 mr-3 px-4 py-3 underline rounded-lg border border-purple-400 text-purple-200 font-bold';
+        anchor.textContent=item.nome;target.appendChild(anchor);
       });
+      if(nota){const p2=document.createElement('p');p2.className='mt-3 text-xs text-amber-200';p2.textContent=nota;target.appendChild(p2);}
+    }
+    function pesquisarArtigoPlanalto(){
+      const lei=document.getElementById('gabineteLeiSelect').value;
+      const numero=normalizarNumeroArtigo(document.getElementById('gabineteArtigoInput').value);
+      if(!fontesLegaisPlanalto[lei]||!numero){
+        mostrarResultadoGabinete('Artigo inválido','Selecione a legislação e informe um número válido (ex.: 366, 20 ou 28-A).',[],null);
+        return false;
+      }
+      const artigo='art. '+numero;
+      const fonte=fontesLegaisPlanalto[lei];
+      const url=construirUrlArtigoPlanalto(lei,numero);
+      const linkBase=fonte.url;
+      mostrarResultadoGabinete(
+        fonte.nome+' — '+artigo,
+        'Abra o dispositivo na fonte oficial do Planalto. O destaque automático é responsabilidade do navegador; não é possível garantir âncora por artigo em todas as leis.',
+        [{nome:'Abrir '+artigo+' no Planalto',url},{nome:'Abrir lei completa (alternativa)',url:linkBase}],
+        'Se o navegador abrir a lei no início, use Buscar na página / Ctrl+F e procure exatamente “Art. '+numero+'”.'
+      );
+      return true;
+    }
+    function executarPesquisaGabinete() {
+      const entrada=document.getElementById('gabineteSearchInput').value.trim();
+      if(!entrada){mostrarResultadoGabinete('Campo vazio','Informe uma referência, por exemplo: art. 366 CC, art. 20 LINDB ou Súmula 473 STF.',[],null);return false;}
+      const termo=normalizar(entrada);
+      const numero=entrada.match(/\bart(?:igo)?\.?\s*(\d{1,4}(?:\s*[-–]\s*[A-Za-z])?)/i) ||
+        entrada.match(/^\s*(\d{1,4}(?:\s*[-–]\s*[A-Za-z])?)\s+(?:do\s+|da\s+)?/i);
+      const lei=acharLeiNoTexto(entrada);
+      if(numero&&lei){
+        document.getElementById('gabineteLeiSelect').value=lei;
+        document.getElementById('gabineteArtigoInput').value=numero[1].replace(/\s/g,'');
+        return pesquisarArtigoPlanalto();
+      }
+      // Atalhos expressos previamente identificados, sem inventar pesquisa no STF/STJ.
+      if(lei==='cc' && (/novac/.test(termo)||/366/.test(termo))){
+        document.getElementById('gabineteLeiSelect').value='cc';
+        document.getElementById('gabineteArtigoInput').value='366';
+        return pesquisarArtigoPlanalto();
+      }
+      if(lei==='lindb' && (/20/.test(termo)||termo==='lindb')){
+        document.getElementById('gabineteLeiSelect').value='lindb';
+        document.getElementById('gabineteArtigoInput').value='20';
+        return pesquisarArtigoPlanalto();
+      }
+      const match=referenciasJurisprudenciais.find(x=>x.termos.some(k=>normalizar(k)===termo||(termo.length>3 && normalizar(k).includes(termo))));
+      if(match){mostrarResultadoGabinete(match.titulo,match.descricao,[{nome:'Consultar fonte jurisprudencial',url:match.url}],'A consulta jurisprudencial é uma referência cadastrada, não uma pesquisa online em tempo real.');return true;}
+      mostrarResultadoGabinete('Referência não localizada','Escolha a legislação e digite o número do artigo acima. Para jurisprudência não cadastrada, acesse diretamente os portais oficiais.',[
+        {nome:'Portal STF',url:'https://jurisprudencia.stf.jus.br/'},
+        {nome:'Portal STJ',url:'https://scon.stj.jus.br/SCON/'}
+      ],null);
+      return false;
     }
     function fonteOAB() {
       const dados=window.RATIO_OAB_DATA;
