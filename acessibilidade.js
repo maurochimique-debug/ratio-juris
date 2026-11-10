@@ -89,7 +89,7 @@
   function readExamStatus(){
     const examNumber=$("oabExamSelect")?.value||"";
     const status=$("oabStatus")?.textContent||"";
-    const anterior=examNumber==="45"||examNumber==="46";
+    const anterior=examNumber!=="47";
     const result=anterior?$("oab46Resultado"):$("oabResultado");
     const progress=anterior?$("oab46Progresso"):$("oabProgresso");
     const desempenho=$("estatisticaMensagem")?.textContent||"";

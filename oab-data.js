@@ -1,4 +1,4 @@
-/* Gabaritos FGV/OAB oficiais: 47º, 46º e 45º. Textos de questões apenas nos PDFs da OAB. */
+/* FGV/OAB: gabaritos oficiais, por tipo, dos 43º ao 47º Exames. Enunciados permanecem nos PDFs da banca. */
 window.RATIO_OAB_DATA = {
   "version": "2026-11-09",
   "metadata": {
@@ -13,7 +13,9 @@ window.RATIO_OAB_DATA = {
     "examesCorrigiveis": [
       47,
       46,
-      45
+      45,
+      44,
+      43
     ]
   },
   "bancas": [
@@ -44,14 +46,14 @@ window.RATIO_OAB_DATA = {
     {
       "exame": 44,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=647",
-      "status": "fontes_oficiais",
-      "importado": false
+      "status": "gabaritos_oficiais_quatro_cadernos_integrados",
+      "importado": true
     },
     {
       "exame": 43,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=646",
-      "status": "fontes_oficiais",
-      "importado": false
+      "status": "gabaritos_oficiais_quatro_cadernos_integrados",
+      "importado": true
     },
     {
       "exame": 42,
@@ -1936,5 +1938,486 @@ window.RATIO_OAB_DATA = {
     "anulacoes": 0,
     "comentariosIndividuais": 0,
     "aviso": "Somente caderno e gabarito histórico oficiais. Comentários individualizados não revisados."
+  },
+  "exam44": {
+    "exame": 44,
+    "dataProva": "2025-08-17",
+    "dataGabaritoDefinitivo": "2025-09-03",
+    "status": "GABARITO_OFICIAL_VALIDADO",
+    "gabaritos": [
+      "CBBACBCCADCDCDDBDADCDABCCCDBADAADCBADCCADBAABACBBACDAABDDDBCDCBDCBABAADCBACADBBA",
+      "CBBBCCCADADCDDBCADCDDACBACCDBADCDAABCDBDCAAAABACBBDCDAABDBCDCDCBABBDAACABCDBBAAD",
+      "BCACBBCCADDDCBCDDACDADCBBACCDCDAADBABDCACDAABABACBABDCDACDDBCDBBDCBAAACDCABAADBB",
+      "BACCCBCBDABDDCDCADDCADBCDBACCDCDAAABDBDCACAABABBACDAABDCBCDCDDABBDCBAAABCDCBAADB"
+    ],
+    "cadernos": [
+      {
+        "tipo": 1,
+        "cor": "Branca",
+        "pdf": "https://s.oab.org.br/arquivos/2025/08/fda2cc49-fbbd-4893-9b75-0f61c177cd5d.pdf"
+      },
+      {
+        "tipo": 2,
+        "cor": "Verde",
+        "pdf": "https://s.oab.org.br/arquivos/2025/08/5c87b5a1-5cb9-4250-9481-6ba64f818c9f.pdf"
+      },
+      {
+        "tipo": 3,
+        "cor": "Amarela",
+        "pdf": "https://s.oab.org.br/arquivos/2025/08/f573455a-d068-4dd0-90b7-8bb13606174d.pdf"
+      },
+      {
+        "tipo": 4,
+        "cor": "Azul",
+        "pdf": "https://s.oab.org.br/arquivos/2025/08/b3b68be6-cbb9-411a-9bb7-3c06230d2b16.pdf"
+      }
+    ],
+    "gabaritoPDF": "https://s.oab.org.br/arquivos/2025/09/b6fb7503-e2cf-4e9b-8b0a-9b822df591fe.pdf",
+    "fonteOficial": "https://www.oab.org.br/noticia/63382/confira-o-gabarito-definitivo-e-o-resultado-preliminar-da-1-fase-do-44-eou",
+    "fonteCadernos": "https://www.oab.org.br/noticia/63314/divulgado-o-gabarito-preliminar-da-1-fase-do-44-exame-de-ordem-unificado",
+    "correspondencia": null,
+    "disciplinas": [],
+    "aviso": "Quatro gabaritos oficiais definitivos. A correspondência numérica entre cadernos e a classificação por matéria ainda não foram verificadas; cada caderno é corrigido diretamente com o seu gabarito."
+  },
+  "exam43": {
+    "exame": 43,
+    "dataProva": "2025-04-27",
+    "dataGabaritoDefinitivo": "2025-05-14",
+    "status": "GABARITO_OFICIAL_E_TABELA_CORRESPONDENCIA_VALIDADOS",
+    "gabaritos": [
+      "*CAACBDCBDDBBABCCADDCCDBCBABADCAACDBBABACBBDADABDACDCABBCDCADCDBADABBDCBA*DCCADA",
+      "CAC*BACDBDCABBDBCADDCCBDBACBAAACDCBDCBAABBDBDAAABDABBCDCDCCCDAADBADBBDDC*ABACCAD",
+      "CCDCA*BADBBCBBADACDDCCDBACBABCAACDDBABBCBABDDADAABCCDBABCCACDDDABBDADB*DBCACADCA",
+      "B*ACDCACDBABCDBBACDDCCBDBABACACDCABDBACBBADBADBDAABACCBDDACCDCBDDABADBA*DBCADCAC"
+    ],
+    "cadernos": [
+      {
+        "tipo": 1,
+        "cor": "Branca",
+        "pdf": "https://s.oab.org.br/arquivos/2025/04/145104f9-1301-453d-9079-3d5af4f8e60a.pdf"
+      },
+      {
+        "tipo": 2,
+        "cor": "Verde",
+        "pdf": "https://s.oab.org.br/arquivos/2025/04/a7b60f68-32b5-44a8-9fea-41d9c4f2ccbc.pdf"
+      },
+      {
+        "tipo": 3,
+        "cor": "Amarela",
+        "pdf": "https://s.oab.org.br/arquivos/2025/04/f357a8e2-04de-4c73-be4f-8bf1230fc835.pdf"
+      },
+      {
+        "tipo": 4,
+        "cor": "Azul",
+        "pdf": "https://s.oab.org.br/arquivos/2025/04/bbd4fe5e-27d3-4523-bb18-27ebe7353d3f.pdf"
+      }
+    ],
+    "gabaritoPDF": "https://s.oab.org.br/arquivos/2025/05/2d003602-840e-4ef2-9a4a-004144a35268.pdf",
+    "fonteOficial": "https://www.oab.org.br/noticia/63088/confira-o-gabarito-definitivo-e-o-resultado-preliminar-da-1-fase-do-43-eou",
+    "fonteCadernos": "https://www.oab.org.br/noticia/63060/confira-o-gabarito-preliminar-da-1-fase-do-43-exame-de-ordem",
+    "correspondencia": [
+      [
+        4,
+        6,
+        2
+      ],
+      [
+        7,
+        1,
+        6
+      ],
+      [
+        2,
+        8,
+        7
+      ],
+      [
+        6,
+        5,
+        3
+      ],
+      [
+        1,
+        4,
+        8
+      ],
+      [
+        5,
+        7,
+        1
+      ],
+      [
+        8,
+        3,
+        5
+      ],
+      [
+        3,
+        2,
+        4
+      ],
+      [
+        9,
+        10,
+        10
+      ],
+      [
+        10,
+        9,
+        9
+      ],
+      [
+        15,
+        16,
+        14
+      ],
+      [
+        13,
+        14,
+        15
+      ],
+      [
+        16,
+        11,
+        12
+      ],
+      [
+        12,
+        15,
+        11
+      ],
+      [
+        14,
+        13,
+        16
+      ],
+      [
+        11,
+        12,
+        13
+      ],
+      [
+        17,
+        18,
+        18
+      ],
+      [
+        18,
+        17,
+        17
+      ],
+      [
+        19,
+        20,
+        20
+      ],
+      [
+        20,
+        19,
+        19
+      ],
+      [
+        22,
+        21,
+        22
+      ],
+      [
+        21,
+        22,
+        21
+      ],
+      [
+        24,
+        23,
+        24
+      ],
+      [
+        23,
+        24,
+        23
+      ],
+      [
+        27,
+        26,
+        29
+      ],
+      [
+        28,
+        27,
+        25
+      ],
+      [
+        29,
+        28,
+        26
+      ],
+      [
+        25,
+        29,
+        27
+      ],
+      [
+        26,
+        25,
+        28
+      ],
+      [
+        33,
+        34,
+        32
+      ],
+      [
+        34,
+        30,
+        33
+      ],
+      [
+        30,
+        31,
+        34
+      ],
+      [
+        31,
+        32,
+        30
+      ],
+      [
+        32,
+        33,
+        31
+      ],
+      [
+        36,
+        35,
+        36
+      ],
+      [
+        35,
+        36,
+        35
+      ],
+      [
+        42,
+        39,
+        41
+      ],
+      [
+        40,
+        37,
+        42
+      ],
+      [
+        38,
+        41,
+        40
+      ],
+      [
+        39,
+        42,
+        38
+      ],
+      [
+        37,
+        40,
+        39
+      ],
+      [
+        41,
+        38,
+        37
+      ],
+      [
+        44,
+        43,
+        44
+      ],
+      [
+        43,
+        44,
+        43
+      ],
+      [
+        46,
+        46,
+        45
+      ],
+      [
+        45,
+        45,
+        46
+      ],
+      [
+        48,
+        49,
+        50
+      ],
+      [
+        49,
+        50,
+        47
+      ],
+      [
+        50,
+        47,
+        48
+      ],
+      [
+        47,
+        48,
+        49
+      ],
+      [
+        54,
+        52,
+        53
+      ],
+      [
+        55,
+        53,
+        56
+      ],
+      [
+        56,
+        51,
+        54
+      ],
+      [
+        51,
+        55,
+        52
+      ],
+      [
+        52,
+        56,
+        51
+      ],
+      [
+        53,
+        54,
+        55
+      ],
+      [
+        59,
+        58,
+        60
+      ],
+      [
+        61,
+        61,
+        57
+      ],
+      [
+        60,
+        57,
+        62
+      ],
+      [
+        62,
+        59,
+        58
+      ],
+      [
+        57,
+        62,
+        61
+      ],
+      [
+        58,
+        60,
+        59
+      ],
+      [
+        64,
+        67,
+        65
+      ],
+      [
+        68,
+        65,
+        63
+      ],
+      [
+        63,
+        68,
+        66
+      ],
+      [
+        67,
+        63,
+        64
+      ],
+      [
+        66,
+        64,
+        68
+      ],
+      [
+        65,
+        66,
+        67
+      ],
+      [
+        69,
+        70,
+        70
+      ],
+      [
+        70,
+        69,
+        69
+      ],
+      [
+        72,
+        74,
+        75
+      ],
+      [
+        75,
+        73,
+        74
+      ],
+      [
+        74,
+        75,
+        71
+      ],
+      [
+        73,
+        71,
+        72
+      ],
+      [
+        71,
+        72,
+        73
+      ],
+      [
+        77,
+        79,
+        78
+      ],
+      [
+        78,
+        76,
+        80
+      ],
+      [
+        79,
+        80,
+        76
+      ],
+      [
+        80,
+        78,
+        77
+      ],
+      [
+        76,
+        77,
+        79
+      ]
+    ],
+    "disciplinas": [],
+    "aviso": "Duas questões oficialmente anuladas por tipo: Tipo 1 Q1/Q74, Tipo 2 Q4/Q73, Tipo 3 Q6/Q71, Tipo 4 Q2/Q72. Tabela de correspondência conferida com o PDF definitivo."
   }
 };

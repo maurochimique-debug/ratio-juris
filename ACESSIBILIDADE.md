@@ -48,3 +48,7 @@ A leitura de enunciados e alternativas depende do PDF oficial em seu leitor de d
 ## Estatísticas acessíveis — 10/11/2026
 
 O card do resultado possui rótulos e valores em texto e uma mensagem com `role=status`/`aria-live=polite`. A leitura por voz do progresso/resultado foi ajustada para o **45º, 46º e 47º Exames**. Os erros e acertos são revelados somente quando o usuário corrige a prova; as respostas em branco não são erros. Homologação com leitores de tela em ambiente real ainda pendente.
+
+## Acesso aos resultados do 43º e 44º Exames (10/11/2026)
+
+A leitura por voz do progresso e das estatísticas cobre agora os exames **43º, 44º, 45º, 46º e 47º** da OAB. O 43º possui duas questões anuladas por tipo, com atribuição automática de pontos. Os textos originais continuam nos PDFs da OAB/FGV, cuja acessibilidade depende do documento e do leitor usado. Testes NVDA, TalkBack e VoiceOver com tecnologia real permanecem pendentes.
