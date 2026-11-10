@@ -1062,6 +1062,7 @@
       const ctx=obterExameParaSimulador();
       const pos=Number(numero);
       if(!ctx||!Number.isInteger(pos)||pos<1||pos>80)return false;
+      if(window.RatioPdfAcessivel?.cancelarBusca)window.RatioPdfAcessivel.cancelarBusca();
       gravarArmazenamento(chavePosicaoOficial(ctx.numero,ctx.tipo),String(pos));
       renderizarSimuladorOficial();
       document.getElementById('questaoOficialTitulo').focus();
