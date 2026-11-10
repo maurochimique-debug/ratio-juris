@@ -1,3 +1,53 @@
+# RatioJuris — Importação oficial do 44º e 43º EOU (10/11/2026)
+
+O projeto passou a registrar **cinco Exames da OAB com correção eletrônica**: 47º, 46º, 45º, 44º e 43º. Cada prova possui quatro cadernos e respectivo gabarito definitivo com 80 posições, preservado como registro histórico. Enunciados e alternativas continuam nos PDFs originais da banca, sem transcrição ou criação de perguntas fictícias.
+
+## 44º Exame
+
+- Data da prova: **17/08/2025**; gabarito definitivo publicado em **03/09/2025**
+- Gabarito definitivo no domínio oficial da OAB: https://s.oab.org.br/arquivos/2025/09/b6fb7503-e2cf-4e9b-8b0a-9b822df591fe.pdf
+- Portal oficial de divulgação: https://www.oab.org.br/util/print/63382?print=Noticia
+- Cadernos oficiais Tipos 1 a 4, respectivamente:
+  - https://s.oab.org.br/arquivos/2025/08/fda2cc49-fbbd-4893-9b75-0f61c177cd5d.pdf
+  - https://s.oab.org.br/arquivos/2025/08/5c87b5a1-5cb9-4250-9481-6ba64f818c9f.pdf
+  - https://s.oab.org.br/arquivos/2025/08/f573455a-d068-4dd0-90b7-8bb13606174d.pdf
+  - https://s.oab.org.br/arquivos/2025/08/b3b68be6-cbb9-411a-9bb7-3c06230d2b16.pdf
+
+As quatro sequências oficiais de 80 respostas foram conferidas com o PDF definitivo. **Não há anulações** no gabarito definitivo. O PDF publicado do gabarito contém apenas as quatro folhas de respostas, **sem tabela de equivalência entre questões dos cadernos**; por isso o sistema não inventa tal tabela, nem atribui disciplinas individualizadas por suposição. Cada caderno é corrigido diretamente com sua sequência oficial.
+
+## 43º Exame
+
+- Data da prova: **27/04/2025**; gabarito definitivo divulgado em **14/05/2025**
+- PDF oficial com quatro gabaritos e **tabela de correspondência** (páginas 1 e 2): https://s.oab.org.br/arquivos/2025/05/2d003602-840e-4ef2-9a4a-004144a35268.pdf
+- Portal oficial: https://www.oab.org.br/noticia/63088/confira-o-gabarito-definitivo-e-o-resultado-preliminar-da-1-fase-do-43-eou
+- Cadernos oficiais Tipos 1 a 4, respectivamente:
+  - https://s.oab.org.br/arquivos/2025/04/145104f9-1301-453d-9079-3d5af4f8e60a.pdf
+  - https://s.oab.org.br/arquivos/2025/04/a7b60f68-32b5-44a8-9fea-41d9c4f2ccbc.pdf
+  - https://s.oab.org.br/arquivos/2025/04/f357a8e2-04de-4c73-be4f-8bf1230fc835.pdf
+  - https://s.oab.org.br/arquivos/2025/04/bbd4fe5e-27d3-4523-bb18-27ebe7353d3f.pdf
+
+**Duas anulações por caderno**, conforme documento definitivo:
+
+| Tipo | Questões anuladas |
+| --- | --- |
+| 1 (Branca) | 1 e 74 |
+| 2 (Verde) | 4 e 73 |
+| 3 (Amarela) | 6 e 71 |
+| 4 (Azul) | 2 e 72 |
+
+A correspondência oficial foi registrada e confrontada por **240 comparações de gabarito entre os quatro tipos, sem divergências**. Uma questão anulada recebe pontuação automaticamente, inclusive quando ficou em branco. Essa regra também se reflete no card de estatísticas de respostas.
+
+## Controle editorial
+
+- Os resultados são históricos, **não demonstram que a legislação/jurisprudência atual confirma cada alternativa**.
+- A interface não reproduz questões de banco autoral e não cria enunciados.
+- O 42º ao 10º permanecem apenas no catálogo de páginas oficiais FGV/OAB, sem correção local.
+- **134/134 testes de lógica DOM simulada aprovados**, abrangendo cinco exames, 20 cadernos, persistência, pontuação, anulações e bloqueio de exames não importados.
+- Homologação E2E visual/navegador real e revisão com tecnologias assistivas ainda pendentes por causa da proteção SSO.
+- Próximo exame da fila: 42º, sujeito a validação de documentos oficiais.
+
+---
+
 # Atualização — 10/11/2026: estatísticas oficiais, 45º EOU e links de artigos do Planalto
 
 ## Modo Gabinete — localização do artigo escolhido
