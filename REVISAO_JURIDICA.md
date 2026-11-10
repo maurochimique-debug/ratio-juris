@@ -1,3 +1,38 @@
+# RatioJuris — 41º Exame oficial e auditoria do código original (10/11/2026)
+
+## Acervo oficial importado
+
+A plataforma passou a ter **sete edições com correção interna**: 41º, 42º, 43º, 44º, 45º, 46º e 47º EOU, cada uma com **80 questões distintas**, o que perfaz **560 questões oficiais distintas**. Os quatro tipos de caderno de um mesmo Exame contêm as mesmas questões em ordens diferentes, e por isso **não quadruplicam o total do banco**.
+
+Os Exames 40º a 10º permanecem como páginas históricas oficiais catalogadas, **sem gabaritos importados para correção na versão atual**. O número de **6.000 questões oficiais não é comprovado** pelo material integrado e não é divulgado como disponível na interface.
+
+### 41º Exame da OAB — validação documental
+
+- Prova objetiva: **28 de julho de 2024**
+- Gabarito definitivo divulgado em **14 de agosto de 2024**
+- PDF com os **quatro gabaritos definitivos e 80 linhas de correspondência**: https://s.oab.org.br/arquivos/2024/08/84fbe13b-0efb-4b50-b729-aaba9edd95e5.pdf
+- Comunicado oficial: https://www.oab.org.br/util/print/62490?print=Noticia
+- Caderno Tipo 1 (Branco): https://s.oab.org.br/arquivos/2024/07/19c7a9d4-0c6f-420c-90e2-113d66ded881.pdf
+- Caderno Tipo 2 (Verde): https://s.oab.org.br/arquivos/2024/07/df1893ce-865b-4e7f-a15f-76f21964280f.pdf
+- Caderno Tipo 3 (Amarelo): https://s.oab.org.br/arquivos/2024/07/f5c23a40-5b20-44a5-b0f4-dc44d1d67034.pdf
+- Caderno Tipo 4 (Azul): https://s.oab.org.br/arquivos/2024/07/cba6ee4b-2e34-4341-9b8d-d0c0f83cb12e.pdf
+
+As quatro sequências de **80 respostas** foram conferidas contra os gabaritos oficiais. A tabela de correspondência foi verificada por **240 comparações sem divergências**. Não há questões anuladas nos gabaritos definitivos apresentados. O simulador, o card de estatísticas e a folha de correção usam a edição correta e têm armazenamento individual por exame/caderno.
+
+## Auditoria do arquivo de código-fonte compartilhado pelo usuário
+
+O código HTML anterior fornecido para aperfeiçoamento contém a função `gerarBancoEstendido()`, que multiplica um conjunto pequeno de exemplos trocando o número do Exame e o nome da banca. Essas multiplicações **não representam questões oficiais distintas**. O arquivo também continha afirmações incorretas sobre precedentes e promessas de acessibilidade ainda não implementadas.
+
+Esse gerador artificial foi **deliberadamente excluído** da versão atual. Não foi reutilizado para ampliar o acervo, não foram criadas novas perguntas e não há representação enganosa de FGV, CEBRASPE, VUNESP ou FCC.
+
+## Revalidação
+
+**41/41 testes de lógica DOM simulados aprovados** para o 41º EOU: quatro cadernos, PDFs oficiais, correspondência, 80/80, estatísticas, navegação até a questão 80, persistência e preservação dos Exames 42º–47º. As 172 verificações funcionais e 14 verificações do leitor local de PDF da etapa anterior também permanecem registradas.
+
+Pendências: testes reais em navegador e diferentes aparelhos, autenticação sob Vercel SSO, validação de extração em PDFs com colunas, NVDA/VoiceOver/TalkBack e atualização jurídico-editorial individual. A leitura do PDF usa recurso do navegador e texto extraído do documento selecionado pelo usuário, não questionário fictício.
+
+---
+
 # RatioJuris — Correção integral do simulador oficial e do leitor acessível (10/11/2026)
 
 ## Regra de procedência — sem inventar questões
