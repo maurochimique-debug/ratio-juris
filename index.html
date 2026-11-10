@@ -523,7 +523,7 @@
       const norma=fontesLegaisPlanalto[lei];
       const art=normalizarNumeroArtigo(numero);
       if(!norma||!art)return null;
-      const label='Art. '+art+((lei==='cf'||lei==='oab')?'º':'.');
+      const label=(lei==='cf'||lei==='oab')?('Art. '+art.replace(/-([A-Z])$/,'º-$1')+(art.includes('-')?'':'º')):('Art. '+art+'.');
       return norma.url+'#:~:text='+encodeURIComponent(label);
     }
     function mostrarResultadoGabinete(titulo,descricao,links,nota){
