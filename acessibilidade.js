@@ -113,6 +113,14 @@
       $("textoLeiAutopsia")?.textContent
     ].filter(Boolean).join(". "));
   }
+  function readExamStatus(){
+    const examNumber=$("oabExamSelect")?.value||"";
+    const status=$("oabStatus")?.textContent||"";
+    const result=examNumber==="46"?$("oab46Resultado"):$("oabResultado");
+    const progress=examNumber==="46"?$("oab46Progresso"):$("oabProgresso");
+    const feedback=result && !result.classList.contains("hidden")?result.textContent:"";
+    return voiceText([status,progress?.textContent,feedback].filter(Boolean).join(". "));
+  }
   function pauseResume(){
     if(!support()){announce("Pausa de voz indisponível neste navegador.");return;}
     const s=synth();
@@ -164,7 +172,7 @@
   }
   window.RatioA11y={
     toggle, close:()=>setExpanded(false),setContrast,toggleContrast,
-    setTextScale,question,options,explanation,pauseResume,stop,fillMessage,
+    setTextScale,question,options,explanation,readExamStatus,pauseResume,stop,fillMessage,
     speakMessage,clearMessage,voiceText
   };
   document.addEventListener("DOMContentLoaded",init);
