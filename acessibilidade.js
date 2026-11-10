@@ -86,6 +86,16 @@
       return false;
     }
   }
+  function readOfficialQuestion(){
+    const title=$("questaoOficialTitulo")?.textContent||"";
+    const status=$("statusSimuladorOficial")?.textContent||"";
+    const context=$("questaoOficialContexto")?.textContent||"";
+    const response=$("feedbackQuestaoOficial")?.textContent||"";
+    if(!title)return voiceText("Nenhuma prova oficial disponível. Selecione uma edição com gabarito importado.");
+    return voiceText([title,status,context,response,
+      "Para ouvir o enunciado ORIGINAL, baixe o caderno oficial e carregue o PDF no leitor acessível abaixo. "+
+      "Após a extração, use Localizar questão atual e Ouvir texto extraído."].filter(Boolean).join(". "));
+  }
   function readExamStatus(){
     const examNumber=$("oabExamSelect")?.value||"";
     const status=$("oabStatus")?.textContent||"";
@@ -147,7 +157,7 @@
   }
   window.RatioA11y={
     toggle, close:()=>setExpanded(false),setContrast,toggleContrast,
-    setTextScale,readExamStatus,pauseResume,stop,fillMessage,
+    setTextScale,readExamStatus,readOfficialQuestion,pauseResume,stop,fillMessage,
     speakMessage,clearMessage,voiceText
   };
   document.addEventListener("DOMContentLoaded",init);
