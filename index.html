@@ -2,6 +2,7 @@
 <html lang="pt-BR" class="dark">
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="/acessibilidade.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>RATIO JURIS | OAB 47–10, quatro bancas e simulador jurídico</title>
   <!-- Tailwind CSS CDN -->
@@ -81,6 +82,7 @@
   </style>
 </head>
 <body id="appBody" class="dark min-h-screen watermark-bg-dark flex flex-col selection:bg-ratio-purple selection:text-white transition-colors duration-200">
+  <a class="a11y-skip-link" href="#simulador">Pular para o simulador jurídico</a>
 
   <!-- NAVBAR RESPONSIVA -->
   <header class="border-b border-slate-200 dark:border-ratio-borderDark bg-white/95 dark:bg-[#12161A]/95 backdrop-blur sticky top-0 z-50 transition-colors duration-200">
@@ -102,22 +104,87 @@
         <a href="#disciplinas" class="hover:text-ratio-purple transition">Todas as Disciplinas</a>
         <a href="#gabinete" class="hover:text-ratio-purple transition">Modo Gabinete</a>
         <a href="#planos" class="hover:text-ratio-purple transition text-ratio-amber font-bold">Planos & Preços</a>
-        <div class="flex flex-wrap items-center gap-2 pl-2 border-l border-slate-700">
-          <button type="button" onclick="ativarVozIA('questao')" class="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs font-bold hover:bg-emerald-500/20" title="Ouvir o enunciado com a voz do navegador"><i class="fa-solid fa-volume-high" aria-hidden="true"></i> Ouvir questão</button>
-          <button type="button" onclick="ativarVozIA('acessibilidade')" class="px-3 py-1.5 rounded-lg bg-purple-500/10 text-purple-400 border border-purple-500/30 text-xs font-bold hover:bg-purple-500/20" title="Saiba quais recursos de acessibilidade estão disponíveis"><i class="fa-solid fa-universal-access" aria-hidden="true"></i> Acessibilidade</button>
-        </div>
+
       </nav>
 
       <div class="flex items-center gap-2.5 sm:gap-3">
-        <button id="themeToggleBtn" onclick="alternarTema()" class="btn-touch p-2 sm:p-2.5 rounded-xl border border-slate-300 dark:border-ratio-borderDark bg-slate-100 dark:bg-ratio-cardDark text-slate-700 dark:text-ratio-amber hover:border-ratio-purple transition flex items-center justify-center text-base sm:text-lg shadow-sm" title="Alternar entre Modo Claro e Escuro">
+        <button id="btnAcessibilidade" type="button" aria-controls="painelAcessibilidade" aria-expanded="false" aria-label="Abrir painel de acessibilidade" title="Acessibilidade visual e comunicação alternativa" onclick="RatioA11y.toggle()" class="btn-touch p-2 sm:px-3 sm:py-2.5 rounded-xl border border-purple-500 bg-purple-100 dark:bg-purple-950/40 text-purple-800 dark:text-purple-200 hover:border-amber-500 transition font-bold text-sm inline-flex items-center gap-2">
+          <i class="fa-solid fa-universal-access text-lg" aria-hidden="true"></i>
+          <span class="hidden sm:inline">Acessibilidade</span>
+        </button>
+        <button id="themeToggleBtn" aria-label="Alternar tema claro ou escuro" onclick="alternarTema()" class="btn-touch p-2 sm:p-2.5 rounded-xl border border-slate-300 dark:border-ratio-borderDark bg-slate-100 dark:bg-ratio-cardDark text-slate-700 dark:text-ratio-amber hover:border-ratio-purple transition flex items-center justify-center text-base sm:text-lg shadow-sm" title="Alternar entre Modo Claro e Escuro">
           <i id="themeIcon" class="fa-solid fa-moon"></i>
         </button>
-        <a href="#simulador" class="btn-touch px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg bg-gradient-to-r from-ratio-purpleDeep to-ratio-purple text-white text-xs sm:text-sm font-bold shadow-lg hover:opacity-90 transition">
+        <a href="#simulador" class="hidden sm:inline-flex btn-touch px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg bg-gradient-to-r from-ratio-purpleDeep to-ratio-purple text-white text-xs sm:text-sm font-bold shadow-lg hover:opacity-90 transition">
           Treinar Agora
         </a>
       </div>
     </div>
   </header>
+
+  <!-- PAINEL DE ACESSIBILIDADE — disponível também no celular -->
+  <section id="painelAcessibilidade" class="a11y-panel hidden border-b border-purple-500/50 bg-purple-50 dark:bg-[#171320] p-4 sm:p-7" role="region" aria-labelledby="a11yTitulo" tabindex="-1">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex flex-wrap justify-between items-center gap-3 mb-5">
+        <div>
+          <p class="text-sm font-bold text-purple-700 dark:text-purple-300">Inclusão e autonomia</p>
+          <h2 id="a11yTitulo" class="text-2xl font-bold text-slate-900 dark:text-white">Painel de acessibilidade</h2>
+        </div>
+        <button type="button" onclick="RatioA11y.close()" class="px-4 py-2 rounded-lg border-2 border-purple-600 text-purple-800 dark:text-purple-300 font-bold">Fechar painel (Esc)</button>
+      </div>
+      <p class="mb-5 text-sm text-slate-700 dark:text-slate-200">Todos os comandos funcionam com teclado ou toque. A leitura utiliza a voz disponível no navegador, não um professor de IA. Nenhuma mensagem escrita abaixo é enviada ao servidor.</p>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <article class="rounded-2xl border border-purple-300 dark:border-purple-700 bg-white dark:bg-ratio-cardDark p-5" aria-labelledby="a11yVisualTitulo">
+          <h3 id="a11yVisualTitulo" class="text-xl font-bold text-slate-900 dark:text-white"><i class="fa-solid fa-eye-low-vision mr-2" aria-hidden="true"></i> Acessibilidade visual e auditiva</h3>
+          <p class="text-sm text-slate-600 dark:text-slate-300 mt-2">Amplie a leitura, use alto contraste ou ouça o enunciado, as alternativas e o comentário após responder.</p>
+          <div class="flex flex-wrap items-center gap-3 mt-5">
+            <button id="a11yContrastBtn" type="button" aria-pressed="false" onclick="RatioA11y.toggleContrast()" class="px-4 py-2 rounded-lg border-2 border-purple-600 text-purple-800 dark:text-purple-200 font-bold">Alto contraste</button>
+            <label for="a11yFontSelect" class="text-sm font-bold text-slate-900 dark:text-white">Tamanho do texto</label>
+            <select id="a11yFontSelect" onchange="RatioA11y.setTextScale(this.value)" class="rounded-lg border-2 border-slate-400 dark:border-purple-600 bg-white dark:bg-[#12161A] text-slate-900 dark:text-white px-3 py-2">
+              <option value="100">Normal — 100%</option>
+              <option value="125">Grande — 125%</option>
+              <option value="150">Muito grande — 150%</option>
+            </select>
+          </div>
+          <div class="mt-5 flex flex-wrap gap-2">
+            <button type="button" onclick="RatioA11y.question()" class="px-4 py-2 rounded-lg bg-purple-700 text-white font-semibold">Ouvir enunciado</button>
+            <button type="button" onclick="RatioA11y.options()" class="px-4 py-2 rounded-lg bg-purple-700 text-white font-semibold">Ouvir alternativas</button>
+            <button type="button" onclick="RatioA11y.explanation()" class="px-4 py-2 rounded-lg bg-purple-700 text-white font-semibold">Ouvir explicação</button>
+          </div>
+          <div class="mt-3 flex flex-wrap gap-2 items-center">
+            <button type="button" onclick="RatioA11y.pauseResume()" class="px-4 py-2 rounded-lg border-2 border-slate-400 dark:border-slate-400 text-slate-800 dark:text-white font-semibold">Pausar / continuar</button>
+            <button type="button" onclick="RatioA11y.stop()" class="px-4 py-2 rounded-lg border-2 border-slate-400 dark:border-slate-400 text-slate-800 dark:text-white font-semibold">Parar voz</button>
+            <label for="a11ySpeechRate" class="text-sm font-bold text-slate-900 dark:text-white">Velocidade</label>
+            <select id="a11ySpeechRate" class="rounded-lg border-2 border-slate-400 dark:border-purple-600 bg-white dark:bg-[#12161A] text-slate-900 dark:text-white px-3 py-2">
+              <option value="0.85">Mais lenta</option>
+              <option value="1" selected>Normal</option>
+              <option value="1.15">Mais rápida</option>
+            </select>
+          </div>
+          <p id="a11yVoiceAvailability" class="text-xs text-slate-600 dark:text-slate-300 mt-4" role="status">Verificando disponibilidade de leitura no dispositivo.</p>
+        </article>
+        <article class="rounded-2xl border border-purple-300 dark:border-purple-700 bg-white dark:bg-ratio-cardDark p-5" aria-labelledby="a11yComunicacaoTitulo">
+          <h3 id="a11yComunicacaoTitulo" class="text-xl font-bold text-slate-900 dark:text-white"><i class="fa-solid fa-keyboard mr-2" aria-hidden="true"></i> Comunicação alternativa (sem precisar falar)</h3>
+          <p class="text-sm text-slate-600 dark:text-slate-300 mt-2">Para usuários com deficiência de fala ou dificuldade de comunicação oral: escreva uma mensagem ou escolha uma frase pronta. Ela pode permanecer na tela ou ser reproduzida por voz, por sua escolha.</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-5">
+            <button type="button" onclick="RatioA11y.fillMessage('Preciso de ajuda para usar esta página.')" class="px-3 py-2 rounded-lg border-2 border-purple-500 text-purple-800 dark:text-purple-200 font-semibold text-sm">Preciso de ajuda</button>
+            <button type="button" onclick="RatioA11y.fillMessage('Pode repetir a pergunta, por favor?')" class="px-3 py-2 rounded-lg border-2 border-purple-500 text-purple-800 dark:text-purple-200 font-semibold text-sm">Pode repetir?</button>
+            <button type="button" onclick="RatioA11y.fillMessage('Quero responder por escrito.')" class="px-3 py-2 rounded-lg border-2 border-purple-500 text-purple-800 dark:text-purple-200 font-semibold text-sm">Responder por escrito</button>
+            <button type="button" onclick="RatioA11y.fillMessage('Preciso de mais tempo para responder.')" class="px-3 py-2 rounded-lg border-2 border-purple-500 text-purple-800 dark:text-purple-200 font-semibold text-sm">Preciso de mais tempo</button>
+          </div>
+          <label for="a11yMessage" class="block mt-4 mb-2 text-sm font-bold text-slate-900 dark:text-white">Sua mensagem</label>
+          <textarea id="a11yMessage" rows="3" maxlength="600" class="w-full rounded-lg border-2 border-slate-400 dark:border-purple-600 bg-white dark:bg-[#12161A] text-slate-900 dark:text-white p-3 text-base" placeholder="Digite a mensagem para mostrar ou reproduzir em voz alta."></textarea>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <button type="button" onclick="RatioA11y.speakMessage()" class="px-4 py-2 rounded-lg bg-purple-700 text-white font-bold">Falar mensagem</button>
+            <button type="button" onclick="RatioA11y.clearMessage()" class="px-4 py-2 rounded-lg border-2 border-slate-400 text-slate-800 dark:text-white font-semibold">Limpar mensagem</button>
+          </div>
+          <p class="mt-3 text-xs text-slate-600 dark:text-slate-300">Nenhum áudio é iniciado automaticamente. Se a voz estiver indisponível, o campo escrito continua funcionando como apoio à comunicação.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+  <div id="a11yStatus" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+
 
   <!-- HERO SECTION -->
   <section class="py-12 sm:py-18 lg:py-22 border-b border-slate-200 dark:border-ratio-borderDark relative overflow-hidden">
@@ -316,7 +383,7 @@
 
         <!-- ENUNCIADO -->
         <div class="mb-8">
-          <p class="text-slate-900 dark:text-slate-100 text-base sm:text-lg lg:text-xl leading-relaxed font-medium" id="enunciadoTexto"></p>
+          <p class="text-slate-900 dark:text-slate-100 text-base sm:text-lg lg:text-xl leading-relaxed font-medium" id="enunciadoTexto" tabindex="-1" aria-live="polite"></p>
         </div>
 
         <!-- CONTAINER DE ALTERNATIVAS -->
@@ -328,7 +395,7 @@
             <span class="text-xs sm:text-sm font-mono uppercase tracking-wider font-bold text-ratio-purple flex items-center gap-2">
               <i class="fa-solid fa-microscope"></i> Explicação Jurídica da Resposta
             </span>
-            <span id="badgeResultado" class="text-xs sm:text-sm font-bold px-3 py-1 rounded-full"></span>
+            <span id="badgeResultado" role="status" aria-live="polite" class="text-xs sm:text-sm font-bold px-3 py-1 rounded-full"></span>
           </div>
           <div class="p-4 rounded-lg bg-slate-50 dark:bg-ratio-cardDark border border-slate-200 dark:border-ratio-borderDark text-sm sm:text-base mb-4">
             <span class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 block mb-1.5 font-mono font-bold" id="artigoReferencia"></span>
@@ -925,6 +992,7 @@
         texto.className='leading-relaxed';
         texto.textContent=op.texto;
         btn.append(letra,texto);
+        btn.setAttribute('aria-label','Alternativa '+op.letra+': '+op.texto);
         btn.addEventListener('click',function(){selecionarAlternativa(op,btn);});
         container.appendChild(btn);
       });
@@ -1283,5 +1351,6 @@
       renderizarMaterias(); atualizarPlacar(); proximaQuestaoAleatoria(); iniciarArquivoOAB();
     });
   </script>
+  <script src="/acessibilidade.js"></script>
 </body>
 </html>
