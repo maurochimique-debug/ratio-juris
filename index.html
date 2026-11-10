@@ -200,7 +200,7 @@
         </span>
       </h1>
       <p class="max-w-3xl mx-auto text-slate-600 dark:text-slate-300 text-base sm:text-lg lg:text-xl mb-10 leading-relaxed font-normal">
-        O Super Simulador oferece 66 questões autorais distintas: 54 no estilo FGV e 4 em cada uma das bancas CEBRASPE, VUNESP e FCC, sem repetição automática. Em módulo separado, consulte o catálogo do 47º ao 10º Exame da OAB e corrija o 47º ou 46º usando os gabaritos oficiais definitivos dos quatro cadernos de cada prova. Os comentários individuais do 46º ainda não foram incorporados. Confira sempre a legislação vigente.
+        O Super Simulador oferece 66 questões autorais distintas: 54 no estilo FGV e 4 em cada uma das bancas CEBRASPE, VUNESP e FCC, sem repetição automática. Em módulo separado, consulte o catálogo do 47º ao 10º Exame da OAB e corrija o 47º ou 46º usando os gabaritos oficiais definitivos dos quatro cadernos de cada prova. Vinte questões do 46º já possuem comentários jurídicos; as demais estão em revisão. Confira sempre a legislação vigente.
       </p>
       <div class="flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4">
         <a href="#oab-arquivo" class="btn-touch w-full sm:w-auto px-7 sm:px-8 py-3.5 sm:py-4 rounded-xl bg-ratio-purpleDeep hover:bg-purple-700 text-white font-bold text-sm sm:text-base shadow-xl shadow-purple-950/40 transition flex items-center justify-center gap-3">
@@ -272,14 +272,18 @@
         </div>
         <div id="oab46Bloco" class="hidden mt-4" aria-label="Folha oficial do 46º Exame da OAB">
           <div class="p-4 mb-5 rounded-xl border border-amber-500/40 bg-amber-50 dark:bg-amber-950/30">
-            <p class="font-bold text-sm text-amber-900 dark:text-amber-300">46º Exame — gabarito definitivo oficial, sem comentários individuais</p>
-            <p class="text-xs sm:text-sm text-amber-950 dark:text-slate-200 mt-2">Leia o caderno PDF do tipo selecionado acima. Marque suas 80 respostas nesta folha e clique em corrigir. A correção usa apenas o gabarito definitivo publicado em 20/05/2026; não é uma análise da legislação vigente e não reproduz os enunciados integrais da FGV.</p>
+            <p class="font-bold text-sm text-amber-900 dark:text-amber-300">46º Exame — gabarito definitivo e 20 questões com comentários jurídicos</p>
+            <p class="text-xs sm:text-sm text-amber-950 dark:text-slate-200 mt-2">Leia o caderno PDF oficial e marque suas respostas. A correção usa o gabarito definitivo de 20/05/2026. As questões 1 a 20 do Tipo 1 (com equivalentes nos outros tipos) possuem comentários jurídicos individuais com fontes consultadas em 10/11/2026. As demais aguardam revisão. Os enunciados integrais permanecem nos PDFs da OAB.</p>
           </div>
           <div class="flex flex-wrap items-center gap-3 mb-4">
             <button type="button" onclick="corrigirFolha46()" class="px-5 py-3 rounded-lg bg-emerald-700 text-white font-bold text-sm">Corrigir o 46º Exame</button>
             <button type="button" onclick="limparFolha46()" class="px-5 py-3 rounded-lg border border-slate-400 text-slate-900 dark:text-white font-bold text-sm">Limpar respostas deste caderno</button>
             <span id="oab46Progresso" class="text-sm font-semibold text-slate-700 dark:text-slate-200" aria-live="polite"></span>
           </div>
+          <label class="flex items-center gap-2 text-sm font-semibold text-slate-800 dark:text-slate-200 mb-4">
+            <input type="checkbox" id="oab46SomenteComentadas" onchange="desenharFolha46(false)" class="accent-purple-600 w-4 h-4"/>
+            Mostrar somente as 20 questões já comentadas (20/80)
+          </label>
           <div id="oab46Resultado" class="hidden mb-5 p-4 rounded-xl border border-purple-500 bg-purple-50 dark:bg-purple-950/40 text-slate-900 dark:text-white" role="status" aria-live="polite"></div>
           <div id="oab46Folha" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"></div>
           <p class="mt-5 text-xs text-slate-600 dark:text-slate-400">O 46º Exame não teve questões anuladas no gabarito definitivo consultado. O histórico de respostas é salvo neste navegador por exame e tipo de caderno, separadamente do 47º. Consulte as referências legislativas e jurisprudenciais atualizadas antes de utilizar o resultado como estudo de direito vigente.</p>
@@ -558,6 +562,7 @@
 
   <script src="/oab-data.js"></script>
   <script src="/oab47-comentarios.js"></script>
+  <script src="/oab46-comentarios.js"></script>
   <script src="/questoes-autorais-2026.js"></script>
   <!-- Lógica de treinamento autoral, catálogo oficial e correção por caderno -->
   <script>
@@ -1117,6 +1122,16 @@
     function salvarRespostas46(tipo,respostas) {
       gravarArmazenamento('ratio_oab46_tipo'+tipo,JSON.stringify(respostas));
     }
+    function comentarioOAB46(tipo,numero) {
+      const notas=window.RATIO_COMENTARIOS_OAB46;
+      const prova=fonte46();
+      if(!notas||!Array.isArray(notas.questoes))return null;
+      const original=tipo===1?numero:prova.correspondencia.findIndex(x=>x[tipo-2]===numero)+1;
+      if(original<1)return null;
+      const item=notas.questoes.find(q=>q.numeroTipo1===original);
+      if(!item||item.respostaHistorica!==prova.gabaritos[tipo-1][numero-1])return null;
+      return item;
+    }
     function materia46(tipo,n) {
       const prova=fonte46();
       const original=tipo===1?n:prova.correspondencia.findIndex(x=>x[tipo-2]===n)+1;
@@ -1135,7 +1150,10 @@
       target.replaceChildren();
       const result=document.getElementById('oab46Resultado');
       if(!revelar){result.classList.add('hidden');result.textContent='';}
+      const comentadas=Boolean(document.getElementById('oab46SomenteComentadas').checked);
       for(let i=0;i<80;i++){
+        const comentario=comentarioOAB46(tipo,i+1);
+        if(comentadas&&!comentario)continue;
         const card=document.createElement('div');
         card.className='rounded-xl border border-slate-300 dark:border-ratio-borderDark p-3 bg-slate-50 dark:bg-[#12161A] text-sm';
         const heading=document.createElement('div');
@@ -1161,11 +1179,60 @@
           result.classList.add('hidden');
         });
         card.append(heading,disciplina,select);
+        if(comentario){
+          const tema=document.createElement('p');
+          tema.className='text-xs text-purple-700 dark:text-purple-300 font-semibold mt-2';
+          tema.textContent='Tema comentado: '+comentario.tema;
+          card.appendChild(tema);
+        }
         if(revelar) {
           const feedback=document.createElement('p');
           feedback.className='mt-2 text-xs font-bold '+(respostas[i]===gabarito[i]?'text-emerald-600 dark:text-emerald-400':'text-red-600 dark:text-red-400');
           feedback.textContent='Gabarito definitivo: '+gabarito[i]+(respostas[i]===gabarito[i]?' ✓':' • confira sua resposta');
           card.appendChild(feedback);
+          if(comentario){
+            const details=document.createElement('details');
+            details.className='mt-3 p-3 rounded-lg border border-purple-300 dark:border-purple-700 bg-white dark:bg-ratio-cardDark';
+            const summary=document.createElement('summary');
+            summary.className='font-bold text-sm cursor-pointer text-purple-800 dark:text-purple-300';
+            summary.textContent=comentario.natureza==='DOUTRINARIA'?'Comentário doutrinário e fonte':'Comentário jurídico e legislação de referência';
+            details.appendChild(summary);
+            const blocos=[
+              ['Dispositivo ou doutrina',comentario.dispositivo],
+              ['Fundamento do gabarito',comentario.fundamentacao],
+              ['Atenção à legislação e à jurisprudência',comentario.observacoes],
+              ['Revisão', 'Referências consultadas em 10/11/2026; não significa auditoria jurisprudencial exaustiva.']
+            ];
+            blocos.forEach(function(partes){
+              const texto=document.createElement('p');
+              texto.className='mt-2 text-xs text-slate-700 dark:text-slate-200 leading-relaxed';
+              texto.textContent=partes[0]+': '+partes[1];
+              details.appendChild(texto);
+            });
+            const fonte=document.createElement('a');
+            fonte.href=comentario.fonteLegal||comentario.fonteCaderno;
+            fonte.target='_blank';fonte.rel='noopener noreferrer';
+            fonte.className='block mt-3 underline text-purple-800 dark:text-purple-300 text-xs font-bold';
+            fonte.textContent=comentario.natureza==='DOUTRINARIA'?'Ver enunciado e referência doutrinária no PDF oficial':'Consultar legislação ou documento jurídico de referência';
+            details.appendChild(fonte);
+            (comentario.precedentesValidados||[]).forEach(function(ref){
+              const descricao=document.createElement('p');
+              descricao.className='mt-2 text-xs text-slate-700 dark:text-slate-200';
+              descricao.textContent=ref.tribunal+' — '+ref.processo+': '+ref.contexto;
+              details.appendChild(descricao);
+              const url=document.createElement('a');
+              url.href=ref.url;url.target='_blank';url.rel='noopener noreferrer';
+              url.className='block underline text-purple-800 dark:text-purple-300 text-xs';
+              url.textContent='Ver referência jurisprudencial';
+              details.appendChild(url);
+            });
+            card.appendChild(details);
+          }else{
+            const aviso=document.createElement('p');
+            aviso.className='mt-2 text-xs text-amber-700 dark:text-amber-300';
+            aviso.textContent='Comentário individual ainda não revisado. O gabarito é histórico.';
+            card.appendChild(aviso);
+          }
         }
         target.appendChild(card);
       }
