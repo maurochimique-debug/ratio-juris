@@ -222,7 +222,7 @@
  function renderizarTextoQuestao(numero,pagina,trecho,opcoes={}){
    const n=Number(numero);
    const chaveDocumento=$("oabExamSelect")?.value+"-"+$("oabTipoSelect")?.value;
-   if(!trecho||identidadeDocumento!==chaveDocumento||
+   if(!trecho||(identidadeDocumento!==chaveDocumento&&identidadeDocumento!=="arquivo-local")||
       Number($("questaoOficialNumeroSelect")?.value)!==n)return false;
    const selectorPagina=$("pdfPaginaSelect");
    if(selectorPagina)selectorPagina.value=String(pagina);
@@ -253,7 +253,7 @@
    const chaveDocumento=$("oabExamSelect")?.value+"-"+$("oabTipoSelect")?.value;
    const chaveQuestao=chaveDocumento+"-"+n;
    const memorizada=cacheQuestoes.get(chaveQuestao);
-   if(memorizada && identidadeDocumento===chaveDocumento){
+   if(memorizada && (identidadeDocumento===chaveDocumento||identidadeDocumento==="arquivo-local")){
      const ok=renderizarTextoQuestao(n,memorizada.pagina,memorizada.trecho,opcoes);
      if(ok){
        avisar("Questão "+n+" recuperada do PDF oficial já consultado nesta sessão.");
@@ -264,7 +264,7 @@
    for(let pageNo=1;pageNo<=documento.numPages;pageNo++){
      try{
        const full=await textoPagina(pageNo);
-       if(token!==buscaAtual||identidadeDocumento!==chaveDocumento||
+       if(token!==buscaAtual||(identidadeDocumento!==chaveDocumento&&identidadeDocumento!=="arquivo-local")||
           Number($("questaoOficialNumeroSelect")?.value)!==n)return false;
        const excerpt=extrairTrechoQuestao(full,n);
        if(excerpt){
@@ -278,7 +278,7 @@
      }catch(_){}
    }
    const preview=$("textoQuestaoDentroSimulador");
-   if(preview && token===buscaAtual && identidadeDocumento===chaveDocumento){
+   if(preview && token===buscaAtual && (identidadeDocumento===chaveDocumento||identidadeDocumento==="arquivo-local")){
      preview.textContent="Não foi possível identificar com segurança o enunciado da questão "+n+
        " neste PDF. Use o link de consulta opcional; não exibimos enunciados ou alternativas inventados.";
    }
