@@ -194,7 +194,7 @@
    candidate=candidate.trim();
    return candidate.length>=30?candidate:null;
  }
- async function localizarQuestao(){
+ async function localizarQuestao(opcoes={}){
    const token=++buscaAtual;
    if(!documento){avisar("Carregue o PDF original da prova para localizar a questão.");return false;}
    const n=Number($("questaoOficialNumeroSelect")?.value||1);
@@ -213,7 +213,7 @@
          if(preview){
            preview._ratioQuestaoAnterior=$("oabExamSelect")?.value+"-"+$("oabTipoSelect")?.value+"-"+n;
            preview.textContent=excerpt;
-           preview.focus();
+           if(opcoes.foco!==false)preview.focus();
          }else $("pdfTextoExtraido").focus();
          avisar("Possível localização da questão "+n+" na página "+pageNo+
            ". Confira o enunciado e as alternativas com o PDF original; a extração de colunas pode alterar a ordem.");
@@ -225,7 +225,7 @@
      "Use o seletor de páginas do PDF; a numeração pode não ser extraível na diagramação original.");
    return false;
  }
- async function estudarQuestaoAtual(){
+ async function estudarQuestaoAtual(opcoes={}){
    const exame=$("oabExamSelect")?.value,tipo=$("oabTipoSelect")?.value;
    if(!/^\d{2}$/.test(exame||"")||! /^[1-4]$/.test(tipo||"")){
      avisar("Selecione um exame oficial e o caderno primeiro.");return false;
@@ -236,7 +236,7 @@
      const loaded=await carregarOficial();
      if(!loaded)return false;
    }
-   return localizarQuestao();
+   return localizarQuestao(opcoes);
  }
  function ouvirTrecho(){
    if(!trechoAtual){avisar("Não existe texto extraído para ler.");return false;}
