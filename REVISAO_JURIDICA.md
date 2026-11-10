@@ -1,3 +1,17 @@
+## Acessibilidade visual e comunicação alternativa — 10/11/2026
+
+O RatioJuris passou a disponibilizar um botão Acessibilidade no cabeçalho, inclusive em telas móveis. O painel oferece ajuste de fonte (100, 125, 150%), alto contraste, foco por teclado, salto para simulador, leitura nativa por voz do enunciado, alternativas, explicação e progresso/resultados dos Exames OAB 46º e 47º.
+
+Para pessoas com dificuldade de fala, disponibiliza campo escrito e frases prontas com reprodução vocal opcional. Texto não é transmitido a backend e áudio não inicia automaticamente. Preferências de texto e contraste ficam locais no navegador.
+
+Os controles foram testados em **25 cenários DOM simulados**. Isso não representa certificação WCAG 2.2 AA; requer testes com NVDA, VoiceOver, TalkBack, zoom de 200%, contraste e navegação por teclado em dispositivos reais.
+
+A leitura do enunciado integral das provas oficiais da OAB depende de seus PDFs originais: o site não republica o texto integral. Recursos de voz dependem do suporte do navegador e vozes instaladas. A proteção SSO da Vercel permanece em vigor.
+
+Consulte `ACESSIBILIDADE.md` para documentação dos controles e limitações.
+
+---
+
 ## Atualização de 10/11/2026 — 46º EOU corrigível e banco autoral sem repetição
 
 ### 46º Exame de Ordem — fontes oficiais
