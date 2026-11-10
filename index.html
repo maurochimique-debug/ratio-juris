@@ -337,7 +337,7 @@
               <button type="button" onclick="responderQuestaoOficial('D')" class="btn-touch rounded-xl px-5 py-3 border-2 border-purple-500 text-purple-800 dark:text-purple-300 font-black text-left whitespace-normal">D</button>
             </div>
             <button id="btnConferirQuestaoOficial" type="button" onclick="conferirQuestaoOficial()" class="hidden mt-4 px-5 py-3 rounded-lg border-2 border-amber-600 bg-amber-50 dark:bg-[#2b2318] text-amber-950 dark:text-amber-200 font-bold text-sm">Conferir esta questão e ver fundamento jurídico</button>
-            <p id="feedbackQuestaoOficial" class="text-sm font-semibold text-slate-800 dark:text-slate-200 mt-4" role="status" aria-live="polite">Selecione A, B, C ou D após ler a questão oficial.</p>
+            <p id="feedbackQuestaoOficial" tabindex="-1" class="text-base font-bold text-slate-800 dark:text-slate-200 mt-4 p-3 rounded-lg border border-slate-300 dark:border-slate-600" role="status" aria-live="polite">Selecione A, B, C ou D após ler a questão oficial.</p>
             <aside id="fundamentacaoErroOficial" class="hidden mt-5 rounded-xl border-2 border-amber-500 bg-amber-50 dark:bg-[#252016] p-4 sm:p-5" role="region" aria-labelledby="tituloFundamentacaoErro">
               <h5 id="tituloFundamentacaoErro" class="text-base font-black text-amber-950 dark:text-amber-200">Entenda o fundamento da questão</h5>
               <p id="referenciaFundamentacaoErro" class="mt-2 text-sm font-bold text-slate-900 dark:text-white"></p>
@@ -353,7 +353,8 @@
             <button id="btnQuestaoAnterior" type="button" onclick="moverQuestaoOficial(-1)" class="btn-touch px-5 py-3 rounded-lg border-2 border-purple-500 text-purple-800 dark:text-purple-300 font-semibold">Questão anterior</button>
             <button id="btnQuestaoProxima" type="button" onclick="moverQuestaoOficial(1)" class="btn-touch px-5 py-3 rounded-lg bg-purple-700 text-white font-semibold">Próxima questão</button>
             <button type="button" onclick="corrigirSimuladorOficial()" class="btn-touch px-5 py-3 rounded-lg bg-emerald-700 text-white font-bold">Corrigir minha prova</button>
-            <button type="button" onclick="RatioA11y.readOfficialQuestion()" class="btn-touch px-4 py-3 rounded-lg border-2 border-purple-600 text-purple-800 dark:text-purple-300 font-semibold">Ouvir orientação e resposta</button>
+            <button id="btnLerQuestao" type="button" onclick="RatioA11y.readOfficialQuestion()" aria-pressed="false" class="btn-touch px-4 py-3 rounded-lg border-2 border-purple-600 text-purple-800 dark:text-purple-300 font-semibold">Iniciar leitura</button>
+            <button id="btnPararQuestao" type="button" onclick="RatioA11y.stop()" disabled class="btn-touch px-4 py-3 rounded-lg border-2 border-rose-600 text-rose-700 dark:text-rose-300 font-semibold">Parar leitura</button>
           </div>
           <p class="text-xs text-slate-600 dark:text-slate-300 mt-4">O histórico é salvo por exame e tipo de caderno neste navegador. Ao atingir a questão 80, a sequência termina sem repetir perguntas automaticamente. No PC, com o foco no simulador, use Alt + seta esquerda ou direita para navegar entre questões.</p>
         </div>
@@ -1041,6 +1042,7 @@
       botaoConferir.disabled=anulada||!escolha;
       botaoConferir.setAttribute('aria-disabled',botaoConferir.disabled?'true':'false');
       const feedback=document.getElementById('feedbackQuestaoOficial');
+      feedback.classList.remove('bg-emerald-50','dark:bg-emerald-950/40','border-emerald-600','bg-rose-50','dark:bg-rose-950/40','border-rose-600');
       if(anulada){
         feedback.textContent='ANULADA no gabarito definitivo. Ponto automático, sem exigir resposta.';
       }else if(!escolha){
@@ -1048,8 +1050,10 @@
       }else if(!revelar){
         feedback.textContent='Alternativa '+escolha+' registrada. Escolha “Conferir esta questão” para ver seu resultado e a fundamentação disponível, ou corrija toda a prova.';
       }else{
-        feedback.textContent=(escolha===gabarito?'CERTO — resposta correta.':'ERRADO — confira a fundamentação abaixo.')+
-          ' Sua alternativa: '+escolha+'. Gabarito oficial histórico: '+gabarito+'.';
+        const correto=escolha===gabarito;
+        feedback.textContent=(correto?'✓ CERTO! Você acertou a questão.':'✕ ERRADO. Confira a fundamentação abaixo.')+
+          ' Sua alternativa: '+escolha+'. Resposta oficial: '+gabarito+'.';
+        feedback.classList.add(correto?'bg-emerald-50':'bg-rose-50',correto?'dark:bg-emerald-950/40':'dark:bg-rose-950/40',correto?'border-emerald-600':'border-rose-600');
       }
       atualizarFundamentacaoErroOficial(ctx,pos,escolha,gabarito,revelar);
       const anterior=document.getElementById('btnQuestaoAnterior');
@@ -1066,6 +1070,7 @@
       const pos=Number(numero);
       if(!ctx||!Number.isInteger(pos)||pos<1||pos>80)return false;
       if(window.RatioPdfAcessivel?.cancelarBusca)window.RatioPdfAcessivel.cancelarBusca();
+      if(window.RatioA11y?.stop)window.RatioA11y.stop();
       gravarArmazenamento(chavePosicaoOficial(ctx.numero,ctx.tipo),String(pos));
       renderizarSimuladorOficial();
       document.getElementById('questaoOficialTitulo').focus();
@@ -1093,6 +1098,8 @@
       if(ctx.numero===47)desenharFolha47(false);
       else desenharFolha46(false);
       renderizarSimuladorOficial();
+      const resultado=document.getElementById('feedbackQuestaoOficial');
+      resultado.scrollIntoView({block:'nearest',behavior:'auto'});
       return true;
     }
     function corrigirSimuladorOficial() {
