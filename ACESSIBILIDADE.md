@@ -1,3 +1,17 @@
+# Estudo da prova oficial dentro do RatioJuris — 10/11/2026
+
+A plataforma passou a exibir o **PDF original da FGV/OAB dentro do próprio simulador**, sem obrigar o aluno a baixar o arquivo ou alternar de janela. O iframe usa o endpoint `/api/oab-pdf?exame=NN&tipo=N`, que aceita **somente a lista fechada de 32 cadernos oficiais previamente identificados** (40º–47º Exames, quatro cores por edição).
+
+**Acessibilidade adicional:** o botão **"Mostrar enunciado e alternativas originais aqui, em texto"** carrega sob demanda o mesmo PDF oficial da OAB pelo endpoint interno e usa a biblioteca Mozilla PDF.js para localizar aproximadamente a questão numerada e apresentar o texto extraído como elemento selecionável e legível por leitor de tela. Um botão de voz também permite ouvir o texto. A pessoa continua podendo carregar um PDF salvo no dispositivo se preferir.
+
+O **arquivo original é transmitido pelo servidor Vercel, sem armazenamento permanente** no RatioJuris. O aluno não precisa enviá-lo. O visualizador sempre mantém **"Abrir na OAB"** como alternativa. O gabarito fica em um painel opcional separado, para não exibir respostas antes do momento desejado.
+
+**Limites rigorosos:** o HTML da prova não é reescrito artificialmente; a extração depende da camada textual do PDF e pode perder ordem em páginas com colunas, tabelas ou imagens. Não há OCR, criação de enunciados alternativos nem indexação editorial completa. Documentos OAB são de terceiros e a interface indica claramente a procedência. Um navegador que não permita exibir PDF em iframe pode usar a leitura acessível ou o link externo.
+
+A biblioteca PDF.js é carregada da CDN e requer conexão; a transmissão dos documentos também depende do funcionamento do servidor OAB e da função de proxy. A experiência continua sujeita a homologação com VoiceOver, TalkBack, NVDA e navegadores reais em desktops e celulares.
+
+---
+
 ## 40º EOU — navegação acessível e pontuação (10/11/2026)
 
 O 40º Exame fica disponível no simulador oficial com navegação por questões, marcação de respostas e leitura do resultado por voz. **Duas questões anuladas por caderno** rendem pontuação automática: Tipo 1 Q5/Q46; Tipo 2 Q7/Q45; Tipo 3 Q6/Q45; Tipo 4 Q2/Q46. O link para o comunicado de anulação de maio aparece ao lado do PDF de gabarito definitivo de abril. O leitor local de PDF mantém suas limitações técnicas já documentadas.
