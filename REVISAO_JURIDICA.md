@@ -1,3 +1,28 @@
+# Política obrigatória de questões oficiais — 10 de novembro de 2026
+
+A pedido do responsável pelo RatioJuris, **somente questões comprovadamente pertencentes a provas de bancas examinadoras** poderão integrar a plataforma. É **proibido** criar questões autorais, sintéticas, reformuladas ou atribuídas ficticiamente a FGV, CEBRASPE, VUNESP ou FCC como se fossem provas dessas organizações.
+
+## Correção executada
+
+- **Removido da interface e do repositório:** o Super Simulador de 66 questões autorais e seu arquivo `questoes-autorais-2026.js`, incluindo todo o mecanismo de sorteio e armazenamento de histórico dessas questões.
+- **Mantidos:** o catálogo de 38 Exames da OAB (47º ao 10º), gabaritos definitivos e folhas eletrônicas de correção para **46º e 47º**, com 80 posições e quatro cadernos cada, a documentação de comentários do 47º e o Modo Gabinete.
+- **FGV/OAB:** 46º e 47º possuem suporte de correção com caderno PDF original e gabarito definitivo. Edições **45º a 10º** continuam apenas como links no catálogo, sem banco de correção local na versão de produção desta alteração.
+- **CEBRASPE, VUNESP e FCC:** aparecem como **em preparação**, sem qualquer questão exibida como oficial ou interativa antes da importação de fontes verdadeiras.
+- **Acessibilidade:** suporte a contraste, zoom, teclado, leitura por voz de progresso/resultados e comunicação alternativa preservados. Como os enunciados integrais não estão no HTML, a leitura deles depende do PDF oficial e de sua acessibilidade intrínseca.
+- **Integridade:** o texto de apresentação fornecido pelo usuário foi preservado integralmente, sem alteração.
+
+## Requisitos mínimos antes de importar cada questão
+
+Para incorporar **qualquer** questão de banca, exigir prova real e identificável (banca, edital/cargo, ano, caderno, questão, PDF original ou URL oficial), gabarito oficial definitivo (incluindo retificações/anulações), referência jurídica atual com data de conferência e controle de direitos de reprodução do enunciado. Na ausência de permissão de reprodução, apresentar **link para o PDF oficial e folha eletrônica de respostas** em vez de copiar o texto da questão.
+
+O banco deve manter separados **gabarito histórico** e **comentário editorial sobre legislação/jurisprudência atual**, não alterar o histórico por modificações posteriores e nunca inventar alternativas, datas, precedentes ou procedência.
+
+## Verificação
+
+**20/20 testes funcionais simulados aprovados:** código sem questão autoral ou módulo sintético, 46º com 4 × 80 posições e notas máximas 80/80, 47º preservado com anulação oficial e 80/80, exame sem importação desabilitado, Modo Gabinete e painel de acessibilidade preservados. Testes E2E visuais em navegador protegido por SSO ainda pendentes.
+
+---
+
 ## Acessibilidade visual e comunicação alternativa — 10/11/2026
 
 O RatioJuris passou a disponibilizar um botão Acessibilidade no cabeçalho, inclusive em telas móveis. O painel oferece ajuste de fonte (100, 125, 150%), alto contraste, foco por teclado, salto para simulador, leitura nativa por voz do enunciado, alternativas, explicação e progresso/resultados dos Exames OAB 46º e 47º.

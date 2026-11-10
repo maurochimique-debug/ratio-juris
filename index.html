@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <link rel="stylesheet" href="/acessibilidade.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <title>RATIO JURIS | OAB 47–10, quatro bancas e simulador jurídico</title>
+  <title>RATIO JURIS | Provas oficiais FGV/OAB, cadernos e gabaritos</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Font Awesome -->
@@ -82,7 +82,7 @@
   </style>
 </head>
 <body id="appBody" class="dark min-h-screen watermark-bg-dark flex flex-col selection:bg-ratio-purple selection:text-white transition-colors duration-200">
-  <a class="a11y-skip-link" href="#simulador">Pular para o simulador jurídico</a>
+  <a class="a11y-skip-link" href="#oab-arquivo">Pular para as provas oficiais</a>
 
   <!-- NAVBAR RESPONSIVA -->
   <header class="border-b border-slate-200 dark:border-ratio-borderDark bg-white/95 dark:bg-[#12161A]/95 backdrop-blur sticky top-0 z-50 transition-colors duration-200">
@@ -100,8 +100,7 @@
       <!-- Menu de Navegação com Cards de Acessibilidade na Aba Superior -->
       <nav class="hidden lg:flex items-center gap-6 text-sm font-semibold text-slate-700 dark:text-slate-300">
         <a href="#oab-arquivo" class="hover:text-ratio-purple transition">OAB 47º ao 10º</a>
-        <a href="#simulador" class="hover:text-ratio-purple transition">Simulador por Banca</a>
-        <a href="#disciplinas" class="hover:text-ratio-purple transition">Todas as Disciplinas</a>
+        <a href="#oab-arquivo" class="hover:text-ratio-purple transition">Provas oficiais FGV/OAB</a>
         <a href="#gabinete" class="hover:text-ratio-purple transition">Modo Gabinete</a>
         <a href="#planos" class="hover:text-ratio-purple transition text-ratio-amber font-bold">Planos & Preços</a>
 
@@ -115,8 +114,8 @@
         <button id="themeToggleBtn" aria-label="Alternar tema claro ou escuro" onclick="alternarTema()" class="btn-touch p-2 sm:p-2.5 rounded-xl border border-slate-300 dark:border-ratio-borderDark bg-slate-100 dark:bg-ratio-cardDark text-slate-700 dark:text-ratio-amber hover:border-ratio-purple transition flex items-center justify-center text-base sm:text-lg shadow-sm" title="Alternar entre Modo Claro e Escuro">
           <i id="themeIcon" class="fa-solid fa-moon"></i>
         </button>
-        <a href="#simulador" class="hidden sm:inline-flex btn-touch px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg bg-gradient-to-r from-ratio-purpleDeep to-ratio-purple text-white text-xs sm:text-sm font-bold shadow-lg hover:opacity-90 transition">
-          Treinar Agora
+        <a href="#oab-arquivo" class="hidden sm:inline-flex btn-touch px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg bg-gradient-to-r from-ratio-purpleDeep to-ratio-purple text-white text-xs sm:text-sm font-bold shadow-lg hover:opacity-90 transition">
+          Responder prova oficial
         </a>
       </div>
     </div>
@@ -136,7 +135,7 @@
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
         <article class="rounded-2xl border border-purple-300 dark:border-purple-700 bg-white dark:bg-ratio-cardDark p-5" aria-labelledby="a11yVisualTitulo">
           <h3 id="a11yVisualTitulo" class="text-xl font-bold text-slate-900 dark:text-white"><i class="fa-solid fa-eye-low-vision mr-2" aria-hidden="true"></i> Acessibilidade visual e leitura por voz</h3>
-          <p class="text-sm text-slate-600 dark:text-slate-300 mt-2">Amplie a leitura, use alto contraste ou ouça o enunciado, as alternativas e o comentário após responder.</p>
+          <p class="text-sm text-slate-600 dark:text-slate-300 mt-2">Amplie o texto, use alto contraste e ouça o progresso e o resultado da prova. Os enunciados oficiais encontram-se nos PDFs originais da OAB/FGV.</p>
           <div class="flex flex-wrap items-center gap-3 mt-5">
             <button id="a11yContrastBtn" type="button" aria-pressed="false" onclick="RatioA11y.toggleContrast()" class="px-4 py-2 rounded-lg border-2 border-purple-600 text-purple-800 dark:text-purple-200 font-bold">Alto contraste</button>
             <label for="a11yFontSelect" class="text-sm font-bold text-slate-900 dark:text-white">Tamanho do texto</label>
@@ -147,9 +146,6 @@
             </select>
           </div>
           <div class="mt-5 flex flex-wrap gap-2">
-            <button type="button" onclick="RatioA11y.question()" class="px-4 py-2 rounded-lg bg-purple-700 text-white font-semibold">Ouvir enunciado</button>
-            <button type="button" onclick="RatioA11y.options()" class="px-4 py-2 rounded-lg bg-purple-700 text-white font-semibold">Ouvir alternativas</button>
-            <button type="button" onclick="RatioA11y.explanation()" class="px-4 py-2 rounded-lg bg-purple-700 text-white font-semibold">Ouvir explicação</button>
             <button type="button" onclick="RatioA11y.readExamStatus()" class="px-4 py-2 rounded-lg bg-purple-700 text-white font-semibold">Ouvir progresso da OAB</button>
           </div>
           <div class="mt-3 flex flex-wrap gap-2 items-center">
@@ -191,12 +187,12 @@
   <section class="py-12 sm:py-18 lg:py-22 border-b border-slate-200 dark:border-ratio-borderDark relative overflow-hidden">
     <div class="max-w-5xl mx-auto px-4 text-center relative z-10">
       <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-ratio-purple/40 bg-ratio-purple/10 text-ratio-purple text-xs sm:text-sm font-bold tracking-wide uppercase mb-6">
-        <i class="fa-solid fa-layer-group text-xs"></i> 66 questões autorais independentes • OAB 46º e 47º: gabaritos definitivos
+        <i class="fa-solid fa-layer-group text-xs"></i> FGV/OAB • 46º e 47º com gabaritos definitivos oficiais
       </div>
       <h1 class="font-serif text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white leading-tight mb-6">
         Treine seus conhecimentos jurídicos.<br>
         <span class="text-transparent bg-clip-text bg-gradient-to-r from-ratio-purple via-pink-500 to-ratio-amber">
-          Aprenda com fundamentos legais.
+          Treine com provas oficiais.
         </span>
       </h1>
       <p class="max-w-3xl mx-auto text-slate-600 dark:text-slate-300 text-base sm:text-lg lg:text-xl mb-10 leading-relaxed font-normal">
@@ -206,8 +202,8 @@
         <a href="#oab-arquivo" class="btn-touch w-full sm:w-auto px-7 sm:px-8 py-3.5 sm:py-4 rounded-xl bg-ratio-purpleDeep hover:bg-purple-700 text-white font-bold text-sm sm:text-base shadow-xl shadow-purple-950/40 transition flex items-center justify-center gap-3">
           <i class="fa-solid fa-gamepad text-base sm:text-lg"></i> Consultar OAB 47º → 10º
         </a>
-        <a href="#disciplinas" class="btn-touch w-full sm:w-auto px-7 sm:px-8 py-3.5 sm:py-4 rounded-xl border-2 border-ratio-purple bg-purple-500/10 text-ratio-purple hover:bg-purple-500/20 font-bold text-sm sm:text-base transition flex items-center justify-center gap-3">
-          <i class="fa-solid fa-graduation-cap text-base sm:text-lg"></i> Escolher Matérias de Direito
+        <a href="#oab-arquivo" class="btn-touch w-full sm:w-auto px-7 sm:px-8 py-3.5 sm:py-4 rounded-xl border-2 border-ratio-purple bg-purple-500/10 text-ratio-purple hover:bg-purple-500/20 font-bold text-sm sm:text-base transition flex items-center justify-center gap-3">
+          <i class="fa-solid fa-graduation-cap text-base sm:text-lg"></i> Escolher prova oficial
         </a>
       </div>
     </div>
@@ -288,180 +284,41 @@
     </div>
   </section>
 
-  <!-- SUPER SIMULADOR INTERATIVO -->
-  <section id="simulador" class="py-14 sm:py-20 bg-white dark:bg-[#0E1216] border-b border-slate-200 dark:border-ratio-borderDark relative transition-colors duration-200">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6">
-
-      <!-- ESTATÍSTICA DE ACERTOS E ERROS DE 30 QUESTÕES -->
-      <div class="mb-6 p-4 sm:p-5 rounded-2xl bg-slate-50 dark:bg-ratio-cardDark border-2 border-ratio-purple/40 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-3">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-ratio-purple/20 text-ratio-purple flex items-center justify-center text-lg font-bold">
-            📊
-          </div>
-          <div>
-            <span class="text-xs font-mono text-ratio-purple uppercase font-bold tracking-wider">Desempenho acumulado — questões respondidas</span>
-            <div class="flex gap-4 mt-1 text-sm font-bold">
-              <span class="text-emerald-500">Acertos: <strong id="contadorAcertosGeral">0</strong></span>
-              <span class="text-rose-500">Erros: <strong id="contadorErrosGeral">0</strong></span>
-              <span class="text-slate-400">Respondidas: <strong id="contadorTotalGeral">0</strong></span>
-            </div>
-          </div>
+  <!-- ÁREA DE PROVAS COM ORIGEM DOCUMENTAL CONFIRMADA -->
+  <section id="bancas-oficiais" class="py-12 border-b border-slate-200 dark:border-ratio-borderDark bg-white dark:bg-[#0E1216]">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <p class="text-sm uppercase font-bold tracking-wider text-purple-700 dark:text-purple-300">Integridade do banco jurídico</p>
+      <h2 class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mt-2">Somente provas e questões oficiais das bancas</h2>
+      <p class="mt-3 text-slate-700 dark:text-slate-300">Não há questões autorais, sintéticas ou inventadas no banco. Consulte o caderno de prova original da banca e responda na folha eletrônica. O gabarito definitivo permite a correção sem reproduzir os enunciados protegidos por direitos autorais.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-6">
+        <div class="rounded-xl p-5 border-2 border-purple-600 bg-purple-50 dark:bg-ratio-cardDark">
+          <h3 class="font-bold text-slate-900 dark:text-white">FGV / OAB</h3>
+          <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">46º e 47º Exames disponíveis para correção: 80 questões por prova e quatro cadernos oficiais. 45º a 10º ainda disponíveis apenas no catálogo de links.</p>
+          <a href="#oab-arquivo" class="inline-block mt-3 underline font-bold text-purple-800 dark:text-purple-300">Abrir cadernos e gabaritos oficiais</a>
+        </div>
+        <div class="rounded-xl p-5 border border-slate-300 dark:border-ratio-borderDark bg-slate-50 dark:bg-ratio-cardDark">
+          <h3 class="font-bold text-slate-900 dark:text-white">CEBRASPE</h3>
+          <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">Em preparação. Nenhuma prova oficial desta banca está importada.</p>
+        </div>
+        <div class="rounded-xl p-5 border border-slate-300 dark:border-ratio-borderDark bg-slate-50 dark:bg-ratio-cardDark">
+          <h3 class="font-bold text-slate-900 dark:text-white">VUNESP</h3>
+          <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">Em preparação. Requer prova e gabarito definitivo identificados.</p>
+        </div>
+        <div class="rounded-xl p-5 border border-slate-300 dark:border-ratio-borderDark bg-slate-50 dark:bg-ratio-cardDark">
+          <h3 class="font-bold text-slate-900 dark:text-white">FCC</h3>
+          <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">Em preparação. Nenhuma questão sem origem documental será publicada.</p>
         </div>
       </div>
-
-      <!-- ESPINHA DORSAL DO ORDENAMENTO / LINDB -->
-      <div class="mb-6 p-5 sm:p-6 rounded-2xl bg-slate-50 dark:bg-ratio-cardDark border-2 border-ratio-purple/50 shadow-md">
-        <div class="flex items-center justify-between mb-3">
-          <span class="text-xs font-mono text-ratio-purple uppercase font-bold tracking-wider">Introdução à LINDB — referências de estudo</span>
-          <span class="text-xs text-amber-600 dark:text-ratio-amber font-bold">Decreto-Lei nº 4.657/1942 — consulte a redação vigente</span>
-        </div>
-        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mb-4 leading-relaxed font-medium">
-          Onde a LINDB se Conecta com as Matérias: Conexões diretas em Civil, Administrativo, Internacional e Processo.
-        </p>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-          <div class="p-3 rounded-xl bg-white dark:bg-[#12161A] border border-slate-200 dark:border-ratio-borderDark">
-            <span class="font-bold text-ratio-purple block mb-1">Arts. 1º a 6º • Direito Civil</span>
-            <span class="text-slate-500 dark:text-slate-400">Vigência e Continuidade: Vacatio legis de 45 dias no Brasil, vedação à repristinação tácita e tutela do ato jurídico perfeito e coisa julgada.</span>
-          </div>
-          <div class="p-3 rounded-xl bg-white dark:bg-[#12161A] border border-slate-200 dark:border-ratio-borderDark">
-            <span class="font-bold text-ratio-purple block mb-1">Arts. 20 a 30 • Direito Administrativo</span>
-            <span class="text-slate-500 dark:text-slate-400">Consequencialismo e Dolo: Vedação a decisões com base em valores abstratos, consideração das dificuldades reais do gestor e dolo/erro grosseiro.</span>
-          </div>
-          <div class="p-3 rounded-xl bg-white dark:bg-[#12161A] border border-slate-200 dark:border-ratio-borderDark">
-            <span class="font-bold text-ratio-purple block mb-1">Arts. 7º a 17 • Direito Internacional</span>
-            <span class="text-slate-500 dark:text-slate-400">Estatuto Pessoal: Regra da lei do domicílio (lex domicilii), imóveis sob a lei brasileira (lex rei sitae) e proteção da ordem pública.</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Filtro por banca: sempre questões autorais e identificadas -->
-      <div class="mb-8 p-5 sm:p-6 rounded-2xl bg-slate-50 dark:bg-ratio-cardDark border border-slate-200 dark:border-ratio-borderDark" role="group" aria-label="Selecionar banca de treinamento">
-        <h3 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">Selecione a banca do treino autoral</h3>
-        <p class="mt-2 text-xs text-slate-600 dark:text-slate-300">As questões exibidas ficam marcadas como vistas neste navegador e não reaparecem automaticamente, mesmo após atualizar a página. Reinicie a banca para estudá-las novamente. Os gabaritos oficiais da OAB do 47º e 46º estão no módulo acima, separado deste treino autoral.</p>
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-4">
-          <button id="btnBanca_FGV" type="button" aria-pressed="true" onclick="selecionarBanca('FGV')" class="btn-touch p-3 rounded-xl border-2 border-ratio-purple bg-ratio-purple text-white font-bold">FGV / OAB</button>
-          <button id="btnBanca_CEBRASPE" type="button" aria-pressed="false" onclick="selecionarBanca('CEBRASPE')" class="btn-touch p-3 rounded-xl border border-slate-300 dark:border-ratio-borderDark text-slate-900 dark:text-white font-bold">CEBRASPE</button>
-          <button id="btnBanca_VUNESP" type="button" aria-pressed="false" onclick="selecionarBanca('VUNESP')" class="btn-touch p-3 rounded-xl border border-slate-300 dark:border-ratio-borderDark text-slate-900 dark:text-white font-bold">VUNESP</button>
-          <button id="btnBanca_FCC" type="button" aria-pressed="false" onclick="selecionarBanca('FCC')" class="btn-touch p-3 rounded-xl border border-slate-300 dark:border-ratio-borderDark text-slate-900 dark:text-white font-bold">FCC</button>
-        </div>
-        <p id="bancaStatus" class="mt-3 text-sm text-slate-600 dark:text-slate-300" role="status">Selecione a banca para consultar a quantidade real de questões autorais inéditas.</p>
-        <div class="flex flex-wrap items-center gap-3 mt-4">
-          <span id="statusQuestoesIneditas" class="text-sm font-semibold text-slate-800 dark:text-slate-100" aria-live="polite">Carregando questões inéditas...</span>
-          <button type="button" onclick="reiniciarHistoricoBanca()" class="px-4 py-2 border border-purple-600 rounded-lg text-purple-800 dark:text-purple-300 font-semibold text-xs sm:text-sm hover:bg-purple-100 dark:hover:bg-purple-950/40">Reiniciar questões desta banca</button>
-        </div>
-      </div>
-
-      <!-- CARD DA QUESTÃO RESPONSIVO -->
-      <div class="rounded-2xl border-2 border-slate-200 dark:border-ratio-borderDark bg-slate-50 dark:bg-ratio-cardDark p-5 sm:p-8 lg:p-10 relative shadow-xl overflow-hidden transition-colors duration-200" id="cardQuestao">
-        
-        <!-- Cabeçalho da Questão -->
-        <div class="flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm font-mono mb-6 pb-4 border-b border-slate-200 dark:border-ratio-borderDark/60">
-          <div class="flex items-center gap-2">
-            <span class="text-ratio-purple font-bold text-sm sm:text-base" id="labelMateria">DIREITO CONSTITUCIONAL</span>
-            <span class="text-slate-400 dark:text-slate-600">•</span>
-            <span class="text-slate-600 dark:text-slate-400 font-semibold" id="labelSubtema">Questão autoral</span>
-          </div>
-          <div class="flex items-center gap-2.5">
-            <span class="text-amber-600 dark:text-ratio-amber font-bold" id="contadorQuestao">Questão demonstrativa</span>
-            <span id="badgeBancaAtiva" class="px-2.5 py-0.5 rounded bg-purple-100 dark:bg-ratio-borderDark text-[11px] sm:text-xs text-ratio-purple dark:text-slate-300 font-bold">Demonstração</span>
-          </div>
-        </div>
-
-        <!-- CENÁRIO FORENSE -->
-        <div id="cenarioForense" class="mb-6 p-4 sm:p-5 rounded-xl bg-white dark:bg-[#12161A] border border-slate-200 dark:border-ratio-borderDark flex items-start gap-3.5 sm:gap-4 shadow-sm">
-          <div class="text-3xl sm:text-4xl p-2.5 sm:p-3 rounded-xl bg-slate-50 dark:bg-ratio-cardDark border border-slate-200 dark:border-ratio-borderDark shrink-0">
-            ⚖️
-          </div>
-          <div class="flex-1 text-xs sm:text-sm leading-relaxed text-slate-700 dark:text-slate-300">
-            <span class="font-bold text-ratio-purple block mb-1 text-sm sm:text-base flex items-center gap-2">
-              <i class="fa-solid fa-eye"></i> Cenário Hermenêutico em Análise:
-            </span>
-            <p id="cenarioDescricao" class="text-slate-600 dark:text-slate-300">
-              Questão autoral de estudo; confira sempre o fundamento legal em fonte oficial.
-            </p>
-          </div>
-        </div>
-
-        <!-- ENUNCIADO -->
-        <div class="mb-8">
-          <p class="text-slate-900 dark:text-slate-100 text-base sm:text-lg lg:text-xl leading-relaxed font-medium" id="enunciadoTexto" tabindex="-1" aria-live="polite"></p>
-        </div>
-
-        <!-- CONTAINER DE ALTERNATIVAS -->
-        <div class="space-y-3 sm:space-y-3.5 mb-8" id="containerAlternativas"></div>
-
-        <!-- CARD DE AUTÓPSIA (FEEDBACK IMEDIATO) -->
-        <div id="cardAutopsia" class="hidden rounded-xl border-2 border-slate-300 dark:border-ratio-borderDark bg-white dark:bg-[#12161A] p-5 sm:p-6 mt-6 transition-all duration-300 shadow-md">
-          <div class="flex items-center justify-between mb-3">
-            <span class="text-xs sm:text-sm font-mono uppercase tracking-wider font-bold text-ratio-purple flex items-center gap-2">
-              <i class="fa-solid fa-microscope"></i> Explicação Jurídica da Resposta
-            </span>
-            <span id="badgeResultado" role="status" aria-live="polite" class="text-xs sm:text-sm font-bold px-3 py-1 rounded-full"></span>
-          </div>
-          <div class="p-4 rounded-lg bg-slate-50 dark:bg-ratio-cardDark border border-slate-200 dark:border-ratio-borderDark text-sm sm:text-base mb-4">
-            <span class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 block mb-1.5 font-mono font-bold" id="artigoReferencia"></span>
-            <p class="text-slate-900 dark:text-slate-200 leading-relaxed font-normal" id="textoLeiAutopsia"></p>
-          </div>
-          <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
-            <a id="btnPlanalto" href="#" target="_blank" rel="noopener noreferrer" class="btn-touch w-full sm:w-auto px-5 py-3 rounded-lg bg-slate-100 dark:bg-ratio-cardDark border border-slate-300 dark:border-ratio-borderDark hover:border-ratio-purple text-xs sm:text-sm font-bold text-slate-800 dark:text-white flex items-center justify-center gap-2 transition">
-              <i class="fa-solid fa-arrow-up-right-from-square text-amber-600 dark:text-ratio-amber"></i> Abrir Fundamento Oficial
-            </a>
-            <button id="btnProximaQuestao" type="button" onclick="proximaQuestaoAleatoria()" class="btn-touch w-full sm:w-auto px-7 py-3 rounded-lg bg-ratio-purpleDeep hover:bg-purple-700 text-white text-xs sm:text-sm font-bold transition flex items-center justify-center gap-2">
-              Próxima Questão <i class="fa-solid fa-arrow-right"></i>
-            </button>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Ratio Juris: Cards Pequenos de Destaque -->
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
-        <div class="p-4 rounded-xl bg-slate-50 dark:bg-ratio-cardDark border border-slate-200 dark:border-ratio-borderDark text-center shadow-sm">
-          <div class="text-ratio-amber text-lg mb-1">🎨</div>
-          <h4 class="font-bold text-xs sm:text-sm text-slate-900 dark:text-white mb-1">Feedback de respostas</h4>
-          <p class="text-[11px] text-slate-500 dark:text-slate-400">Indicação de acerto ou erro com explicação fundamentada.</p>
-        </div>
-        <div class="p-4 rounded-xl bg-slate-50 dark:bg-ratio-cardDark border border-slate-200 dark:border-ratio-borderDark text-center shadow-sm">
-          <div class="text-ratio-green text-lg mb-1">🏛️</div>
-          <h4 class="font-bold text-xs sm:text-sm text-slate-900 dark:text-white mb-1">Referências oficiais</h4>
-          <p class="text-[11px] text-slate-500 dark:text-slate-400">Acesso a referências legislativas ou jurisprudenciais para conferência.</p>
-        </div>
-        <div class="p-4 rounded-xl bg-slate-50 dark:bg-ratio-cardDark border border-slate-200 dark:border-ratio-borderDark text-center shadow-sm">
-          <div class="text-ratio-purple text-lg mb-1">🎙️</div>
-          <h4 class="font-bold text-xs sm:text-sm text-slate-900 dark:text-white mb-1">Leitura em voz alta</h4>
-          <p class="text-[11px] text-slate-500 dark:text-slate-400">Leitura do enunciado por síntese de voz do navegador, quando disponível.</p>
-        </div>
-      </div>
-
+      <p class="text-xs text-slate-600 dark:text-slate-400 mt-5">Os comentários jurídicos são explicações editoriais de questões oficiais, não novas questões. Consulte as fontes legais vigentes.</p>
     </div>
   </section>
-
-  <!-- SEÇÃO DE DISCIPLINAS OFICIAIS — TODAS AS MATÉRIAS DE DIREITO -->
-  <section id="disciplinas" class="py-16 sm:py-20 border-b border-slate-200 dark:border-ratio-borderDark bg-white dark:bg-[#12161A] transition-colors duration-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center max-w-3xl mx-auto mb-14">
-        <h2 class="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white font-serif mt-3">
-          Disciplinas jurídicas — catálogo em construção
-        </h2>
-        <p class="text-slate-600 dark:text-slate-400 text-base sm:text-lg mt-3">
-          Escolha a banca acima. As matérias com questões autorais disponíveis aparecem ativas; as restantes permanecem em preparação. Não há atribuição falsa de questões a exames oficiais.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4" id="gridDisciplinasOficiais">
-        <!-- Preenchido via JavaScript -->
-      </div>
-
-      <!-- Modal de Exibição do Card -->
-      <div id="cardModalBox" tabindex="-1" role="status" class="mt-8 hidden p-5 bg-purple-950/80 border border-ratio-purple/40 rounded-2xl text-xs sm:text-sm text-slate-200 shadow-xl max-w-xl mx-auto">
-        <div class="flex justify-between items-center font-bold text-ratio-purple mb-2">
-          <span id="modalCardTitle" class="text-base font-serif">Detalhes</span>
-          <button onclick="fecharCardModal()" class="text-slate-400 hover:text-white px-2 py-1 cursor-pointer">✕ Fechar</button>
-        </div>
-        <p id="modalCardDesc" class="text-slate-300 leading-relaxed"></p>
-      </div>
+  <div id="cardModalBox" role="status" tabindex="-1" class="hidden p-5 max-w-xl my-4 mx-auto bg-purple-950 border border-purple-400 rounded-xl text-sm text-white">
+    <div class="flex justify-between items-center gap-2 mb-2">
+      <strong id="modalCardTitle">Informação</strong>
+      <button type="button" onclick="fecharCardModal()" class="text-white underline p-2">Fechar</button>
     </div>
-  </section>
+    <p id="modalCardDesc"></p>
+  </div>
 
   <!-- MODO GABINETE DE PESQUISA JURÍDICA -->
   <section id="gabinete" class="py-14 sm:py-20 bg-slate-50 dark:bg-[#0E1216]">
@@ -513,7 +370,7 @@
               <span class="text-4xl font-black text-slate-900 dark:text-white">R$ 99</span>
               <span class="text-xs sm:text-sm text-slate-500">/ mês</span>
             </div>
-            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-6">Oferta planejada; indisponível nesta versão demonstrativa. O banco autoral está em expansão, separado do gabarito histórico OAB.</p>
+            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-6">Oferta planejada, ainda indisponível. A base de provas utiliza exclusivamente cadernos e gabaritos oficiais da OAB/FGV, sem questões inventadas.</p>
           </div>
           <button disabled aria-disabled="true" title="Pagamento ainda não disponível" class="opacity-60 cursor-not-allowed w-full py-3 rounded-xl border border-slate-300 dark:border-ratio-borderDark hover:border-ratio-purple text-xs sm:text-sm font-bold text-slate-800 dark:text-white transition">
             Contratação indisponível
@@ -558,8 +415,7 @@
 
   <script src="/oab-data.js"></script>
   <script src="/oab47-comentarios.js"></script>
-  <script src="/questoes-autorais-2026.js"></script>
-  <!-- Lógica de treinamento autoral, catálogo oficial e correção por caderno -->
+  <!-- Lógica de cadernos e gabaritos oficiais FGV/OAB -->
   <script>
     "use strict";
     function lerArmazenamento(chave, padrao) {
@@ -584,241 +440,13 @@
       aplicarTema(lerArmazenamento('ratio_theme','dark') === 'dark' ? 'light' : 'dark');
     }
     aplicarTema(lerArmazenamento('ratio_theme','dark'));
-    const listaMateriasDireito = [
-      { id: 'etica', nome: 'Ética Profissional (EOAOB)', icone: '⚖️', desc: 'Estatuto da OAB e Prerrogativas' },
-      { id: 'constitucional', nome: 'Direito Constitucional', icone: '📜', desc: 'Controle e Direitos Fundamentais' },
-      { id: 'civil', nome: 'Direito Civil', icone: '🏛️', desc: 'Obrigações, Contratos e Família' },
-      { id: 'processocivil', nome: 'Processo Civil', icone: '📑', desc: 'Recursos e Tutelas Provisórias' },
-      { id: 'penal', nome: 'Direito Penal', icone: '⚖️', desc: 'Teoria do Delito e Crimes em Espécie' },
-      { id: 'processopenal', nome: 'Processo Penal', icone: '🔒', desc: 'Prisões, Provas e Procedimentos' },
-      { id: 'trabalho', nome: 'Direito do Trabalho', icone: '👷', desc: 'CLT, Estabilidades e Súmulas' },
-      { id: 'processotrabalho', nome: 'Processo do Trabalho', icone: '📋', desc: 'Rito e Audiências Trabalhistas' },
-      { id: 'administrativo', nome: 'Direito Administrativo', icone: '🏢', desc: 'Licitações (Lei 14.133) e Improbidade' },
-      { id: 'tributario', nome: 'Direito Tributário', icone: '💰', desc: 'CTN, Lançamento e Execução Fiscal' },
-      { id: 'empresarial', nome: 'Direito Empresarial', icone: '💼', desc: 'Sociedades e Recuperação Judicial' },
-      { id: 'humanos', nome: 'Direitos Humanos', icone: '🌍', desc: 'Pactos Internacionais e STF' },
-      { id: 'internacional', nome: 'Direito Internacional', icone: '🌐', desc: 'Nacionalidade e Conflito de Leis' },
-      { id: 'eca', nome: 'Estatuto da Criança (ECA)', icone: '👶', desc: 'Medidas Socioeducativas' },
-      { id: 'ambiental', nome: 'Direito Ambiental', icone: '🌳', desc: 'Responsabilidade Civil e Licenciamento' },
-      { id: 'consumidor', nome: 'Direito do Consumidor', icone: '🛒', desc: 'CDC e Práticas abusivas' },
-      { id: 'filosofia', nome: 'Filosofia do Direito', icone: '🧠', desc: 'Dworkin, Kelsen, Hart e Alexy' },
-      { id: 'financeiro', nome: 'Direito Financeiro', icone: '📊', desc: 'Orçamento e LRF' },
-      { id: 'previdenciario', nome: 'Direito Previdenciário', icone: '👴', desc: 'Benefícios e Seguridade Social' },
-      { id: 'eleitoral', nome: 'Direito Eleitoral', icone: '🗳️', desc: 'Elegibilidade e Partidos' },
-      { id: 'lindb', nome: 'LINDB (Dec-Lei 4.657)', icone: '📖', desc: 'Segurança Jurídica no Direito Público' },
-      { id: 'economico', nome: 'Direito Econômico', icone: '💹', desc: 'Ordem Econômica Constitucional' },
-      { id: 'urbanistico', nome: 'Direito Urbanístico', icone: '🏘️', desc: 'Plano Diretor e Estatuto da Cidade' },
-      { id: 'notarial', nome: 'Direito Notarial e Registral', icone: '🛡️', desc: 'Cartórios e Registros Públicos' }
-    ];
-    const baseQuestoes = {
-      eleitoral: [{
-        materia: 'DIREITO ELEITORAL', subtema: 'Condições de elegibilidade', banca: 'FGV',
-        cenario: 'Exercício autoral baseado no art. 14, § 3º, da Constituição Federal.',
-        enunciado: 'De acordo com a Constituição Federal, qual alternativa apresenta condições de elegibilidade?',
-        opcoes: [
-          {letra:'A',texto:'A nacionalidade brasileira e a filiação partidária, entre outros requisitos.',correta:true,motivo:'O art. 14, § 3º, exige nacionalidade brasileira, pleno exercício dos direitos políticos, alistamento eleitoral, domicílio eleitoral na circunscrição, filiação partidária e idade mínima.'},
-          {letra:'B',texto:'A filiação partidária é sempre dispensável.',correta:false,motivo:'A filiação partidária está entre as condições expressamente previstas no art. 14, § 3º, V.'},
-          {letra:'C',texto:'O alistamento eleitoral não integra as condições de elegibilidade.',correta:false,motivo:'O alistamento eleitoral integra as condições, conforme art. 14, § 3º, III.'},
-          {letra:'D',texto:'A idade mínima para senador é de 21 anos.',correta:false,motivo:'O art. 14, § 3º, VI, a, estabelece a idade mínima de 35 anos para senador.'}
-        ],
-        artigo:'Constituição Federal, art. 14, § 3º',
-        trechoLei:'São condições de elegibilidade, na forma da lei: nacionalidade brasileira, pleno exercício dos direitos políticos, alistamento eleitoral, domicílio eleitoral na circunscrição, filiação partidária e idade mínima.',
-        linkPlanalto:'https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm'
-      }],
-      penal: [{
-        materia:'DIREITO PENAL',subtema:'Escusas absolutórias em crimes patrimoniais',banca:'FGV',
-        cenario:'Exercício autoral com referência expressa aos arts. 181 e 183 do Código Penal.',
-        enunciado:'Uma pessoa de 30 anos comete furto simples, sem violência ou grave ameaça, de bem pertencente a seu pai de 55 anos. Não há participação de terceiro. De acordo com o art. 181, II, do Código Penal, qual é a consequência prevista?',
-        opcoes:[
-          {letra:'A',texto:'A pena é necessariamente duplicada pelo parentesco.',correta:false,motivo:'O art. 181, II, estabelece hipótese de isenção de pena, não agravamento.'},
-          {letra:'B',texto:'É prevista isenção de pena, considerando as circunstâncias descritas e as exceções legais.',correta:true,motivo:'O art. 181, II, prevê a escusa absolutória em prejuízo de ascendente ou descendente; o art. 183 estabelece exceções.'},
-          {letra:'C',texto:'A isenção de pena também se aplica a roubo cometido com grave ameaça.',correta:false,motivo:'O art. 183, I, afasta a aplicação das escusas em hipóteses de roubo, extorsão, violência ou grave ameaça.'},
-          {letra:'D',texto:'A escusa também se aplica a qualquer crime contra vítima com 60 anos ou mais.',correta:false,motivo:'O art. 183, III, excepciona as vítimas com idade igual ou superior a 60 anos.'}
-        ],
-        artigo:'Código Penal, arts. 181, II, e 183',
-        trechoLei:'Art. 181, II: isenção de pena em crimes patrimoniais contra ascendente ou descendente; verificar as exceções do art. 183.',
-        linkPlanalto:'https://www.planalto.gov.br/ccivil_03/decreto-lei/del2848compilado.htm'
-      }],
-      constitucional: [{
-        materia:'DIREITO CONSTITUCIONAL',subtema:'Controle de constitucionalidade — AGU',banca:'FGV',
-        cenario:'Exercício autoral de interpretação constitucional.',
-        enunciado:'Nos termos do art. 103, § 3º, da Constituição Federal, qual é a previsão sobre a atuação do Advogado-Geral da União na apreciação, pelo STF, de inconstitucionalidade em tese?',
-        opcoes:[
-          {letra:'A',texto:'Será previamente citado para defender o ato ou a norma impugnada.',correta:true,motivo:'Essa é a atribuição textual prevista no art. 103, § 3º, da Constituição Federal.'},
-          {letra:'B',texto:'Poderá vetar a decisão final do STF.',correta:false,motivo:'Não há previsão de poder de veto ao julgamento do STF.'},
-          {letra:'C',texto:'Não poderá se manifestar no processo.',correta:false,motivo:'O texto constitucional prevê a citação prévia do AGU.'},
-          {letra:'D',texto:'Sua manifestação vincula os ministros do STF.',correta:false,motivo:'A manifestação do AGU não vincula o julgamento do tribunal.'}
-        ],
-        artigo:'Constituição Federal, art. 103, § 3º',
-        trechoLei:'Quando o Supremo Tribunal Federal apreciar a inconstitucionalidade, em tese, de norma legal ou ato normativo, citará previamente o Advogado-Geral da União, que defenderá o ato ou a norma impugnada.',
-        linkPlanalto:'https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm'
-      }],
-      civil: [{
-        materia:'DIREITO CIVIL',subtema:'Novação e fiança',banca:'FGV',
-        cenario:'Exercício autoral sobre garantias das obrigações.',
-        enunciado:'Conforme o art. 366 do Código Civil, qual é o efeito da novação celebrada sem o consentimento do fiador, com o devedor principal?',
-        opcoes:[
-          {letra:'A',texto:'O fiador é exonerado da obrigação garantida.',correta:true,motivo:'O art. 366 do Código Civil prevê a exoneração do fiador nesse caso.'},
-          {letra:'B',texto:'O fiador responde obrigatoriamente pela nova obrigação.',correta:false,motivo:'O art. 366 prevê exoneração quando a novação ocorre sem consentimento do fiador.'},
-          {letra:'C',texto:'A novação torna o fiador devedor principal.',correta:false,motivo:'A novação não transforma automaticamente o fiador em devedor principal.'},
-          {letra:'D',texto:'A exoneração depende da autorização posterior do credor.',correta:false,motivo:'A hipótese de exoneração decorre da lei.'}
-        ],
-        artigo:'Código Civil, art. 366',
-        trechoLei:'Importa exoneração do fiador a novação feita sem seu consentimento, com o devedor principal.',
-        linkPlanalto:'https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm'
-      }],
-      administrativo: [{
-        materia:'DIREITO ADMINISTRATIVO',subtema:'Autotutela administrativa',banca:'FGV',
-        cenario:'Exercício autoral sobre a Súmula 473 do STF; observar garantias processuais nos casos concretos.',
-        enunciado:'De acordo com a Súmula 473 do STF, qual alternativa descreve corretamente as faculdades da Administração em relação aos seus atos?',
-        opcoes:[
-          {letra:'A',texto:'Não é possível anular ato administrativo ilegal.',correta:false,motivo:'A súmula reconhece a faculdade de anulação dos atos ilegais.'},
-          {letra:'B',texto:'É possível anular atos ilegais ou revogar atos por conveniência e oportunidade, respeitados direitos adquiridos e o controle judicial.',correta:true,motivo:'A opção sintetiza o enunciado da Súmula 473 do STF.'},
-          {letra:'C',texto:'É possível revogar atos de outros poderes por livre discordância com seu mérito.',correta:false,motivo:'A súmula se refere à autotutela administrativa, não à livre revogação de atos alheios.'},
-          {letra:'D',texto:'A anulação de atos ilegais nunca está sujeita ao controle judicial.',correta:false,motivo:'A súmula ressalva expressamente a apreciação judicial.'}
-        ],
-        artigo:'STF, Súmula 473',
-        trechoLei:'A administração pode anular seus próprios atos ilegais e revogá-los por conveniência ou oportunidade, respeitados os direitos adquiridos e ressalvada a apreciação judicial.',
-        linkPlanalto:'https://jurisprudencia.stf.jus.br/pages/search/seq-sumula473/false'
-      }]
-    };
-    // Três itens autorais adicionais, cada um ajustado ao formato de sua banca.
-    baseQuestoes.constitucional.push({
-      materia:'DIREITO CONSTITUCIONAL',subtema:'Condições de elegibilidade — item CERTO/ERRADO',banca:'CEBRASPE',
-      cenario:'Questão autoral de julgamento de item, inspirada no formato da banca; NÃO é questão oficial.',
-      enunciado:'Julgue o item: a filiação partidária integra as condições de elegibilidade previstas expressamente na Constituição Federal.',
-      opcoes:[
-        {letra:'C',texto:'Certo',correta:true,motivo:'O art. 14, § 3º, V, da Constituição prevê a filiação partidária como condição de elegibilidade.'},
-        {letra:'E',texto:'Errado',correta:false,motivo:'A afirmação corresponde ao art. 14, § 3º, V, da Constituição Federal.'}
-      ],
-      artigo:'Constituição Federal, art. 14, § 3º, V',trechoLei:'A filiação partidária é condição constitucional de elegibilidade.',
-      linkPlanalto:'https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm'
-    });
-    baseQuestoes.civil.push({
-      materia:'DIREITO CIVIL',subtema:'Novação e responsabilidade do fiador',banca:'VUNESP',
-      cenario:'Questão autoral no formato de múltipla escolha; NÃO é questão oficial.',
-      enunciado:'Assinale a alternativa que corresponde à regra estabelecida no art. 366 do Código Civil.',
-      opcoes:[
-        {letra:'A',texto:'A novação sempre mantém o fiador vinculado à obrigação.',correta:false,motivo:'O art. 366 estabelece a exoneração do fiador quando não consentir na novação com o devedor principal.'},
-        {letra:'B',texto:'A novação sem consentimento do fiador, feita com o devedor principal, importa sua exoneração.',correta:true,motivo:'É a regra expressa do art. 366 do Código Civil.'},
-        {letra:'C',texto:'O fiador perde o direito de oposição à novação por força de lei.',correta:false,motivo:'O art. 366 prevê a exoneração nas circunstâncias descritas.'},
-        {letra:'D',texto:'A novação não produz efeitos sobre a fiança.',correta:false,motivo:'A alteração da obrigação pode produzir exoneração do fiador.'}
-      ],
-      artigo:'Código Civil, art. 366',trechoLei:'Importa exoneração do fiador a novação feita sem seu consentimento, com o devedor principal.',
-      linkPlanalto:'https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm'
-    });
-    baseQuestoes.administrativo.push({
-      materia:'DIREITO ADMINISTRATIVO',subtema:'Atos administrativos e autotutela',banca:'FCC',
-      cenario:'Questão autoral de análise do enunciado de súmula; NÃO é questão oficial.',
-      enunciado:'Considerando o entendimento sintetizado na Súmula 473 do STF, a Administração Pública poderá',
-      opcoes:[
-        {letra:'A',texto:'revogar qualquer decisão judicial que contrarie o interesse público.',correta:false,motivo:'A súmula disciplina autotutela de atos administrativos, não revogação de decisões judiciais.'},
-        {letra:'B',texto:'manter obrigatoriamente atos ilegais até que haja determinação judicial.',correta:false,motivo:'A súmula admite a anulação pela própria Administração.'},
-        {letra:'C',texto:'anular seus atos ilegais e revogar seus atos por conveniência ou oportunidade, respeitados direitos adquiridos, ressalvado o controle judicial.',correta:true,motivo:'Síntese da Súmula 473 do STF.'},
-        {letra:'D',texto:'revogar atos ilegais, sem possibilidade de apreciação judicial.',correta:false,motivo:'A autotutela é exercida com observância do controle judicial.'}
-      ],
-      artigo:'STF, Súmula 473',trechoLei:'A Administração pode anular atos ilegais e revogar atos por conveniência ou oportunidade, respeitando direitos adquiridos e o controle judicial.',
-      linkPlanalto:'https://jurisprudencia.stf.jus.br/pages/search/seq-sumula473/false'
-    });
-    // Expansão do banco com enunciados inteiramente autorais.
-    // Nunca rotular estes itens como perguntas oficiais da OAB/FGV.
-    const pacoteAutoral=window.RATIO_TREINO_EXTRA;
-    if(!pacoteAutoral || !Array.isArray(pacoteAutoral.questoes)){
-      throw new Error('Arquivo de questões autorais indisponível ou malformado.');
-    }
-    const materiasIndexadas=new Map(listaMateriasDireito.map(m=>[m.id,m.nome]));
-    const idsPacote=new Set();
-    pacoteAutoral.questoes.forEach(function(registro){
-      if(!registro || !/^RJ-(FGV|CEBRASPE|VUNESP|FCC)-\d{3}$/.test(registro.id) ||
-         idsPacote.has(registro.id) || !materiasIndexadas.has(registro.materiaId) ||
-         !Array.isArray(registro.alternativas) ||
-         registro.alternativas.length !== (registro.banca==='CEBRASPE'?2:4) ||
-         !['A','B','C','D'].slice(0,registro.alternativas.length).includes(registro.correta) ||
-         !/^https:\/\//.test(registro.fonte)){
-        throw new Error('Registro autoral inválido no banco de questões.');
-      }
-      idsPacote.add(registro.id);
-      const alternativas=registro.alternativas.map(function(texto,i){
-        const letra=registro.banca==='CEBRASPE'?(i===0?'C':'E'):String.fromCharCode(65+i);
-        const certa=String.fromCharCode(65+i)===registro.correta;
-        return {
-          letra,
-          texto,
-          correta:certa,
-          motivo:(certa?'Correto. ':'Incorreto. ')+registro.explicacao
-        };
-      });
-      const questao={
-        id:registro.id,
-        banca:registro.banca,
-        materia:materiasIndexadas.get(registro.materiaId).toUpperCase(),
-        subtema:registro.tema,
-        cenario:'Questão original de prática jurídica no formato '+registro.banca+
-          '. Não é transcrição nem questão oficial de concurso/OAB.',
-        enunciado:registro.enunciado,
-        opcoes:alternativas,
-        artigo:registro.artigo,
-        trechoLei:registro.explicacao,
-        linkPlanalto:registro.fonte
-      };
-      (baseQuestoes[registro.materiaId] ||= []).push(questao);
-    });
-    const bancasDisponiveis = ['FGV','CEBRASPE','VUNESP','FCC'];
-    let bancaAtual = 'FGV';
-    function materiasDisponiveis() {
-      return Object.keys(baseQuestoes).filter(k => baseQuestoes[k].some(q=>q.banca===bancaAtual));
-    }
-    let materiaAtual = 'TODAS';
-    let questaoAtualObj = null;
-    let respostaRegistrada = false;
-    const placar = (function () {
-      const valores = ['ratio_total','ratio_acertos','ratio_erros'].map(k => Number.parseInt(lerArmazenamento(k,'0'),10));
-      if (valores.some(v => !Number.isFinite(v) || v < 0 || v > 100000000) || valores[1] + valores[2] !== valores[0]) return {total:0,acertos:0,erros:0};
-      return {total:valores[0],acertos:valores[1],erros:valores[2]};
-    })();
-    function atualizarPlacar() {
-      document.getElementById('contadorAcertosGeral').textContent = String(placar.acertos);
-      document.getElementById('contadorErrosGeral').textContent = String(placar.erros);
-      document.getElementById('contadorTotalGeral').textContent = String(placar.total);
-      gravarArmazenamento('ratio_total',String(placar.total));
-      gravarArmazenamento('ratio_acertos',String(placar.acertos));
-      gravarArmazenamento('ratio_erros',String(placar.erros));
-    }
-    function renderizarMaterias() {
-      const grid = document.getElementById('gridDisciplinasOficiais');
-      grid.replaceChildren();
-      listaMateriasDireito.forEach(function(m) {
-        const ativo = materiasDisponiveis().includes(m.id);
-        const div = document.createElement('div');
-        div.className = 'p-4 rounded-2xl bg-slate-50 dark:bg-ratio-cardDark border border-slate-200 dark:border-ratio-borderDark shadow-sm text-center ' + (ativo ? 'cursor-pointer hover:border-ratio-purple focus:ring-2 focus:ring-ratio-purple' : 'opacity-65');
-        if (ativo) {
-          div.tabIndex = 0;
-          div.setAttribute('role','button');
-          div.setAttribute('aria-label','Treinar '+m.nome);
-          const abrir = function() { selecionarMateria(m.id); document.getElementById('simulador').scrollIntoView({behavior:'smooth'}); };
-          div.addEventListener('click',abrir);
-          div.addEventListener('keydown',function(e) { if(e.key==='Enter'||e.key===' ') {e.preventDefault();abrir();} });
-        } else {
-          div.setAttribute('aria-label',m.nome+' em preparação');
-        }
-        const icone = document.createElement('div');
-        icone.className = 'text-2xl mb-1'; icone.textContent = m.icone;
-        const titulo = document.createElement('div');
-        titulo.className = 'font-bold text-xs text-slate-900 dark:text-white mb-1'; titulo.textContent = m.nome;
-        const desc = document.createElement('p');
-        desc.className = 'text-[11px] text-slate-500 dark:text-slate-400';
-        desc.textContent = ativo ? 'Questão de treino disponível' : 'Em preparação — sem questões cadastradas';
-        div.append(icone,titulo,desc); grid.appendChild(div);
-      });
-    }
     function abrirCardModal(titulo,descricao,status) {
-      const modal = document.getElementById('cardModalBox');
-      document.getElementById('modalCardTitle').textContent = titulo;
-      document.getElementById('modalCardDesc').textContent = (status ? status + ' — ' : '') + descricao;
-      modal.classList.remove('hidden');
-      modal.focus();
+      const box=document.getElementById('cardModalBox');
+      document.getElementById('modalCardTitle').textContent=titulo;
+      document.getElementById('modalCardDesc').textContent=(status?status+' — ':'')+descricao;
+      box.classList.remove('hidden');box.focus();
     }
-    function fecharCardModal() { document.getElementById('cardModalBox').classList.add('hidden'); }
+    function fecharCardModal(){document.getElementById('cardModalBox').classList.add('hidden');}
     const referencias = [
       {termos:['473 stf','sumula 473','súmula 473'],titulo:'Súmula 473 do STF — autotutela administrativa',descricao:'A Administração pode anular atos ilegais e revogar atos por conveniência ou oportunidade, observados direitos adquiridos e controle judicial.',url:'https://jurisprudencia.stf.jus.br/pages/search/seq-sumula473/false'},
       {termos:['366 stj','sumula 366','súmula 366'],titulo:'Súmula 366 do STJ — CANCELADA',descricao:'A Súmula 366 do STJ foi cancelada pela Corte Especial em 16/09/2009. O enunciado anterior não deve ser apresentado como orientação vigente; consulte a jurisprudência atual.',url:'https://www.stj.jus.br/sites/portalp/Jurisprudencia/Sumulas'},
@@ -853,188 +481,6 @@
         a.textContent=item.nome; descricao.appendChild(a);
       });
     }
-    // Uma questão é marcada como vista ao ser apresentada. O histórico
-    // é compartilhado por todos os filtros de disciplina da mesma banca.
-    // Não existe reinício automático ao esgotar o banco.
-    const historicosVistos = {};
-    const todosItens = Object.values(baseQuestoes).flat();
-    function chaveQuestao(questao) {
-      return questao.id || questao.banca+'::'+questao.enunciado;
-    }
-    const idsGlobais=new Set();
-    todosItens.forEach(function(q) {
-      const id=chaveQuestao(q);
-      if(idsGlobais.has(id))throw new Error('Questão duplicada no banco: '+id);
-      idsGlobais.add(id);
-    });
-    bancasDisponiveis.forEach(function(banca){
-      let salvas=[];
-      try {
-        const valor=JSON.parse(lerArmazenamento('ratio_vistas_v2_'+banca,'[]'));
-        if(Array.isArray(valor))salvas=valor.filter(x=>typeof x==='string');
-      }catch(_){}
-      const permitidas=new Set(todosItens.filter(q=>q.banca===banca).map(chaveQuestao));
-      historicosVistos[banca]=new Set(salvas.filter(x=>permitidas.has(x)));
-    });
-    function guardarHistorico(banca) {
-      gravarArmazenamento('ratio_vistas_v2_'+banca,JSON.stringify([...historicosVistos[banca]]));
-    }
-    function todasQuestoesFiltradas() {
-      const lista=materiaAtual==='TODAS' ? todosItens : (baseQuestoes[materiaAtual]||[]);
-      return lista.filter(q=>q.banca===bancaAtual);
-    }
-    function obterQuestoesIneditas() {
-      const vistas=historicosVistos[bancaAtual];
-      return todasQuestoesFiltradas().filter(q=>!vistas.has(chaveQuestao(q)));
-    }
-    function atualizarStatusTreino() {
-      const totalBanca=todosItens.filter(q=>q.banca===bancaAtual).length;
-      const vistas=historicosVistos[bancaAtual].size;
-      const restantes=obterQuestoesIneditas().length;
-      const totalFiltro=todasQuestoesFiltradas().length;
-      const texto=bancaAtual+': '+vistas+'/'+totalBanca+' questões vistas; '+restantes+
-        ' inédita(s) no filtro de '+totalFiltro+' questão(ões).';
-      document.getElementById('statusQuestoesIneditas').textContent=texto;
-      document.getElementById('bancaStatus').textContent=bancaAtual==='FGV' ?
-        'FGV: '+totalBanca+' questões autorais independentes para treino, em diversas disciplinas. Os cadernos oficiais da OAB (47º e 46º) ficam na seção anterior.' :
-        bancaAtual+': '+totalBanca+' questões autorais independentes no estilo da banca. Questões oficiais dessa banca ainda não foram importadas.';
-      const proxima=document.getElementById('btnProximaQuestao');
-      if(proxima) {
-        proxima.disabled=restantes===0;
-        proxima.setAttribute('aria-disabled',restantes===0?'true':'false');
-        proxima.classList.toggle('opacity-50',restantes===0);
-        proxima.classList.toggle('cursor-not-allowed',restantes===0);
-        proxima.title=restantes===0?'Nenhuma questão inédita disponível. Reinicie a banca para refazer.':'Avançar para uma questão inédita';
-        proxima.textContent=restantes===0?'Sem questões inéditas':'Próxima questão inédita';
-      }
-      return restantes;
-    }
-    function mostrarBancoEsgotado() {
-      questaoAtualObj=null;
-      respostaRegistrada=true;
-      document.getElementById('labelMateria').textContent='BANCO CONCLUÍDO';
-      document.getElementById('labelSubtema').textContent=bancaAtual+' • '+(materiaAtual==='TODAS'?'Todas as matérias':'Matéria selecionada');
-      document.getElementById('cenarioDescricao').textContent='O conteúdo de treino autoral deste filtro foi apresentado. Não haverá repetição automática.';
-      document.getElementById('badgeBancaAtiva').textContent='Sem inéditas';
-      document.getElementById('contadorQuestao').textContent='Treino concluído';
-      document.getElementById('enunciadoTexto').textContent='Não há mais questões inéditas neste filtro. Escolha outra matéria ou banca, ou clique em “Reiniciar questões desta banca” para refazer as anteriores. O acervo do 47º Exame da OAB permanece disponível no módulo acima.';
-      document.getElementById('containerAlternativas').replaceChildren();
-      document.getElementById('cardAutopsia').classList.add('hidden');
-      atualizarStatusTreino();
-    }
-    function reiniciarHistoricoBanca() {
-      historicosVistos[bancaAtual].clear();
-      guardarHistorico(bancaAtual);
-      // Reiniciar questões não apaga a estatística acumulada de respostas.
-      questaoAtualObj=null;
-      respostaRegistrada=false;
-      proximaQuestaoAleatoria();
-    }
-    function selecionarMateria(materia) {
-      if(materia!=='TODAS'&&!materiasDisponiveis().includes(materia)) {
-        abrirCardModal('Em preparação','Ainda não há questão independente para essa disciplina nesta banca.','Indisponível');
-        return;
-      }
-      if(materiaAtual===materia && questaoAtualObj) {
-        atualizarStatusTreino();
-        return;
-      }
-      materiaAtual=materia;
-      proximaQuestaoAleatoria();
-    }
-    function selecionarBanca(banca) {
-      if(!bancasDisponiveis.includes(banca))return;
-      if(banca===bancaAtual && materiaAtual==='TODAS' && questaoAtualObj) {
-        atualizarStatusTreino();
-        return;
-      }
-      bancaAtual=banca;
-      materiaAtual='TODAS';
-      bancasDisponiveis.forEach(function(nome) {
-        const btn=document.getElementById('btnBanca_'+nome);
-        const ativo=nome===banca;
-        btn.setAttribute('aria-pressed',ativo?'true':'false');
-        btn.className='btn-touch p-3 rounded-xl border-2 font-bold '+(ativo ?
-          'border-ratio-purple bg-ratio-purple text-white' :
-          'border-slate-300 dark:border-ratio-borderDark bg-white dark:bg-[#12161A] text-slate-900 dark:text-white');
-      });
-      renderizarMaterias();
-      proximaQuestaoAleatoria();
-    }
-    function proximaQuestaoAleatoria() {
-      const ineditas=obterQuestoesIneditas();
-      if(!ineditas.length) {
-        mostrarBancoEsgotado();
-        return;
-      }
-      // Sorteio sem reposição: nenhuma questão exibida pode ser sorteada
-      // novamente até o usuário reiniciar explicitamente o histórico da banca.
-      const escolhida=ineditas[Math.floor(Math.random()*ineditas.length)];
-      historicosVistos[bancaAtual].add(chaveQuestao(escolhida));
-      guardarHistorico(bancaAtual);
-      questaoAtualObj=escolhida;
-      respostaRegistrada=false;
-      document.getElementById('labelMateria').textContent=questaoAtualObj.materia;
-      document.getElementById('labelSubtema').textContent=questaoAtualObj.subtema;
-      document.getElementById('cenarioDescricao').textContent=questaoAtualObj.cenario;
-      document.getElementById('badgeBancaAtiva').textContent='Autoral • '+bancaAtual;
-      document.getElementById('contadorQuestao').textContent='Questão inédita • '+bancaAtual;
-      document.getElementById('enunciadoTexto').textContent=questaoAtualObj.enunciado;
-      const container=document.getElementById('containerAlternativas');
-      container.replaceChildren();
-      questaoAtualObj.opcoes.forEach(function(op) {
-        const btn=document.createElement('button');
-        btn.type='button';
-        btn.className='btn-touch w-full text-left p-3.5 sm:p-4 lg:p-5 rounded-xl border-2 border-slate-200 dark:border-ratio-borderDark bg-white dark:bg-[#12161A] hover:border-purple-500 focus:ring-2 focus:ring-purple-500 text-slate-800 dark:text-slate-200 text-sm sm:text-base transition flex items-start gap-3 sm:gap-4 shadow-sm';
-        const letra=document.createElement('span');
-        letra.className='w-7 h-7 rounded-lg bg-slate-100 dark:bg-ratio-cardDark font-mono font-bold text-xs flex items-center justify-center shrink-0';
-        letra.textContent=op.letra;
-        const texto=document.createElement('span');
-        texto.className='leading-relaxed';
-        texto.textContent=op.texto;
-        btn.append(letra,texto);
-        btn.setAttribute('aria-label','Alternativa '+op.letra+': '+op.texto);
-        btn.addEventListener('click',function(){selecionarAlternativa(op,btn);});
-        container.appendChild(btn);
-      });
-      document.getElementById('cardAutopsia').classList.add('hidden');
-      atualizarStatusTreino();
-    }
-    function proximaQuestao(){ proximaQuestaoAleatoria(); }
-    function selecionarAlternativa(opcao,btn) {
-      if(!questaoAtualObj || respostaRegistrada)return;
-      respostaRegistrada=true;
-      document.querySelectorAll('#containerAlternativas button').forEach(function(b){b.disabled=true;});
-      placar.total++;
-      if(opcao.correta){placar.acertos++;}else{placar.erros++;}
-      atualizarPlacar();
-      const badge=document.getElementById('badgeResultado');
-      badge.textContent=opcao.correta?'Resposta correta':'Resposta incorreta';
-      badge.className=opcao.correta?'text-sm font-bold text-emerald-500':'text-sm font-bold text-red-500';
-      btn.classList.add(opcao.correta?'border-emerald-500':'border-red-500');
-      const respostaCorreta=questaoAtualObj.opcoes.find(o=>o.correta);
-      document.getElementById('artigoReferencia').textContent=questaoAtualObj.artigo;
-      document.getElementById('textoLeiAutopsia').textContent=questaoAtualObj.trechoLei+' '+opcao.motivo+
-        (opcao.correta?'':' Resposta correta: '+respostaCorreta.letra+'.');
-      document.getElementById('btnPlanalto').href=questaoAtualObj.linkPlanalto;
-      const card=document.getElementById('cardAutopsia');card.classList.remove('hidden');
-      atualizarStatusTreino();
-      card.scrollIntoView({behavior:'smooth',block:'nearest'});
-    }
-    function falarTextoAcessibilidade(texto){
-      if(!('speechSynthesis' in window)){abrirCardModal('Leitura indisponível','Este navegador não disponibiliza síntese de voz. O conteúdo permanece legível na tela.','Acessibilidade');return;}
-      const utterance=new SpeechSynthesisUtterance(texto);
-      utterance.lang='pt-BR';utterance.rate=1;
-      window.speechSynthesis.cancel();window.speechSynthesis.speak(utterance);
-    }
-    function ativarVozIA(tipo){
-      if(tipo==='questao'||tipo==='cegos'||tipo==='geral'){
-        falarTextoAcessibilidade(questaoAtualObj?questaoAtualObj.enunciado:'O enunciado ainda não está disponível.');
-      }else{
-        abrirCardModal('Recursos de acessibilidade','O conteúdo de questões e respostas está disponível em texto, com navegação por teclado e recurso opcional de leitura por voz do navegador. Legendas em tempo real e recursos avançados ainda não foram implementados.','Informações');
-      }
-    }
-    // Arquivo oficial e correção do 47º Exame. A correção não substitui o PDF.
     function fonteOAB() {
       const dados=window.RATIO_OAB_DATA;
       if(!dados||!dados.exam47||!Array.isArray(dados.archive))throw new Error('Base oficial OAB ausente');
@@ -1349,7 +795,7 @@
       desenharFolha47();
     }
     window.addEventListener('DOMContentLoaded',function(){
-      renderizarMaterias(); atualizarPlacar(); proximaQuestaoAleatoria(); iniciarArquivoOAB();
+      iniciarArquivoOAB();
     });
   </script>
   <script src="/acessibilidade.js"></script>
