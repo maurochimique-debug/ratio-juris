@@ -10,6 +10,7 @@
  let cache=new Map();
  let trechoAtual="";
  let carregando=false;
+ let promessaOficial=null;
  let buscaAtual=0;
  let identidadeDocumento="";
  function avisar(msg){const el=$("pdfLeitorStatus");if(el)el.textContent=String(msg||"");}
@@ -221,6 +222,11 @@
        }
      }catch(_){}
    }
+   const preview=$("textoQuestaoDentroSimulador");
+   if(preview && token===buscaAtual){
+     preview.textContent="Não foi possível identificar com segurança o enunciado da questão "+n+
+       " neste PDF. Use o link de consulta opcional; não exibimos enunciados ou alternativas inventados.";
+   }
    avisar("A questão "+n+" não foi identificada automaticamente. "+
      "Use o seletor de páginas do PDF; a numeração pode não ser extraível na diagramação original.");
    return false;
@@ -230,14 +236,25 @@
    if(!/^\d{2}$/.test(exame||"")||! /^[1-4]$/.test(tipo||"")){
      avisar("Selecione um exame oficial e o caderno primeiro.");return false;
    }
-   if(!documento||identidadeDocumento!==exame+"-"+tipo){
-     // Um arquivo local continua como alternativa, mas o fluxo padrão é direto da fonte oficial.
-     if(documento)limpar();
-     const loaded=await carregarOficial();
-     if(!loaded)return false;
+   const identidadeAlvo=exame+"-"+tipo;
+   if(!documento||identidadeDocumento!==identidadeAlvo){
+     // Reutiliza a operação em andamento quando o estudante troca rapidamente de questão.
+     if(promessaOficial){
+       const ok=await promessaOficial;
+       if(!ok || exame!==$("oabExamSelect")?.value || tipo!==$("oabTipoSelect")?.value)return false;
+     }else{
+       if(documento)limpar();
+       const tarefa=carregarOficial();
+       promessaOficial=tarefa;
+       let ok=false;
+       try{ok=await tarefa}finally{if(promessaOficial===tarefa)promessaOficial=null}
+       if(!ok || exame!==$("oabExamSelect")?.value || tipo!==$("oabTipoSelect")?.value)return false;
+     }
    }
+   if(identidadeDocumento!==identidadeAlvo)return false;
    return localizarQuestao(opcoes);
  }
+ function cancelarBusca(){buscaAtual++;}
  function ouvirTrecho(){
    if(!trechoAtual){avisar("Não existe texto extraído para ler.");return false;}
    if(!window.RatioA11y?.voiceText){
@@ -253,5 +270,5 @@
  document.addEventListener("change",function(event){
    if(["oabExamSelect","oabTipoSelect"].includes(event.target?.id)&&documento)limpar();
  });
- window.RatioPdfAcessivel={carregar,carregarOficial,estudarQuestaoAtual,limpar,mostrarPagina,localizarQuestao,ouvirTrecho,extrairTrechoQuestao};
+ window.RatioPdfAcessivel={carregar,carregarOficial,estudarQuestaoAtual,limpar,mostrarPagina,localizarQuestao,cancelarBusca,ouvirTrecho,extrairTrechoQuestao};
 })();
