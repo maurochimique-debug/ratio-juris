@@ -1,3 +1,7 @@
+## 40º EOU — navegação acessível e pontuação (10/11/2026)
+
+O 40º Exame fica disponível no simulador oficial com navegação por questões, marcação de respostas e leitura do resultado por voz. **Duas questões anuladas por caderno** rendem pontuação automática: Tipo 1 Q5/Q46; Tipo 2 Q7/Q45; Tipo 3 Q6/Q45; Tipo 4 Q2/Q46. O link para o comunicado de anulação de maio aparece ao lado do PDF de gabarito definitivo de abril. O leitor local de PDF mantém suas limitações técnicas já documentadas.
+
 ## 41º Exame e acessibilidade (10/11/2026)
 
 A navegação pelo **41º Exame** utiliza o mesmo simulador oficial acessível dos 42º–47º. O caderno e o gabarito definitivo são vinculados por tipo de prova; o histórico e as estatísticas ficam armazenados separadamente para evitar conflito entre edições. A leitura do enunciado original depende de extração do PDF oficial escolhido pelo aluno (não há texto inventado no código).

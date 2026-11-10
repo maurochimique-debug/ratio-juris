@@ -1,3 +1,44 @@
+# RatioJuris — Consolidação oficial do 40º Exame OAB (10/11/2026)
+
+## Prova e documentos oficiais
+
+A primeira fase do 40º EOU ocorreu em **24 de março de 2024**. Para corrigir esse Exame com exatidão é indispensável observar **duas anulações**, publicadas em momentos diferentes.
+
+- **10/04/2024:** gabarito definitivo, incluindo a anulação da **Q5 do Tipo 1** e correspondentes. PDF oficial: https://s.oab.org.br/arquivos/2024/04/b64dd2cd-94fb-47fa-90b6-459e2d375a69.pdf
+- **06/05/2024:** comunicado oficial de **anulação posterior da Q46 do Tipo 1**, com atribuição de pontos a todos os examinandos. PDF do comunicado: https://s.oab.org.br/arquivos/2024/05/38173b88-0b35-424f-ae5a-c3ee3d42ace2.pdf
+- **08/05/2024:** OAB divulgou o resultado definitivo da primeira fase **atualizado** após a nova anulação: https://www.oab.org.br/noticia/62220/confira-o-resultado-definitivo-da-primeira-fase-do-40-eou-apos-a-anulacao-de-uma-das-questoes
+
+A base do RatioJuris é a **consolidação documental dos dois atos oficiais**, não apenas o PDF de abril. O aplicativo mostra o link adicional da retificação quando o 40º Exame é selecionado.
+
+| Tipo de caderno | Anulada inicialmente | Anulada em maio | Total de pontos por anulações |
+| --- | --- | --- | --- |
+| 1 — Branca | 5 | 46 | 2 |
+| 2 — Verde | 7 | 45 | 2 |
+| 3 — Amarela | 6 | 45 | 2 |
+| 4 — Azul | 2 | 46 | 2 |
+
+Os quatro cadernos originais, hospedados pela OAB:
+- Tipo 1: https://s.oab.org.br/arquivos/2024/03/11dfd35e-c74b-4c5a-8d8c-ce6c9c40505a.pdf
+- Tipo 2: https://s.oab.org.br/arquivos/2024/03/e3bb3c7b-fab4-410c-9c6c-9bf5b4e3980a.pdf
+- Tipo 3: https://s.oab.org.br/arquivos/2024/03/104cbe04-7e63-4917-a7c9-c17c81dcfc0a.pdf
+- Tipo 4: https://s.oab.org.br/arquivos/2024/03/7e424b0d-ac36-4d06-9f8d-f3d7f4cf9a26.pdf
+
+A correspondência das 80 questões foi validada por **240 comparações de gabarito**, sem divergências, após incluir ambas as anulações. O simulado, o card de acertos/erros, a folha de respostas e a leitura por voz do resultado reconhecem os dois pontos.
+
+## Situação do acervo
+
+O RatioJuris mantém agora **oito Exames com correção local (40º–47º)**, correspondendo a **640 questões oficiais distintas**. Os quatro cadernos de uma edição são versões ordenadas da mesma prova e não aumentam essa quantidade. As edições **39º a 10º** têm links históricos, mas não correção interna.
+
+O texto integral das questões continua nos PDFs oficiais. Não foram criadas alternativas sintéticas. O gabarito histórico não constitui parecer de vigência atual de leis ou precedentes.
+
+## Verificações
+
+**41/41 testes funcionais simulados aprovados**, abrangendo as quatro cores/cadernos do 40º, as duas anulações em cada, provas em branco (2/80), respostas completas (80/80), fonte do comunicado posterior, persistência por caderno, integridade dos Exames 41º–47º e bloqueio da edição 39º não importada.
+
+O build/preview não equivale a homologação visual real, teste com PDFs de usuários e certificação de acessibilidade. A proteção SSO do projeto continua ativa.
+
+---
+
 # RatioJuris — 41º Exame oficial e auditoria do código original (10/11/2026)
 
 ## Acervo oficial importado

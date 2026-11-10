@@ -259,6 +259,7 @@
           <a id="oabPaginaOficial" href="https://oab.fgv.br/" target="_blank" rel="noopener noreferrer" class="inline-flex px-4 py-2 rounded-lg bg-purple-700 text-white font-semibold text-sm">Página oficial FGV</a>
           <a id="oabCadernoPdf" href="https://oab.fgv.br/" target="_blank" rel="noopener noreferrer" class="inline-flex px-4 py-2 rounded-lg border border-purple-600 text-ratio-purple dark:text-purple-300 font-semibold text-sm">Abrir caderno oficial</a>
           <a id="oabGabaritoPdf" href="https://oab.fgv.br/" target="_blank" rel="noopener noreferrer" class="inline-flex px-4 py-2 rounded-lg border border-purple-600 text-ratio-purple dark:text-purple-300 font-semibold text-sm">Gabarito definitivo oficial</a>
+          <a id="oabRetificacaoPdf" href="https://www.oab.org.br/" target="_blank" rel="noopener noreferrer" class="hidden inline-flex px-4 py-2 rounded-lg border-2 border-amber-500 text-amber-900 dark:text-amber-300 font-bold text-sm">Anulação posterior — comunicado OAB</a>
         </div>
         <div class="mb-6 p-4 rounded-xl border border-amber-500/40 bg-amber-50 dark:bg-amber-900/10">
           <p class="font-bold text-sm text-amber-900 dark:text-amber-300">Verificação jurídica de 2026 — fontes oficiais</p>
@@ -348,7 +349,7 @@
         </div>
         <div id="oab46Bloco" class="hidden mt-4" aria-label="Folha oficial de respostas da OAB/FGV">
           <div class="p-4 mb-5 rounded-xl border border-amber-500/40 bg-amber-50 dark:bg-amber-950/30">
-            <p class="font-bold text-sm text-amber-900 dark:text-amber-300">41º ao 46º Exames — gabaritos definitivos oficiais, sem comentários individuais</p>
+            <p class="font-bold text-sm text-amber-900 dark:text-amber-300">40º ao 46º Exames — gabaritos definitivos oficiais, sem comentários individuais</p>
             <p class="text-xs sm:text-sm text-amber-950 dark:text-slate-200 mt-2">Leia o PDF do caderno oficial selecionado e marque suas respostas. O resultado usa o gabarito definitivo da edição correspondente; enunciados integrais continuam na fonte da OAB/FGV.</p>
           </div>
           <div class="flex flex-wrap items-center gap-3 mb-4">
@@ -719,9 +720,13 @@
       document.getElementById('oabPaginaOficial').href=entry.fgvUrl;
       document.getElementById('oabTipoSelect').disabled=!available;
       document.getElementById('oabFolhaBloco').classList.toggle('hidden',num!==47);
-      document.getElementById('oab46Bloco').classList.toggle('hidden',!(num>=41&&num<=46));
+      document.getElementById('oab46Bloco').classList.toggle('hidden',!(num>=40&&num<=46));
       document.getElementById('oabCadernoPdf').classList.toggle('hidden',!available);
       document.getElementById('oabGabaritoPdf').classList.toggle('hidden',!available);
+      const retificacao=available&&exam.comunicadoAnulacaoPosterior;
+      const retificacaoLink=document.getElementById('oabRetificacaoPdf');
+      retificacaoLink.classList.toggle('hidden',!retificacao);
+      if(retificacao)retificacaoLink.href=exam.comunicadoAnulacaoPosterior;
       if(available){
         const caderno=exam.cadernos[tipo-1];
         document.getElementById('oabCadernoPdf').href=caderno.pdf;
@@ -729,7 +734,9 @@
         const annulled=exam.gabaritos[tipo-1].split('').filter(x=>x==='*').length;
         document.getElementById('oabStatus').textContent=
           num+'º Exame — Tipo '+tipo+' ('+caderno.cor+'), 80 questões, gabarito definitivo, '+
-          annulled+' questão(ões) anulada(s). '+(num===47?'Há comentários jurídicos do 47º.':'A correção usa apenas o gabarito histórico desta edição.');
+          annulled+' questão(ões) anulada(s). '+(num===40?
+          'A pontuação inclui a anulação adicional de maio de 2024; veja o comunicado da OAB ao lado do gabarito de abril.' :
+          num===47?'Há comentários jurídicos do 47º.':'A correção usa apenas o gabarito histórico desta edição.');
         if(num===47)desenharFolha47();
         else desenharFolha46(false);
       }else{
@@ -907,7 +914,7 @@
     function fonte46() {
       const n=Number(document.getElementById('oabExamSelect').value);
       const dados=fonteOAB()['exam'+n];
-      if(n<41||n>46||!dados||dados.gabaritos?.length!==4||dados.gabaritos.some(x=>x.length!==80))
+      if(n<40||n>46||!dados||dados.gabaritos?.length!==4||dados.gabaritos.some(x=>x.length!==80))
         throw new Error('Gabaritos oficiais do exame selecionado incompletos');
       return dados;
     }
