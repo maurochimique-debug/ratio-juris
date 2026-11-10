@@ -12,7 +12,7 @@ Versão implementada: **10 de novembro de 2026**.
 - Sinalização de foco com contorno perceptível e respeito à configuração do sistema para redução de movimento.
 - Ajuste manual do texto entre **100%, 125% e 150%**, com preferência salva localmente.
 - Alternância de **alto contraste**, com preferência salva localmente. Não afirmar conformidade universal de contraste sem inspeção visual de todas as telas.
-- Opções para ouvir **enunciado**, **alternativas** e **explicação após resposta**, usando a API de síntese de voz **do navegador**, com velocidade ajustável, pausa, retomada e interrupção.
+- Opções para ouvir **enunciado**, **alternativas**, **explicação após resposta** e **progresso/resultado da folha da OAB (46º ou 47º)**, usando a API de síntese de voz **do navegador**, com velocidade ajustável, pausa, retomada e interrupção.
 - Avisos de status em área `role=status`/`aria-live=polite`, e rótulos acessíveis para alternativas e elementos do simulador.
 
 ### 2. Comunicação alternativa para pessoas com dificuldade de fala
@@ -35,6 +35,6 @@ Versão implementada: **10 de novembro de 2026**.
 
 ### Verificações já executadas
 
-**22 de 22 testes simulados**, incluindo painel aberto/fechado, Esc e retorno de foco, leitura TTS, leitura de alternativas e explicação, pausa/retomada/parada, seleção de frases de comunicação, funcionamento sem TTS e persistência de contraste/fonte. Esses testes verificam lógica DOM em ambiente simulado e **não substituem** homologação em navegador e por usuários de tecnologias assistivas.
+**25 de 25 testes simulados** (22 controles gerais e 3 testes da leitura da OAB), incluindo painel aberto/fechado, Esc e retorno de foco, leitura TTS, leitura de alternativas e explicação, pausa/retomada/parada, seleção de frases de comunicação, funcionamento sem TTS e persistência de contraste/fonte. Esses testes verificam lógica DOM em ambiente simulado e **não substituem** homologação em navegador e por usuários de tecnologias assistivas.
 
 Referência: **W3C Web Content Accessibility Guidelines (WCAG) 2.2**, https://www.w3.org/TR/WCAG22/ .
