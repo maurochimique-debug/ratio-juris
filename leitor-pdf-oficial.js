@@ -233,13 +233,15 @@
    if(preview){
      preview._ratioQuestaoAnterior=chaveDocumento+"-"+n;
      const separado=separarAlternativasOficiais(trecho);
-     preview.textContent=separado?separado.enunciado:trecho;
+     preview.textContent=separado?separado.enunciado:
+       "Não foi possível separar com segurança o enunciado das alternativas neste PDF. Consulte o documento original pelo card opcional e use as letras A, B, C ou D somente após conferir as opções.";
+     preview.setAttribute("data-extracao-validada",separado?"sim":"nao");
      const botoes=$("alternativasQuestaoOficial")?.querySelectorAll("button");
      if(botoes)Array.from(botoes).forEach((botao,i)=>{
        const letra="ABCD"[i];
        botao.textContent=separado?letra+" — "+separado.alternativas[i]:letra;
        botao.setAttribute("aria-label",separado?
-         "Alternativa "+letra+": "+separado.alternativas[i]:"Alternativa "+letra);
+         "Alternativa "+letra+": "+separado.alternativas[i]:"Alternativa "+letra+" (conferir no PDF original)");
      });
      if(opcoes.foco!==false)preview.focus();
    }
