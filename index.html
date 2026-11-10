@@ -187,7 +187,7 @@
   <section class="py-12 sm:py-18 lg:py-22 border-b border-slate-200 dark:border-ratio-borderDark relative overflow-hidden">
     <div class="max-w-5xl mx-auto px-4 text-center relative z-10">
       <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-ratio-purple/40 bg-ratio-purple/10 text-ratio-purple text-xs sm:text-sm font-bold tracking-wide uppercase mb-6">
-        <i class="fa-solid fa-layer-group text-xs"></i> FGV/OAB • 46º e 47º com gabaritos definitivos oficiais
+        <i class="fa-solid fa-layer-group text-xs"></i> Acervo de questões • Legislação Atualizada
       </div>
       <h1 class="font-serif text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white leading-tight mb-6">
         Treine seus conhecimentos jurídicos.<br>
@@ -231,18 +231,28 @@
             </select>
           </div>
         </div>
-        <div id="cardEstatisticaOAB" class="mb-5 p-4 sm:p-6 rounded-2xl border-2 border-purple-500/50 bg-purple-50 dark:bg-[#1A2026]" role="region" aria-labelledby="tituloEstatisticaOAB">
-          <h3 id="tituloEstatisticaOAB" class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">Meu desempenho na prova</h3>
-          <p id="estatisticaIdentificacao" class="mt-1 text-xs sm:text-sm text-slate-600 dark:text-slate-300">Selecione a prova e o caderno.</p>
-          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mt-4">
-            <div class="rounded-lg p-3 bg-white dark:bg-[#111827] border border-slate-300 dark:border-slate-600"><span class="block text-xs text-slate-700 dark:text-slate-300">Respondidas</span><strong id="estRespondidas" class="block mt-1 text-xl text-slate-900 dark:text-white">0</strong></div>
-            <div class="rounded-lg p-3 bg-white dark:bg-[#111827] border border-emerald-400"><span class="block text-xs text-slate-700 dark:text-slate-300">Acertos</span><strong id="estAcertos" class="block mt-1 text-xl text-emerald-700 dark:text-emerald-300">—</strong></div>
-            <div class="rounded-lg p-3 bg-white dark:bg-[#111827] border border-rose-400"><span class="block text-xs text-slate-700 dark:text-slate-300">Erros</span><strong id="estErros" class="block mt-1 text-xl text-rose-700 dark:text-rose-300">—</strong></div>
-            <div class="rounded-lg p-3 bg-white dark:bg-[#111827] border border-slate-300 dark:border-slate-600"><span class="block text-xs text-slate-700 dark:text-slate-300">Em branco</span><strong id="estBrancas" class="block mt-1 text-xl text-slate-900 dark:text-white">80</strong></div>
-            <div class="rounded-lg p-3 bg-white dark:bg-[#111827] border border-amber-400"><span class="block text-xs text-slate-700 dark:text-slate-300">Pontos anulados</span><strong id="estAnuladas" class="block mt-1 text-xl text-amber-700 dark:text-amber-300">0</strong></div>
-            <div class="rounded-lg p-3 bg-white dark:bg-[#111827] border border-purple-400"><span class="block text-xs text-slate-700 dark:text-slate-300">Aproveitamento</span><strong id="estAproveitamento" class="block mt-1 text-xl text-purple-800 dark:text-purple-300">—</strong></div>
+        <!-- Card de estatísticas: formato compacto do simulador original, com dados reais por prova -->
+        <div id="cardEstatisticaOAB" class="mb-6 p-4 sm:p-5 rounded-2xl bg-slate-50 dark:bg-ratio-cardDark border-2 border-ratio-purple/40 shadow-sm" role="region" aria-labelledby="tituloEstatisticaOAB">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-ratio-purple/20 text-ratio-purple flex items-center justify-center text-lg font-bold" aria-hidden="true">📊</div>
+              <div>
+                <h3 id="tituloEstatisticaOAB" class="text-xs font-mono text-ratio-purple uppercase font-bold tracking-wider">Estatística de acertos e erros</h3>
+                <p id="estatisticaIdentificacao" class="text-xs text-slate-600 dark:text-slate-300 mt-1">Exame e caderno selecionados</p>
+                <div class="flex flex-wrap gap-x-4 gap-y-2 mt-2 text-sm font-bold">
+                  <span class="text-emerald-600 dark:text-emerald-400">Acertos: <strong id="estAcertos" class="tabular-nums">—</strong></span>
+                  <span class="text-rose-600 dark:text-rose-400">Erros: <strong id="estErros" class="tabular-nums">—</strong></span>
+                  <span class="text-slate-700 dark:text-slate-300">Total: <strong id="estRespondidas" class="tabular-nums">0</strong> / 80</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <p id="estatisticaMensagem" class="mt-4 text-sm text-slate-700 dark:text-slate-200" role="status" aria-live="polite">Corrija sua prova para revelar acertos, erros e aproveitamento.</p>
+          <p class="mt-3 text-xs text-slate-600 dark:text-slate-300">
+            Em branco: <strong id="estBrancas" class="tabular-nums">80</strong>
+            <span class="px-1">•</span> Pontos anulados: <strong id="estAnuladas" class="tabular-nums">0</strong>
+            <span class="px-1">•</span> Aproveitamento: <strong id="estAproveitamento" class="tabular-nums">—</strong>
+          </p>
+          <p id="estatisticaMensagem" class="mt-3 text-sm text-slate-700 dark:text-slate-200" role="status" aria-live="polite">Corrija sua prova para revelar acertos e erros.</p>
         </div>
         <p id="oabStatus" class="text-sm text-slate-700 dark:text-slate-300 mb-4" role="status"></p>
         <div class="flex flex-wrap gap-3 mb-6">
@@ -252,7 +262,7 @@
         </div>
         <div class="mb-6 p-4 rounded-xl border border-amber-500/40 bg-amber-50 dark:bg-amber-900/10">
           <p class="font-bold text-sm text-amber-900 dark:text-amber-300">Verificação jurídica de 2026 — fontes oficiais</p>
-          <p class="text-xs sm:text-sm mt-2 text-amber-950 dark:text-slate-200">O gabarito definitivo é um registro histórico. Para saber se uma questão continua correta conforme a legislação e a jurisprudência atuais, é necessário revisar o fundamento daquela questão. Nenhum item sem revisão individual é apresentado como atualizado.</p>
+          <p class="text-xs sm:text-sm mt-2 text-amber-950 dark:text-slate-200">O gabarito definitivo é um registro histórico. Para saber se uma questão continua correta conforme a legislação e a jurisprudência atuais, é necessário revisar o fundamento daquela questão.</p>
           <div class="flex flex-wrap gap-4 mt-3 text-xs font-bold">
             <a href="https://www.planalto.gov.br/ccivil_03/" target="_blank" rel="noopener noreferrer" class="underline text-purple-800 dark:text-purple-300">Legislação federal — Planalto</a>
             <a href="https://jurisprudencia.stf.jus.br/" target="_blank" rel="noopener noreferrer" class="underline text-purple-800 dark:text-purple-300">Jurisprudência — STF</a>
@@ -261,9 +271,6 @@
         </div>
         <div id="oabFolhaBloco">
           <p class="text-sm text-slate-700 dark:text-slate-300 mb-4">Leia as 80 questões no caderno PDF oficial da cor selecionada e marque suas respostas abaixo. A questão anulada recebe pontuação automática. Use o botão de correção quando terminar.</p>
-          <div class="mb-4 p-3 rounded-xl bg-purple-50 dark:bg-purple-950/30 border border-purple-500/30">
-            <p class="text-xs sm:text-sm font-semibold text-slate-900 dark:text-slate-100">Acervo comentado do 47º Exame: 80 registros do 47º EOU: 79 questões comentadas com referências legislativas, doutrinárias ou jurisprudenciais e a questão 47 oficialmente anulada. A legislação foi consultada em 09/11/2026; precedentes específicos estão identificados quando disponíveis, mas a revisão jurisprudencial integral e a atualização automática continuam pendentes.</p>
-          </div>
           <div class="flex flex-wrap items-center gap-3 mb-4">
             <button type="button" onclick="corrigirFolha47()" class="px-5 py-3 rounded-lg bg-emerald-700 text-white font-bold text-sm">Corrigir minha prova</button>
             <button type="button" onclick="limparFolha47()" class="px-5 py-3 rounded-lg border border-slate-400 text-slate-900 dark:text-white font-bold text-sm">Limpar respostas</button>
@@ -304,7 +311,7 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-6">
         <div class="rounded-xl p-5 border-2 border-purple-600 bg-purple-50 dark:bg-ratio-cardDark">
           <h3 class="font-bold text-slate-900 dark:text-white">FGV / OAB</h3>
-          <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">42º ao 47º Exames disponíveis para correção: 80 questões por prova e quatro cadernos oficiais. 41º ao 10º têm links oficiais no catálogo.</p>
+          <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">Cadernos e gabaritos definitivos de exames oficiais da FGV/OAB, com correção por prova.</p>
           <a href="#oab-arquivo" class="inline-block mt-3 underline font-bold text-purple-800 dark:text-purple-300">Abrir cadernos e gabaritos oficiais</a>
         </div>
         <div class="rounded-xl p-5 border border-slate-300 dark:border-ratio-borderDark bg-slate-50 dark:bg-ratio-cardDark">
