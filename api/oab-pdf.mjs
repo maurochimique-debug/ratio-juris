@@ -3,6 +3,12 @@
  * Os enunciados continuam originários de s.oab.org.br.
  */
 const SOURCES = Object.freeze({
+  "39": [
+    "https://s.oab.org.br/arquivos/2023/11/8340b3e9-4337-4351-929c-3dcfd772e54a.pdf",
+    "https://s.oab.org.br/arquivos/2023/11/ea2729d0-af4a-4409-86c1-1d592d3a59c7.pdf",
+    "https://s.oab.org.br/arquivos/2023/11/2900f40f-499f-43d8-afe1-ac8d560f9801.pdf",
+    "https://s.oab.org.br/arquivos/2023/11/ea326f38-6db2-409b-a6a4-fa7433880b63.pdf"
+  ],
   "40": [
     "https://s.oab.org.br/arquivos/2024/03/11dfd35e-c74b-4c5a-8d8c-ce6c9c40505a.pdf",
     "https://s.oab.org.br/arquivos/2024/03/e3bb3c7b-fab4-410c-9c6c-9bf5b4e3980a.pdf",
