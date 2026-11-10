@@ -8,6 +8,7 @@
  const PDF_WORKER="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.4.299/pdf.worker.min.mjs";
  let documento=null;
  let cache=new Map();
+ let cacheQuestoes=new Map();
  let trechoAtual="";
  let carregando=false;
  let promessaOficial=null;
@@ -19,6 +20,7 @@
    identidadeDocumento="";
    documento=null;
    cache.clear();
+   cacheQuestoes.clear();
    trechoAtual="";
    const input=$("pdfOficialLocal");if(input)input.value="";
    const tela=$("pdfTextoExtraido");if(tela)tela.textContent="";
@@ -53,6 +55,7 @@
      documento=parsed;
      identidadeDocumento="arquivo-local";
      cache.clear();
+     cacheQuestoes.clear();
      trechoAtual="";
      const selector=$("pdfPaginaSelect");
      selector.replaceChildren();
@@ -112,7 +115,7 @@
      const antigo=documento;
      documento=parsed;
      identidadeDocumento=exame+"-"+tipo;
-     cache.clear();trechoAtual="";
+     cache.clear();cacheQuestoes.clear();trechoAtual="";
      try{if(antigo&&antigo!==parsed)await antigo.destroy?.()}catch(_){}
      const selector=$("pdfPaginaSelect");selector.replaceChildren();
      for(let i=1;i<=documento.numPages;i++){
@@ -127,7 +130,7 @@
      return true;
    }catch(_){
      if(parsed)try{await parsed.destroy?.()}catch(_){}
-     documento=null;cache.clear();trechoAtual="";
+     documento=null;cache.clear();cacheQuestoes.clear();trechoAtual="";
      $("pdfLeitorControles")?.classList.add("hidden");
      avisar("Não foi possível carregar o texto oficial nesta conexão. Use a prova integrada acima ou o link direto da OAB. Nenhuma questão será substituída por conteúdo inventado.");
      return false;
@@ -216,43 +219,66 @@
    }
    return null;
  }
+ function renderizarTextoQuestao(numero,pagina,trecho,opcoes={}){
+   const n=Number(numero);
+   const chaveDocumento=$("oabExamSelect")?.value+"-"+$("oabTipoSelect")?.value;
+   if(!trecho||identidadeDocumento!==chaveDocumento||
+      Number($("questaoOficialNumeroSelect")?.value)!==n)return false;
+   const selectorPagina=$("pdfPaginaSelect");
+   if(selectorPagina)selectorPagina.value=String(pagina);
+   trechoAtual=trecho;
+   const textoAcessivel=$("pdfTextoExtraido");
+   if(textoAcessivel)textoAcessivel.textContent=trecho;
+   const preview=$("textoQuestaoDentroSimulador");
+   if(preview){
+     preview._ratioQuestaoAnterior=chaveDocumento+"-"+n;
+     const separado=separarAlternativasOficiais(trecho);
+     preview.textContent=separado?separado.enunciado:trecho;
+     const botoes=$("alternativasQuestaoOficial")?.querySelectorAll("button");
+     if(botoes)Array.from(botoes).forEach((botao,i)=>{
+       const letra="ABCD"[i];
+       botao.textContent=separado?letra+" — "+separado.alternativas[i]:letra;
+       botao.setAttribute("aria-label",separado?
+         "Alternativa "+letra+": "+separado.alternativas[i]:"Alternativa "+letra);
+     });
+     if(opcoes.foco!==false)preview.focus();
+   }
+   return true;
+ }
  async function localizarQuestao(opcoes={}){
    const token=++buscaAtual;
    if(!documento){avisar("Carregue o PDF original da prova para localizar a questão.");return false;}
    const n=Number($("questaoOficialNumeroSelect")?.value||1);
    if(!Number.isInteger(n)||n<1||n>80)return false;
-   avisar("Procurando questão "+n+" no texto extraível do PDF local.");
+   const chaveDocumento=$("oabExamSelect")?.value+"-"+$("oabTipoSelect")?.value;
+   const chaveQuestao=chaveDocumento+"-"+n;
+   const memorizada=cacheQuestoes.get(chaveQuestao);
+   if(memorizada && identidadeDocumento===chaveDocumento){
+     const ok=renderizarTextoQuestao(n,memorizada.pagina,memorizada.trecho,opcoes);
+     if(ok){
+       avisar("Questão "+n+" recuperada do PDF oficial já consultado nesta sessão.");
+       return true;
+     }
+   }
+   avisar("Procurando questão "+n+" no texto extraível do PDF oficial.");
    for(let pageNo=1;pageNo<=documento.numPages;pageNo++){
      try{
        const full=await textoPagina(pageNo);
-       if(token!==buscaAtual||String(n)!==$("questaoOficialNumeroSelect")?.value)return false;
+       if(token!==buscaAtual||identidadeDocumento!==chaveDocumento||
+          Number($("questaoOficialNumeroSelect")?.value)!==n)return false;
        const excerpt=extrairTrechoQuestao(full,n);
        if(excerpt){
-         $("pdfPaginaSelect").value=String(pageNo);
-         trechoAtual=excerpt;
-         $("pdfTextoExtraido").textContent=excerpt;
-         const preview=$("textoQuestaoDentroSimulador");
-         if(preview){
-           preview._ratioQuestaoAnterior=$("oabExamSelect")?.value+"-"+$("oabTipoSelect")?.value+"-"+n;
-           const separado=separarAlternativasOficiais(excerpt);
-           preview.textContent=separado?separado.enunciado:excerpt;
-           const botoes=$("alternativasQuestaoOficial")?.querySelectorAll("button");
-           if(botoes)Array.from(botoes).forEach((botao,i)=>{
-             const letra="ABCD"[i];
-             botao.textContent=separado?letra+" — "+separado.alternativas[i]:letra;
-             botao.setAttribute("aria-label",separado?
-               "Alternativa "+letra+": "+separado.alternativas[i]:"Alternativa "+letra);
-           });
-           if(opcoes.foco!==false)preview.focus();
-         }else $("pdfTextoExtraido").focus();
+         const ok=renderizarTextoQuestao(n,pageNo,excerpt,opcoes);
+         if(!ok)return false;
+         cacheQuestoes.set(chaveQuestao,{pagina:pageNo,trecho:excerpt});
          avisar("Possível localização da questão "+n+" na página "+pageNo+
-           ". Confira o enunciado e as alternativas com o PDF original; a extração de colunas pode alterar a ordem.");
+           ". Confira a formatação e as alternativas com o PDF original quando necessário.");
          return true;
        }
      }catch(_){}
    }
    const preview=$("textoQuestaoDentroSimulador");
-   if(preview && token===buscaAtual){
+   if(preview && token===buscaAtual && identidadeDocumento===chaveDocumento){
      preview.textContent="Não foi possível identificar com segurança o enunciado da questão "+n+
        " neste PDF. Use o link de consulta opcional; não exibimos enunciados ou alternativas inventados.";
    }
