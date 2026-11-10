@@ -1,3 +1,42 @@
+# Atualização — 10/11/2026: estatísticas oficiais, 45º EOU e links de artigos do Planalto
+
+## Modo Gabinete — localização do artigo escolhido
+
+O Gabinete permite selecionar **legislação federal oficial** (Constituição, CC, CPC, CPP, CP, CTN, CLT, CDC, ECA, LINDB, Estatuto da OAB, Lei 14.133/2021 e Lei 9.784/1999), informar **número do artigo** (por exemplo: `366`, `20`, `28-A`) e gerar um link direcionado à **página oficial do Planalto**, usando fragmento de localização de texto do navegador:
+
+- Código Civil, art. 366: `https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm#:~:text=Art.%20366.`
+- LINDB, art. 20: `https://www.planalto.gov.br/ccivil_03/decreto-lei/del4657compilado.htm#:~:text=Art.%2020.`
+
+A função aceita buscas livres como `art. 366 CC` ou `art. 20 LINDB`, além de manter consultas cadastradas ao STF e STJ. As URLs das normas são de lista autorizada; números de artigo são validados e o texto pesquisado é adicionado à interface via `textContent`, não HTML executável.
+
+**Limite operacional importante:** o Planalto não disponibiliza âncora HTML estável para todos os artigos; o fragmento de texto é interpretado pelo navegador (principalmente Chromium). Em navegadores sem suporte, em caso de bloqueio ou redação diferente da que consta do fragmento, o aplicativo oferece o link geral do diploma e orientação de localizar o dispositivo com Ctrl+F/Busca na página. Não há garantia universal de rolagem exata.
+
+## Novo card de desempenho de provas oficiais
+
+O card da folha de respostas informa:
+- Quantidade de respostas marcadas e em branco, independentemente de correção;
+- **Acertos e erros** efetivamente marcados, liberados somente após a correção da prova;
+- Pontos de anulação concedidos pelo gabarito definitivo e aproveitamento percentual de **pontos totais / 80**;
+- Separação por **exame e tipo de caderno** no navegador; ao alterar uma resposta o resultado fica pendente de nova correção.
+
+Questões não respondidas **não** são consideradas erros; questões oficialmente anuladas podem gerar pontuação automática. Não se fornece resultado de exame sem gabarito importado.
+
+## 45º Exame de Ordem integrado
+
+O 45º EOU (prova objetiva de **21/12/2025**, gabarito definitivo de **19/01/2026**) passa a ter folha local para **quatro tipos de caderno com 80 respostas**, diferenciada dos 46º e 47º Exames. Os gabaritos foram confrontados entre os quatro tipos e tabela de correspondência oficial sem inconsistências.
+
+Gabarito oficial: https://s.oab.org.br/arquivos/2026/01/183549bb-ee34-4ac4-aefb-5962d96acca0.pdf
+
+O registro **não** reproduz enunciados integrais da FGV/OAB, não incorpora comentários jurídicos individuais do 45º, e não atribui ao gabarito histórico validade jurídica atual automática. Do 44º ao 10º EOU permanecem links oficiais no catálogo, sem correção interna homologada.
+
+O texto de apresentação principal do usuário foi mantido. Na seção do arquivo foi usado exatamente o título solicitado: **Qual Banca Você Quer Treinar Agora? (Acervo Especial)**, removendo a descrição longa anterior. Nenhuma alegação não verificada de 6.000 questões foi adicionada ao site.
+
+## Testes
+
+**62/62 testes simulados de lógica aprovados**: três exames, quatro tipos de caderno por exame, gabaritos, nota máxima, respostas incorretas, em branco, pontuação da anulação, persistência das estatísticas, exames não importados e direcionamento por artigo. Testes E2E reais de navegador/visual e SSO permanecem pendentes.
+
+---
+
 # Política obrigatória de questões oficiais — 10 de novembro de 2026
 
 A pedido do responsável pelo RatioJuris, **somente questões comprovadamente pertencentes a provas de bancas examinadoras** poderão integrar a plataforma. É **proibido** criar questões autorais, sintéticas, reformuladas ou atribuídas ficticiamente a FGV, CEBRASPE, VUNESP ou FCC como se fossem provas dessas organizações.
