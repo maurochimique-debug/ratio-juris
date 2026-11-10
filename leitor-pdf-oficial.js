@@ -195,6 +195,27 @@
    candidate=candidate.trim();
    return candidate.length>=30?candidate:null;
  }
+ // Separa alternativas somente quando as quatro marcações estão inequívocas.
+ // Se a extração estiver ambígua, preserva o texto integral para não omitir respostas.
+ function separarAlternativasOficiais(trecho){
+   const texto=String(trecho||"").trim();
+   const marcador=/(^|[\n\r]|\s)([A-D])\s*[\)\.]\s+/g;
+   const achados=[];
+   let m;
+   while((m=marcador.exec(texto))!==null){
+     achados.push({letra:m[2],inicio:m.index+m[1].length,fim:marcador.lastIndex});
+   }
+   for(let i=0;i<=achados.length-4;i++){
+     const seq=achados.slice(i,i+4);
+     if(seq.map(x=>x.letra).join("")!=="ABCD")continue;
+     if(achados.length!==4)continue;
+     const enunciado=texto.slice(0,seq[0].inicio).trim();
+     const opcoes=seq.map((x,j)=>texto.slice(x.fim,j===3?texto.length:seq[j+1].inicio).trim());
+     if(enunciado.length<35||opcoes.some(v=>v.length<2||v.length>1600))continue;
+     return {enunciado,alternativas:opcoes};
+   }
+   return null;
+ }
  async function localizarQuestao(opcoes={}){
    const token=++buscaAtual;
    if(!documento){avisar("Carregue o PDF original da prova para localizar a questão.");return false;}
@@ -213,7 +234,15 @@
          const preview=$("textoQuestaoDentroSimulador");
          if(preview){
            preview._ratioQuestaoAnterior=$("oabExamSelect")?.value+"-"+$("oabTipoSelect")?.value+"-"+n;
-           preview.textContent=excerpt;
+           const separado=separarAlternativasOficiais(excerpt);
+           preview.textContent=separado?separado.enunciado:excerpt;
+           const botoes=$("alternativasQuestaoOficial")?.querySelectorAll("button");
+           if(botoes)Array.from(botoes).forEach((botao,i)=>{
+             const letra="ABCD"[i];
+             botao.textContent=separado?letra+" — "+separado.alternativas[i]:letra;
+             botao.setAttribute("aria-label",separado?
+               "Alternativa "+letra+": "+separado.alternativas[i]:"Alternativa "+letra);
+           });
            if(opcoes.foco!==false)preview.focus();
          }else $("pdfTextoExtraido").focus();
          avisar("Possível localização da questão "+n+" na página "+pageNo+
