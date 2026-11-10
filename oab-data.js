@@ -1,4 +1,4 @@
-/* Gabaritos de provas oficiais OAB/FGV, exames 42–47. Cadernos múltiplos não duplicam questões. */
+/* Fonte FGV/OAB: gabaritos definitivos do 41º ao 47º EOU; enunciados íntegros só nos PDFs oficiais. */
 window.RATIO_OAB_DATA = {
   "version": "2026-11-09",
   "metadata": {
@@ -8,7 +8,7 @@ window.RATIO_OAB_DATA = {
     "aviso": "O gabarito é histórico. Comentários sobre legislação e jurisprudência atuais exigem revisão individual.",
     "validacaoJuridicaIndividual": false,
     "ultimaIntegracao": "2026-11-10",
-    "escopoGabaritos": "42º a 47º Exames oficiais com quatro cadernos e gabaritos definitivos por edição; 41º a 10º somente catálogo externo",
+    "escopoGabaritos": "41º a 47º Exames OAB: 7 edições com quatro gabaritos definitivos; do 40º ao 10º somente catálogo externo",
     "ultimaImportacao": "2026-11-10",
     "examesCorrigiveis": [
       47,
@@ -16,16 +16,16 @@ window.RATIO_OAB_DATA = {
       45,
       44,
       43,
-      42
+      42,
+      41
     ],
     "auditoriaAtual": {
       "data": "2026-11-10",
-      "totalQuestoesDistintas": 480,
-      "totalExamesCorrigiveis": 6,
+      "totalQuestoesDistintas": 560,
+      "totalExamesCorrigiveis": 7,
       "totalExamesCatalogados": 38,
       "gabaritosPorExame": 4,
-      "status": "GABARITOS_HISTORICOS_OFICIAIS_PDF_E_LINKS_ENUNCIADOS_NAO_TRANSCRITOS",
-      "comentario": "Não se deve contar quatro cadernos como quatro vezes mais questões; não há 6.000 questões distintas verificadas neste repositório."
+      "status": "GABARITOS_HISTORICOS_OFICIAIS_PDF_E_LINKS_ENUNCIADOS_NAO_TRANSCRITOS"
     }
   },
   "bancas": [
@@ -74,8 +74,8 @@ window.RATIO_OAB_DATA = {
     {
       "exame": 41,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=644",
-      "status": "pagina_historica_sem_importacao",
-      "importado": false
+      "status": "gabaritos_oficiais_4_cadernos_verificados",
+      "importado": true
     },
     {
       "exame": 40,
@@ -2885,5 +2885,451 @@ window.RATIO_OAB_DATA = {
       ]
     ],
     "nota": "Usa publicação atualizada do gabarito definitivo após comunicado de reprocessamento FGV. Uma questão anulada por caderno, incluindo Q43 no Tipo 1, com ponto automático."
+  },
+  "exam41": {
+    "exame": 41,
+    "dataProva": "2024-07-28",
+    "dataGabaritoDefinitivo": "2024-08-14",
+    "status": "GABARITO_DEFINITIVO_OFICIAL_VERIFICADO",
+    "gabaritos": [
+      "BABDABCCBBBCBBBAABCBABACDCDCBCDADCCDDBDADDABAACDABDDBBCADCDADCAACACCDAACDCBCDBAA",
+      "ABBCDACBBBABCBBBBABCBACABDCDCCCDADDCDADDDBBAAABCDAADDBBCCDCDADCAACACDABACDCBAACD",
+      "CDAABCBBBBBABCBBABBCABACCBDCDDCCDACDDDBDADABAAABCDBBCADDDCDCDAACCAACADCBACDDBAAC",
+      "BBDCCABABBBBABCBBACBBACADCBDCADCCDDCADDDBDBAAADABCCADDBBADCDCDCCAACAADDCBACACDBA"
+    ],
+    "correspondencia": [
+      [
+        8,
+        7,
+        2
+      ],
+      [
+        1,
+        3,
+        6
+      ],
+      [
+        2,
+        8,
+        7
+      ],
+      [
+        5,
+        2,
+        3
+      ],
+      [
+        6,
+        4,
+        8
+      ],
+      [
+        3,
+        5,
+        1
+      ],
+      [
+        4,
+        1,
+        5
+      ],
+      [
+        7,
+        6,
+        4
+      ],
+      [
+        10,
+        9,
+        10
+      ],
+      [
+        9,
+        10,
+        9
+      ],
+      [
+        12,
+        13,
+        14
+      ],
+      [
+        13,
+        14,
+        15
+      ],
+      [
+        14,
+        15,
+        16
+      ],
+      [
+        15,
+        16,
+        11
+      ],
+      [
+        16,
+        11,
+        12
+      ],
+      [
+        11,
+        12,
+        13
+      ],
+      [
+        18,
+        17,
+        18
+      ],
+      [
+        17,
+        18,
+        17
+      ],
+      [
+        20,
+        20,
+        19
+      ],
+      [
+        19,
+        19,
+        20
+      ],
+      [
+        22,
+        21,
+        22
+      ],
+      [
+        21,
+        22,
+        21
+      ],
+      [
+        24,
+        23,
+        24
+      ],
+      [
+        23,
+        24,
+        23
+      ],
+      [
+        26,
+        27,
+        28
+      ],
+      [
+        27,
+        28,
+        29
+      ],
+      [
+        28,
+        29,
+        25
+      ],
+      [
+        29,
+        25,
+        26
+      ],
+      [
+        25,
+        26,
+        27
+      ],
+      [
+        31,
+        32,
+        33
+      ],
+      [
+        32,
+        33,
+        34
+      ],
+      [
+        33,
+        34,
+        30
+      ],
+      [
+        34,
+        30,
+        31
+      ],
+      [
+        30,
+        31,
+        32
+      ],
+      [
+        36,
+        35,
+        36
+      ],
+      [
+        35,
+        36,
+        35
+      ],
+      [
+        41,
+        38,
+        40
+      ],
+      [
+        42,
+        39,
+        41
+      ],
+      [
+        37,
+        40,
+        42
+      ],
+      [
+        38,
+        41,
+        37
+      ],
+      [
+        39,
+        42,
+        38
+      ],
+      [
+        40,
+        37,
+        39
+      ],
+      [
+        44,
+        43,
+        44
+      ],
+      [
+        43,
+        44,
+        43
+      ],
+      [
+        46,
+        46,
+        45
+      ],
+      [
+        45,
+        45,
+        46
+      ],
+      [
+        48,
+        49,
+        50
+      ],
+      [
+        49,
+        50,
+        47
+      ],
+      [
+        50,
+        47,
+        48
+      ],
+      [
+        47,
+        48,
+        49
+      ],
+      [
+        52,
+        55,
+        53
+      ],
+      [
+        53,
+        56,
+        54
+      ],
+      [
+        54,
+        51,
+        55
+      ],
+      [
+        55,
+        52,
+        56
+      ],
+      [
+        56,
+        53,
+        51
+      ],
+      [
+        51,
+        54,
+        52
+      ],
+      [
+        58,
+        59,
+        60
+      ],
+      [
+        59,
+        60,
+        61
+      ],
+      [
+        60,
+        61,
+        62
+      ],
+      [
+        61,
+        62,
+        57
+      ],
+      [
+        62,
+        57,
+        58
+      ],
+      [
+        57,
+        58,
+        59
+      ],
+      [
+        64,
+        66,
+        65
+      ],
+      [
+        65,
+        67,
+        66
+      ],
+      [
+        66,
+        68,
+        67
+      ],
+      [
+        67,
+        63,
+        68
+      ],
+      [
+        68,
+        64,
+        63
+      ],
+      [
+        63,
+        65,
+        64
+      ],
+      [
+        69,
+        70,
+        70
+      ],
+      [
+        70,
+        69,
+        69
+      ],
+      [
+        72,
+        73,
+        74
+      ],
+      [
+        73,
+        74,
+        75
+      ],
+      [
+        74,
+        75,
+        71
+      ],
+      [
+        75,
+        71,
+        72
+      ],
+      [
+        71,
+        72,
+        73
+      ],
+      [
+        79,
+        80,
+        77
+      ],
+      [
+        80,
+        76,
+        78
+      ],
+      [
+        76,
+        77,
+        79
+      ],
+      [
+        77,
+        78,
+        80
+      ],
+      [
+        78,
+        79,
+        76
+      ]
+    ],
+    "cadernos": [
+      {
+        "tipo": 1,
+        "cor": "Branca",
+        "pdf": "https://s.oab.org.br/arquivos/2024/07/19c7a9d4-0c6f-420c-90e2-113d66ded881.pdf"
+      },
+      {
+        "tipo": 2,
+        "cor": "Verde",
+        "pdf": "https://s.oab.org.br/arquivos/2024/07/df1893ce-865b-4e7f-a15f-76f21964280f.pdf"
+      },
+      {
+        "tipo": 3,
+        "cor": "Amarela",
+        "pdf": "https://s.oab.org.br/arquivos/2024/07/f5c23a40-5b20-44a5-b0f4-dc44d1d67034.pdf"
+      },
+      {
+        "tipo": 4,
+        "cor": "Azul",
+        "pdf": "https://s.oab.org.br/arquivos/2024/07/cba6ee4b-2e34-4341-9b8d-d0c0f83cb12e.pdf"
+      }
+    ],
+    "gabaritoPDF": "https://s.oab.org.br/arquivos/2024/08/84fbe13b-0efb-4b50-b729-aaba9edd95e5.pdf",
+    "fonteOficial": "https://www.oabpr.org.br/oab-divulga-gabarito-definitivo-e-o-resultado-preliminar-da-1a-fase-do-41o-eou/",
+    "disciplinas": [],
+    "anulacoesPorTipo": [
+      [],
+      [],
+      [],
+      []
+    ],
+    "nota": "Quatro gabaritos definitivos publicados pela OAB e tabela oficial de 80 correspondências, todos conferidos; enunciados permanecem no PDF da banca; sem revisão jurídica individual."
   }
 };
