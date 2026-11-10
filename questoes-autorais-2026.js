@@ -1,4 +1,4 @@
-/* Questões originais de treino 2026. NÃO são questões oficiais de nenhuma banca. */
+/* Banco autoral, separado das provas oficiais FGV/OAB; formato CEBRASPE Certo/Errado. */
 window.RATIO_TREINO_EXTRA = {
   "schemaVersion": "1.0",
   "createdAt": "2026-11-09",
@@ -640,10 +640,10 @@ window.RATIO_TREINO_EXTRA = {
       "banca": "CEBRASPE",
       "materiaId": "constitucional",
       "tema": "Liberdade de manifestação do pensamento",
-      "enunciado": "Segundo a Constituição, a liberdade de manifestação do pensamento abrange a possibilidade de anonimato sem restrições?",
+      "enunciado": "Julgue o item: a Constituição Federal autoriza o anonimato na manifestação do pensamento, sem qualquer restrição expressa.",
       "alternativas": [
-        "Sim, a Constituição protege expressamente o anonimato.",
-        "Não, a manifestação é livre, mas o anonimato é vedado."
+        "Certo",
+        "Errado"
       ],
       "correta": "B",
       "explicacao": "O art. 5º, IV, da CF garante a livre manifestação do pensamento, vedando o anonimato.",
@@ -655,10 +655,10 @@ window.RATIO_TREINO_EXTRA = {
       "banca": "CEBRASPE",
       "materiaId": "tributario",
       "tema": "Prazo de prescrição tributária",
-      "enunciado": "A ação de cobrança de crédito tributário, em regra, prescreve em cinco anos contados da constituição definitiva desse crédito.",
+      "enunciado": "Julgue o item: a ação de cobrança de crédito tributário prescreve, em regra, em cinco anos, contados da constituição definitiva do crédito.",
       "alternativas": [
-        "Certo.",
-        "Errado."
+        "Certo",
+        "Errado"
       ],
       "correta": "A",
       "explicacao": "O CTN, art. 174, fixa prazo de cinco anos para cobrança do crédito tributário desde a constituição definitiva, sem prejuízo das causas legais de interrupção.",
@@ -670,10 +670,10 @@ window.RATIO_TREINO_EXTRA = {
       "banca": "CEBRASPE",
       "materiaId": "consumidor",
       "tema": "Nulidade de cláusula abusiva",
-      "enunciado": "No CDC, a cláusula contratual que coloca o consumidor em desvantagem exagerada, incompatível com boa-fé ou equidade, é sempre válida se escrita em letras maiúsculas.",
+      "enunciado": "Julgue o item: uma cláusula abusiva que coloque o consumidor em desvantagem exagerada torna-se válida se estiver redigida com destaque tipográfico.",
       "alternativas": [
-        "Certo.",
-        "Errado."
+        "Certo",
+        "Errado"
       ],
       "correta": "B",
       "explicacao": "O art. 51, IV, do CDC torna nula de pleno direito cláusula abusiva que imponha obrigações iníquas ou desvantagem exagerada, ainda que destacada.",
