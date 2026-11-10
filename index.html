@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="/acessibilidade.css">
+  <link rel="stylesheet" href="/responsividade.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>RATIO JURIS | Provas oficiais FGV/OAB, cadernos e gabaritos</title>
   <!-- Tailwind CSS CDN -->
@@ -86,14 +87,14 @@
 
   <!-- NAVBAR RESPONSIVA -->
   <header class="border-b border-slate-200 dark:border-ratio-borderDark bg-white/95 dark:bg-[#12161A]/95 backdrop-blur sticky top-0 z-50 transition-colors duration-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-tr from-ratio-purpleDeep to-ratio-purple flex items-center justify-center text-white text-xl sm:text-2xl font-bold shadow-lg shadow-purple-900/40">
+    <div class="ratio-header-inner max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[4rem] h-auto py-2 sm:py-0 sm:h-20 flex items-center justify-between">
+      <div class="ratio-brand flex items-center gap-3">
+        <div class="ratio-brand-mark w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-tr from-ratio-purpleDeep to-ratio-purple flex items-center justify-center text-white text-xl sm:text-2xl font-bold shadow-lg shadow-purple-900/40">
           ⚖️
         </div>
         <div>
-          <span class="font-serif text-2xl sm:text-3xl font-black tracking-wider text-slate-900 dark:text-white">RATIO <span class="text-ratio-purple">JURIS</span></span>
-          <span class="text-[11px] block font-mono text-amber-600 dark:text-ratio-amber tracking-widest uppercase font-bold">Versão demonstrativa</span>
+          <span class="ratio-brand-title font-serif text-2xl sm:text-3xl font-black tracking-wider text-slate-900 dark:text-white">RATIO <span class="text-ratio-purple">JURIS</span></span>
+          <span class="ratio-brand-caption text-[11px] block font-mono text-amber-600 dark:text-ratio-amber tracking-widest uppercase font-bold">Versão demonstrativa</span>
         </div>
       </div>
             
@@ -106,7 +107,7 @@
 
       </nav>
 
-      <div class="flex items-center gap-2.5 sm:gap-3">
+      <div class="ratio-header-actions flex items-center gap-2.5 sm:gap-3">
         <button id="btnAcessibilidade" type="button" aria-controls="painelAcessibilidade" aria-expanded="false" aria-label="Abrir painel de acessibilidade" title="Acessibilidade visual e comunicação alternativa" onclick="RatioA11y.toggle()" class="btn-touch p-2 sm:px-3 sm:py-2.5 rounded-xl border border-purple-500 bg-purple-100 dark:bg-purple-950/40 text-purple-800 dark:text-purple-200 hover:border-amber-500 transition font-bold text-sm inline-flex items-center gap-2">
           <i class="fa-solid fa-universal-access text-lg" aria-hidden="true"></i>
           <span class="hidden sm:inline">Acessibilidade</span>
@@ -114,11 +115,22 @@
         <button id="themeToggleBtn" aria-label="Alternar tema claro ou escuro" onclick="alternarTema()" class="btn-touch p-2 sm:p-2.5 rounded-xl border border-slate-300 dark:border-ratio-borderDark bg-slate-100 dark:bg-ratio-cardDark text-slate-700 dark:text-ratio-amber hover:border-ratio-purple transition flex items-center justify-center text-base sm:text-lg shadow-sm" title="Alternar entre Modo Claro e Escuro">
           <i id="themeIcon" class="fa-solid fa-moon"></i>
         </button>
+        <button id="btnMenuMobile" type="button" aria-controls="menuMobile" aria-expanded="false" aria-label="Abrir menu de navegação" onclick="RatioResponsive.toggleMenu()" class="btn-touch lg:hidden flex items-center justify-center rounded-xl border border-purple-500 bg-white dark:bg-ratio-cardDark text-purple-800 dark:text-purple-300" style="width:44px;height:44px;flex-shrink:0">
+          <i class="fa-solid fa-bars" aria-hidden="true"></i><span class="sr-only">Menu</span>
+        </button>
         <a href="#oab-arquivo" class="hidden sm:inline-flex btn-touch px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg bg-gradient-to-r from-ratio-purpleDeep to-ratio-purple text-white text-xs sm:text-sm font-bold shadow-lg hover:opacity-90 transition">
           Responder prova oficial
         </a>
       </div>
     </div>
+    <nav id="menuMobile" class="ratio-nav-mobile hidden lg:hidden border-t border-slate-200 dark:border-ratio-borderDark bg-white dark:bg-[#12161A] px-3 pb-3 pt-2 shadow-lg" aria-label="Navegação principal no celular e tablet" hidden>
+      <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-1 text-slate-900 dark:text-slate-100">
+        <a href="#oab-arquivo" onclick="RatioResponsive.closeMenu()">Provas e simulador oficial da OAB</a>
+        <a href="#gabinete" onclick="RatioResponsive.closeMenu()">Modo Gabinete e legislação</a>
+        <a href="#planos" onclick="RatioResponsive.closeMenu()">Planos e preços</a>
+        <a href="#painelAcessibilidade" onclick="RatioResponsive.closeMenu();RatioA11y.toggle();return false;">Abrir recursos de acessibilidade</a>
+      </div>
+    </nav>
   </header>
 
   <!-- PAINEL DE ACESSIBILIDADE — disponível também no celular -->
@@ -287,6 +299,7 @@
             <label for="questaoOficialNumeroSelect" class="text-sm font-semibold text-slate-900 dark:text-white">Ir para a questão</label>
             <select id="questaoOficialNumeroSelect" onchange="irParaQuestaoOficial(this.value)" aria-label="Escolher uma das 80 questões da prova oficial" class="px-3 py-2 rounded-lg border-2 border-purple-500 bg-white dark:bg-[#12161A] text-slate-900 dark:text-white"></select>
           </div>
+          <div class="ratio-study-layout mt-5">
           <div id="visualizadorProvaIntegrado" class="mt-5 rounded-xl border-2 border-purple-500 bg-white dark:bg-[#12161A] overflow-hidden" role="region" aria-labelledby="tituloVisualizadorIntegrado">
             <div class="flex flex-wrap justify-between items-center gap-3 p-3 sm:p-4 bg-purple-50 dark:bg-purple-950/40">
               <div>
@@ -298,10 +311,10 @@
                 <a id="linkProvaOabDireto" href="https://oab.fgv.br/" target="_blank" rel="noopener noreferrer" class="px-3 py-2 rounded-lg border border-purple-600 text-purple-800 dark:text-purple-300 underline text-xs sm:text-sm font-bold">Abrir na OAB</a>
               </div>
             </div>
-            <iframe id="iframeProvaOficial" title="Visualizador integrado do caderno oficial da FGV/OAB" class="w-full h-[430px] sm:h-[560px] lg:h-[660px] bg-white" loading="lazy" referrerpolicy="no-referrer" aria-label="Caderno oficial da OAB, aberto dentro do RatioJuris"></iframe>
+            <iframe id="iframeProvaOficial" title="Visualizador integrado do caderno oficial da FGV/OAB" class="ratio-pdf-iframe bg-white" loading="lazy" referrerpolicy="no-referrer" aria-label="Caderno oficial da OAB, aberto dentro do RatioJuris"></iframe>
             <p class="text-xs p-3 text-slate-700 dark:text-slate-300">A prova é transmitida sob demanda da OAB. Se o navegador não mostrar PDFs integrados, selecione <strong>Abrir na OAB</strong> ou <strong>Ler prova em texto acessível</strong>. O gabarito não aparece no visualizador de questões.</p>
           </div>
-          <div class="mt-5 p-5 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-[#12161A]">
+          <div class="ratio-study-pane mt-5 p-5 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-[#12161A]">
             <h4 id="questaoOficialTitulo" class="text-xl font-bold text-slate-900 dark:text-white" tabindex="-1">Questão da prova original</h4>
             <p id="questaoOficialContexto" class="text-sm text-slate-700 dark:text-slate-300 mt-2"></p>
             <a id="questaoOficialPdf" href="https://oab.fgv.br/" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 px-4 py-3 bg-purple-700 text-white font-bold rounded-lg underline">Abrir PDF oficial e ler esta questão</a>
@@ -328,13 +341,14 @@
               <p id="statusFundamentacaoErro" class="mt-3 text-xs text-slate-700 dark:text-slate-300"></p>
             </aside>
           </div>
-          <div class="flex flex-wrap gap-3 items-center mt-5">
+          </div>
+          <div class="ratio-study-actions mt-5">
             <button id="btnQuestaoAnterior" type="button" onclick="moverQuestaoOficial(-1)" class="btn-touch px-5 py-3 rounded-lg border-2 border-purple-500 text-purple-800 dark:text-purple-300 font-semibold">Questão anterior</button>
             <button id="btnQuestaoProxima" type="button" onclick="moverQuestaoOficial(1)" class="btn-touch px-5 py-3 rounded-lg bg-purple-700 text-white font-semibold">Próxima questão</button>
             <button type="button" onclick="corrigirSimuladorOficial()" class="btn-touch px-5 py-3 rounded-lg bg-emerald-700 text-white font-bold">Corrigir minha prova</button>
             <button type="button" onclick="RatioA11y.readOfficialQuestion()" class="btn-touch px-4 py-3 rounded-lg border-2 border-purple-600 text-purple-800 dark:text-purple-300 font-semibold">Ouvir orientação e resposta</button>
           </div>
-          <p class="text-xs text-slate-600 dark:text-slate-300 mt-4">O histórico é salvo por exame e tipo de caderno neste navegador. Ao atingir a questão 80, a sequência termina sem repetir perguntas automaticamente.</p>
+          <p class="text-xs text-slate-600 dark:text-slate-300 mt-4">O histórico é salvo por exame e tipo de caderno neste navegador. Ao atingir a questão 80, a sequência termina sem repetir perguntas automaticamente. No PC, com o foco no simulador, use Alt + seta esquerda ou direita para navegar entre questões.</p>
         </div>
         <!-- Texto original proveniente SOMENTE de PDF oficial escolhido pelo usuário; execução local -->
         <section id="leitorPdfAcessivel" class="mb-6 rounded-2xl border-2 border-amber-400 bg-amber-50 dark:bg-[#191b22] p-5 sm:p-6" aria-labelledby="tituloLeitorPdf">
@@ -871,7 +885,7 @@
       explanation.textContent='Resposta correta: '+letraCorreta+'. '+comentario.fundamentacao;
       if(comentario.observacoes)observation.textContent='Ponto de atenção: '+comentario.observacoes;
       const legalLink=comentario.fonteLegal||comentario.fonteCaderno;
-      if(typeof legalLink==='string' && /^https:\/\/(www\.)?planalto\.gov\.br|(?:www\.|www2\.)?camara\.leg\.br|s\.oab\.org\.br\//i.test(legalLink)){
+      if(typeof legalLink==='string' && /^https:\/\/(?:(?:www\.)?planalto\.gov\.br|(?:www\.|www2\.)?camara\.leg\.br|s\.oab\.org\.br)\//i.test(legalLink)){
         const anchor=document.createElement('a');
         anchor.href=legalLink;
         anchor.target='_blank';
@@ -1325,5 +1339,6 @@
   </script>
   <script src="/leitor-pdf-oficial.js"></script>
   <script src="/acessibilidade.js"></script>
+  <script src="/responsividade.js"></script>
 </body>
 </html>
