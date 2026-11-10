@@ -1,3 +1,7 @@
+## 41º Exame e acessibilidade (10/11/2026)
+
+A navegação pelo **41º Exame** utiliza o mesmo simulador oficial acessível dos 42º–47º. O caderno e o gabarito definitivo são vinculados por tipo de prova; o histórico e as estatísticas ficam armazenados separadamente para evitar conflito entre edições. A leitura do enunciado original depende de extração do PDF oficial escolhido pelo aluno (não há texto inventado no código).
+
 # Atualização — simulador de prova oficial acessível (10/11/2026)
 
 Esta versão oferece controles A–D por teclado, navegação anterior/próxima e escolha direta de questão numerada com rótulos acessíveis. O usuário pode abrir o PDF oficial e selecionar uma cópia no dispositivo para tentar extrair texto por página, localizar a questão e **ouvir seu texto em pt-BR**. Nenhuma alternativa original é inventada. O leitor opera no dispositivo via PDF.js 6.4.299 carregado por CDN; não transmite o arquivo a servidor de prova nem mantém o texto em armazenamento persistente.
