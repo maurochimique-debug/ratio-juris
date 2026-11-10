@@ -708,6 +708,7 @@
         document.getElementById('oabStatus').textContent=num+'º Exame — página oficial da FGV disponível. Ainda sem gabarito importado para correção eletrônica.';
       }
       atualizarEstatisticaProva();
+      renderizarSimuladorOficial();
     }
     function chaveAvaliacaoOAB(exame,tipo){return 'ratio_avaliada_'+exame+'_tipo'+tipo;}
     function invalidarEstatisticaOAB() {
@@ -742,6 +743,144 @@
       return {ex,tipo,answered,empty,correct,errors,annulled,points,graded};
     }
     // Folha separada do 46º Exame — nenhuma resposta inferida de questões do 47º.
+    /* Treino de PROVAS OFICIAIS: não gera enunciados, questões ou alternativas. */
+    function obterExameParaSimulador() {
+      const numero=Number(document.getElementById('oabExamSelect').value);
+      const tipo=tipoOABAtual();
+      const exam=fonteOAB()['exam'+numero];
+      if(!exam||!Array.isArray(exam.gabaritos)||exam.gabaritos.length!==4||
+          typeof exam.gabaritos[tipo-1]!=='string'||exam.gabaritos[tipo-1].length!==80) return null;
+      return {numero,tipo,exam};
+    }
+    function chavePosicaoOficial(numero,tipo) {
+      return 'ratio_posicao_oficial_'+numero+'_tipo'+tipo;
+    }
+    function obterPosicaoOficial(numero,tipo) {
+      const n=Number(lerArmazenamento(chavePosicaoOficial(numero,tipo),'1'));
+      return Number.isInteger(n)&&n>=1&&n<=80?n:1;
+    }
+    function obterRespostasOficiais(numero,tipo) {
+      return numero===47?obterRespostas47(tipo):carregarRespostas46(tipo);
+    }
+    function salvarRespostasOficiais(numero,tipo,respostas) {
+      if(numero===47)salvarRespostas47(tipo,respostas);
+      else salvarRespostas46(tipo,respostas);
+    }
+    function renderizarSimuladorOficial() {
+      const ctx=obterExameParaSimulador();
+      const painel=document.getElementById('simulador-oficial');
+      painel.classList.toggle('hidden',!ctx);
+      if(!ctx)return;
+      const {numero,tipo,exam}=ctx;
+      const pos=obterPosicaoOficial(numero,tipo);
+      const selector=document.getElementById('questaoOficialNumeroSelect');
+      if(selector.children.length!==80){
+        selector.replaceChildren();
+        for(let i=1;i<=80;i++){
+          const item=document.createElement('option');
+          item.value=String(i);
+          item.textContent='Questão '+i;
+          selector.appendChild(item);
+        }
+      }
+      selector.value=String(pos);
+      const respostas=obterRespostasOficiais(numero,tipo);
+      const escolha=respostas[pos-1];
+      const gabarito=exam.gabaritos[tipo-1][pos-1];
+      const anulada=gabarito==='*';
+      const avaliada=lerArmazenamento(chaveAvaliacaoOAB(numero,tipo),'0')==='1';
+      const caderno=exam.cadernos[tipo-1];
+      const marcadas=respostas.filter(Boolean).length;
+      document.getElementById('questaoOficialTitulo').textContent=
+        'Questão '+pos+' de 80'+(anulada?' — ANULADA':'');
+      document.getElementById('questaoOficialContexto').textContent=
+        numero+'º Exame da OAB, Tipo '+tipo+' ('+caderno.cor+
+        '). Consulte no PDF o enunciado ORIGINAL da questão '+pos+
+        ' e escolha a letra correspondente.';
+      document.getElementById('questaoOficialPdf').href=caderno.pdf;
+      document.getElementById('statusSimuladorOficial').textContent=
+        'Questão '+pos+'/80 • '+marcadas+' respostas marcadas';
+      const botoes=Array.from(document.getElementById('alternativasQuestaoOficial').querySelectorAll('button'));
+      botoes.forEach(function(botao,i){
+        const letra='ABCD'[i];
+        const selecionada=escolha===letra;
+        botao.disabled=anulada;
+        botao.setAttribute('aria-pressed',selecionada?'true':'false');
+        botao.setAttribute('aria-label','Marcar alternativa '+letra+' da questão oficial '+pos);
+        botao.className='btn-touch rounded-xl px-5 py-3 border-2 font-black '+(
+          selecionada?'border-purple-800 bg-purple-200 text-purple-950 dark:bg-purple-950 dark:text-white':
+          'border-purple-500 bg-white dark:bg-[#12161A] text-purple-800 dark:text-purple-300'
+        )+(anulada?' opacity-60 cursor-not-allowed':'');
+      });
+      const feedback=document.getElementById('feedbackQuestaoOficial');
+      if(anulada){
+        feedback.textContent='ANULADA no gabarito definitivo. Ponto automático, sem exigir resposta.';
+      }else if(!escolha){
+        feedback.textContent='Nenhuma resposta marcada. Abra o caderno oficial para ler o enunciado e escolha uma alternativa.';
+      }else if(!avaliada){
+        feedback.textContent='Alternativa '+escolha+' registrada. Use “Corrigir minha prova” para conferir o gabarito e atualizar a estatística.';
+      }else{
+        feedback.textContent='Alternativa '+escolha+' — '+(escolha===gabarito?'ACERTO':'ERRO')+
+          '. Gabarito definitivo: '+gabarito+'.';
+      }
+      const anterior=document.getElementById('btnQuestaoAnterior');
+      const proxima=document.getElementById('btnQuestaoProxima');
+      anterior.disabled=pos===1;
+      proxima.disabled=pos===80;
+      anterior.setAttribute('aria-disabled',pos===1?'true':'false');
+      proxima.setAttribute('aria-disabled',pos===80?'true':'false');
+      proxima.textContent=pos===80?'Última questão':'Próxima questão';
+      return {numero,tipo,pos,marcadas,anulada,avaliada};
+    }
+    function irParaQuestaoOficial(numero) {
+      const ctx=obterExameParaSimulador();
+      const pos=Number(numero);
+      if(!ctx||!Number.isInteger(pos)||pos<1||pos>80)return false;
+      gravarArmazenamento(chavePosicaoOficial(ctx.numero,ctx.tipo),String(pos));
+      renderizarSimuladorOficial();
+      document.getElementById('questaoOficialTitulo').focus();
+      return true;
+    }
+    function moverQuestaoOficial(delta) {
+      const ctx=obterExameParaSimulador();
+      if(!ctx||![-1,1].includes(delta))return false;
+      const pos=obterPosicaoOficial(ctx.numero,ctx.tipo)+delta;
+      if(pos<1||pos>80)return false;
+      return irParaQuestaoOficial(pos);
+    }
+    function responderQuestaoOficial(letra) {
+      const ctx=obterExameParaSimulador();
+      if(!ctx||!['A','B','C','D'].includes(letra))return false;
+      const pos=obterPosicaoOficial(ctx.numero,ctx.tipo);
+      const gabarito=ctx.exam.gabaritos[ctx.tipo-1][pos-1];
+      if(gabarito==='*')return false;
+      const respostas=obterRespostasOficiais(ctx.numero,ctx.tipo);
+      respostas[pos-1]=letra;
+      salvarRespostasOficiais(ctx.numero,ctx.tipo,respostas);
+      invalidarEstatisticaOAB();
+      // Sem revelar o gabarito antes de o estudante pedir a correção.
+      renderizarSimuladorOficial();
+      if(ctx.numero===47){
+        atualizarProgresso47();
+        document.getElementById('oabResultado').classList.add('hidden');
+      }else{
+        atualizarProgresso46();
+        document.getElementById('oab46Resultado').classList.add('hidden');
+      }
+      return true;
+    }
+    function corrigirSimuladorOficial() {
+      const ctx=obterExameParaSimulador();
+      if(!ctx)return false;
+      if(ctx.numero===47)corrigirFolha47();
+      else corrigirFolha46();
+      renderizarSimuladorOficial();
+      return true;
+    }
+    function reiniciarTreinoOficial(){
+      // Não apaga as respostas nem o progresso: apenas retorna à questão 1.
+      return irParaQuestaoOficial(1);
+    }
     function fonte46() {
       const n=Number(document.getElementById('oabExamSelect').value);
       const dados=fonteOAB()['exam'+n];
@@ -804,6 +943,7 @@
           salvarRespostas46(tipo,novo);
           atualizarProgresso46();
           invalidarEstatisticaOAB();
+          renderizarSimuladorOficial();
           result.classList.add('hidden');
         });
         card.append(heading,disciplina,select);
@@ -828,11 +968,13 @@
       resultado.classList.remove('hidden');
       resultado.textContent=document.getElementById('oabExamSelect').value+'º Exame, Tipo '+tipo+': '+pontos+'/80 pontos ('+acertos+' acertos e '+anuladas+' ponto(s) por anulação). Respostas assinaladas: '+marcadas.filter(Boolean).length+'/80. '+(pontos>=40?'Atingiu 40 pontos neste treino.':'Abaixo dos 40 pontos neste treino.')+' Trata-se do gabarito histórico definitivo, não de revisão de legislação vigente.';
       atualizarEstatisticaProva(true);
+      renderizarSimuladorOficial();
     }
     function limparFolha46() {
       salvarRespostas46(tipoOABAtual(),Array(80).fill(''));
       desenharFolha46(false);
       invalidarEstatisticaOAB();
+      renderizarSimuladorOficial();
     }
     function materiaTipo47(tipo,num) {
       const dados=fonteOAB().exam47;
@@ -900,6 +1042,7 @@
           salvarRespostas47(tipo,current);
           atualizarProgresso47();
           invalidarEstatisticaOAB();
+          renderizarSimuladorOficial();
           document.getElementById('oabResultado').classList.add('hidden');
         });
         card.append(header,descricao,sel);
@@ -994,12 +1137,14 @@
       desenharFolha47(true);
       res.classList.remove('hidden');
       atualizarEstatisticaProva(true);
+      renderizarSimuladorOficial();
     }
     function limparFolha47() {
       const tipo=tipoOABAtual();
       salvarRespostas47(tipo,Array(80).fill(''));
       desenharFolha47();
       invalidarEstatisticaOAB();
+      renderizarSimuladorOficial();
     }
     window.addEventListener('DOMContentLoaded',function(){
       iniciarArquivoOAB();
