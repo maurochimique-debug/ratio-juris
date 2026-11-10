@@ -26,6 +26,7 @@
       panel.focus();
       announce("Painel de acessibilidade aberto. Use Tab para percorrer os controles.");
     }else {
+      stop();
       button.focus();
       announce("Painel de acessibilidade fechado.");
     }
@@ -59,6 +60,13 @@
     return [0.85,1,1.15].includes(n)?n:1;
   }
   let voiceGeneration=0;
+  let voiceActive=false;
+  function setVoiceState(active){
+    voiceActive=!!active;
+    const start=$("btnLerQuestao"),end=$("btnPararQuestao");
+    if(start){start.setAttribute("aria-pressed",voiceActive?"true":"false");start.textContent=voiceActive?"Reiniciar leitura":"Iniciar leitura";}
+    if(end)end.disabled=!voiceActive;
+  }
   function segmentosDeVoz(texto,limite=190){
     const words=String(texto||"").split(/\s+/).filter(Boolean),partes=[];
     let atual="";
@@ -80,6 +88,7 @@
       return false;
     }
     const token=++voiceGeneration;
+    setVoiceState(true);
     try {
       const engine=synth();
       engine.cancel();
@@ -91,19 +100,20 @@
       let index=0;
       const falarProximo=()=>{
         if(token!==voiceGeneration)return;
-        if(index>=partes.length){announce("Leitura por voz concluída.");return;}
+        if(index>=partes.length){setVoiceState(false);announce("Leitura por voz concluída.");return;}
         const fala=new window.SpeechSynthesisUtterance(partes[index++]);
         fala.lang="pt-BR";fala.rate=speed;
         if(preferred)fala.voice=preferred;
         fala.onstart=()=>{if(token===voiceGeneration&&index===1)announce("Leitura por voz iniciada.");};
         fala.onend=()=>{if(token===voiceGeneration)falarProximo();};
-        fala.onerror=()=>{if(token===voiceGeneration)announce("Falha durante a leitura. O texto continua acessível na página.");};
+        fala.onerror=()=>{if(token===voiceGeneration){setVoiceState(false);announce("Falha durante a leitura. O texto continua acessível na página.");}};
         engine.speak(fala);
       };
       falarProximo();
       announce("Leitura solicitada em "+partes.length+" trecho(s), sem iniciar áudio automaticamente.");
       return true;
     }catch(_){
+      setVoiceState(false);
       announce("Não foi possível iniciar a voz. Verifique as configurações do dispositivo.");
       return false;
     }
@@ -125,13 +135,17 @@
   }
   function readOfficialQuestion(){
     const title=$("questaoOficialTitulo")?.textContent||"";
-    const status=$("statusSimuladorOficial")?.textContent||"";
-    const context=$("questaoOficialContexto")?.textContent||"";
-    const response=$("feedbackQuestaoOficial")?.textContent||"";
-    if(!title)return voiceText("Nenhuma prova oficial disponível. Selecione uma edição com gabarito importado.");
-    return voiceText([title,status,context,response,
-      "Para ouvir o enunciado ORIGINAL, baixe o caderno oficial e carregue o PDF no leitor acessível abaixo. "+
-      "Após a extração, use Localizar questão atual e Ouvir texto extraído."].filter(Boolean).join(". "));
+    const question=$("textoQuestaoDentroSimulador")?.textContent||"";
+    const options=Array.from($("alternativasQuestaoOficial")?.querySelectorAll("button")||[])
+      .map(x=>x.textContent?.trim()).filter(Boolean);
+    if(!title||question.includes("Preparando o texto oficial")||
+       question.includes("Não foi possível identificar")){
+      announce("O enunciado ainda não está disponível para leitura. Consulte o PDF original.");
+      return false;
+    }
+    return voiceText([title,question,
+      ...options.map((v,i)=>"Alternativa "+("ABCD"[i])+". "+v.replace(/^[A-D]\s*[—-]\s*/,""))]
+      .filter(Boolean).join(". "));
   }
   function readExamStatus(){
     const examNumber=$("oabExamSelect")?.value||"";
@@ -155,6 +169,7 @@
   function stop(){
     if(!support()){announce("Nenhuma leitura por voz disponível.");return;}
     voiceGeneration++;
+    setVoiceState(false);
     synth().cancel();
     announce("Leitura interrompida.");
   }
@@ -184,6 +199,8 @@
       "Leitura em voz alta não disponível neste dispositivo. As questões e controles permanecem acessíveis por texto.";
     const panel=$("painelAcessibilidade");
     if(panel)panel.classList.add("hidden");
+    setVoiceState(false);
+    document.addEventListener("visibilitychange",()=>{if(document.hidden)stop();});
     const button=$("btnAcessibilidade");
     if(button)button.setAttribute("aria-expanded","false");
     window.addEventListener("keydown",event=>{
