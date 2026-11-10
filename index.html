@@ -279,10 +279,24 @@
             </div>
             <span id="statusSimuladorOficial" class="text-sm font-bold text-purple-800 dark:text-purple-300" aria-live="polite">Selecione um exame</span>
           </div>
-          <p class="text-sm text-slate-700 dark:text-slate-200">Leia o enunciado e as alternativas no <strong>PDF oficial da FGV/OAB</strong>. Marque A, B, C ou D para salvar sua resposta e conferir depois pelo gabarito definitivo. O leitor acessível de PDF, logo abaixo, pode extrair o texto para leitura por voz. Não são criadas perguntas ou alternativas.</p>
+          <p class="text-sm text-slate-700 dark:text-slate-200">Estude sem sair do RatioJuris. O caderno <strong>original da FGV/OAB</strong> aparece abaixo, dentro do aplicativo, e as respostas A–D são marcadas aqui. Use a leitura acessível para ouvir o texto extraído. O gabarito definitivo fica disponível separadamente, somente se você desejar consultá-lo.</p>
           <div class="mt-5 flex flex-wrap items-center gap-3">
             <label for="questaoOficialNumeroSelect" class="text-sm font-semibold text-slate-900 dark:text-white">Ir para a questão</label>
             <select id="questaoOficialNumeroSelect" onchange="irParaQuestaoOficial(this.value)" aria-label="Escolher uma das 80 questões da prova oficial" class="px-3 py-2 rounded-lg border-2 border-purple-500 bg-white dark:bg-[#12161A] text-slate-900 dark:text-white"></select>
+          </div>
+          <div id="visualizadorProvaIntegrado" class="mt-5 rounded-xl border-2 border-purple-500 bg-white dark:bg-[#12161A] overflow-hidden" role="region" aria-labelledby="tituloVisualizadorIntegrado">
+            <div class="flex flex-wrap justify-between items-center gap-3 p-3 sm:p-4 bg-purple-50 dark:bg-purple-950/40">
+              <div>
+                <h4 id="tituloVisualizadorIntegrado" class="font-bold text-slate-900 dark:text-white">Prova oficial dentro do aplicativo</h4>
+                <p id="rotuloVisualizadorIntegrado" class="text-xs text-slate-600 dark:text-slate-300 mt-1">Selecione um exame e tipo de caderno.</p>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <button type="button" onclick="RatioPdfAcessivel.carregarOficial()" class="px-3 py-2 rounded-lg bg-purple-700 text-white font-bold text-xs sm:text-sm">Ler prova em texto acessível</button>
+                <a id="linkProvaOabDireto" href="https://oab.fgv.br/" target="_blank" rel="noopener noreferrer" class="px-3 py-2 rounded-lg border border-purple-600 text-purple-800 dark:text-purple-300 underline text-xs sm:text-sm font-bold">Abrir na OAB</a>
+              </div>
+            </div>
+            <iframe id="iframeProvaOficial" title="Visualizador integrado do caderno oficial da FGV/OAB" class="w-full h-[430px] sm:h-[560px] lg:h-[660px] bg-white" loading="lazy" referrerpolicy="no-referrer" aria-label="Caderno oficial da OAB, aberto dentro do RatioJuris"></iframe>
+            <p class="text-xs p-3 text-slate-700 dark:text-slate-300">A prova é transmitida sob demanda da OAB. Se o navegador não mostrar PDFs integrados, selecione <strong>Abrir na OAB</strong> ou <strong>Ler prova em texto acessível</strong>. O gabarito não aparece no visualizador de questões.</p>
           </div>
           <div class="mt-5 p-5 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-[#12161A]">
             <h4 id="questaoOficialTitulo" class="text-xl font-bold text-slate-900 dark:text-white" tabindex="-1">Questão da prova original</h4>
@@ -308,15 +322,19 @@
         <!-- Texto original proveniente SOMENTE de PDF oficial escolhido pelo usuário; execução local -->
         <section id="leitorPdfAcessivel" class="mb-6 rounded-2xl border-2 border-amber-400 bg-amber-50 dark:bg-[#191b22] p-5 sm:p-6" aria-labelledby="tituloLeitorPdf">
           <h3 id="tituloLeitorPdf" class="text-lg font-bold text-slate-900 dark:text-white">Leitor acessível de prova oficial (PDF)</h3>
-          <p class="text-sm text-slate-700 dark:text-slate-200 mt-2">Para pessoas com deficiência visual ou dificuldade de leitura: baixe o PDF da prova no link oficial acima e selecione esse arquivo no seu dispositivo. O leitor tenta converter o texto original em conteúdo acessível e permite ouvi-lo. <strong>O arquivo é processado localmente, sem envio ao servidor.</strong></p>
-          <div class="mt-4 flex flex-col sm:flex-row sm:items-end gap-3">
-            <div class="flex-1">
+          <p class="text-sm text-slate-700 dark:text-slate-200 mt-2">O PDF oficial pode ser carregado <strong>diretamente pelo aplicativo</strong>, sem download ou seleção manual. Para pessoas com deficiência visual, o texto extraído pode ser lido por voz e acessado com tecnologias assistivas. O servidor transmite a prova pública diretamente da OAB, sem manter uma cópia permanente nem receber arquivos pessoais.</p>
+          <button id="btnCarregarPdfOficial" type="button" onclick="RatioPdfAcessivel.carregarOficial()" class="mt-4 px-5 py-3 rounded-xl bg-purple-700 text-white font-bold">Carregar texto da prova oficial aqui</button>
+          <details class="mt-4 border border-slate-400 dark:border-slate-600 rounded-xl p-3">
+            <summary class="text-sm font-semibold text-slate-800 dark:text-slate-200 cursor-pointer">Alternativa: usar um PDF salvo no dispositivo</summary>
+            <div class="mt-3 flex flex-col sm:flex-row sm:items-end gap-3">
+              <div class="flex-1">
               <label for="pdfOficialLocal" class="block text-sm font-bold text-slate-900 dark:text-white mb-2">Selecionar PDF do caderno oficial no dispositivo</label>
               <input id="pdfOficialLocal" type="file" accept=".pdf,application/pdf" class="block w-full rounded-lg border border-slate-400 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white p-2 text-sm"/>
             </div>
-            <button id="btnCarregarPdfAcessivel" type="button" onclick="RatioPdfAcessivel.carregar()" class="px-4 py-3 rounded-lg bg-purple-700 text-white font-bold text-sm">Preparar leitura do PDF</button>
-          </div>
-          <p id="pdfLeitorStatus" class="mt-3 text-sm text-slate-800 dark:text-slate-200" role="status" aria-live="polite">Selecione o arquivo oficial baixado. Se o PDF for apenas imagem, poderá não ter texto extraível.</p>
+            <button id="btnCarregarPdfAcessivel" type="button" onclick="RatioPdfAcessivel.carregar()" class="px-4 py-3 rounded-lg bg-purple-700 text-white font-bold text-sm">Preparar leitura deste arquivo</button>
+            </div>
+          </details>
+          <p id="pdfLeitorStatus" class="mt-3 text-sm text-slate-800 dark:text-slate-200" role="status" aria-live="polite">Escolha “Carregar texto da prova oficial aqui”. PDFs compostos somente por imagens poderão exigir leitores com OCR.</p>
           <div id="pdfLeitorControles" class="hidden mt-4">
             <div class="flex flex-wrap gap-3 items-end">
               <div>
@@ -833,6 +851,17 @@
         '). Consulte no PDF o enunciado ORIGINAL da questão '+pos+
         ' e escolha a letra correspondente.';
       document.getElementById('questaoOficialPdf').href=caderno.pdf;
+      const visualizador=document.getElementById('iframeProvaOficial');
+      const identidade=numero+'-'+tipo;
+      const interno='/api/oab-pdf?exame='+numero+'&tipo='+tipo;
+      const linkDireto=document.getElementById('linkProvaOabDireto');
+      linkDireto.href=caderno.pdf;
+      document.getElementById('rotuloVisualizadorIntegrado').textContent=
+        numero+'º Exame de Ordem • Caderno '+tipo+' ('+caderno.cor+')';
+      if(visualizador._ratioLivroAtual!==identidade){
+        visualizador._ratioLivroAtual=identidade;
+        visualizador.src=interno+'#toolbar=1&navpanes=0';
+      }
       document.getElementById('statusSimuladorOficial').textContent=
         'Questão '+pos+'/80 • '+marcadas+' respostas marcadas';
       const botoes=Array.from(document.getElementById('alternativasQuestaoOficial').querySelectorAll('button'));
