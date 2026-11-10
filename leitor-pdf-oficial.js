@@ -240,8 +240,11 @@
    if(!documento||identidadeDocumento!==identidadeAlvo){
      // Reutiliza a operação em andamento quando o estudante troca rapidamente de questão.
      if(promessaOficial){
-       const ok=await promessaOficial;
-       if(!ok || exame!==$("oabExamSelect")?.value || tipo!==$("oabTipoSelect")?.value)return false;
+       await promessaOficial;
+       if(exame!==$("oabExamSelect")?.value || tipo!==$("oabTipoSelect")?.value)return false;
+       // Uma troca de exame durante o carregamento anterior pode invalidar o PDF.
+       // Inicia o carregamento do exame atual em vez de deixar o cartão sem resposta.
+       if(identidadeDocumento!==identidadeAlvo)return estudarQuestaoAtual(opcoes);
      }else{
        if(documento)limpar();
        const tarefa=carregarOficial();
