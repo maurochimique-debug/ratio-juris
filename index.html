@@ -523,7 +523,8 @@
       const norma=fontesLegaisPlanalto[lei];
       const art=normalizarNumeroArtigo(numero);
       if(!norma||!art)return null;
-      const label=(lei==='cf'||lei==='oab')?('Art. '+art.replace(/-([A-Z])$/,'º-$1')+(art.includes('-')?'':'º')):('Art. '+art+'.');
+      const ordinal=Number(art.match(/^\d+/)[0])<=9;
+      const label=ordinal?('Art. '+art.replace(/-([A-Z])$/,'º-$1')+(art.includes('-')?'':'º')):('Art. '+art+'.');
       return norma.url+'#:~:text='+encodeURIComponent(label);
     }
     function mostrarResultadoGabinete(titulo,descricao,links,nota){
