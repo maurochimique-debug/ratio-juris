@@ -1,4 +1,4 @@
-/* Provas oficiais FGV/OAB 40º ao 47º. Gabaritos definitivos de cada caderno, sem questões sintéticas. */
+/* Gabaritos oficiais OAB 40–47; o 40º consolida anulações de 10/04 e 06/05/2024. */
 window.RATIO_OAB_DATA = {
   "version": "2026-11-09",
   "metadata": {
@@ -81,7 +81,7 @@ window.RATIO_OAB_DATA = {
     {
       "exame": 40,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=643",
-      "status": "gabaritos_definitivos_quatro_cadernos_anulacao_validada",
+      "status": "gabarito_consolidado_revisado_maio_2024",
       "importado": true
     },
     {
@@ -3337,12 +3337,12 @@ window.RATIO_OAB_DATA = {
     "exame": 40,
     "dataProva": "2024-03-24",
     "dataGabaritoDefinitivo": "2024-04-10",
-    "status": "GABARITO_DEFINITIVO_OFICIAL_FGV_OAB_QUESTAO_ANULADA",
+    "status": "GABARITOS_ABRIL_2024_E_ANULACAO_ADICIONAL_MAIO_2024_OFICIAIS",
     "gabaritos": [
-      "BCAC*CDABCBDBBBDABDADBACACDDBCDBDDACBCCBCADCDCBAACBDBADCABDADACCABABCABACDDDCCBA",
-      "AADCCC*BCBBBDBDBBAADBDCADDCBADCDBDCABCABCCCDCDABCABBDCADAABDADACCBBAACDDBACCBACD",
-      "CBADC*CABCBBDDBBABDABDACDABDCDDCDBACCBCABCCDCDACBAADCBDBDAABDABABCCACADDACBCABDC",
-      "C*CCABADCBDBBBBDBAADDBCABDACDBDDCDCAABCCBCDCDCCAABCADBBDADAABDABBACCACACDBDADCCB"
+      "BCAC*CDABCBDBBBDABDADBACACDDBCDBDDACBCCBCADCD*BAACBDBADCABDADACCABABCABACDDDCCBA",
+      "AADCCC*BCBBBDBDBBAADBDCADDCBADCDBDCABCABCCCD*DABCABBDCADAABDADACCBBAACDDBACCBACD",
+      "CBADC*CABCBBDDBBABDABDACDABDCDDCDBACCBCABCCD*DACBAADCBDBDAABDABABCCACADDACBCABDC",
+      "C*CCABADCBDBBBBDBAADDBCABDACDBDDCDCAABCCBCDCD*CAABCADBBDADAABDABBACCACACDBDADCCB"
     ],
     "correspondencia": [
       [
@@ -3769,24 +3769,31 @@ window.RATIO_OAB_DATA = {
       }
     ],
     "gabaritoPDF": "https://s.oab.org.br/arquivos/2024/04/b64dd2cd-94fb-47fa-90b6-459e2d375a69.pdf",
-    "fonteOficial": "https://www.oab.org.br/noticia/62142/confira-o-gabarito-definitivo-e-o-resultado-preliminar-da-prova-objetiva-do-40-eou",
+    "fonteOficial": "https://www.oab.org.br/noticia/62109/confira-o-gabarito-definitivo-e-o-resultado-preliminar-da-1-fase-do-40-eou",
     "comunicadoAnulacao": "https://s.oab.org.br/arquivos/2024/04/7d860ae3-7c34-4f74-8cfe-86943e1a70ec.pdf",
     "fonteCadernos": "https://www.oab.org.br/noticia/62048/confira-o-gabarito-preliminar-da-1-fase-do-40-exame-de-ordem",
     "disciplinas": [],
     "anulacoesPorTipo": [
       [
-        5
+        5,
+        46
       ],
       [
-        7
+        7,
+        45
       ],
       [
-        6
+        6,
+        45
       ],
       [
-        2
+        2,
+        46
       ]
     ],
-    "nota": "Gabaritos definitivos e correspondência oficial da OAB, com anulação da Q5 Tipo 1 e correspondentes. Enunciados originais nos PDFs."
+    "nota": "Base consolidada: gabarito definitivo publicado em 10/04/2024 (anulação Q5/T1) MAIS comunicado posterior de 06/05/2024 (anulação Q46/T1), com resultado atualizado em 08/05/2024. Total de duas questões anuladas por tipo; o PDF de abril isoladamente não reflete a segunda anulação.",
+    "dataAtualizacaoFinal": "2024-05-08",
+    "comunicadoAnulacaoPosterior": "https://s.oab.org.br/arquivos/2024/05/38173b88-0b35-424f-ae5a-c3ee3d42ace2.pdf",
+    "fonteResultadoAtualizado": "https://www.oab.org.br/noticia/62220/confira-o-resultado-definitivo-da-primeira-fase-do-40-eou-apos-a-anulacao-de-uma-das-questoes"
   }
 };
