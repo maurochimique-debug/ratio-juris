@@ -640,50 +640,83 @@
       atualizarArquivoOAB();
     }
     function atualizarArquivoOAB() {
-      const dados=fonteOAB();
+      const db=fonteOAB();
       const num=Number(document.getElementById('oabExamSelect').value);
-      const entry=dados.archive.find(x=>x.exame===num);
+      const entry=db.archive.find(x=>x.exame===num);
       if(!entry)return;
-      const temCorrecao=(num===47||num===46);
+      const exam=db['exam'+num];
+      const available=!!(exam&&Array.isArray(exam.gabaritos)&&exam.gabaritos.length===4);
       const tipo=tipoOABAtual();
       document.getElementById('oabPaginaOficial').href=entry.fgvUrl;
-      document.getElementById('oabTipoSelect').disabled=!temCorrecao;
+      document.getElementById('oabTipoSelect').disabled=!available;
       document.getElementById('oabFolhaBloco').classList.toggle('hidden',num!==47);
-      document.getElementById('oab46Bloco').classList.toggle('hidden',num!==46);
-      document.getElementById('oabCadernoPdf').classList.toggle('hidden',!temCorrecao);
-      document.getElementById('oabGabaritoPdf').classList.toggle('hidden',!temCorrecao);
-      if(temCorrecao) {
-        const config=num===47?dados.exam47:dados.exam46;
-        if(!config||!config.cadernos?.[tipo-1])throw new Error('Caderno oficial do '+num+'º EOU indisponível');
-        const caderno=config.cadernos[tipo-1];
+      document.getElementById('oab46Bloco').classList.toggle('hidden',!(num===46||num===45));
+      document.getElementById('oabCadernoPdf').classList.toggle('hidden',!available);
+      document.getElementById('oabGabaritoPdf').classList.toggle('hidden',!available);
+      if(available){
+        const caderno=exam.cadernos[tipo-1];
         document.getElementById('oabCadernoPdf').href=caderno.pdf;
-        document.getElementById('oabGabaritoPdf').href=config.gabaritoPDF;
-        document.getElementById('oabStatus').textContent=num+'º EOU — Tipo '+tipo+' ('+caderno.cor+'). '+
-          (num===47?
-          'Prova de 06/09/2026; 80 questões, uma anulada. Há comentários jurídicos individuais, sujeitos a verificação de vigência.' :
-          'Prova de 03/05/2026; gabarito definitivo de 20/05/2026; 80 questões, nenhuma anulada. Comentários individuais ainda não importados.');
+        document.getElementById('oabGabaritoPdf').href=exam.gabaritoPDF;
+        const annulled=exam.gabaritos[tipo-1].split('').filter(x=>x==='*').length;
+        document.getElementById('oabStatus').textContent=
+          num+'º Exame — Tipo '+tipo+' ('+caderno.cor+'), 80 questões, gabarito definitivo, '+
+          annulled+' questão(ões) anulada(s). '+(num===47?'Há comentários jurídicos do 47º.':'A correção usa apenas o gabarito histórico desta edição.');
         if(num===47)desenharFolha47();
         else desenharFolha46(false);
-      }else {
-        document.getElementById('oabStatus').textContent=num+'º EOU — consulte a página oficial FGV. Cadernos e gabaritos ainda não importados para correção local; não apresentar como prova corrigível nem comentar sem verificação.';
+      }else{
+        document.getElementById('oabStatus').textContent=num+'º Exame — página oficial da FGV disponível. Ainda sem gabarito importado para correção eletrônica.';
       }
+      atualizarEstatisticaProva();
+    }
+    function chaveAvaliacaoOAB(exame,tipo){return 'ratio_avaliada_'+exame+'_tipo'+tipo;}
+    function invalidarEstatisticaOAB() {
+      const ex=Number(document.getElementById('oabExamSelect').value),tipo=tipoOABAtual();
+      gravarArmazenamento(chaveAvaliacaoOAB(ex,tipo),'0');
+      atualizarEstatisticaProva();
+    }
+    function atualizarEstatisticaProva(revelar) {
+      const ex=Number(document.getElementById('oabExamSelect').value),tipo=tipoOABAtual();
+      const config=fonteOAB()['exam'+ex];
+      const set=(id,value)=>{document.getElementById(id).textContent=String(value);};
+      document.getElementById('estatisticaIdentificacao').textContent=ex+'º Exame • Tipo '+tipo;
+      if(!config||!config.gabaritos?.[tipo-1]){
+        ['estRespondidas','estAcertos','estErros','estBrancas','estAnuladas','estAproveitamento'].forEach(k=>set(k,'—'));
+        document.getElementById('estatisticaMensagem').textContent='Este exame ainda não possui correção eletrônica. Acesse a página oficial da banca.';
+        return null;
+      }
+      const key=config.gabaritos[tipo-1];
+      const responses=ex===47?obterRespostas47(tipo):carregarRespostas46(tipo);
+      if(revelar)gravarArmazenamento(chaveAvaliacaoOAB(ex,tipo),'1');
+      const graded=lerArmazenamento(chaveAvaliacaoOAB(ex,tipo),'0')==='1';
+      const answered=responses.filter(Boolean).length,empty=responses.length-answered;
+      const correct=responses.filter((x,i)=>x&&key[i]!=='*'&&x===key[i]).length;
+      const errors=responses.filter((x,i)=>x&&key[i]!=='*'&&x!==key[i]).length;
+      const annulled=key.split('').filter(x=>x==='*').length,points=correct+annulled;
+      set('estRespondidas',answered);set('estBrancas',empty);set('estAnuladas',annulled);
+      set('estAcertos',graded?correct:'—');set('estErros',graded?errors:'—');
+      set('estAproveitamento',graded?(100*points/key.length).toFixed(1).replace('.',',')+'%':'—');
+      document.getElementById('estatisticaMensagem').textContent=graded?
+        'Pontuação: '+points+'/'+key.length+' (inclui '+annulled+' ponto(s) por anulação). Questões em branco não foram contadas como erros.':
+        'Suas respostas foram salvas. Clique em Corrigir prova para revelar acertos, erros e aproveitamento.';
+      return {ex,tipo,answered,empty,correct,errors,annulled,points,graded};
     }
     // Folha separada do 46º Exame — nenhuma resposta inferida de questões do 47º.
     function fonte46() {
-      const dados=fonteOAB().exam46;
-      if(!dados||dados.gabaritos?.length!==4||dados.gabaritos.some(x=>x.length!==80))
-        throw new Error('Dados oficiais do 46º EOU incompletos');
+      const n=Number(document.getElementById('oabExamSelect').value);
+      const dados=fonteOAB()['exam'+n];
+      if((n!==45&&n!==46)||!dados||dados.gabaritos?.length!==4||dados.gabaritos.some(x=>x.length!==80))
+        throw new Error('Gabaritos oficiais do exame selecionado incompletos');
       return dados;
     }
     function carregarRespostas46(tipo) {
       try {
-        const valor=JSON.parse(lerArmazenamento('ratio_oab46_tipo'+tipo,'[]'));
+        const valor=JSON.parse(lerArmazenamento('ratio_oab'+document.getElementById('oabExamSelect').value+'_tipo'+tipo,'[]'));
         if(Array.isArray(valor)&&valor.length===80)return valor.map(x=>['A','B','C','D'].includes(x)?x:'');
       }catch(_){}
       return Array(80).fill('');
     }
     function salvarRespostas46(tipo,respostas) {
-      gravarArmazenamento('ratio_oab46_tipo'+tipo,JSON.stringify(respostas));
+      gravarArmazenamento('ratio_oab'+document.getElementById('oabExamSelect').value+'_tipo'+tipo,JSON.stringify(respostas));
     }
     function materia46(tipo,n) {
       const prova=fonte46();
@@ -726,6 +759,7 @@
           novo[i]=select.value;
           salvarRespostas46(tipo,novo);
           atualizarProgresso46();
+          invalidarEstatisticaOAB();
           result.classList.add('hidden');
         });
         card.append(heading,disciplina,select);
@@ -746,11 +780,13 @@
       const resultado=document.getElementById('oab46Resultado');
       desenharFolha46(true);
       resultado.classList.remove('hidden');
-      resultado.textContent='46º Exame, Tipo '+tipo+': '+acertos+'/80 pontos. Respostas assinaladas: '+marcadas.filter(Boolean).length+'/80. '+(acertos>=40?'Atingiu 40 pontos neste treino.':'Abaixo dos 40 pontos neste treino.')+' Trata-se do gabarito histórico definitivo, não de revisão de legislação vigente.';
+      resultado.textContent=document.getElementById('oabExamSelect').value+'º Exame, Tipo '+tipo+': '+acertos+'/80 pontos. Respostas assinaladas: '+marcadas.filter(Boolean).length+'/80. '+(acertos>=40?'Atingiu 40 pontos neste treino.':'Abaixo dos 40 pontos neste treino.')+' Trata-se do gabarito histórico definitivo, não de revisão de legislação vigente.';
+      atualizarEstatisticaProva(true);
     }
     function limparFolha46() {
       salvarRespostas46(tipoOABAtual(),Array(80).fill(''));
       desenharFolha46(false);
+      invalidarEstatisticaOAB();
     }
     function materiaTipo47(tipo,num) {
       const dados=fonteOAB().exam47;
@@ -817,6 +853,7 @@
           current[i]=sel.value;
           salvarRespostas47(tipo,current);
           atualizarProgresso47();
+          invalidarEstatisticaOAB();
           document.getElementById('oabResultado').classList.add('hidden');
         });
         card.append(header,descricao,sel);
@@ -910,11 +947,13 @@
       res.textContent='Resultado da prova Tipo '+tipo+': '+acertos+'/80 pontos (inclui 1 ponto por questão anulada). Respostas assinaladas: '+preenchidas+'/80. '+(acertos>=40?'Alcançou 40 pontos neste treino.':'Ainda não alcançou 40 pontos neste treino.')+' Gabarito histórico definitivo, não avaliação de legislação vigente.';
       desenharFolha47(true);
       res.classList.remove('hidden');
+      atualizarEstatisticaProva(true);
     }
     function limparFolha47() {
       const tipo=tipoOABAtual();
       salvarRespostas47(tipo,Array(80).fill(''));
       desenharFolha47();
+      invalidarEstatisticaOAB();
     }
     window.addEventListener('DOMContentLoaded',function(){
       iniciarArquivoOAB();
