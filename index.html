@@ -123,7 +123,7 @@
   <section class="py-12 sm:py-18 lg:py-22 border-b border-slate-200 dark:border-ratio-borderDark relative overflow-hidden">
     <div class="max-w-5xl mx-auto px-4 text-center relative z-10">
       <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-ratio-purple/40 bg-ratio-purple/10 text-ratio-purple text-xs sm:text-sm font-bold tracking-wide uppercase mb-6">
-        <i class="fa-solid fa-layer-group text-xs"></i> 54 questões autorais independentes • OAB 47º: quatro gabaritos definitivos
+        <i class="fa-solid fa-layer-group text-xs"></i> 66 questões autorais independentes • OAB 46º e 47º: gabaritos definitivos
       </div>
       <h1 class="font-serif text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white leading-tight mb-6">
         Treine seus conhecimentos jurídicos.<br>
@@ -132,7 +132,7 @@
         </span>
       </h1>
       <p class="max-w-3xl mx-auto text-slate-600 dark:text-slate-300 text-base sm:text-lg lg:text-xl mb-10 leading-relaxed font-normal">
-        O Super Simulador oferece 54 questões autorais distintas: 42 no estilo FGV e 4 em cada uma das bancas CEBRASPE, VUNESP e FCC. Sem repetição automática, com gabarito comentado e fontes legais. Em módulo separado, consulte os 38 exames da OAB catalogados e corrija o 47º com seus quatro gabaritos oficiais. As normas e decisões podem mudar; confira as fontes vigentes.
+        O Super Simulador oferece 66 questões autorais distintas: 54 no estilo FGV e 4 em cada uma das bancas CEBRASPE, VUNESP e FCC, sem repetição automática. Em módulo separado, consulte o catálogo do 47º ao 10º Exame da OAB e corrija o 47º ou 46º usando os gabaritos oficiais definitivos dos quatro cadernos de cada prova. Os comentários individuais do 46º ainda não foram incorporados. Confira sempre a legislação vigente.
       </p>
       <div class="flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4">
         <a href="#oab-arquivo" class="btn-touch w-full sm:w-auto px-7 sm:px-8 py-3.5 sm:py-4 rounded-xl bg-ratio-purpleDeep hover:bg-purple-700 text-white font-bold text-sm sm:text-base shadow-xl shadow-purple-950/40 transition flex items-center justify-center gap-3">
@@ -151,7 +151,7 @@
       <div class="mb-8">
         <p class="font-mono uppercase tracking-wide text-ratio-purple text-xs font-bold">Fontes oficiais • OAB / Fundação Getulio Vargas</p>
         <h2 class="font-serif text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mt-2">Arquivo da OAB: 47º ao 10º Exame</h2>
-        <p class="text-slate-600 dark:text-slate-300 mt-3 max-w-4xl">O catálogo permite consultar as páginas oficiais de todos os 38 exames. O 47º possui folha de respostas corrigível aqui, com gabarito definitivo para os quatro tipos de prova. Para o 46º ao 10º, os cadernos e gabaritos devem ser consultados na FGV: ainda não foram importados para correção local.</p>
+        <p class="text-slate-600 dark:text-slate-300 mt-3 max-w-4xl">O catálogo reúne links oficiais de 38 exames. O 47º e o 46º possuem folhas de respostas corrigíveis, cada um com quatro cadernos e gabarito definitivo da FGV/OAB. Para o 45º ao 10º, consulte provas e gabaritos no site oficial; ainda não foram importados para correção local. Os comentários jurídicos individuais foram desenvolvidos apenas para o 47º.</p>
       </div>
       <div class="rounded-2xl p-5 sm:p-7 bg-white dark:bg-ratio-cardDark border border-slate-200 dark:border-ratio-borderDark">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
@@ -160,7 +160,7 @@
             <select id="oabExamSelect" onchange="atualizarArquivoOAB()" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-ratio-borderDark bg-white dark:bg-[#12161A] text-slate-900 dark:text-white" aria-label="Selecionar exame de ordem"></select>
           </div>
           <div>
-            <label for="oabTipoSelect" class="block font-bold text-sm text-slate-900 dark:text-white mb-2">Tipo de caderno (47º)</label>
+            <label for="oabTipoSelect" class="block font-bold text-sm text-slate-900 dark:text-white mb-2">Tipo de caderno (47º e 46º)</label>
             <select id="oabTipoSelect" onchange="atualizarArquivoOAB()" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-ratio-borderDark bg-white dark:bg-[#12161A] text-slate-900 dark:text-white" aria-label="Selecionar tipo e cor do caderno">
               <option value="1">Tipo 1 — Branca</option>
               <option value="2">Tipo 2 — Verde</option>
@@ -201,6 +201,20 @@
           <div id="oabResultado" class="hidden mb-4 p-4 rounded-xl border border-purple-500 bg-purple-50 dark:bg-purple-950/40 text-slate-900 dark:text-white" role="status" aria-live="polite"></div>
           <div id="oabFolha" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"></div>
           <p class="mt-5 text-xs text-slate-600 dark:text-slate-400">As referências por disciplina são apenas pontos de partida; não representam fundamentação individual da questão. A legislação, os precedentes e o gabarito histórico podem divergir. Conteúdo sem revisão jurídico-editorial individual não recebe selo de atualizado.</p>
+        </div>
+        <div id="oab46Bloco" class="hidden mt-4" aria-label="Folha oficial do 46º Exame da OAB">
+          <div class="p-4 mb-5 rounded-xl border border-amber-500/40 bg-amber-50 dark:bg-amber-950/30">
+            <p class="font-bold text-sm text-amber-900 dark:text-amber-300">46º Exame — gabarito definitivo oficial, sem comentários individuais</p>
+            <p class="text-xs sm:text-sm text-amber-950 dark:text-slate-200 mt-2">Leia o caderno PDF do tipo selecionado acima. Marque suas 80 respostas nesta folha e clique em corrigir. A correção usa apenas o gabarito definitivo publicado em 20/05/2026; não é uma análise da legislação vigente e não reproduz os enunciados integrais da FGV.</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-3 mb-4">
+            <button type="button" onclick="corrigirFolha46()" class="px-5 py-3 rounded-lg bg-emerald-700 text-white font-bold text-sm">Corrigir o 46º Exame</button>
+            <button type="button" onclick="limparFolha46()" class="px-5 py-3 rounded-lg border border-slate-400 text-slate-900 dark:text-white font-bold text-sm">Limpar respostas deste caderno</button>
+            <span id="oab46Progresso" class="text-sm font-semibold text-slate-700 dark:text-slate-200" aria-live="polite"></span>
+          </div>
+          <div id="oab46Resultado" class="hidden mb-5 p-4 rounded-xl border border-purple-500 bg-purple-50 dark:bg-purple-950/40 text-slate-900 dark:text-white" role="status" aria-live="polite"></div>
+          <div id="oab46Folha" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"></div>
+          <p class="mt-5 text-xs text-slate-600 dark:text-slate-400">O 46º Exame não teve questões anuladas no gabarito definitivo consultado. O histórico de respostas é salvo neste navegador por exame e tipo de caderno, separadamente do 47º. Consulte as referências legislativas e jurisprudenciais atualizadas antes de utilizar o resultado como estudo de direito vigente.</p>
         </div>
       </div>
     </div>
@@ -255,7 +269,7 @@
       <!-- Filtro por banca: sempre questões autorais e identificadas -->
       <div class="mb-8 p-5 sm:p-6 rounded-2xl bg-slate-50 dark:bg-ratio-cardDark border border-slate-200 dark:border-ratio-borderDark" role="group" aria-label="Selecionar banca de treinamento">
         <h3 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">Selecione a banca do treino autoral</h3>
-        <p class="mt-2 text-xs text-slate-600 dark:text-slate-300">As questões exibidas ficam marcadas como vistas neste navegador e não reaparecem automaticamente, mesmo após atualizar a página. Reinicie a banca para estudá-las novamente. Os 80 registros oficiais da OAB estão no módulo acima, separado deste treino autoral.</p>
+        <p class="mt-2 text-xs text-slate-600 dark:text-slate-300">As questões exibidas ficam marcadas como vistas neste navegador e não reaparecem automaticamente, mesmo após atualizar a página. Reinicie a banca para estudá-las novamente. Os gabaritos oficiais da OAB do 47º e 46º estão no módulo acima, separado deste treino autoral.</p>
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-4">
           <button id="btnBanca_FGV" type="button" aria-pressed="true" onclick="selecionarBanca('FGV')" class="btn-touch p-3 rounded-xl border-2 border-ratio-purple bg-ratio-purple text-white font-bold">FGV / OAB</button>
           <button id="btnBanca_CEBRASPE" type="button" aria-pressed="false" onclick="selecionarBanca('CEBRASPE')" class="btn-touch p-3 rounded-xl border border-slate-300 dark:border-ratio-borderDark text-slate-900 dark:text-white font-bold">CEBRASPE</button>
@@ -814,7 +828,7 @@
         ' inédita(s) no filtro de '+totalFiltro+' questão(ões).';
       document.getElementById('statusQuestoesIneditas').textContent=texto;
       document.getElementById('bancaStatus').textContent=bancaAtual==='FGV' ?
-        'FGV: '+totalBanca+' questões autorais independentes para treino, em diversas disciplinas. O caderno oficial OAB (80 questões) fica na seção anterior.' :
+        'FGV: '+totalBanca+' questões autorais independentes para treino, em diversas disciplinas. Os cadernos oficiais da OAB (47º e 46º) ficam na seção anterior.' :
         bancaAtual+': '+totalBanca+' questões autorais independentes no estilo da banca. Questões oficiais dessa banca ainda não foram importadas.';
       const proxima=document.getElementById('btnProximaQuestao');
       if(proxima) {
@@ -993,22 +1007,113 @@
       const num=Number(document.getElementById('oabExamSelect').value);
       const entry=dados.archive.find(x=>x.exame===num);
       if(!entry)return;
-      const atual=num===47;
+      const temCorrecao=(num===47||num===46);
+      const tipo=tipoOABAtual();
       document.getElementById('oabPaginaOficial').href=entry.fgvUrl;
-      document.getElementById('oabTipoSelect').disabled=!atual;
-      document.getElementById('oabFolhaBloco').classList.toggle('hidden',!atual);
-      document.getElementById('oabCadernoPdf').classList.toggle('hidden',!atual);
-      document.getElementById('oabGabaritoPdf').classList.toggle('hidden',!atual);
-      if(atual) {
-        const tipo=tipoOABAtual();
-        const info=dados.exam47.cadernos[tipo-1];
-        document.getElementById('oabStatus').textContent='47º EOU — prova objetiva de 06/09/2026, caderno Tipo '+tipo+' ('+info.cor+'). Gabarito definitivo verificado e 1 questão anulada. O texto completo permanece no PDF oficial.';
-        document.getElementById('oabCadernoPdf').href=info.pdf;
-        document.getElementById('oabGabaritoPdf').href=dados.exam47.gabaritoPDF;
-        desenharFolha47();
-      } else {
-        document.getElementById('oabStatus').textContent=num+'º EOU — acesso à página oficial FGV. O gabarito deste exame não foi importado nesta etapa. Consulte o caderno e as publicações definitivas na origem; a correção local e a revisão jurídica estão pendentes.';
+      document.getElementById('oabTipoSelect').disabled=!temCorrecao;
+      document.getElementById('oabFolhaBloco').classList.toggle('hidden',num!==47);
+      document.getElementById('oab46Bloco').classList.toggle('hidden',num!==46);
+      document.getElementById('oabCadernoPdf').classList.toggle('hidden',!temCorrecao);
+      document.getElementById('oabGabaritoPdf').classList.toggle('hidden',!temCorrecao);
+      if(temCorrecao) {
+        const config=num===47?dados.exam47:dados.exam46;
+        if(!config||!config.cadernos?.[tipo-1])throw new Error('Caderno oficial do '+num+'º EOU indisponível');
+        const caderno=config.cadernos[tipo-1];
+        document.getElementById('oabCadernoPdf').href=caderno.pdf;
+        document.getElementById('oabGabaritoPdf').href=config.gabaritoPDF;
+        document.getElementById('oabStatus').textContent=num+'º EOU — Tipo '+tipo+' ('+caderno.cor+'). '+
+          (num===47?
+          'Prova de 06/09/2026; 80 questões, uma anulada. Há comentários jurídicos individuais, sujeitos a verificação de vigência.' :
+          'Prova de 03/05/2026; gabarito definitivo de 20/05/2026; 80 questões, nenhuma anulada. Comentários individuais ainda não importados.');
+        if(num===47)desenharFolha47();
+        else desenharFolha46(false);
+      }else {
+        document.getElementById('oabStatus').textContent=num+'º EOU — consulte a página oficial FGV. Cadernos e gabaritos ainda não importados para correção local; não apresentar como prova corrigível nem comentar sem verificação.';
       }
+    }
+    // Folha separada do 46º Exame — nenhuma resposta inferida de questões do 47º.
+    function fonte46() {
+      const dados=fonteOAB().exam46;
+      if(!dados||dados.gabaritos?.length!==4||dados.gabaritos.some(x=>x.length!==80))
+        throw new Error('Dados oficiais do 46º EOU incompletos');
+      return dados;
+    }
+    function carregarRespostas46(tipo) {
+      try {
+        const valor=JSON.parse(lerArmazenamento('ratio_oab46_tipo'+tipo,'[]'));
+        if(Array.isArray(valor)&&valor.length===80)return valor.map(x=>['A','B','C','D'].includes(x)?x:'');
+      }catch(_){}
+      return Array(80).fill('');
+    }
+    function salvarRespostas46(tipo,respostas) {
+      gravarArmazenamento('ratio_oab46_tipo'+tipo,JSON.stringify(respostas));
+    }
+    function materia46(tipo,n) {
+      const prova=fonte46();
+      const original=tipo===1?n:prova.correspondencia.findIndex(x=>x[tipo-2]===n)+1;
+      return prova.disciplinas.find(x=>original>=x.start&&original<=x.end) || null;
+    }
+    function atualizarProgresso46() {
+      const tipo=tipoOABAtual();
+      const respondidas=carregarRespostas46(tipo).filter(Boolean).length;
+      document.getElementById('oab46Progresso').textContent=respondidas+'/80 respostas marcadas';
+    }
+    function desenharFolha46(revelar) {
+      const tipo=tipoOABAtual();
+      const respostas=carregarRespostas46(tipo);
+      const gabarito=fonte46().gabaritos[tipo-1];
+      const target=document.getElementById('oab46Folha');
+      target.replaceChildren();
+      const result=document.getElementById('oab46Resultado');
+      if(!revelar){result.classList.add('hidden');result.textContent='';}
+      for(let i=0;i<80;i++){
+        const card=document.createElement('div');
+        card.className='rounded-xl border border-slate-300 dark:border-ratio-borderDark p-3 bg-slate-50 dark:bg-[#12161A] text-sm';
+        const heading=document.createElement('div');
+        heading.className='font-bold text-slate-900 dark:text-white mb-1';
+        heading.textContent='Questão '+(i+1);
+        const disciplina=document.createElement('p');
+        disciplina.className='text-xs text-slate-500 dark:text-slate-400 mb-2';
+        disciplina.textContent=materia46(tipo,i+1)?.name||'Disciplina não classificada';
+        const select=document.createElement('select');
+        select.className='w-full p-2 rounded-lg border border-slate-300 dark:border-ratio-borderDark bg-white dark:bg-ratio-cardDark text-slate-900 dark:text-white';
+        select.setAttribute('aria-label','46º Exame, tipo '+tipo+', resposta da questão '+(i+1));
+        ['', 'A','B','C','D'].forEach(function(opcao){
+          const option=document.createElement('option');
+          option.value=opcao;option.textContent=opcao||'Não respondida';
+          select.appendChild(option);
+        });
+        select.value=respostas[i];
+        select.addEventListener('change',function(){
+          const novo=carregarRespostas46(tipo);
+          novo[i]=select.value;
+          salvarRespostas46(tipo,novo);
+          atualizarProgresso46();
+          result.classList.add('hidden');
+        });
+        card.append(heading,disciplina,select);
+        if(revelar) {
+          const feedback=document.createElement('p');
+          feedback.className='mt-2 text-xs font-bold '+(respostas[i]===gabarito[i]?'text-emerald-600 dark:text-emerald-400':'text-red-600 dark:text-red-400');
+          feedback.textContent='Gabarito definitivo: '+gabarito[i]+(respostas[i]===gabarito[i]?' ✓':' • confira sua resposta');
+          card.appendChild(feedback);
+        }
+        target.appendChild(card);
+      }
+      atualizarProgresso46();
+    }
+    function corrigirFolha46() {
+      const tipo=tipoOABAtual();
+      const gabarito=fonte46().gabaritos[tipo-1],marcadas=carregarRespostas46(tipo);
+      const acertos=marcadas.filter((x,i)=>x!==''&&x===gabarito[i]).length;
+      const resultado=document.getElementById('oab46Resultado');
+      desenharFolha46(true);
+      resultado.classList.remove('hidden');
+      resultado.textContent='46º Exame, Tipo '+tipo+': '+acertos+'/80 pontos. Respostas assinaladas: '+marcadas.filter(Boolean).length+'/80. '+(acertos>=40?'Atingiu 40 pontos neste treino.':'Abaixo dos 40 pontos neste treino.')+' Trata-se do gabarito histórico definitivo, não de revisão de legislação vigente.';
+    }
+    function limparFolha46() {
+      salvarRespostas46(tipoOABAtual(),Array(80).fill(''));
+      desenharFolha46(false);
     }
     function materiaTipo47(tipo,num) {
       const dados=fonteOAB().exam47;

@@ -1,8 +1,8 @@
-/* Banco autoral, separado das provas oficiais FGV/OAB; formato CEBRASPE Certo/Errado. */
+/* Banco de treino autoral 2026, não reprodução de questões oficiais OAB. */
 window.RATIO_TREINO_EXTRA = {
   "schemaVersion": "1.0",
   "createdAt": "2026-11-09",
-  "description": "Questões AUTORAIS de treino de legislação no estilo FGV, sem reprodução dos enunciados da OAB e sem atribuição a provas oficiais.",
+  "description": "58 questões autorais adicionais, além das oito iniciais; não são questões oficiais das bancas; fundamentos legais consultados em fontes federais oficiais",
   "legalReview": "2026-11-09",
   "jurisprudenceCoverage": "Sem pretensão de revisão jurisprudencial exaustiva",
   "questoes": [
@@ -781,6 +781,211 @@ window.RATIO_TREINO_EXTRA = {
       "explicacao": "O art. 59, caput, da CLT estabelece, na regra geral de sobrejornada, acréscimo não superior a duas horas diárias, mediante acordo individual, convenção ou acordo coletivo.",
       "artigo": "CLT, art. 59, caput",
       "fonte": "https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452compilado.htm"
+    },
+    {
+      "id": "RJ-FGV-038",
+      "banca": "FGV",
+      "materiaId": "etica",
+      "tema": "Prerrogativa da advogada gestante",
+      "enunciado": "Uma advogada gestante comparece a fórum e lhe é exigida passagem por detector de metais, apesar de informar sua condição. Qual direito específico assegura o Estatuto da Advocacia?",
+      "alternativas": [
+        "A dispensa de detector de metais somente nos tribunais superiores.",
+        "A possibilidade de se retirar da audiência sem justificativa.",
+        "O direito de ingressar em tribunais sem ser submetida a detector de metais e aparelhos de raios X.",
+        "A autorização para ingresso em qualquer recinto privado sem revista."
+      ],
+      "correta": "C",
+      "explicacao": "O art. 7º-A, I, a, da Lei 8.906/1994 assegura à advogada gestante entrada em tribunais sem ser submetida a detectores de metais e aparelhos de raios X.",
+      "artigo": "Lei 8.906/1994, art. 7º-A, I, a",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l8906.htm"
+    },
+    {
+      "id": "RJ-FGV-039",
+      "banca": "FGV",
+      "materiaId": "etica",
+      "tema": "Representação de interesses opostos por sócios",
+      "enunciado": "Dois advogados integrantes da mesma sociedade pretendem representar, no mesmo processo, partes cujos interesses são diretamente opostos. Segundo o Estatuto, essa atuação:",
+      "alternativas": [
+        "É vedada a advogados sócios da mesma sociedade.",
+        "É permitida mediante comunicação oral ao juiz.",
+        "É obrigatória quando os clientes não dispõem de recursos.",
+        "É livre desde que a sociedade possua escritórios em cidades distintas."
+      ],
+      "correta": "A",
+      "explicacao": "O art. 15, § 6º, da Lei 8.906/1994 proíbe que advogados sócios de uma mesma sociedade profissional representem em juízo clientes com interesses opostos.",
+      "artigo": "Lei 8.906/1994, art. 15, § 6º",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l8906.htm"
+    },
+    {
+      "id": "RJ-FGV-040",
+      "banca": "FGV",
+      "materiaId": "processocivil",
+      "tema": "Prazos processuais contados em dias úteis",
+      "enunciado": "Na contagem de prazo processual civil fixado em dias por lei ou pelo juiz, qual regra estabelece o CPC?",
+      "alternativas": [
+        "Contam-se todos os dias corridos sem exceção.",
+        "Computam-se apenas os dias úteis.",
+        "Contam-se somente as segundas e sextas-feiras.",
+        "Ignoram-se todos os feriados, mas contam-se todos os domingos."
+      ],
+      "correta": "B",
+      "explicacao": "O CPC, art. 219, dispõe que, na contagem de prazo processual em dias, computam-se somente os dias úteis. A regra é referente a prazos processuais.",
+      "artigo": "CPC, art. 219 e parágrafo único",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm"
+    },
+    {
+      "id": "RJ-FGV-041",
+      "banca": "FGV",
+      "materiaId": "processocivil",
+      "tema": "Vedação de decisão-surpresa",
+      "enunciado": "Em processo civil, o magistrado cogita julgar com base em fundamento não discutido pelas partes, mesmo sendo matéria examinável de ofício. O CPC exige:",
+      "alternativas": [
+        "A escolha aleatória de fundamento, sem contraditório.",
+        "Apenas comunicação posterior à sentença.",
+        "Que o juiz submeta todas as decisões a referendo popular.",
+        "Prévia oportunidade de manifestação das partes sobre o fundamento."
+      ],
+      "correta": "D",
+      "explicacao": "O art. 10 do CPC veda decisão baseada em fundamento sobre o qual as partes não tiveram oportunidade de manifestação, inclusive em matérias cognoscíveis de ofício.",
+      "artigo": "CPC, art. 10",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm"
+    },
+    {
+      "id": "RJ-FGV-042",
+      "banca": "FGV",
+      "materiaId": "constitucional",
+      "tema": "Função social da propriedade",
+      "enunciado": "Uma pessoa sustenta que o direito constitucional de propriedade é absoluto e nunca se submete à função social. Qual alternativa corresponde à Constituição?",
+      "alternativas": [
+        "A propriedade atenderá a sua função social.",
+        "A função social só existe em contratos comerciais internacionais.",
+        "A Constituição não protege propriedade privada.",
+        "Somente propriedade móvel tem função social."
+      ],
+      "correta": "A",
+      "explicacao": "O art. 5º, XXIII, da Constituição estabelece que a propriedade atenderá a sua função social, ao lado da garantia do direito de propriedade no inciso XXII.",
+      "artigo": "Constituição Federal, art. 5º, XXII e XXIII",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm"
+    },
+    {
+      "id": "RJ-FGV-043",
+      "banca": "FGV",
+      "materiaId": "constitucional",
+      "tema": "Direitos do preso e direito ao silêncio",
+      "enunciado": "Pessoa é detida e deseja comunicar-se com família e advogado. Segundo o art. 5º da Constituição, a pessoa presa:",
+      "alternativas": [
+        "Não deve ser informada de seus direitos até o julgamento.",
+        "Tem direito de ser informada de seus direitos, inclusive de permanecer calada, e de contar com assistência da família e de advogado.",
+        "Só tem direito ao silêncio após condenação.",
+        "Não pode solicitar assistência da família em hipótese alguma."
+      ],
+      "correta": "B",
+      "explicacao": "O art. 5º, LXIII, assegura informação de direitos, inclusive o silêncio, além de assistência da família e de advogado.",
+      "artigo": "Constituição Federal, art. 5º, LXIII",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm"
+    },
+    {
+      "id": "RJ-FGV-044",
+      "banca": "FGV",
+      "materiaId": "civil",
+      "tema": "Interferências nocivas entre propriedades vizinhas",
+      "enunciado": "Uma atividade em imóvel vizinho causa interferências comprovadamente prejudiciais ao sossego e à saúde de moradores. Segundo o Código Civil, o proprietário ou possuidor prejudicado:",
+      "alternativas": [
+        "Deve aceitar qualquer interferência, sem limite legal.",
+        "Somente pode reclamar se o imóvel vizinho for público.",
+        "Pode exigir a cessação das interferências prejudiciais nos termos da lei.",
+        "Pode confiscar os bens do vizinho imediatamente."
+      ],
+      "correta": "C",
+      "explicacao": "O art. 1.277 do Código Civil assegura ao proprietário ou possuidor de prédio o direito de fazer cessar interferências prejudiciais à segurança, ao sossego e à saúde provocadas pela utilização de propriedade vizinha, observados os critérios legais.",
+      "artigo": "Código Civil, art. 1.277",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm"
+    },
+    {
+      "id": "RJ-FGV-045",
+      "banca": "FGV",
+      "materiaId": "tributario",
+      "tema": "Extinção do crédito tributário pelo pagamento",
+      "enunciado": "Contribuinte quita integralmente crédito tributário exigível, observados os requisitos legais. No CTN, o pagamento constitui:",
+      "alternativas": [
+        "Causa de suspensão do crédito indefinidamente.",
+        "Forma de substituição da obrigação por penalidade.",
+        "Causa de nulidade da lei tributária.",
+        "Modalidade de extinção do crédito tributário."
+      ],
+      "correta": "D",
+      "explicacao": "O CTN, art. 156, I, inclui o pagamento entre as hipóteses de extinção do crédito tributário.",
+      "artigo": "CTN, art. 156, I",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l5172compilado.htm"
+    },
+    {
+      "id": "RJ-FGV-046",
+      "banca": "FGV",
+      "materiaId": "penal",
+      "tema": "Legítima defesa no Código Penal",
+      "enunciado": "Uma pessoa, com moderação e utilizando meios necessários, repele agressão humana injusta que está ocorrendo contra terceiro. Qual instituto pode ser reconhecido?",
+      "alternativas": [
+        "Legítima defesa, conforme os requisitos do Código Penal.",
+        "Estado de necessidade sem avaliação das circunstâncias.",
+        "Imunidade parlamentar automática.",
+        "Arrependimento posterior pela agressão."
+      ],
+      "correta": "A",
+      "explicacao": "O art. 25 do Código Penal define legítima defesa como repelir injusta agressão, atual ou iminente, a direito próprio ou alheio, usando moderadamente os meios necessários.",
+      "artigo": "Código Penal, art. 25",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/decreto-lei/del2848compilado.htm"
+    },
+    {
+      "id": "RJ-FGV-047",
+      "banca": "FGV",
+      "materiaId": "trabalho",
+      "tema": "Registro de jornada em estabelecimento com mais de 20 trabalhadores",
+      "enunciado": "Uma empresa possui estabelecimento com 28 trabalhadores. Pela regra geral da CLT, no controle de jornada, é:",
+      "alternativas": [
+        "Dispensável todo registro de entrada e saída em razão do porte pequeno.",
+        "Obrigatória anotação de entrada e saída, ressalvadas disposições legais sobre as modalidades de registro.",
+        "Obrigatória exclusivamente marcação em relógio biométrico de modelo único.",
+        "Permitida anotação apenas de férias e faltas, não da jornada."
+      ],
+      "correta": "B",
+      "explicacao": "O art. 74, § 2º, da CLT exige registro de entrada e saída em estabelecimentos com mais de vinte trabalhadores, por meio manual, mecânico ou eletrônico, conforme a regulamentação.",
+      "artigo": "CLT, art. 74, § 2º",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452compilado.htm"
+    },
+    {
+      "id": "RJ-FGV-048",
+      "banca": "FGV",
+      "materiaId": "consumidor",
+      "tema": "Inversão judicial do ônus da prova",
+      "enunciado": "Uma consumidora apresenta alegações verossímeis sobre possível defeito de produto, e solicita inversão do ônus da prova. Nos termos do CDC, essa inversão:",
+      "alternativas": [
+        "É proibida em todas as relações de consumo.",
+        "Ocorre obrigatoriamente por simples escolha unilateral do consumidor, sem apreciação do caso.",
+        "Pode ser determinada pelo juiz quando presentes os requisitos legais de verossimilhança ou hipossuficiência.",
+        "Dispensa sempre a existência de processo judicial."
+      ],
+      "correta": "C",
+      "explicacao": "O CDC, art. 6º, VIII, autoriza a facilitação da defesa, inclusive inversão do ônus da prova a critério do juiz quando verossímil a alegação ou quando o consumidor for hipossuficiente segundo as regras ordinárias de experiências.",
+      "artigo": "CDC, art. 6º, VIII",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm"
+    },
+    {
+      "id": "RJ-FGV-049",
+      "banca": "FGV",
+      "materiaId": "eca",
+      "tema": "Prioridade absoluta da criança e do adolescente",
+      "enunciado": "Sobre a proteção de crianças e adolescentes, o ECA estabelece que o dever de assegurar seus direitos com absoluta prioridade cabe:",
+      "alternativas": [
+        "Somente ao Município, sem participação de famílias.",
+        "Somente às escolas públicas.",
+        "Exclusivamente ao Conselho Tutelar.",
+        "À família, comunidade, sociedade em geral e poder público."
+      ],
+      "correta": "D",
+      "explicacao": "O ECA, art. 4º, atribui à família, à comunidade, à sociedade em geral e ao poder público o dever de assegurar, com absoluta prioridade, a efetivação dos direitos fundamentais de crianças e adolescentes.",
+      "artigo": "ECA, art. 4º",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l8069compilado.htm"
     }
-  ]
+  ],
+  "updatedAt": "2026-11-10"
 };

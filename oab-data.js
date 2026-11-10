@@ -1,4 +1,4 @@
-/* Gabaritos históricos oficiais. Não constituem parecer de atualização jurídica. */
+/* Gabaritos oficiais OAB/FGV 47º e 46º. Enunciados consultados via PDFs de origem. */
 window.RATIO_OAB_DATA = {
   "version": "2026-11-09",
   "metadata": {
@@ -6,7 +6,9 @@ window.RATIO_OAB_DATA = {
     "gabarito": "definitivo",
     "dataProva": "2026-09-06",
     "aviso": "O gabarito é histórico. Comentários sobre legislação e jurisprudência atuais exigem revisão individual.",
-    "validacaoJuridicaIndividual": false
+    "validacaoJuridicaIndividual": false,
+    "ultimaIntegracao": "2026-11-10",
+    "escopoGabaritos": "47º e 46º Exames integrados; demais exames arquivados com links"
   },
   "bancas": [
     "FGV",
@@ -24,8 +26,8 @@ window.RATIO_OAB_DATA = {
     {
       "exame": 46,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=649",
-      "status": "fontes_oficiais",
-      "importado": false
+      "status": "gabarito_definitivo_cadernos_integrados",
+      "importado": true
     },
     {
       "exame": 45,
@@ -802,5 +804,567 @@ window.RATIO_OAB_DATA = {
     "fonteAnulacao": "https://www.oab.org.br/util/print/64629?print=Noticia",
     "fonteProva": "https://oab.fgv.br/home.aspx?key=650",
     "revisaoGabarito": "2026-11-09"
+  },
+  "exam46": {
+    "exame": 46,
+    "dataProva": "2026-05-03",
+    "dataGabaritoDefinitivo": "2026-05-20",
+    "status": "GABARITO_DEFINITIVO_4_TIPOS_SEM_COMENTARIOS_INDIVIDUAIS",
+    "cadernos": [
+      {
+        "tipo": 1,
+        "cor": "Branca",
+        "pdf": "https://s.oab.org.br/arquivos/2026/05/b5f2a4bd-8885-4f42-909f-a2ecac329dab.pdf"
+      },
+      {
+        "tipo": 2,
+        "cor": "Verde",
+        "pdf": "https://s.oab.org.br/arquivos/2026/05/9e37bd12-07a3-4cdb-aef9-09bb663721c5.pdf"
+      },
+      {
+        "tipo": 3,
+        "cor": "Amarela",
+        "pdf": "https://s.oab.org.br/arquivos/2026/05/c58cbc52-71d3-4991-a415-97c0b31c959e.pdf"
+      },
+      {
+        "tipo": 4,
+        "cor": "Azul",
+        "pdf": "https://s.oab.org.br/arquivos/2026/05/44ac1fe4-5f00-43c8-a7c8-647c978a9012.pdf"
+      }
+    ],
+    "gabaritos": [
+      "CDCADACDBCCBBDCDBDAADCACBDBCDDABBACAADBBABDCBDABCCBCCCABBDAABCDBDBABBADDAACCDADB",
+      "DADCCDCABCCBBCDDDBAACDCADBDBCADABBACBABADBCDDBCABCBBCCCAABCBDABDBDBAABCDDAABCDAD",
+      "CCADCADDCBBDDCBCBDAACDACCDBDBBADABACBADBBADCDBCCABABBCCCBCBDAAABDBDBBAAACDDDBCDA",
+      "DDCAACDCCBBCDDBCDBAADCCABCDBDBBADACAABBBADCDBDBCCACABBCCCBDAABBABDBDABACDDAADBCD"
+    ],
+    "correspondencia": [
+      [
+        7,
+        5,
+        8
+      ],
+      [
+        3,
+        7,
+        1
+      ],
+      [
+        4,
+        2,
+        6
+      ],
+      [
+        8,
+        6,
+        5
+      ],
+      [
+        6,
+        8,
+        7
+      ],
+      [
+        2,
+        3,
+        4
+      ],
+      [
+        5,
+        1,
+        3
+      ],
+      [
+        1,
+        4,
+        2
+      ],
+      [
+        9,
+        10,
+        10
+      ],
+      [
+        10,
+        9,
+        9
+      ],
+      [
+        14,
+        16,
+        12
+      ],
+      [
+        13,
+        15,
+        11
+      ],
+      [
+        12,
+        11,
+        15
+      ],
+      [
+        16,
+        12,
+        13
+      ],
+      [
+        11,
+        14,
+        16
+      ],
+      [
+        15,
+        13,
+        14
+      ],
+      [
+        18,
+        17,
+        18
+      ],
+      [
+        17,
+        18,
+        17
+      ],
+      [
+        20,
+        20,
+        19
+      ],
+      [
+        19,
+        19,
+        20
+      ],
+      [
+        22,
+        22,
+        21
+      ],
+      [
+        21,
+        21,
+        22
+      ],
+      [
+        24,
+        23,
+        24
+      ],
+      [
+        23,
+        24,
+        23
+      ],
+      [
+        26,
+        27,
+        28
+      ],
+      [
+        27,
+        28,
+        29
+      ],
+      [
+        28,
+        29,
+        25
+      ],
+      [
+        29,
+        25,
+        26
+      ],
+      [
+        25,
+        26,
+        27
+      ],
+      [
+        31,
+        32,
+        33
+      ],
+      [
+        32,
+        33,
+        34
+      ],
+      [
+        33,
+        34,
+        30
+      ],
+      [
+        34,
+        30,
+        31
+      ],
+      [
+        30,
+        31,
+        32
+      ],
+      [
+        36,
+        36,
+        35
+      ],
+      [
+        35,
+        35,
+        36
+      ],
+      [
+        40,
+        38,
+        41
+      ],
+      [
+        41,
+        39,
+        42
+      ],
+      [
+        42,
+        37,
+        40
+      ],
+      [
+        39,
+        41,
+        38
+      ],
+      [
+        38,
+        42,
+        37
+      ],
+      [
+        37,
+        40,
+        39
+      ],
+      [
+        44,
+        43,
+        44
+      ],
+      [
+        43,
+        44,
+        43
+      ],
+      [
+        46,
+        46,
+        45
+      ],
+      [
+        45,
+        45,
+        46
+      ],
+      [
+        48,
+        49,
+        50
+      ],
+      [
+        49,
+        50,
+        47
+      ],
+      [
+        50,
+        47,
+        48
+      ],
+      [
+        47,
+        48,
+        49
+      ],
+      [
+        52,
+        53,
+        54
+      ],
+      [
+        53,
+        54,
+        55
+      ],
+      [
+        54,
+        55,
+        56
+      ],
+      [
+        55,
+        56,
+        51
+      ],
+      [
+        56,
+        51,
+        52
+      ],
+      [
+        51,
+        52,
+        53
+      ],
+      [
+        60,
+        59,
+        58
+      ],
+      [
+        61,
+        60,
+        59
+      ],
+      [
+        62,
+        61,
+        60
+      ],
+      [
+        57,
+        62,
+        61
+      ],
+      [
+        58,
+        57,
+        62
+      ],
+      [
+        59,
+        58,
+        57
+      ],
+      [
+        64,
+        65,
+        66
+      ],
+      [
+        65,
+        66,
+        67
+      ],
+      [
+        66,
+        67,
+        68
+      ],
+      [
+        67,
+        68,
+        63
+      ],
+      [
+        68,
+        63,
+        64
+      ],
+      [
+        63,
+        64,
+        65
+      ],
+      [
+        70,
+        69,
+        70
+      ],
+      [
+        69,
+        70,
+        69
+      ],
+      [
+        72,
+        74,
+        73
+      ],
+      [
+        73,
+        75,
+        74
+      ],
+      [
+        74,
+        71,
+        75
+      ],
+      [
+        75,
+        72,
+        71
+      ],
+      [
+        71,
+        73,
+        72
+      ],
+      [
+        77,
+        78,
+        79
+      ],
+      [
+        78,
+        79,
+        80
+      ],
+      [
+        79,
+        80,
+        76
+      ],
+      [
+        80,
+        76,
+        77
+      ],
+      [
+        76,
+        77,
+        78
+      ]
+    ],
+    "disciplinas": [
+      {
+        "start": 1,
+        "end": 8,
+        "name": "Ética Profissional e Estatuto da OAB",
+        "base": "https://www.planalto.gov.br/ccivil_03/leis/l8906.htm"
+      },
+      {
+        "start": 9,
+        "end": 10,
+        "name": "Filosofia do Direito",
+        "base": "https://jurisprudencia.stf.jus.br/"
+      },
+      {
+        "start": 11,
+        "end": 16,
+        "name": "Direito Constitucional",
+        "base": "https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm"
+      },
+      {
+        "start": 17,
+        "end": 18,
+        "name": "Direitos Humanos",
+        "base": "https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm"
+      },
+      {
+        "start": 19,
+        "end": 20,
+        "name": "Direito Eleitoral",
+        "base": "https://www.planalto.gov.br/ccivil_03/leis/l9504.htm"
+      },
+      {
+        "start": 21,
+        "end": 22,
+        "name": "Direito Internacional",
+        "base": "https://www.planalto.gov.br/ccivil_03/decreto-lei/del4657compilado.htm"
+      },
+      {
+        "start": 23,
+        "end": 24,
+        "name": "Direito Financeiro",
+        "base": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp101.htm"
+      },
+      {
+        "start": 25,
+        "end": 29,
+        "name": "Direito Tributário",
+        "base": "https://www.planalto.gov.br/ccivil_03/leis/l5172compilado.htm"
+      },
+      {
+        "start": 30,
+        "end": 34,
+        "name": "Direito Administrativo",
+        "base": "https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/l14133.htm"
+      },
+      {
+        "start": 35,
+        "end": 36,
+        "name": "Direito Ambiental",
+        "base": "https://www.planalto.gov.br/ccivil_03/leis/l6938.htm"
+      },
+      {
+        "start": 37,
+        "end": 42,
+        "name": "Direito Civil",
+        "base": "https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm"
+      },
+      {
+        "start": 43,
+        "end": 44,
+        "name": "Estatuto da Criança e do Adolescente",
+        "base": "https://www.planalto.gov.br/ccivil_03/leis/l8069.htm"
+      },
+      {
+        "start": 45,
+        "end": 46,
+        "name": "Direito do Consumidor",
+        "base": "https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm"
+      },
+      {
+        "start": 47,
+        "end": 50,
+        "name": "Direito Empresarial",
+        "base": "https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm"
+      },
+      {
+        "start": 51,
+        "end": 56,
+        "name": "Direito Processual Civil",
+        "base": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm"
+      },
+      {
+        "start": 57,
+        "end": 62,
+        "name": "Direito Penal",
+        "base": "https://www.planalto.gov.br/ccivil_03/decreto-lei/del2848compilado.htm"
+      },
+      {
+        "start": 63,
+        "end": 68,
+        "name": "Direito Processual Penal",
+        "base": "https://www.planalto.gov.br/ccivil_03/decreto-lei/del3689.htm"
+      },
+      {
+        "start": 69,
+        "end": 70,
+        "name": "Direito Previdenciário",
+        "base": "https://www.planalto.gov.br/ccivil_03/leis/l8213cons.htm"
+      },
+      {
+        "start": 71,
+        "end": 75,
+        "name": "Direito do Trabalho",
+        "base": "https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm"
+      },
+      {
+        "start": 76,
+        "end": 80,
+        "name": "Direito Processual do Trabalho",
+        "base": "https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm"
+      }
+    ],
+    "gabaritoPDF": "https://s.oab.org.br/arquivos/2026/05/0662d6ed-01a3-4ee5-905f-a6704d72992b.pdf",
+    "paginaOficial": "https://www.oab.org.br/noticia/64200/confira-o-gabarito-definitivo-e-o-resultado-preliminar-da-prova-objetiva-do-46-eou",
+    "fonteCadernos": "https://www.oab.org.br/noticia/64139/divulgado-o-gabarito-preliminar-da-1-fase-46-exame-de-ordem-unificado",
+    "nota": "80 questões corrigíveis por caderno; enunciados apenas nos PDFs oficiais. Sem comentários jurídico-individuais no 46º EOU. Sem questão anulada no gabarito definitivo."
   }
 };
