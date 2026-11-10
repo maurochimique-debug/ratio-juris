@@ -11,6 +11,10 @@
 #simulador-oficial{min-width:0;overflow-wrap:anywhere}
 .ratio-study-layout{display:grid;grid-template-columns:minmax(0,1fr);gap:1rem;align-items:start}
 .ratio-study-layout>*{min-width:0}
+.ratio-study-layout .ratio-study-pane{order:1}
+.ratio-study-layout #visualizadorProvaIntegrado{order:2}
+#consultaPdfOpcional>summary{min-height:44px;display:flex;align-items:center}
+#consultaPdfOpcional:not([open]) .ratio-pdf-iframe{display:none}
 .ratio-study-pane{min-width:0;overflow-wrap:anywhere}
 .ratio-pdf-iframe{display:block;width:100%;height:440px;height:clamp(270px,53svh,520px);border:0;background:#fff}
 .ratio-study-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem;align-items:stretch}
