@@ -1,4 +1,4 @@
-/* Gabaritos oficiais OAB 40–47; o 40º consolida anulações de 10/04 e 06/05/2024. */
+/* Provas oficiais OAB/FGV 39–47, gabaritos por caderno. Não inventar correspondência. */
 window.RATIO_OAB_DATA = {
   "version": "2026-11-09",
   "metadata": {
@@ -8,7 +8,7 @@ window.RATIO_OAB_DATA = {
     "aviso": "O gabarito é histórico. Comentários sobre legislação e jurisprudência atuais exigem revisão individual.",
     "validacaoJuridicaIndividual": false,
     "ultimaIntegracao": "2026-11-10",
-    "escopoGabaritos": "40º ao 47º Exames OAB: oito edições, gabaritos definitivos e PDFs oficiais dos quatro tipos; 39º ao 10º apenas catalogados",
+    "escopoGabaritos": "39º–47º Exames OAB: 9 edições com 4 gabaritos/cadernos; 38º–10º somente catálogo externo",
     "ultimaImportacao": "2026-11-10",
     "examesCorrigiveis": [
       47,
@@ -18,15 +18,16 @@ window.RATIO_OAB_DATA = {
       43,
       42,
       41,
-      40
+      40,
+      39
     ],
     "auditoriaAtual": {
       "data": "2026-11-10",
-      "totalQuestoesDistintas": 640,
-      "totalExamesCorrigiveis": 8,
+      "totalQuestoesDistintas": 720,
+      "totalExamesCorrigiveis": 9,
       "totalExamesCatalogados": 38,
       "gabaritosPorExame": 4,
-      "status": "GABARITOS_HISTORICOS_FGV_OAB_40_A_47_E_NAO_TRANSCRICOES"
+      "status": "GABARITOS_OAB_FGV_39_A_47_COM_CORRECAO_INDEPENDENTE_POR_TIPO"
     }
   },
   "bancas": [
@@ -87,8 +88,8 @@ window.RATIO_OAB_DATA = {
     {
       "exame": 39,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=642",
-      "status": "pagina_historica_sem_importacao",
-      "importado": false
+      "status": "gabaritos_definitivos_independentes_tres_anuladas_por_tipo",
+      "importado": true
     },
     {
       "exame": 38,
@@ -3795,5 +3796,69 @@ window.RATIO_OAB_DATA = {
     "dataAtualizacaoFinal": "2024-05-08",
     "comunicadoAnulacaoPosterior": "https://s.oab.org.br/arquivos/2024/05/38173b88-0b35-424f-ae5a-c3ee3d42ace2.pdf",
     "fonteResultadoAtualizado": "https://www.oab.org.br/noticia/62220/confira-o-resultado-definitivo-da-primeira-fase-do-40-eou-apos-a-anulacao-de-uma-das-questoes"
+  },
+  "exam39": {
+    "exame": 39,
+    "dataProva": "2023-11-19",
+    "dataGabaritoDefinitivo": "2023-12-07",
+    "status": "GABARITOS_DEFINITIVOS_INDIVIDUAIS_POR_CADERNO_ANULACOES_VALIDADAS",
+    "gabaritos": [
+      "ADDCADBADDCBACABB*ACBACACDADCDADCABCCDBDCDBBCBAB*ABDCDDDABBBDA*CDAACCBDBBABCBAAC",
+      "CADDAADBDDBCBACA*BCABAACCCDADADADCCBDBDCDCBBCBAAB*DBDCDDAABBBDC*CDAABCBDBBACCBAA",
+      "DCADBAADDDABCBACB*CAABCADCCDACADADBCBDCDCDBBBC*AABDDBDCDDAABBBAC*CDACBABDBBACCBA",
+      "ADBAADDCDDCABCBA*BACABACADCCDDCADACBDCDCDBBBBCB*AACDDDBDBDAABBAAC*CDBCBABDBAACCB"
+    ],
+    "correspondencia": null,
+    "cadernos": [
+      {
+        "tipo": 1,
+        "cor": "Branca",
+        "pdf": "https://s.oab.org.br/arquivos/2023/11/8340b3e9-4337-4351-929c-3dcfd772e54a.pdf"
+      },
+      {
+        "tipo": 2,
+        "cor": "Verde",
+        "pdf": "https://s.oab.org.br/arquivos/2023/11/ea2729d0-af4a-4409-86c1-1d592d3a59c7.pdf"
+      },
+      {
+        "tipo": 3,
+        "cor": "Amarela",
+        "pdf": "https://s.oab.org.br/arquivos/2023/11/2900f40f-499f-43d8-afe1-ac8d560f9801.pdf"
+      },
+      {
+        "tipo": 4,
+        "cor": "Azul",
+        "pdf": "https://s.oab.org.br/arquivos/2023/11/ea326f38-6db2-409b-a6a4-fa7433880b63.pdf"
+      }
+    ],
+    "gabaritoPDF": "https://s.oab.org.br/arquivos/2023/12/a664be30-2748-463b-b7a8-f4911a0ca0b8.pdf",
+    "fonteOficial": "https://www.oab.org.br/noticia/61800/oab-divulga-resultado-preliminar-da-1-fase-do-39-exame-de-ordem-unificado",
+    "fonteCadernos": "https://www.oab.org.br/noticia/61666/confira-o-gabarito-preliminar-da-1-fase-prova-objetiva-do-39-exame-de-ordem",
+    "comunicadoAnulacaoPosterior": "https://oab.fgv.br/arq/642/30547_2023.3%20%2839%C2%BA%20EOU%29%20-%20Comunicado%20de%20anula%C3%A7%C3%A3o%20de%20mais%20uma%20quest%C3%A3o%20-%20prova%20objetiva.%2039%20eou..pdf",
+    "anulacoesPorTipo": [
+      [
+        18,
+        49,
+        63
+      ],
+      [
+        17,
+        50,
+        64
+      ],
+      [
+        18,
+        47,
+        65
+      ],
+      [
+        17,
+        48,
+        66
+      ]
+    ],
+    "disciplinas": [],
+    "avisoCorrespondencia": "Não se utiliza tabela de equivalência entre tipos: a tabela publicada diverge das posições de certas anulações. Cada prova é corrigida exclusivamente contra o gabarito definitivo da mesma cor/tipo.",
+    "nota": "Três anulações por caderno no gabarito definitivo consolidado; uma delas decorre do comunicado adicional de 7 de dezembro de 2023. Não reutilizar gabaritos entre tipos."
   }
 };

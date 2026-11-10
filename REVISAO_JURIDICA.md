@@ -1,3 +1,45 @@
+# RatioJuris — Simulador adaptativo e fundamentação de erros (10/11/2026)
+
+## Abrangência e dispositivos
+
+A interface preserva as cores, fontes, a identidade visual e a composição do aplicativo original. Foram adicionados `responsividade.css` e `responsividade.js`:
+
+- **Celular (320–430px, incluindo telas menores):** cabeçalho reduzido, menu de navegação com botões de 44px, layout de estudo em uma coluna, alternativas A–D com alvos de toque amplos e PDF embutido adaptado à altura visível.
+- **Tablet (431–1199px):** navegação móvel/tátil até 1023px, PDF escalável em coluna, barra de ações com distribuição apropriada e elementos sem largura fixa que provoquem transbordamento deliberado.
+- **PC (a partir de 1200px):** visualizador de prova e painel de questões lado a lado, menu completo e atalhos opcionais `Alt+Seta esquerda/direita` quando o foco estiver dentro do simulador. Seletores e campos editáveis são excluídos desses atalhos.
+- **Acessibilidade:** foco visível, tecla Esc para fechar o menu com retorno ao botão, leitor de voz do artigo e da explicação após erro, alto contraste, tamanho de texto ajustável, respeito à preferência de movimento reduzido.
+- **Compatibilidade:** alturas em pixels como alternativa a unidades de altura dinâmica `svh`. O visualizador interno usa `iframe` e mantém o link direto da OAB caso um navegador não permita a incorporação.
+
+### Card de fundamentação quando o aluno erra
+
+Foi implementado `fundamentacaoErroOficial`, apresentado **após o aluno solicitar a conferência individual** ou corrigir toda a prova, apenas quando há alternativa efetivamente errada. O card expõe:
+
+1. Gabarito definitivo histórico e identificação da questão;
+2. Artigo e legislação, **somente quando existe comentário jurídico individual referenciado**;
+3. Fundamentação autoral previamente vinculada ao item e ressalvas jurídico-editoriais;
+4. Link para a fonte legislativa oficial previamente cadastrada, e até três precedentes identificados;
+5. Botão opcional para ouvir a fundamentação por síntese de voz do navegador.
+
+No 47º Exame há 80 registros de comentários (79 de fundamento jurídico/doutrinário e uma questão oficialmente anulada). Para **demais edições ainda sem revisão individual**, o aplicativo informa que o fundamento específico está pendente. Não atribui artigo, precedente ou justificativa hipotéticos. A correção do gabarito oficial é independente da atualização jurisprudencial e normativa.
+
+## 39º Exame — fontes e limitações editoriais
+
+- Prova oficial objetiva em **19/11/2023** e gabarito definitivo de **07/12/2023**.
+- Gabarito oficial da OAB, quatro cadernos: https://s.oab.org.br/arquivos/2023/12/a664be30-2748-463b-b7a8-f4911a0ca0b8.pdf
+- Comunicado oficial das três anulações: https://examedeordem.oab.org.br/Noticias/Noticia/61798
+- **Três anuladas por tipo**, conforme o PDF definitivo: T1 = 18, 49 e 63; T2 = 17, 50 e 64; T3 = 18, 47 e 65; T4 = 17, 48 e 66.
+- **A equivalência automática de questões entre os quatro tipos não foi habilitada**, devido a divergências durante a conferência da tabela com as posições de anulação. Cada caderno usa **seu próprio gabarito definitivo** para avaliar as respostas, evitando transferir letras entre tipos.
+- Com o 39º, o banco local reúne **nove edições oficiais corrigíveis (39º–47º): 720 questões distintas e 36 PDFs de cadernos**, com quatro versões por edição. Exames 38º–10º continuam catalogados, sem gabaritos importados.
+
+## Verificação técnica, sem afirmar homologação plena
+
+- **211/211 testes simulados de integração**, cobrindo 36 cadernos oficiais, cartões de erro, transição entre exames e persistência de respostas.
+- **20/20 testes simulados de navegação adaptativa**, incluindo menu para celular e tablet, fechamento por Esc, transição para menu desktop e atalhos de teclado.
+- Checagem estática de IDs duplicados e compilação dos scripts concluídas.
+- **Pendente:** validação visual em navegadores reais nas larguras 320, 375, 390, 768, 1024, 1280 e 1440px; testes físicos iOS e Android; confirmação de Safari, Firefox, Edge, Chrome e leitores NVDA, VoiceOver e TalkBack. O status de deploy READY não garante por si só acessibilidade integral ou execução perfeita em todos os dispositivos.
+
+---
+
 # Provas oficiais exibidas dentro do aplicativo — 10/11/2026
 
 ## Implementação

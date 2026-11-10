@@ -108,6 +108,21 @@
       return false;
     }
   }
+  function readLegalExplanation(){
+    const panel=$("fundamentacaoErroOficial");
+    if(!panel||panel.classList.contains("hidden")){
+      announce("Nenhuma fundamentação está disponível para a questão atual.");
+      return false;
+    }
+    const contents=[
+      $("tituloFundamentacaoErro")?.textContent,
+      $("referenciaFundamentacaoErro")?.textContent,
+      $("explicacaoFundamentacaoErro")?.textContent,
+      $("observacaoFundamentacaoErro")?.textContent,
+      $("statusFundamentacaoErro")?.textContent
+    ].filter(Boolean).join(". ");
+    return voiceText(contents);
+  }
   function readOfficialQuestion(){
     const title=$("questaoOficialTitulo")?.textContent||"";
     const status=$("statusSimuladorOficial")?.textContent||"";
@@ -180,7 +195,7 @@
   }
   window.RatioA11y={
     toggle, close:()=>setExpanded(false),setContrast,toggleContrast,
-    setTextScale,readExamStatus,readOfficialQuestion,pauseResume,stop,fillMessage,
+    setTextScale,readExamStatus,readOfficialQuestion,readLegalExplanation,pauseResume,stop,fillMessage,
     speakMessage,clearMessage,voiceText
   };
   document.addEventListener("DOMContentLoaded",init);

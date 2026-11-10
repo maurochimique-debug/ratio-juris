@@ -1,3 +1,13 @@
+## Mobilidade e inclusão digital — 10/11/2026
+
+A navegação foi adaptada para smartphone, tablet e PC, preservando a identidade visual original. No celular e tablet o menu oferece Provas oficiais, Gabinete, Planos e Acessibilidade, com comando por toque, teclado e fechamento Esc. No computador, a prova e a resposta podem ficar lado a lado.
+
+O campo de resposta e o leitor original de PDF permanecem disponíveis na mesma página. Após uma resposta incorreta, caso exista fundamentação oficial/editorial verificada para aquele item, o painel exibe o artigo e a legislação e oferece **"Ouvir fundamento jurídico"**. Se não existe comentário específico, não é inventada fundamentação; o gabarito original continua acessível.
+
+Larguras de prova planejadas: 320–430px (celular), 431–1199px (tablet/pequenos desktops) e ≥1200px (PC). Verificações DOM e estáticas foram aprovadas, mas os testes visuais ponta a ponta e com dispositivos reais ainda estão pendentes.
+
+---
+
 # Estudo da prova oficial dentro do RatioJuris — 10/11/2026
 
 A plataforma passou a exibir o **PDF original da FGV/OAB dentro do próprio simulador**, sem obrigar o aluno a baixar o arquivo ou alternar de janela. O iframe usa o endpoint `/api/oab-pdf?exame=NN&tipo=N`, que aceita **somente a lista fechada de 32 cadernos oficiais previamente identificados** (40º–47º Exames, quatro cores por edição).
