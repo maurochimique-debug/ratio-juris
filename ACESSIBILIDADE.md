@@ -1,3 +1,13 @@
+# Atualização — simulador de prova oficial acessível (10/11/2026)
+
+Esta versão oferece controles A–D por teclado, navegação anterior/próxima e escolha direta de questão numerada com rótulos acessíveis. O usuário pode abrir o PDF oficial e selecionar uma cópia no dispositivo para tentar extrair texto por página, localizar a questão e **ouvir seu texto em pt-BR**. Nenhuma alternativa original é inventada. O leitor opera no dispositivo via PDF.js 6.4.299 carregado por CDN; não transmite o arquivo a servidor de prova nem mantém o texto em armazenamento persistente.
+
+A voz sintetizada foi dividida em blocos curtos para reduzir interrupções em dispositivos móveis. A pessoa pode parar ou pausar a leitura. OCR de páginas só em imagem, transcrição de áudio e tradução em Libras ainda não foram implementados. A validação com NVDA/TalkBack/VoiceOver e navegadores reais permanece pendente.
+
+Testes automatizados: **172 de integração DOM e 14 do PDF local com módulo simulado**, sem substituir homologação visual acessível.
+
+---
+
 # RatioJuris — Recursos de acessibilidade
 
 Versão implementada: **10 de novembro de 2026**.

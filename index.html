@@ -187,7 +187,7 @@
   <section class="py-12 sm:py-18 lg:py-22 border-b border-slate-200 dark:border-ratio-borderDark relative overflow-hidden">
     <div class="max-w-5xl mx-auto px-4 text-center relative z-10">
       <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-ratio-purple/40 bg-ratio-purple/10 text-ratio-purple text-xs sm:text-sm font-bold tracking-wide uppercase mb-6">
-        <i class="fa-solid fa-layer-group text-xs"></i> FGV/OAB • 46º e 47º com gabaritos definitivos oficiais
+        <i class="fa-solid fa-layer-group text-xs"></i> Acervo de questões • Legislação Atualizada
       </div>
       <h1 class="font-serif text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white leading-tight mb-6">
         Treine seus conhecimentos jurídicos.<br>
@@ -231,18 +231,28 @@
             </select>
           </div>
         </div>
-        <div id="cardEstatisticaOAB" class="mb-5 p-4 sm:p-6 rounded-2xl border-2 border-purple-500/50 bg-purple-50 dark:bg-[#1A2026]" role="region" aria-labelledby="tituloEstatisticaOAB">
-          <h3 id="tituloEstatisticaOAB" class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">Meu desempenho na prova</h3>
-          <p id="estatisticaIdentificacao" class="mt-1 text-xs sm:text-sm text-slate-600 dark:text-slate-300">Selecione a prova e o caderno.</p>
-          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mt-4">
-            <div class="rounded-lg p-3 bg-white dark:bg-[#111827] border border-slate-300 dark:border-slate-600"><span class="block text-xs text-slate-700 dark:text-slate-300">Respondidas</span><strong id="estRespondidas" class="block mt-1 text-xl text-slate-900 dark:text-white">0</strong></div>
-            <div class="rounded-lg p-3 bg-white dark:bg-[#111827] border border-emerald-400"><span class="block text-xs text-slate-700 dark:text-slate-300">Acertos</span><strong id="estAcertos" class="block mt-1 text-xl text-emerald-700 dark:text-emerald-300">—</strong></div>
-            <div class="rounded-lg p-3 bg-white dark:bg-[#111827] border border-rose-400"><span class="block text-xs text-slate-700 dark:text-slate-300">Erros</span><strong id="estErros" class="block mt-1 text-xl text-rose-700 dark:text-rose-300">—</strong></div>
-            <div class="rounded-lg p-3 bg-white dark:bg-[#111827] border border-slate-300 dark:border-slate-600"><span class="block text-xs text-slate-700 dark:text-slate-300">Em branco</span><strong id="estBrancas" class="block mt-1 text-xl text-slate-900 dark:text-white">80</strong></div>
-            <div class="rounded-lg p-3 bg-white dark:bg-[#111827] border border-amber-400"><span class="block text-xs text-slate-700 dark:text-slate-300">Pontos anulados</span><strong id="estAnuladas" class="block mt-1 text-xl text-amber-700 dark:text-amber-300">0</strong></div>
-            <div class="rounded-lg p-3 bg-white dark:bg-[#111827] border border-purple-400"><span class="block text-xs text-slate-700 dark:text-slate-300">Aproveitamento</span><strong id="estAproveitamento" class="block mt-1 text-xl text-purple-800 dark:text-purple-300">—</strong></div>
+        <!-- Card de estatísticas: formato compacto do simulador original, com dados reais por prova -->
+        <div id="cardEstatisticaOAB" class="mb-6 p-4 sm:p-5 rounded-2xl bg-slate-50 dark:bg-ratio-cardDark border-2 border-ratio-purple/40 shadow-sm" role="region" aria-labelledby="tituloEstatisticaOAB">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-ratio-purple/20 text-ratio-purple flex items-center justify-center text-lg font-bold" aria-hidden="true">📊</div>
+              <div>
+                <h3 id="tituloEstatisticaOAB" class="text-xs font-mono text-ratio-purple uppercase font-bold tracking-wider">Estatística de acertos e erros</h3>
+                <p id="estatisticaIdentificacao" class="text-xs text-slate-600 dark:text-slate-300 mt-1">Exame e caderno selecionados</p>
+                <div class="flex flex-wrap gap-x-4 gap-y-2 mt-2 text-sm font-bold">
+                  <span class="text-emerald-600 dark:text-emerald-400">Acertos: <strong id="estAcertos" class="tabular-nums">—</strong></span>
+                  <span class="text-rose-600 dark:text-rose-400">Erros: <strong id="estErros" class="tabular-nums">—</strong></span>
+                  <span class="text-slate-700 dark:text-slate-300">Total: <strong id="estRespondidas" class="tabular-nums">0</strong> / 80</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <p id="estatisticaMensagem" class="mt-4 text-sm text-slate-700 dark:text-slate-200" role="status" aria-live="polite">Corrija sua prova para revelar acertos, erros e aproveitamento.</p>
+          <p class="mt-3 text-xs text-slate-600 dark:text-slate-300">
+            Em branco: <strong id="estBrancas" class="tabular-nums">80</strong>
+            <span class="px-1">•</span> Pontos anulados: <strong id="estAnuladas" class="tabular-nums">0</strong>
+            <span class="px-1">•</span> Aproveitamento: <strong id="estAproveitamento" class="tabular-nums">—</strong>
+          </p>
+          <p id="estatisticaMensagem" class="mt-3 text-sm text-slate-700 dark:text-slate-200" role="status" aria-live="polite">Corrija sua prova para revelar acertos e erros.</p>
         </div>
         <p id="oabStatus" class="text-sm text-slate-700 dark:text-slate-300 mb-4" role="status"></p>
         <div class="flex flex-wrap gap-3 mb-6">
@@ -252,18 +262,77 @@
         </div>
         <div class="mb-6 p-4 rounded-xl border border-amber-500/40 bg-amber-50 dark:bg-amber-900/10">
           <p class="font-bold text-sm text-amber-900 dark:text-amber-300">Verificação jurídica de 2026 — fontes oficiais</p>
-          <p class="text-xs sm:text-sm mt-2 text-amber-950 dark:text-slate-200">O gabarito definitivo é um registro histórico. Para saber se uma questão continua correta conforme a legislação e a jurisprudência atuais, é necessário revisar o fundamento daquela questão. Nenhum item sem revisão individual é apresentado como atualizado.</p>
+          <p class="text-xs sm:text-sm mt-2 text-amber-950 dark:text-slate-200">O gabarito definitivo é um registro histórico. Para saber se uma questão continua correta conforme a legislação e a jurisprudência atuais, é necessário revisar o fundamento daquela questão.</p>
           <div class="flex flex-wrap gap-4 mt-3 text-xs font-bold">
             <a href="https://www.planalto.gov.br/ccivil_03/" target="_blank" rel="noopener noreferrer" class="underline text-purple-800 dark:text-purple-300">Legislação federal — Planalto</a>
             <a href="https://jurisprudencia.stf.jus.br/" target="_blank" rel="noopener noreferrer" class="underline text-purple-800 dark:text-purple-300">Jurisprudência — STF</a>
             <a href="https://scon.stj.jus.br/SCON/" target="_blank" rel="noopener noreferrer" class="underline text-purple-800 dark:text-purple-300">Jurisprudência — STJ</a>
           </div>
         </div>
+        <!-- Navegação de provas oficiais, sem enunciados ou alternativas inventados -->
+        <div id="simulador-oficial" class="mb-7 p-5 sm:p-7 rounded-2xl border-2 border-purple-500 bg-white dark:bg-ratio-cardDark shadow-xl" role="region" aria-labelledby="tituloSimuladorOficial">
+          <div class="flex flex-wrap justify-between items-center gap-3 mb-3">
+            <div>
+              <p class="text-xs font-bold uppercase tracking-wider text-purple-700 dark:text-purple-300">Treinamento com prova original da banca</p>
+              <h3 id="tituloSimuladorOficial" class="text-2xl font-black text-slate-900 dark:text-white">Simulador de questões oficiais</h3>
+            </div>
+            <span id="statusSimuladorOficial" class="text-sm font-bold text-purple-800 dark:text-purple-300" aria-live="polite">Selecione um exame</span>
+          </div>
+          <p class="text-sm text-slate-700 dark:text-slate-200">Leia o enunciado e as alternativas no <strong>PDF oficial da FGV/OAB</strong>. Marque A, B, C ou D para salvar sua resposta e conferir depois pelo gabarito definitivo. O leitor acessível de PDF, logo abaixo, pode extrair o texto para leitura por voz. Não são criadas perguntas ou alternativas.</p>
+          <div class="mt-5 flex flex-wrap items-center gap-3">
+            <label for="questaoOficialNumeroSelect" class="text-sm font-semibold text-slate-900 dark:text-white">Ir para a questão</label>
+            <select id="questaoOficialNumeroSelect" onchange="irParaQuestaoOficial(this.value)" aria-label="Escolher uma das 80 questões da prova oficial" class="px-3 py-2 rounded-lg border-2 border-purple-500 bg-white dark:bg-[#12161A] text-slate-900 dark:text-white"></select>
+          </div>
+          <div class="mt-5 p-5 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-[#12161A]">
+            <h4 id="questaoOficialTitulo" class="text-xl font-bold text-slate-900 dark:text-white" tabindex="-1">Questão da prova original</h4>
+            <p id="questaoOficialContexto" class="text-sm text-slate-700 dark:text-slate-300 mt-2"></p>
+            <a id="questaoOficialPdf" href="https://oab.fgv.br/" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 px-4 py-3 bg-purple-700 text-white font-bold rounded-lg underline">Abrir PDF oficial e ler esta questão</a>
+            <p class="text-xs text-slate-600 dark:text-slate-400 mt-2">Localize no PDF a questão com o mesmo número e tipo de caderno indicado acima. A posição na página depende do documento original.</p>
+            <div id="alternativasQuestaoOficial" class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-5" role="group" aria-label="Marcar alternativa da questão oficial">
+              <button type="button" onclick="responderQuestaoOficial('A')" class="btn-touch rounded-xl px-5 py-3 border-2 border-purple-500 text-purple-800 dark:text-purple-300 font-black">A</button>
+              <button type="button" onclick="responderQuestaoOficial('B')" class="btn-touch rounded-xl px-5 py-3 border-2 border-purple-500 text-purple-800 dark:text-purple-300 font-black">B</button>
+              <button type="button" onclick="responderQuestaoOficial('C')" class="btn-touch rounded-xl px-5 py-3 border-2 border-purple-500 text-purple-800 dark:text-purple-300 font-black">C</button>
+              <button type="button" onclick="responderQuestaoOficial('D')" class="btn-touch rounded-xl px-5 py-3 border-2 border-purple-500 text-purple-800 dark:text-purple-300 font-black">D</button>
+            </div>
+            <p id="feedbackQuestaoOficial" class="text-sm font-semibold text-slate-800 dark:text-slate-200 mt-4" role="status" aria-live="polite">Selecione A, B, C ou D após ler a questão oficial.</p>
+          </div>
+          <div class="flex flex-wrap gap-3 items-center mt-5">
+            <button id="btnQuestaoAnterior" type="button" onclick="moverQuestaoOficial(-1)" class="btn-touch px-5 py-3 rounded-lg border-2 border-purple-500 text-purple-800 dark:text-purple-300 font-semibold">Questão anterior</button>
+            <button id="btnQuestaoProxima" type="button" onclick="moverQuestaoOficial(1)" class="btn-touch px-5 py-3 rounded-lg bg-purple-700 text-white font-semibold">Próxima questão</button>
+            <button type="button" onclick="corrigirSimuladorOficial()" class="btn-touch px-5 py-3 rounded-lg bg-emerald-700 text-white font-bold">Corrigir minha prova</button>
+            <button type="button" onclick="RatioA11y.readOfficialQuestion()" class="btn-touch px-4 py-3 rounded-lg border-2 border-purple-600 text-purple-800 dark:text-purple-300 font-semibold">Ouvir orientação e resposta</button>
+          </div>
+          <p class="text-xs text-slate-600 dark:text-slate-300 mt-4">O histórico é salvo por exame e tipo de caderno neste navegador. Ao atingir a questão 80, a sequência termina sem repetir perguntas automaticamente.</p>
+        </div>
+        <!-- Texto original proveniente SOMENTE de PDF oficial escolhido pelo usuário; execução local -->
+        <section id="leitorPdfAcessivel" class="mb-6 rounded-2xl border-2 border-amber-400 bg-amber-50 dark:bg-[#191b22] p-5 sm:p-6" aria-labelledby="tituloLeitorPdf">
+          <h3 id="tituloLeitorPdf" class="text-lg font-bold text-slate-900 dark:text-white">Leitor acessível de prova oficial (PDF)</h3>
+          <p class="text-sm text-slate-700 dark:text-slate-200 mt-2">Para pessoas com deficiência visual ou dificuldade de leitura: baixe o PDF da prova no link oficial acima e selecione esse arquivo no seu dispositivo. O leitor tenta converter o texto original em conteúdo acessível e permite ouvi-lo. <strong>O arquivo é processado localmente, sem envio ao servidor.</strong></p>
+          <div class="mt-4 flex flex-col sm:flex-row sm:items-end gap-3">
+            <div class="flex-1">
+              <label for="pdfOficialLocal" class="block text-sm font-bold text-slate-900 dark:text-white mb-2">Selecionar PDF do caderno oficial no dispositivo</label>
+              <input id="pdfOficialLocal" type="file" accept=".pdf,application/pdf" class="block w-full rounded-lg border border-slate-400 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white p-2 text-sm"/>
+            </div>
+            <button id="btnCarregarPdfAcessivel" type="button" onclick="RatioPdfAcessivel.carregar()" class="px-4 py-3 rounded-lg bg-purple-700 text-white font-bold text-sm">Preparar leitura do PDF</button>
+          </div>
+          <p id="pdfLeitorStatus" class="mt-3 text-sm text-slate-800 dark:text-slate-200" role="status" aria-live="polite">Selecione o arquivo oficial baixado. Se o PDF for apenas imagem, poderá não ter texto extraível.</p>
+          <div id="pdfLeitorControles" class="hidden mt-4">
+            <div class="flex flex-wrap gap-3 items-end">
+              <div>
+                <label for="pdfPaginaSelect" class="block text-sm font-bold text-slate-900 dark:text-white mb-1">Página do PDF</label>
+                <select id="pdfPaginaSelect" onchange="RatioPdfAcessivel.mostrarPagina(this.value)" class="px-3 py-2 rounded-lg border border-slate-400 bg-white dark:bg-slate-900 text-slate-900 dark:text-white"></select>
+              </div>
+              <button type="button" onclick="RatioPdfAcessivel.localizarQuestao()" class="px-4 py-2 rounded-lg border border-purple-600 text-purple-800 dark:text-purple-300 font-bold">Localizar questão atual</button>
+              <button type="button" onclick="RatioPdfAcessivel.ouvirTrecho()" class="px-4 py-2 rounded-lg bg-purple-700 text-white font-bold">Ouvir texto extraído</button>
+              <button type="button" onclick="RatioA11y.stop()" class="px-4 py-2 rounded-lg border border-slate-500 text-slate-800 dark:text-white">Parar voz</button>
+            </div>
+            <div id="pdfTextoExtraido" tabindex="0" role="region" aria-label="Texto acessível extraído do PDF oficial" class="mt-4 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-950 p-4 text-slate-900 dark:text-white text-base whitespace-pre-wrap leading-relaxed max-h-[32rem] overflow-y-auto"></div>
+            <p class="mt-3 text-xs text-slate-700 dark:text-slate-300">A ordem do texto pode variar em PDFs com duas colunas ou imagens. A localização da questão é aproximada; confira o número no original. Se não houver texto extraível, utilize o leitor de PDF do sistema ou uma versão acessível fornecida pela banca.</p>
+          </div>
+        </section>
+
         <div id="oabFolhaBloco">
           <p class="text-sm text-slate-700 dark:text-slate-300 mb-4">Leia as 80 questões no caderno PDF oficial da cor selecionada e marque suas respostas abaixo. A questão anulada recebe pontuação automática. Use o botão de correção quando terminar.</p>
-          <div class="mb-4 p-3 rounded-xl bg-purple-50 dark:bg-purple-950/30 border border-purple-500/30">
-            <p class="text-xs sm:text-sm font-semibold text-slate-900 dark:text-slate-100">Acervo comentado do 47º Exame: 80 registros do 47º EOU: 79 questões comentadas com referências legislativas, doutrinárias ou jurisprudenciais e a questão 47 oficialmente anulada. A legislação foi consultada em 09/11/2026; precedentes específicos estão identificados quando disponíveis, mas a revisão jurisprudencial integral e a atualização automática continuam pendentes.</p>
-          </div>
           <div class="flex flex-wrap items-center gap-3 mb-4">
             <button type="button" onclick="corrigirFolha47()" class="px-5 py-3 rounded-lg bg-emerald-700 text-white font-bold text-sm">Corrigir minha prova</button>
             <button type="button" onclick="limparFolha47()" class="px-5 py-3 rounded-lg border border-slate-400 text-slate-900 dark:text-white font-bold text-sm">Limpar respostas</button>
@@ -304,7 +373,7 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-6">
         <div class="rounded-xl p-5 border-2 border-purple-600 bg-purple-50 dark:bg-ratio-cardDark">
           <h3 class="font-bold text-slate-900 dark:text-white">FGV / OAB</h3>
-          <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">42º ao 47º Exames disponíveis para correção: 80 questões por prova e quatro cadernos oficiais. 41º ao 10º têm links oficiais no catálogo.</p>
+          <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">Cadernos e gabaritos definitivos de exames oficiais da FGV/OAB, com correção por prova.</p>
           <a href="#oab-arquivo" class="inline-block mt-3 underline font-bold text-purple-800 dark:text-purple-300">Abrir cadernos e gabaritos oficiais</a>
         </div>
         <div class="rounded-xl p-5 border border-slate-300 dark:border-ratio-borderDark bg-slate-50 dark:bg-ratio-cardDark">
@@ -667,6 +736,7 @@
         document.getElementById('oabStatus').textContent=num+'º Exame — página oficial da FGV disponível. Ainda sem gabarito importado para correção eletrônica.';
       }
       atualizarEstatisticaProva();
+      renderizarSimuladorOficial();
     }
     function chaveAvaliacaoOAB(exame,tipo){return 'ratio_avaliada_'+exame+'_tipo'+tipo;}
     function invalidarEstatisticaOAB() {
@@ -701,6 +771,139 @@
       return {ex,tipo,answered,empty,correct,errors,annulled,points,graded};
     }
     // Folha separada do 46º Exame — nenhuma resposta inferida de questões do 47º.
+    /* Treino de PROVAS OFICIAIS: não gera enunciados, questões ou alternativas. */
+    function obterExameParaSimulador() {
+      const numero=Number(document.getElementById('oabExamSelect').value);
+      const tipo=tipoOABAtual();
+      const exam=fonteOAB()['exam'+numero];
+      if(!exam||!Array.isArray(exam.gabaritos)||exam.gabaritos.length!==4||
+          typeof exam.gabaritos[tipo-1]!=='string'||exam.gabaritos[tipo-1].length!==80) return null;
+      return {numero,tipo,exam};
+    }
+    function chavePosicaoOficial(numero,tipo) {
+      return 'ratio_posicao_oficial_'+numero+'_tipo'+tipo;
+    }
+    function obterPosicaoOficial(numero,tipo) {
+      const n=Number(lerArmazenamento(chavePosicaoOficial(numero,tipo),'1'));
+      return Number.isInteger(n)&&n>=1&&n<=80?n:1;
+    }
+    function obterRespostasOficiais(numero,tipo) {
+      return numero===47?obterRespostas47(tipo):carregarRespostas46(tipo);
+    }
+    function salvarRespostasOficiais(numero,tipo,respostas) {
+      if(numero===47)salvarRespostas47(tipo,respostas);
+      else salvarRespostas46(tipo,respostas);
+    }
+    function renderizarSimuladorOficial() {
+      const ctx=obterExameParaSimulador();
+      const painel=document.getElementById('simulador-oficial');
+      painel.classList.toggle('hidden',!ctx);
+      if(!ctx)return;
+      const {numero,tipo,exam}=ctx;
+      const pos=obterPosicaoOficial(numero,tipo);
+      const selector=document.getElementById('questaoOficialNumeroSelect');
+      if(selector.children.length!==80){
+        selector.replaceChildren();
+        for(let i=1;i<=80;i++){
+          const item=document.createElement('option');
+          item.value=String(i);
+          item.textContent='Questão '+i;
+          selector.appendChild(item);
+        }
+      }
+      selector.value=String(pos);
+      const respostas=obterRespostasOficiais(numero,tipo);
+      const escolha=respostas[pos-1];
+      const gabarito=exam.gabaritos[tipo-1][pos-1];
+      const anulada=gabarito==='*';
+      const avaliada=lerArmazenamento(chaveAvaliacaoOAB(numero,tipo),'0')==='1';
+      const caderno=exam.cadernos[tipo-1];
+      const marcadas=respostas.filter(Boolean).length;
+      document.getElementById('questaoOficialTitulo').textContent=
+        'Questão '+pos+' de 80'+(anulada?' — ANULADA':'');
+      document.getElementById('questaoOficialContexto').textContent=
+        numero+'º Exame da OAB, Tipo '+tipo+' ('+caderno.cor+
+        '). Consulte no PDF o enunciado ORIGINAL da questão '+pos+
+        ' e escolha a letra correspondente.';
+      document.getElementById('questaoOficialPdf').href=caderno.pdf;
+      document.getElementById('statusSimuladorOficial').textContent=
+        'Questão '+pos+'/80 • '+marcadas+' respostas marcadas';
+      const botoes=Array.from(document.getElementById('alternativasQuestaoOficial').querySelectorAll('button'));
+      botoes.forEach(function(botao,i){
+        const letra='ABCD'[i];
+        const selecionada=escolha===letra;
+        botao.disabled=anulada;
+        botao.setAttribute('aria-pressed',selecionada?'true':'false');
+        botao.setAttribute('aria-label','Marcar alternativa '+letra+' da questão oficial '+pos);
+        botao.className='btn-touch rounded-xl px-5 py-3 border-2 font-black '+(
+          selecionada?'border-purple-800 bg-purple-200 text-purple-950 dark:bg-purple-950 dark:text-white':
+          'border-purple-500 bg-white dark:bg-[#12161A] text-purple-800 dark:text-purple-300'
+        )+(anulada?' opacity-60 cursor-not-allowed':'');
+      });
+      const feedback=document.getElementById('feedbackQuestaoOficial');
+      if(anulada){
+        feedback.textContent='ANULADA no gabarito definitivo. Ponto automático, sem exigir resposta.';
+      }else if(!escolha){
+        feedback.textContent='Nenhuma resposta marcada. Abra o caderno oficial para ler o enunciado e escolha uma alternativa.';
+      }else if(!avaliada){
+        feedback.textContent='Alternativa '+escolha+' registrada. Use “Corrigir minha prova” para conferir o gabarito e atualizar a estatística.';
+      }else{
+        feedback.textContent='Alternativa '+escolha+' — '+(escolha===gabarito?'ACERTO':'ERRO')+
+          '. Gabarito definitivo: '+gabarito+'.';
+      }
+      const anterior=document.getElementById('btnQuestaoAnterior');
+      const proxima=document.getElementById('btnQuestaoProxima');
+      anterior.disabled=pos===1;
+      proxima.disabled=pos===80;
+      anterior.setAttribute('aria-disabled',pos===1?'true':'false');
+      proxima.setAttribute('aria-disabled',pos===80?'true':'false');
+      proxima.textContent=pos===80?'Última questão':'Próxima questão';
+      return {numero,tipo,pos,marcadas,anulada,avaliada};
+    }
+    function irParaQuestaoOficial(numero) {
+      const ctx=obterExameParaSimulador();
+      const pos=Number(numero);
+      if(!ctx||!Number.isInteger(pos)||pos<1||pos>80)return false;
+      gravarArmazenamento(chavePosicaoOficial(ctx.numero,ctx.tipo),String(pos));
+      renderizarSimuladorOficial();
+      document.getElementById('questaoOficialTitulo').focus();
+      return true;
+    }
+    function moverQuestaoOficial(delta) {
+      const ctx=obterExameParaSimulador();
+      if(!ctx||![-1,1].includes(delta))return false;
+      const pos=obterPosicaoOficial(ctx.numero,ctx.tipo)+delta;
+      if(pos<1||pos>80)return false;
+      return irParaQuestaoOficial(pos);
+    }
+    function responderQuestaoOficial(letra) {
+      const ctx=obterExameParaSimulador();
+      if(!ctx||!['A','B','C','D'].includes(letra))return false;
+      const pos=obterPosicaoOficial(ctx.numero,ctx.tipo);
+      const gabarito=ctx.exam.gabaritos[ctx.tipo-1][pos-1];
+      if(gabarito==='*')return false;
+      const respostas=obterRespostasOficiais(ctx.numero,ctx.tipo);
+      respostas[pos-1]=letra;
+      salvarRespostasOficiais(ctx.numero,ctx.tipo,respostas);
+      invalidarEstatisticaOAB();
+      // Sincroniza imediatamente a folha completa com os botões A–D.
+      if(ctx.numero===47)desenharFolha47(false);
+      else desenharFolha46(false);
+      renderizarSimuladorOficial();
+      return true;
+    }
+    function corrigirSimuladorOficial() {
+      const ctx=obterExameParaSimulador();
+      if(!ctx)return false;
+      if(ctx.numero===47)corrigirFolha47();
+      else corrigirFolha46();
+      renderizarSimuladorOficial();
+      return true;
+    }
+    function reiniciarTreinoOficial(){
+      // Não apaga as respostas nem o progresso: apenas retorna à questão 1.
+      return irParaQuestaoOficial(1);
+    }
     function fonte46() {
       const n=Number(document.getElementById('oabExamSelect').value);
       const dados=fonteOAB()['exam'+n];
@@ -763,6 +966,7 @@
           salvarRespostas46(tipo,novo);
           atualizarProgresso46();
           invalidarEstatisticaOAB();
+          renderizarSimuladorOficial();
           result.classList.add('hidden');
         });
         card.append(heading,disciplina,select);
@@ -787,11 +991,13 @@
       resultado.classList.remove('hidden');
       resultado.textContent=document.getElementById('oabExamSelect').value+'º Exame, Tipo '+tipo+': '+pontos+'/80 pontos ('+acertos+' acertos e '+anuladas+' ponto(s) por anulação). Respostas assinaladas: '+marcadas.filter(Boolean).length+'/80. '+(pontos>=40?'Atingiu 40 pontos neste treino.':'Abaixo dos 40 pontos neste treino.')+' Trata-se do gabarito histórico definitivo, não de revisão de legislação vigente.';
       atualizarEstatisticaProva(true);
+      renderizarSimuladorOficial();
     }
     function limparFolha46() {
       salvarRespostas46(tipoOABAtual(),Array(80).fill(''));
       desenharFolha46(false);
       invalidarEstatisticaOAB();
+      renderizarSimuladorOficial();
     }
     function materiaTipo47(tipo,num) {
       const dados=fonteOAB().exam47;
@@ -859,6 +1065,7 @@
           salvarRespostas47(tipo,current);
           atualizarProgresso47();
           invalidarEstatisticaOAB();
+          renderizarSimuladorOficial();
           document.getElementById('oabResultado').classList.add('hidden');
         });
         card.append(header,descricao,sel);
@@ -953,17 +1160,20 @@
       desenharFolha47(true);
       res.classList.remove('hidden');
       atualizarEstatisticaProva(true);
+      renderizarSimuladorOficial();
     }
     function limparFolha47() {
       const tipo=tipoOABAtual();
       salvarRespostas47(tipo,Array(80).fill(''));
       desenharFolha47();
       invalidarEstatisticaOAB();
+      renderizarSimuladorOficial();
     }
     window.addEventListener('DOMContentLoaded',function(){
       iniciarArquivoOAB();
     });
   </script>
+  <script src="/leitor-pdf-oficial.js"></script>
   <script src="/acessibilidade.js"></script>
 </body>
 </html>
