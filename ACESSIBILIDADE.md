@@ -52,3 +52,7 @@ O card do resultado possui rótulos e valores em texto e uma mensagem com `role=
 ## Acesso aos resultados do 43º e 44º Exames (10/11/2026)
 
 A leitura por voz do progresso e das estatísticas cobre agora os exames **43º, 44º, 45º, 46º e 47º** da OAB. O 43º possui duas questões anuladas por tipo, com atribuição automática de pontos. Os textos originais continuam nos PDFs da OAB/FGV, cuja acessibilidade depende do documento e do leitor usado. Testes NVDA, TalkBack e VoiceOver com tecnologia real permanecem pendentes.
+
+## 42º EOU — leitura de resultado (10/11/2026)
+
+O painel de acessibilidade pode ler o resultado e as estatísticas do 42º Exame, além dos 43º–47º. A questão anulada Q43/T1 (equivalentes Q44/T2, Q43/T3, Q44/T4) concede ponto automático. Os enunciados integrais permanecem no PDF oficial, dependentes do leitor de documentos.

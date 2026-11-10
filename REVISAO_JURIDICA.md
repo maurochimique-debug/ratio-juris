@@ -1,3 +1,40 @@
+# Importação do 42º Exame FGV/OAB — 10/11/2026
+
+## Documentos e retificação oficial
+
+- Prova objetiva em **01/12/2024**, gabarito definitivo divulgado em **18/12/2024**
+- Usada a **versão atualizada depois do reprocessamento da FGV**, em vez da primeira publicação que apresentou inconsistência no processamento da pontuação
+- PDF oficial definitivo atualizado, com quatro gabaritos e tabela de correspondência: https://s.oab.org.br/arquivos/2024/12/f7a7e51f-5468-402d-b594-c09a0e499b9f.pdf
+- Comunicado oficial de inconsistências e reprocessamento: https://www.oab.org.br/noticia/62825/fgv-esclarece-inconsistencias-no-gabarito-do-42-exame-de-ordem-unificado
+- Notícia sobre resultado retificado: https://www.oab.org.br/noticia/62826/42-eou-veja-o-resultado-preliminar-atualizado-da-prova-objetiva
+
+## Cadernos de prova oficiais
+
+1. Tipo 1 Branca: https://s.oab.org.br/arquivos/2024/12/6588c7e0-3c87-4efd-a0f5-ebef5dfcbb74.pdf
+2. Tipo 2 Verde: https://s.oab.org.br/arquivos/2024/12/8c7a49ec-1f62-417a-b45a-9c9dc958019d.pdf
+3. Tipo 3 Amarela: https://s.oab.org.br/arquivos/2024/12/20701071-ee55-45d2-809e-3d5d981221c1.pdf
+4. Tipo 4 Azul: https://s.oab.org.br/arquivos/2024/12/f3a737bc-fa2f-44ef-b01c-617e1623118b.pdf
+
+## Validação da anulação
+
+A **questão 43 do caderno Tipo 1** foi anulada. Correspondentes:
+- Tipo 1: Q43
+- Tipo 2: Q44
+- Tipo 3: Q43
+- Tipo 4: Q44
+
+A atribuição de ponto é automática, inclusive para resposta em branco, conforme gabarito definitivo e comunicado FGV/OAB. As **320 respostas e 80 linhas de correspondência** foram transcritas do PDF definitivo e verificadas por **240 comparações entre os quatro cadernos, sem divergências**.
+
+## Situação do banco jurídico
+
+**Seis edições OAB possuem correção eletrônica:** 47º, 46º, 45º, 44º, 43º e 42º, correspondendo a **480 questões de exame distintas**, cada qual com quatro versões de caderno. Do 41º ao 10º, permanecem links oficiais no catálogo, **sem correção interna** até verificação de documentos. Não declarar como disponíveis 6.000 questões sem importação real.
+
+Os enunciados originais não foram reproduzidos; consultar o PDF oficial da banca. O gabarito histórico não implica que comentários sobre lei/jurisprudência tenham sido atualizados. O Modo Gabinete e o card de estatísticas foram preservados.
+
+**32/32 verificações de lógica simulada aprovadas**, incluindo a correção dos 4 tipos do 42º, aplicação da anulação, 80/80 e prova em branco, preservação do 43º–47º, persistência e bloqueio do 41º não importado. A homologação visual E2E e de leitores de tela continua pendente.
+
+---
+
 # RatioJuris — Importação oficial do 44º e 43º EOU (10/11/2026)
 
 O projeto passou a registrar **cinco Exames da OAB com correção eletrônica**: 47º, 46º, 45º, 44º e 43º. Cada prova possui quatro cadernos e respectivo gabarito definitivo com 80 posições, preservado como registro histórico. Enunciados e alternativas continuam nos PDFs originais da banca, sem transcrição ou criação de perguntas fictícias.
