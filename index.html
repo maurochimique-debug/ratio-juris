@@ -123,7 +123,7 @@
   <section class="py-12 sm:py-18 lg:py-22 border-b border-slate-200 dark:border-ratio-borderDark relative overflow-hidden">
     <div class="max-w-5xl mx-auto px-4 text-center relative z-10">
       <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-ratio-purple/40 bg-ratio-purple/10 text-ratio-purple text-xs sm:text-sm font-bold tracking-wide uppercase mb-6">
-        <i class="fa-solid fa-layer-group text-xs"></i> 38 exames OAB no catálogo • Gabarito definitivo 47º (4 cadernos)
+        <i class="fa-solid fa-layer-group text-xs"></i> 54 questões autorais independentes • OAB 47º: quatro gabaritos definitivos
       </div>
       <h1 class="font-serif text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white leading-tight mb-6">
         Treine seus conhecimentos jurídicos.<br>
@@ -132,7 +132,7 @@
         </span>
       </h1>
       <p class="max-w-3xl mx-auto text-slate-600 dark:text-slate-300 text-base sm:text-lg lg:text-xl mb-10 leading-relaxed font-normal">
-        Consulte o histórico oficial do 47º ao 10º Exame da OAB, corrija suas respostas do 47º com os quatro gabaritos definitivos e treine com questões autorais organizadas por FGV, CEBRASPE, VUNESP e FCC. As normas e decisões devem ser conferidas na fonte vigente; o comentário jurídico individual ainda está em revisão.
+        O Super Simulador oferece 54 questões autorais distintas: 42 no estilo FGV e 4 em cada uma das bancas CEBRASPE, VUNESP e FCC. Sem repetição automática, com gabarito comentado e fontes legais. Em módulo separado, consulte os 38 exames da OAB catalogados e corrija o 47º com seus quatro gabaritos oficiais. As normas e decisões podem mudar; confira as fontes vigentes.
       </p>
       <div class="flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4">
         <a href="#oab-arquivo" class="btn-touch w-full sm:w-auto px-7 sm:px-8 py-3.5 sm:py-4 rounded-xl bg-ratio-purpleDeep hover:bg-purple-700 text-white font-bold text-sm sm:text-base shadow-xl shadow-purple-950/40 transition flex items-center justify-center gap-3">
@@ -262,7 +262,7 @@
           <button id="btnBanca_VUNESP" type="button" aria-pressed="false" onclick="selecionarBanca('VUNESP')" class="btn-touch p-3 rounded-xl border border-slate-300 dark:border-ratio-borderDark text-slate-900 dark:text-white font-bold">VUNESP</button>
           <button id="btnBanca_FCC" type="button" aria-pressed="false" onclick="selecionarBanca('FCC')" class="btn-touch p-3 rounded-xl border border-slate-300 dark:border-ratio-borderDark text-slate-900 dark:text-white font-bold">FCC</button>
         </div>
-        <p id="bancaStatus" class="mt-3 text-sm text-slate-600 dark:text-slate-300" role="status">FGV: cinco questões autorais de treino. Questões originais das bancas não foram reproduzidas.</p>
+        <p id="bancaStatus" class="mt-3 text-sm text-slate-600 dark:text-slate-300" role="status">Selecione a banca para consultar a quantidade real de questões autorais inéditas.</p>
         <div class="flex flex-wrap items-center gap-3 mt-4">
           <span id="statusQuestoesIneditas" class="text-sm font-semibold text-slate-800 dark:text-slate-100" aria-live="polite">Carregando questões inéditas...</span>
           <button type="button" onclick="reiniciarHistoricoBanca()" class="px-4 py-2 border border-purple-600 rounded-lg text-purple-800 dark:text-purple-300 font-semibold text-xs sm:text-sm hover:bg-purple-100 dark:hover:bg-purple-950/40">Reiniciar questões desta banca</button>
@@ -476,6 +476,7 @@
 
   <script src="/oab-data.js"></script>
   <script src="/oab47-comentarios.js"></script>
+  <script src="/questoes-autorais-2026.js"></script>
   <!-- Lógica de treinamento autoral, catálogo oficial e correção por caderno -->
   <script>
     "use strict";
@@ -637,6 +638,49 @@
       artigo:'STF, Súmula 473',trechoLei:'A Administração pode anular atos ilegais e revogar atos por conveniência ou oportunidade, respeitando direitos adquiridos e o controle judicial.',
       linkPlanalto:'https://jurisprudencia.stf.jus.br/pages/search/seq-sumula473/false'
     });
+    // Expansão do banco com enunciados inteiramente autorais.
+    // Nunca rotular estes itens como perguntas oficiais da OAB/FGV.
+    const pacoteAutoral=window.RATIO_TREINO_EXTRA;
+    if(!pacoteAutoral || !Array.isArray(pacoteAutoral.questoes)){
+      throw new Error('Arquivo de questões autorais indisponível ou malformado.');
+    }
+    const materiasIndexadas=new Map(listaMateriasDireito.map(m=>[m.id,m.nome]));
+    const idsPacote=new Set();
+    pacoteAutoral.questoes.forEach(function(registro){
+      if(!registro || !/^RJ-(FGV|CEBRASPE|VUNESP|FCC)-\d{3}$/.test(registro.id) ||
+         idsPacote.has(registro.id) || !materiasIndexadas.has(registro.materiaId) ||
+         !Array.isArray(registro.alternativas) ||
+         registro.alternativas.length !== (registro.banca==='CEBRASPE'?2:4) ||
+         !['A','B','C','D'].slice(0,registro.alternativas.length).includes(registro.correta) ||
+         !/^https:\/\//.test(registro.fonte)){
+        throw new Error('Registro autoral inválido no banco de questões.');
+      }
+      idsPacote.add(registro.id);
+      const alternativas=registro.alternativas.map(function(texto,i){
+        const letra=registro.banca==='CEBRASPE'?(i===0?'C':'E'):String.fromCharCode(65+i);
+        const certa=String.fromCharCode(65+i)===registro.correta;
+        return {
+          letra,
+          texto,
+          correta:certa,
+          motivo:(certa?'Correto. ':'Incorreto. ')+registro.explicacao
+        };
+      });
+      const questao={
+        id:registro.id,
+        banca:registro.banca,
+        materia:materiasIndexadas.get(registro.materiaId).toUpperCase(),
+        subtema:registro.tema,
+        cenario:'Questão original de prática jurídica no formato '+registro.banca+
+          '. Não é transcrição nem questão oficial de concurso/OAB.',
+        enunciado:registro.enunciado,
+        opcoes:alternativas,
+        artigo:registro.artigo,
+        trechoLei:registro.explicacao,
+        linkPlanalto:registro.fonte
+      };
+      (baseQuestoes[registro.materiaId] ||= []).push(questao);
+    });
     const bancasDisponiveis = ['FGV','CEBRASPE','VUNESP','FCC'];
     let bancaAtual = 'FGV';
     function materiasDisponiveis() {
@@ -770,8 +814,8 @@
         ' inédita(s) no filtro de '+totalFiltro+' questão(ões).';
       document.getElementById('statusQuestoesIneditas').textContent=texto;
       document.getElementById('bancaStatus').textContent=bancaAtual==='FGV' ?
-        'FGV: cinco questões autorais distintas. O caderno oficial da OAB com 80 questões fica na seção anterior.' :
-        bancaAtual+': uma questão autoral distinta disponível nesta versão; banco oficial ainda não importado.';
+        'FGV: '+totalBanca+' questões autorais independentes para treino, em diversas disciplinas. O caderno oficial OAB (80 questões) fica na seção anterior.' :
+        bancaAtual+': '+totalBanca+' questões autorais independentes no estilo da banca. Questões oficiais dessa banca ainda não foram importadas.';
       const proxima=document.getElementById('btnProximaQuestao');
       if(proxima) {
         proxima.disabled=restantes===0;
