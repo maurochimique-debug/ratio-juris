@@ -76,6 +76,58 @@
      if(button)button.disabled=false;
    }
  }
+ async function carregarOficial(){
+   if(carregando){avisar("Uma prova já está sendo preparada. Aguarde a conclusão.");return false;}
+   const exame=$("oabExamSelect")?.value,tipo=$("oabTipoSelect")?.value;
+   if(!/^\d{2}$/.test(exame||"")||! /^[1-4]$/.test(tipo||"")){
+     avisar("Selecione primeiro um exame e o tipo de caderno.");return false;
+   }
+   const allowed=window.RATIO_OAB_DATA?.["exam"+exame];
+   const book=allowed?.cadernos?.[Number(tipo)-1];
+   if(!book?.pdf||!book.pdf.startsWith("https://s.oab.org.br/arquivos/")){
+     avisar("Esta edição ainda não possui PDF oficial verificado no acervo.");return false;
+   }
+   carregando=true;
+   const button=$("btnCarregarPdfOficial");
+   if(button)button.disabled=true;
+   let parsed;
+   try {
+     avisar("Abrindo a prova original dentro do RatioJuris. Não é necessário baixar ou enviar arquivo.");
+     const pdfjs=await import(PDF_LIB);
+     pdfjs.GlobalWorkerOptions.workerSrc=PDF_WORKER;
+     const url="/api/oab-pdf?exame="+exame+"&tipo="+tipo;
+     const task=pdfjs.getDocument({url,rangeChunkSize:65536});
+     parsed=await task.promise;
+     if(exame!==$("oabExamSelect")?.value||tipo!==$("oabTipoSelect")?.value){
+       await parsed.destroy?.();
+       avisar("A prova selecionada mudou. Selecione novamente o caderno para carregar seu texto.");
+       return false;
+     }
+     const antigo=documento;
+     documento=parsed;cache.clear();trechoAtual="";
+     try{if(antigo&&antigo!==parsed)await antigo.destroy?.()}catch(_){}
+     const selector=$("pdfPaginaSelect");selector.replaceChildren();
+     for(let i=1;i<=documento.numPages;i++){
+       const option=document.createElement("option");
+       option.value=String(i);option.textContent="Página "+i;selector.appendChild(option);
+     }
+     selector.value="1";
+     $("pdfLeitorControles").classList.remove("hidden");
+     await mostrarPagina(1);
+     avisar("Caderno oficial "+exame+"º, Tipo "+tipo+", carregado dentro do aplicativo ("+
+       documento.numPages+" páginas). O texto extraído depende da estrutura do PDF da OAB.");
+     return true;
+   }catch(_){
+     if(parsed)try{await parsed.destroy?.()}catch(_){}
+     documento=null;cache.clear();trechoAtual="";
+     $("pdfLeitorControles")?.classList.add("hidden");
+     avisar("Não foi possível carregar o texto oficial nesta conexão. Use a prova integrada acima ou o link direto da OAB. Nenhuma questão será substituída por conteúdo inventado.");
+     return false;
+   }finally {
+     carregando=false;
+     if(button)button.disabled=false;
+   }
+ }
  async function textoPagina(pageNo){
    if(!documento)return "";
    const numero=Number(pageNo);
@@ -174,5 +226,5 @@
  document.addEventListener("change",function(event){
    if(["oabExamSelect","oabTipoSelect"].includes(event.target?.id)&&documento)limpar();
  });
- window.RatioPdfAcessivel={carregar,limpar,mostrarPagina,localizarQuestao,ouvirTrecho,extrairTrechoQuestao};
+ window.RatioPdfAcessivel={carregar,carregarOficial,limpar,mostrarPagina,localizarQuestao,ouvirTrecho,extrairTrechoQuestao};
 })();
