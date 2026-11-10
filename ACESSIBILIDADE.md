@@ -8,12 +8,12 @@ Versão implementada: **10 de novembro de 2026**.
 
 - Botão **Acessibilidade** visível no cabeçalho, inclusive em dispositivos móveis (ícone com nome acessível a leitores de tela).
 - Painel operável por teclado, com `aria-controls`, `aria-expanded`, foco no painel ao abrir, retorno do foco ao botão ao fechar e fechamento pela tecla **Esc**.
-- Link **Pular para o simulador** exibido ao receber foco pelo teclado.
+- Link **Pular para as provas oficiais** exibido ao receber foco pelo teclado.
 - Sinalização de foco com contorno perceptível e respeito à configuração do sistema para redução de movimento.
 - Ajuste manual do texto entre **100%, 125% e 150%**, com preferência salva localmente.
 - Alternância de **alto contraste**, com preferência salva localmente. Não afirmar conformidade universal de contraste sem inspeção visual de todas as telas.
-- Opções para ouvir **enunciado**, **alternativas**, **explicação após resposta** e **progresso/resultado da folha da OAB (46º ou 47º)**, usando a API de síntese de voz **do navegador**, com velocidade ajustável, pausa, retomada e interrupção.
-- Avisos de status em área `role=status`/`aria-live=polite`, e rótulos acessíveis para alternativas e elementos do simulador.
+- Opções para ouvir **progresso/resultado da folha da OAB (46º ou 47º)**, usando a API de síntese de voz **do navegador**, com velocidade ajustável, pausa, retomada e interrupção.
+- Avisos de status em área `role=status`/`aria-live=polite`, e rótulos acessíveis para a folha de respostas dos exames oficiais.
 
 ### 2. Comunicação alternativa para pessoas com dificuldade de fala
 
@@ -38,3 +38,9 @@ Versão implementada: **10 de novembro de 2026**.
 **25 de 25 testes simulados** (22 controles gerais e 3 testes da leitura da OAB), incluindo painel aberto/fechado, Esc e retorno de foco, leitura TTS, leitura de alternativas e explicação, pausa/retomada/parada, seleção de frases de comunicação, funcionamento sem TTS e persistência de contraste/fonte. Esses testes verificam lógica DOM em ambiente simulado e **não substituem** homologação em navegador e por usuários de tecnologias assistivas.
 
 Referência: **W3C Web Content Accessibility Guidelines (WCAG) 2.2**, https://www.w3.org/TR/WCAG22/ .
+
+## Política de questões exclusivamente oficiais — 10/11/2026
+
+O Super Simulador de questões autorais e seus dados foram retirados da interface pública. Apenas gabaritos e cadernos oficiais da OAB/FGV (46º e 47º Exames) estão importados para correção local. Os demais exames permanecem catalogados; outras bancas (CEBRASPE, VUNESP, FCC) não aparecem como portadoras de questões ainda não importadas.
+
+A leitura de enunciados e alternativas depende do PDF oficial em seu leitor de documentos, que deve ser avaliado quanto à acessibilidade. O próprio RatioJuris pode ler o progresso e o resultado da folha da OAB, mas não possui texto integral de enunciados no HTML. Não declarar leitura de enunciados pelo painel quando a fonte está apenas no PDF externo.
