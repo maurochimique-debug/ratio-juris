@@ -1,0 +1,59 @@
+/* RatioJuris — layout adaptativo para celular, tablet e PC.
+   Preserva identidade visual original e o painel de acessibilidade. */
+.ratio-header-inner,.ratio-header-actions,.ratio-brand{min-width:0}
+.ratio-brand{flex-shrink:1}
+.ratio-brand-title{white-space:nowrap}
+.ratio-nav-mobile[hidden]{display:none!important}
+.ratio-nav-mobile a{display:flex;align-items:center;min-height:48px;max-width:100%;
+  padding:12px 16px;border-radius:10px;font-weight:650;overflow-wrap:anywhere}
+.ratio-nav-mobile a:active{background:rgba(168,85,247,.15)}
+#oab-arquivo,#simulador-oficial,#gabinete{scroll-margin-top:100px}
+#simulador-oficial{min-width:0;overflow-wrap:anywhere}
+.ratio-study-layout{display:grid;grid-template-columns:minmax(0,1fr);gap:1rem;align-items:start}
+.ratio-study-layout>*{min-width:0}
+.ratio-study-pane{min-width:0;overflow-wrap:anywhere}
+.ratio-pdf-iframe{display:block;width:100%;height:clamp(270px,53svh,520px);border:0;background:#fff}
+.ratio-study-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem;align-items:stretch}
+.ratio-study-actions>*{min-width:0;width:100%;white-space:normal;text-wrap:balance}
+#simulador-oficial :where(button,select,a){min-height:44px}
+#simulador-oficial button:disabled{opacity:.6;cursor:not-allowed}
+#simulador-oficial :where(a,p,h3,h4,h5,button),#painelAcessibilidade :where(p,button){
+ overflow-wrap:anywhere;
+}
+#alternativasQuestaoOficial button{min-height:55px;font-size:1.05rem}
+#textoQuestaoDentroSimulador{font-size:1rem;line-height:1.65}
+#fundamentacaoErroOficial a{max-width:100%;white-space:normal;word-break:break-word}
+#fundamentacaoErroOficial{min-width:0}
+#cardEstatisticaOAB{min-width:0}
+#pdfLeitorControles{min-width:0}
+#pdfTextoExtraido{max-width:100%;word-break:normal;overflow-wrap:anywhere}
+@media(max-width:430px){
+ .ratio-header-inner{padding-left:.6rem!important;padding-right:.6rem!important;gap:.35rem}
+ .ratio-brand{gap:.4rem!important}
+ .ratio-brand-mark{width:36px!important;height:36px!important;font-size:1.15rem!important;flex-shrink:0}
+ .ratio-brand-title{font-size:1rem!important;letter-spacing:0!important;line-height:1.25}
+ .ratio-brand-caption{font-size:8px!important;letter-spacing:.025em!important}
+ .ratio-header-actions{gap:.25rem!important;flex-shrink:0}
+ .ratio-header-actions>button{min-width:42px;min-height:44px;padding:8px!important}
+ #simulador-oficial{padding:12px!important}
+ .ratio-question-pane{padding:13px!important}
+ .ratio-pdf-iframe{height:clamp(265px,48svh,400px)}
+ .ratio-study-actions{gap:8px}
+ .ratio-study-actions button{padding:10px 7px!important;font-size:.82rem!important}
+ #alternativasQuestaoOficial button{padding:10px!important}
+}
+@media(min-width:431px) and (max-width:767px){
+ .ratio-pdf-iframe{height:clamp(330px,58svh,570px)}
+}
+@media(min-width:768px){
+ .ratio-study-actions{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .ratio-pdf-iframe{height:clamp(480px,68svh,760px)}
+}
+@media(min-width:1200px){
+ .ratio-study-layout{grid-template-columns:minmax(0,1.13fr) minmax(0,.87fr);gap:1.25rem}
+ .ratio-study-pane{margin-top:0!important}
+ .ratio-pdf-iframe{height:clamp(560px,72svh,860px)}
+}
+@media(prefers-reduced-motion:reduce){
+ .ratio-nav-mobile,.ratio-pdf-iframe{scroll-behavior:auto!important}
+}
