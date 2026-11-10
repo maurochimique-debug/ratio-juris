@@ -1,3 +1,29 @@
+# Provas oficiais exibidas dentro do aplicativo — 10/11/2026
+
+## Implementação
+
+A pedido do responsável, o RatioJuris oferece estudo dentro da plataforma em vez de exigir a abertura de documentos externos:
+
+- **Visualizador integrado:** exibe o caderno oficial da FGV/OAB em iframe responsivo (mesmo domínio do site) e acompanha os botões A–D para registrar e corrigir respostas.
+- **Fonte oficial sem inventar:** nova função `api/oab-pdf.mjs` funciona como passagem temporária de PDFs públicos em uma allowlist estática de **8 edições × 4 cadernos = 32 documentos**. A função não aceita URL arbitrária e rejeita provas não verificadas, tipos incorretos e métodos que não sejam GET/HEAD.
+- **Enunciado textual no simulador:** o aluno pode solicitar o trecho textual extraído do PDF em sua própria tela. Se o PDF não tiver texto selecionável ou a extração não localizar a questão com precisão, o aplicativo avisa e mantém a imagem original visível; nunca inventa enunciado.
+- **Gabarito opcional:** link de gabarito definitivo da banca em seção expansível, fechada por padrão, separada da folha de respostas.
+- **Progresso:** conserva as folhas eletrônicas, acertos/erros, anulações e respostas por exame/caderno, sem alteração dos gabaritos históricos.
+
+## Testes e verificação de disponibilidade
+
+- Preview do endpoint `/api/oab-pdf?exame=47&tipo=1` retornou **HTTP 200, Content-Type application/pdf**, com cabeçalho `%PDF-1.7`. O endpoint `?exame=99&tipo=1` retornou **HTTP 404** como esperado, demonstrando bloqueio de material não cadastrado.
+- **72/72 testes funcionais DOM simulados** verificaram troca de exame/caderno, carregamento da URL do visualizador, preservação do texto extraído ao responder, gabarito opcional, ausência de corpus sintético e bloqueio de edições não importadas.
+- **11/11 verificações do proxy isolado** validaram filtragem de URLs, restrição de método, cabeçalhos Range, HEAD, 404 e 416.
+- **6/6 testes de extração sob PDF.js simulado** verificaram carregamento sem arquivo local e a localização de questões no texto fornecido.
+- Build Vercel preliminar `dpl_GrFc62hwaJagC2pZVPqLEMYiYzF8` em READY. **Não houve teste visual ponta a ponta com navegadores reais autenticados**, apesar do teste HTTP com PDF real.
+
+## Direitos e segurança
+
+O endpoint não salva PDFs ou dados pessoais, mas encaminha a transmissão dos documentos públicos da OAB. A fonte permanece identificada e há link direto. Uma revisão das condições de uso/reprodução dos documentos oficiais deve preceder qualquer redistribuição, indexação persistente ou monetização de cópias integrais. A lista de URLs autorizadas precisa ser atualizada manualmente quando um novo exame for efetivamente importado. Não declarar que edições 39º–10º nem outras bancas possuem questões interativas importadas.
+
+---
+
 # RatioJuris — Consolidação oficial do 40º Exame OAB (10/11/2026)
 
 ## Prova e documentos oficiais
