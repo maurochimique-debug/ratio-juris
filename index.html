@@ -389,6 +389,9 @@
         </section>
 
         <div id="oabFolhaBloco">
+          <details id="painelCards47" class="rounded-xl border border-purple-400/60 bg-white dark:bg-ratio-cardDark p-3 sm:p-4">
+            <summary class="cursor-pointer font-bold text-slate-900 dark:text-white min-h-[44px] flex items-center">Exibir ou ocultar cards de respostas e precedentes</summary>
+            <div class="mt-4">
           <p class="text-sm text-slate-700 dark:text-slate-300 mb-4">Leia as 80 questões no caderno PDF oficial da cor selecionada e marque suas respostas abaixo. A questão anulada recebe pontuação automática. Use o botão de correção quando terminar.</p>
           <div class="flex flex-wrap items-center gap-3 mb-4">
             <button type="button" onclick="corrigirFolha47()" class="px-5 py-3 rounded-lg bg-emerald-700 text-white font-bold text-sm">Corrigir minha prova</button>
@@ -403,7 +406,19 @@
           <div id="oabFolha" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"></div>
           <p class="mt-5 text-xs text-slate-600 dark:text-slate-400">As referências por disciplina são apenas pontos de partida; não representam fundamentação individual da questão. A legislação, os precedentes e o gabarito histórico podem divergir. Conteúdo sem revisão jurídico-editorial individual não recebe selo de atualizado.</p>
         </div>
+          </div>
+          </details>
+        </div>
+        <div id="oabArquivoHistorico" class="hidden mt-5 rounded-xl border border-purple-400/60 bg-white dark:bg-ratio-cardDark p-5" role="region" aria-labelledby="tituloArquivoHistorico">
+          <h3 id="tituloArquivoHistorico" class="text-lg font-bold text-slate-900 dark:text-white">Documentos do exame selecionado</h3>
+          <p id="descricaoArquivoHistorico" class="text-sm text-slate-700 dark:text-slate-300 mt-2">Consulta documental disponível; questões e gabaritos ainda dependem de importação e conferência.</p>
+          <a id="linkArquivoHistorico" class="inline-flex mt-4 px-4 py-3 rounded-lg bg-purple-700 text-white font-bold" target="_blank" rel="noopener noreferrer" href="https://www.oab.org.br/servicos/examedeordem">Consultar documentos do exame na fonte</a>
+          <p class="text-xs mt-3 text-slate-700 dark:text-slate-300">Não há correção automatizada nem questões preenchidas por IA para este exame até que seus cadernos e gabaritos sejam conferidos. Os documentos históricos permanecem acessíveis voluntariamente.</p>
+        </div>
         <div id="oab46Bloco" class="hidden mt-4" aria-label="Folha oficial de respostas da OAB/FGV">
+          <details id="painelCardsHistoricos" class="rounded-xl border border-purple-400/60 bg-white dark:bg-ratio-cardDark p-3 sm:p-4">
+            <summary class="cursor-pointer font-bold text-slate-900 dark:text-white min-h-[44px] flex items-center">Exibir ou ocultar cards de respostas deste exame</summary>
+            <div class="mt-4">
           <div class="p-4 mb-5 rounded-xl border border-amber-500/40 bg-amber-50 dark:bg-amber-950/30">
             <p class="font-bold text-sm text-amber-900 dark:text-amber-300">39º ao 46º Exames — gabaritos definitivos oficiais, sem comentários individuais</p>
             <p class="text-xs sm:text-sm text-amber-950 dark:text-slate-200 mt-2">Leia o PDF do caderno oficial selecionado e marque suas respostas. O resultado usa o gabarito definitivo da edição correspondente; enunciados integrais continuam na fonte da OAB/FGV.</p>
@@ -416,6 +431,8 @@
           <div id="oab46Resultado" class="hidden mb-5 p-4 rounded-xl border border-purple-500 bg-purple-50 dark:bg-purple-950/40 text-slate-900 dark:text-white" role="status" aria-live="polite"></div>
           <div id="oab46Folha" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"></div>
           <p class="mt-5 text-xs text-slate-600 dark:text-slate-400">Questões anuladas recebem a pontuação do gabarito definitivo da edição selecionada. O histórico de respostas é separado por exame e tipo de caderno. Consulte as referências legislativas e jurisprudenciais atualizadas antes de utilizar o resultado como estudo de direito vigente.</p>
+          </div>
+          </details>
         </div>
       </div>
     </div>
@@ -750,6 +767,15 @@
       document.getElementById('oabTipoSelect').disabled=!available;
       document.getElementById('oabFolhaBloco').classList.toggle('hidden',num!==47);
       document.getElementById('oab46Bloco').classList.toggle('hidden',!(num>=39&&num<=46));
+      const arquivoHistorico=document.getElementById('oabArquivoHistorico');
+      arquivoHistorico.classList.toggle('hidden',available);
+      if(!available){
+        document.getElementById('tituloArquivoHistorico').textContent=num+'º Exame — consulta documental';
+        document.getElementById('descricaoArquivoHistorico').textContent=
+          'Este exame está catalogado, mas o banco ainda não possui enunciados, alternativas e gabaritos finais auditados para correção integrada. Consulte voluntariamente a fonte documental.';
+        document.getElementById('linkArquivoHistorico').href=
+          entry.fgvUrl || 'https://www.oab.org.br/servicos/examedeordem';
+      }
       document.getElementById('oabCadernoPdf').classList.toggle('hidden',!available);
       document.getElementById('oabGabaritoPdf').classList.toggle('hidden',!available);
       const blocoGabarito=document.getElementById('blocoGabaritoOpcional');
@@ -932,7 +958,7 @@
         painel.querySelector('.ratio-study-layout').classList.add('hidden');
         painel.querySelector('.ratio-study-actions').classList.add('hidden');
         document.getElementById('statusSimuladorOficial').textContent='Exame ainda sem questões importadas';
-        aviso.textContent='O exame selecionado consta no catálogo histórico, mas seus enunciados, alternativas e gabaritos ainda não foram importados e verificados. Consulte voluntariamente a fonte oficial. Nenhuma questão será criada ou preenchida artificialmente.';
+        aviso.textContent='Exame histórico selecionado. Os documentos oficiais estão disponíveis na área de consulta logo abaixo. A correção integrada será habilitada somente depois da conferência do gabarito e das alternativas.';
         return;
       }
       painel.querySelector('.ratio-study-layout').classList.remove('hidden');
