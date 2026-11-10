@@ -1,3 +1,31 @@
+## Ampliação do Super Simulador autoral — 09/11/2026
+
+### Problema e solução
+
+O banco inicial apresentava apenas 8 questões autorais distintas no Super Simulador (FGV: 5; CEBRASPE: 1; VUNESP: 1; FCC: 1). A prevenção de repetição foi implantada anteriormente, mas o banco se esgotava rapidamente.
+
+**Este lote acrescenta 46 questões autorais inéditas** no arquivo `questoes-autorais-2026.js`, preservando as oito anteriores. Totais atuais:
+
+| Banca (estilo de questão) | Antes | Novas | Total |
+|---|---:|---:|---:|
+| FGV (ênfase OAB) | 5 | 37 | **42** |
+| CEBRASPE | 1 | 3 | **4** |
+| VUNESP | 1 | 3 | **4** |
+| FCC | 1 | 3 | **4** |
+| **Total** | **8** | **46** | **54** |
+
+As 42 questões FGV abrangem **18 disciplinas** de direito; CEBRASPE utiliza o formato de julgamento Certo/Errado. Todos os 46 novos registros têm identificador estável, alternativas distintas, único gabarito, comentário, referência a dispositivo jurídico e ligação HTTPS com fonte legislativa federal oficial.
+
+**Integridade e autoria:** não são questões oficiais FGV/OAB, CEBRASPE, VUNESP ou FCC, nem transcrições de provas. São exercícios autorais preparados no estilo das bancas a partir de legislação. Não rotular como "questões da prova", "históricas oficiais" ou "gabarito da banca". O histórico oficial do **47º EOU (80 posições, com 79 comentários jurídicos e uma questão anulada)** está em módulo distinto; exames 46º a 10º seguem catalogados, sem importação integral.
+
+**Lógica:** as 54 questões participam do algoritmo de sorteio sem reposição já desenvolvido. As questões registradas como vistas permanecem bloqueadas por banca, inclusive em mudança de matéria ou recarregamento do mesmo navegador. Reinício manual permite reestudo.
+
+**Fontes legislativas:** Constituição, Estatuto da Advocacia, CC, CPC, CP, CPP, CLT, CTN, CDC, ECA, LINDB, Lei 9.784/1999, Lei 14.133/2021, Lei 11.101/2005 e Lei 8.213/1991, com links individuais na base. Referências consultadas em 09/11/2026. Atualização legal contínua automática e auditoria jurisprudencial exaustiva **não estão implementadas**.
+
+**Verificação inicial:** 22/22 testes automatizados simulados passaram, incluindo 42 sorteios distintos FGV, 4 por banca adicional, persistência de histórico, reinício apenas da banca selecionada, ausência de enunciados duplicados, gabaritos definidos e integridade do módulo OAB. Homologação visual em navegador protegido por SSO ainda pendente.
+
+---
+
 ## Correção de repetição no Super Simulador — 09/11/2026
 
 A questão de repetição ocorria no **Super Simulador autoral**: havia apenas 8 enunciados independentes, sendo 5 da FGV, 1 da CEBRASPE, 1 da VUNESP e 1 da FCC. O sorteio anterior excluía apenas a questão imediatamente anterior, causando repetição rápida.
