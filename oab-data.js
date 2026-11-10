@@ -1,4 +1,4 @@
-/* Fonte FGV/OAB: gabaritos definitivos do 41º ao 47º EOU; enunciados íntegros só nos PDFs oficiais. */
+/* Provas oficiais FGV/OAB 40º ao 47º. Gabaritos definitivos de cada caderno, sem questões sintéticas. */
 window.RATIO_OAB_DATA = {
   "version": "2026-11-09",
   "metadata": {
@@ -8,7 +8,7 @@ window.RATIO_OAB_DATA = {
     "aviso": "O gabarito é histórico. Comentários sobre legislação e jurisprudência atuais exigem revisão individual.",
     "validacaoJuridicaIndividual": false,
     "ultimaIntegracao": "2026-11-10",
-    "escopoGabaritos": "41º a 47º Exames OAB: 7 edições com quatro gabaritos definitivos; do 40º ao 10º somente catálogo externo",
+    "escopoGabaritos": "40º ao 47º Exames OAB: oito edições, gabaritos definitivos e PDFs oficiais dos quatro tipos; 39º ao 10º apenas catalogados",
     "ultimaImportacao": "2026-11-10",
     "examesCorrigiveis": [
       47,
@@ -17,15 +17,16 @@ window.RATIO_OAB_DATA = {
       44,
       43,
       42,
-      41
+      41,
+      40
     ],
     "auditoriaAtual": {
       "data": "2026-11-10",
-      "totalQuestoesDistintas": 560,
-      "totalExamesCorrigiveis": 7,
+      "totalQuestoesDistintas": 640,
+      "totalExamesCorrigiveis": 8,
       "totalExamesCatalogados": 38,
       "gabaritosPorExame": 4,
-      "status": "GABARITOS_HISTORICOS_OFICIAIS_PDF_E_LINKS_ENUNCIADOS_NAO_TRANSCRITOS"
+      "status": "GABARITOS_HISTORICOS_FGV_OAB_40_A_47_E_NAO_TRANSCRICOES"
     }
   },
   "bancas": [
@@ -80,8 +81,8 @@ window.RATIO_OAB_DATA = {
     {
       "exame": 40,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=643",
-      "status": "pagina_historica_sem_importacao",
-      "importado": false
+      "status": "gabaritos_definitivos_quatro_cadernos_anulacao_validada",
+      "importado": true
     },
     {
       "exame": 39,
@@ -3331,5 +3332,461 @@ window.RATIO_OAB_DATA = {
       []
     ],
     "nota": "Quatro gabaritos definitivos publicados pela OAB e tabela oficial de 80 correspondências, todos conferidos; enunciados permanecem no PDF da banca; sem revisão jurídica individual."
+  },
+  "exam40": {
+    "exame": 40,
+    "dataProva": "2024-03-24",
+    "dataGabaritoDefinitivo": "2024-04-10",
+    "status": "GABARITO_DEFINITIVO_OFICIAL_FGV_OAB_QUESTAO_ANULADA",
+    "gabaritos": [
+      "BCAC*CDABCBDBBBDABDADBACACDDBCDBDDACBCCBCADCDCBAACBDBADCABDADACCABABCABACDDDCCBA",
+      "AADCCC*BCBBBDBDBBAADBDCADDCBADCDBDCABCABCCCDCDABCABBDCADAABDADACCBBAACDDBACCBACD",
+      "CBADC*CABCBBDDBBABDABDACDABDCDDCDBACCBCABCCDCDACBAADCBDBDAABDABABCCACADDACBCABDC",
+      "C*CCABADCBDBBBBDBAADDBCABDACDBDDCDCAABCCBCDCDCCAABCADBBDADAABDABBACCACACDBDADCCB"
+    ],
+    "correspondencia": [
+      [
+        8,
+        2,
+        6
+      ],
+      [
+        6,
+        5,
+        4
+      ],
+      [
+        2,
+        8,
+        7
+      ],
+      [
+        5,
+        7,
+        1
+      ],
+      [
+        7,
+        6,
+        2
+      ],
+      [
+        4,
+        1,
+        3
+      ],
+      [
+        3,
+        4,
+        8
+      ],
+      [
+        1,
+        3,
+        5
+      ],
+      [
+        10,
+        9,
+        10
+      ],
+      [
+        9,
+        10,
+        9
+      ],
+      [
+        16,
+        15,
+        12
+      ],
+      [
+        13,
+        14,
+        11
+      ],
+      [
+        14,
+        11,
+        15
+      ],
+      [
+        11,
+        12,
+        13
+      ],
+      [
+        12,
+        16,
+        14
+      ],
+      [
+        15,
+        13,
+        16
+      ],
+      [
+        18,
+        17,
+        18
+      ],
+      [
+        17,
+        18,
+        17
+      ],
+      [
+        20,
+        19,
+        20
+      ],
+      [
+        19,
+        20,
+        19
+      ],
+      [
+        22,
+        22,
+        21
+      ],
+      [
+        21,
+        21,
+        22
+      ],
+      [
+        24,
+        23,
+        24
+      ],
+      [
+        23,
+        24,
+        23
+      ],
+      [
+        29,
+        26,
+        27
+      ],
+      [
+        27,
+        29,
+        28
+      ],
+      [
+        25,
+        28,
+        26
+      ],
+      [
+        26,
+        25,
+        29
+      ],
+      [
+        28,
+        27,
+        25
+      ],
+      [
+        31,
+        32,
+        33
+      ],
+      [
+        32,
+        33,
+        34
+      ],
+      [
+        33,
+        34,
+        30
+      ],
+      [
+        34,
+        30,
+        31
+      ],
+      [
+        30,
+        31,
+        32
+      ],
+      [
+        36,
+        35,
+        36
+      ],
+      [
+        35,
+        36,
+        35
+      ],
+      [
+        40,
+        38,
+        41
+      ],
+      [
+        41,
+        39,
+        42
+      ],
+      [
+        42,
+        37,
+        40
+      ],
+      [
+        37,
+        41,
+        38
+      ],
+      [
+        38,
+        42,
+        39
+      ],
+      [
+        39,
+        40,
+        37
+      ],
+      [
+        44,
+        44,
+        43
+      ],
+      [
+        43,
+        43,
+        44
+      ],
+      [
+        46,
+        46,
+        45
+      ],
+      [
+        45,
+        45,
+        46
+      ],
+      [
+        48,
+        49,
+        50
+      ],
+      [
+        47,
+        50,
+        49
+      ],
+      [
+        50,
+        47,
+        48
+      ],
+      [
+        49,
+        48,
+        47
+      ],
+      [
+        52,
+        54,
+        55
+      ],
+      [
+        53,
+        55,
+        56
+      ],
+      [
+        51,
+        56,
+        54
+      ],
+      [
+        55,
+        51,
+        52
+      ],
+      [
+        56,
+        52,
+        53
+      ],
+      [
+        54,
+        53,
+        51
+      ],
+      [
+        58,
+        59,
+        60
+      ],
+      [
+        59,
+        60,
+        61
+      ],
+      [
+        60,
+        61,
+        62
+      ],
+      [
+        61,
+        62,
+        57
+      ],
+      [
+        62,
+        57,
+        58
+      ],
+      [
+        57,
+        58,
+        59
+      ],
+      [
+        64,
+        66,
+        67
+      ],
+      [
+        65,
+        67,
+        68
+      ],
+      [
+        63,
+        68,
+        66
+      ],
+      [
+        67,
+        63,
+        65
+      ],
+      [
+        68,
+        64,
+        63
+      ],
+      [
+        66,
+        65,
+        64
+      ],
+      [
+        70,
+        69,
+        70
+      ],
+      [
+        69,
+        70,
+        69
+      ],
+      [
+        73,
+        75,
+        74
+      ],
+      [
+        74,
+        73,
+        71
+      ],
+      [
+        75,
+        74,
+        72
+      ],
+      [
+        72,
+        71,
+        75
+      ],
+      [
+        71,
+        72,
+        73
+      ],
+      [
+        80,
+        79,
+        77
+      ],
+      [
+        79,
+        76,
+        78
+      ],
+      [
+        76,
+        80,
+        79
+      ],
+      [
+        77,
+        78,
+        80
+      ],
+      [
+        78,
+        77,
+        76
+      ]
+    ],
+    "cadernos": [
+      {
+        "tipo": 1,
+        "cor": "Branca",
+        "pdf": "https://s.oab.org.br/arquivos/2024/03/11dfd35e-c74b-4c5a-8d8c-ce6c9c40505a.pdf"
+      },
+      {
+        "tipo": 2,
+        "cor": "Verde",
+        "pdf": "https://s.oab.org.br/arquivos/2024/03/e3bb3c7b-fab4-410c-9c6c-9bf5b4e3980a.pdf"
+      },
+      {
+        "tipo": 3,
+        "cor": "Amarela",
+        "pdf": "https://s.oab.org.br/arquivos/2024/03/104cbe04-7e63-4917-a7c9-c17c81dcfc0a.pdf"
+      },
+      {
+        "tipo": 4,
+        "cor": "Azul",
+        "pdf": "https://s.oab.org.br/arquivos/2024/03/7e424b0d-ac36-4d06-9f8d-f3d7f4cf9a26.pdf"
+      }
+    ],
+    "gabaritoPDF": "https://s.oab.org.br/arquivos/2024/04/b64dd2cd-94fb-47fa-90b6-459e2d375a69.pdf",
+    "fonteOficial": "https://www.oab.org.br/noticia/62142/confira-o-gabarito-definitivo-e-o-resultado-preliminar-da-prova-objetiva-do-40-eou",
+    "comunicadoAnulacao": "https://s.oab.org.br/arquivos/2024/04/7d860ae3-7c34-4f74-8cfe-86943e1a70ec.pdf",
+    "fonteCadernos": "https://www.oab.org.br/noticia/62048/confira-o-gabarito-preliminar-da-1-fase-do-40-exame-de-ordem",
+    "disciplinas": [],
+    "anulacoesPorTipo": [
+      [
+        5
+      ],
+      [
+        7
+      ],
+      [
+        6
+      ],
+      [
+        2
+      ]
+    ],
+    "nota": "Gabaritos definitivos e correspondência oficial da OAB, com anulação da Q5 Tipo 1 e correspondentes. Enunciados originais nos PDFs."
   }
 };
