@@ -58,6 +58,20 @@
     const n=Number($("a11ySpeechRate")?.value);
     return [0.85,1,1.15].includes(n)?n:1;
   }
+  let voiceGeneration=0;
+  function segmentosDeVoz(texto,limite=190){
+    const words=String(texto||"").split(/\s+/).filter(Boolean),partes=[];
+    let atual="";
+    for(const palavra of words){
+      if((atual.length+palavra.length+1)>limite && atual){partes.push(atual);atual="";}
+      if(palavra.length>limite){
+        if(atual){partes.push(atual);atual="";}
+        for(let i=0;i<palavra.length;i+=limite)partes.push(palavra.slice(i,i+limite));
+      } else atual+=(atual?" ":"")+palavra;
+    }
+    if(atual)partes.push(atual);
+    return partes;
+  }
   function voiceText(text){
     const value=String(text??"").trim();
     if(!value){announce("Não há texto disponível para leitura.");return false;}
@@ -65,24 +79,32 @@
       announce("Leitura por voz indisponível neste navegador. O texto permanece acessível na página.");
       return false;
     }
-    try{
+    const token=++voiceGeneration;
+    try {
       const engine=synth();
       engine.cancel();
-      const utterance=new window.SpeechSynthesisUtterance(value);
-      utterance.lang="pt-BR";
-      utterance.rate=rate();
+      const partes=segmentosDeVoz(value);
+      const speed=rate();
       const voices=typeof engine.getVoices==="function"?engine.getVoices():[];
       const preferred=voices.find(x=>x.lang?.toLowerCase()==="pt-br") ||
         voices.find(x=>x.lang?.toLowerCase().startsWith("pt"));
-      if(preferred)utterance.voice=preferred;
-      utterance.onstart=()=>announce("Leitura por voz iniciada.");
-      utterance.onend=()=>announce("Leitura por voz concluída.");
-      utterance.onerror=()=>announce("Não foi possível reproduzir a voz. Utilize a leitura em texto.");
-      engine.speak(utterance);
-      announce("Leitura solicitada ao sintetizador do dispositivo.");
+      let index=0;
+      const falarProximo=()=>{
+        if(token!==voiceGeneration)return;
+        if(index>=partes.length){announce("Leitura por voz concluída.");return;}
+        const fala=new window.SpeechSynthesisUtterance(partes[index++]);
+        fala.lang="pt-BR";fala.rate=speed;
+        if(preferred)fala.voice=preferred;
+        fala.onstart=()=>{if(token===voiceGeneration&&index===1)announce("Leitura por voz iniciada.");};
+        fala.onend=()=>{if(token===voiceGeneration)falarProximo();};
+        fala.onerror=()=>{if(token===voiceGeneration)announce("Falha durante a leitura. O texto continua acessível na página.");};
+        engine.speak(fala);
+      };
+      falarProximo();
+      announce("Leitura solicitada em "+partes.length+" trecho(s), sem iniciar áudio automaticamente.");
       return true;
     }catch(_){
-      announce("A síntese de voz não pôde ser iniciada. Verifique as permissões e vozes do dispositivo.");
+      announce("Não foi possível iniciar a voz. Verifique as configurações do dispositivo.");
       return false;
     }
   }
@@ -117,6 +139,7 @@
   }
   function stop(){
     if(!support()){announce("Nenhuma leitura por voz disponível.");return;}
+    voiceGeneration++;
     synth().cancel();
     announce("Leitura interrompida.");
   }
