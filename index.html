@@ -213,9 +213,7 @@
   <section id="oab-arquivo" class="py-14 sm:py-20 bg-slate-50 dark:bg-[#0E1216] border-b border-slate-200 dark:border-ratio-borderDark">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="mb-8">
-        <p class="font-mono uppercase tracking-wide text-ratio-purple text-xs font-bold">Fontes oficiais • OAB / Fundação Getulio Vargas</p>
-        <h2 class="font-serif text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mt-2">Arquivo da OAB: 47º ao 10º Exame</h2>
-        <p class="text-slate-600 dark:text-slate-300 mt-3 max-w-4xl">O catálogo reúne links oficiais de 38 exames. O 47º e o 46º possuem folhas de respostas corrigíveis, cada um com quatro cadernos e gabarito definitivo da FGV/OAB. Para o 45º ao 10º, consulte provas e gabaritos no site oficial; ainda não foram importados para correção local. Os comentários jurídicos individuais foram desenvolvidos apenas para o 47º.</p>
+        <h2 class="font-serif text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mt-2">Qual Banca Você Quer Treinar Agora? (Acervo Especial)</h2>
       </div>
       <div class="rounded-2xl p-5 sm:p-7 bg-white dark:bg-ratio-cardDark border border-slate-200 dark:border-ratio-borderDark">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
@@ -224,7 +222,7 @@
             <select id="oabExamSelect" onchange="atualizarArquivoOAB()" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-ratio-borderDark bg-white dark:bg-[#12161A] text-slate-900 dark:text-white" aria-label="Selecionar exame de ordem"></select>
           </div>
           <div>
-            <label for="oabTipoSelect" class="block font-bold text-sm text-slate-900 dark:text-white mb-2">Tipo de caderno (47º e 46º)</label>
+            <label for="oabTipoSelect" class="block font-bold text-sm text-slate-900 dark:text-white mb-2">Tipo de caderno (45º, 46º e 47º)</label>
             <select id="oabTipoSelect" onchange="atualizarArquivoOAB()" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-ratio-borderDark bg-white dark:bg-[#12161A] text-slate-900 dark:text-white" aria-label="Selecionar tipo e cor do caderno">
               <option value="1">Tipo 1 — Branca</option>
               <option value="2">Tipo 2 — Verde</option>
@@ -232,6 +230,19 @@
               <option value="4">Tipo 4 — Azul</option>
             </select>
           </div>
+        </div>
+        <div id="cardEstatisticaOAB" class="mb-5 p-4 sm:p-6 rounded-2xl border-2 border-purple-500/50 bg-purple-50 dark:bg-[#1A2026]" role="region" aria-labelledby="tituloEstatisticaOAB">
+          <h3 id="tituloEstatisticaOAB" class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">Meu desempenho na prova</h3>
+          <p id="estatisticaIdentificacao" class="mt-1 text-xs sm:text-sm text-slate-600 dark:text-slate-300">Selecione a prova e o caderno.</p>
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mt-4">
+            <div class="rounded-lg p-3 bg-white dark:bg-[#111827] border border-slate-300 dark:border-slate-600"><span class="block text-xs text-slate-700 dark:text-slate-300">Respondidas</span><strong id="estRespondidas" class="block mt-1 text-xl text-slate-900 dark:text-white">0</strong></div>
+            <div class="rounded-lg p-3 bg-white dark:bg-[#111827] border border-emerald-400"><span class="block text-xs text-slate-700 dark:text-slate-300">Acertos</span><strong id="estAcertos" class="block mt-1 text-xl text-emerald-700 dark:text-emerald-300">—</strong></div>
+            <div class="rounded-lg p-3 bg-white dark:bg-[#111827] border border-rose-400"><span class="block text-xs text-slate-700 dark:text-slate-300">Erros</span><strong id="estErros" class="block mt-1 text-xl text-rose-700 dark:text-rose-300">—</strong></div>
+            <div class="rounded-lg p-3 bg-white dark:bg-[#111827] border border-slate-300 dark:border-slate-600"><span class="block text-xs text-slate-700 dark:text-slate-300">Em branco</span><strong id="estBrancas" class="block mt-1 text-xl text-slate-900 dark:text-white">80</strong></div>
+            <div class="rounded-lg p-3 bg-white dark:bg-[#111827] border border-amber-400"><span class="block text-xs text-slate-700 dark:text-slate-300">Pontos anulados</span><strong id="estAnuladas" class="block mt-1 text-xl text-amber-700 dark:text-amber-300">0</strong></div>
+            <div class="rounded-lg p-3 bg-white dark:bg-[#111827] border border-purple-400"><span class="block text-xs text-slate-700 dark:text-slate-300">Aproveitamento</span><strong id="estAproveitamento" class="block mt-1 text-xl text-purple-800 dark:text-purple-300">—</strong></div>
+          </div>
+          <p id="estatisticaMensagem" class="mt-4 text-sm text-slate-700 dark:text-slate-200" role="status" aria-live="polite">Corrija sua prova para revelar acertos, erros e aproveitamento.</p>
         </div>
         <p id="oabStatus" class="text-sm text-slate-700 dark:text-slate-300 mb-4" role="status"></p>
         <div class="flex flex-wrap gap-3 mb-6">
@@ -268,17 +279,17 @@
         </div>
         <div id="oab46Bloco" class="hidden mt-4" aria-label="Folha oficial do 46º Exame da OAB">
           <div class="p-4 mb-5 rounded-xl border border-amber-500/40 bg-amber-50 dark:bg-amber-950/30">
-            <p class="font-bold text-sm text-amber-900 dark:text-amber-300">46º Exame — gabarito definitivo oficial, sem comentários individuais</p>
-            <p class="text-xs sm:text-sm text-amber-950 dark:text-slate-200 mt-2">Leia o caderno PDF do tipo selecionado acima. Marque suas 80 respostas nesta folha e clique em corrigir. A correção usa apenas o gabarito definitivo publicado em 20/05/2026; não é uma análise da legislação vigente e não reproduz os enunciados integrais da FGV.</p>
+            <p class="font-bold text-sm text-amber-900 dark:text-amber-300">45º e 46º Exames — gabaritos definitivos oficiais, sem comentários individuais</p>
+            <p class="text-xs sm:text-sm text-amber-950 dark:text-slate-200 mt-2">Leia o PDF do caderno oficial selecionado e marque suas respostas. O resultado usa o gabarito definitivo da edição correspondente; enunciados integrais continuam na fonte da OAB/FGV.</p>
           </div>
           <div class="flex flex-wrap items-center gap-3 mb-4">
-            <button type="button" onclick="corrigirFolha46()" class="px-5 py-3 rounded-lg bg-emerald-700 text-white font-bold text-sm">Corrigir o 46º Exame</button>
+            <button type="button" onclick="corrigirFolha46()" class="px-5 py-3 rounded-lg bg-emerald-700 text-white font-bold text-sm">Corrigir prova selecionada</button>
             <button type="button" onclick="limparFolha46()" class="px-5 py-3 rounded-lg border border-slate-400 text-slate-900 dark:text-white font-bold text-sm">Limpar respostas deste caderno</button>
             <span id="oab46Progresso" class="text-sm font-semibold text-slate-700 dark:text-slate-200" aria-live="polite"></span>
           </div>
           <div id="oab46Resultado" class="hidden mb-5 p-4 rounded-xl border border-purple-500 bg-purple-50 dark:bg-purple-950/40 text-slate-900 dark:text-white" role="status" aria-live="polite"></div>
           <div id="oab46Folha" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"></div>
-          <p class="mt-5 text-xs text-slate-600 dark:text-slate-400">O 46º Exame não teve questões anuladas no gabarito definitivo consultado. O histórico de respostas é salvo neste navegador por exame e tipo de caderno, separadamente do 47º. Consulte as referências legislativas e jurisprudenciais atualizadas antes de utilizar o resultado como estudo de direito vigente.</p>
+          <p class="mt-5 text-xs text-slate-600 dark:text-slate-400">45º e 46º Exames não tiveram questões anuladas nos gabaritos definitivos consultados. O histórico de respostas é separado por exame e tipo de caderno. Consulte as referências legislativas e jurisprudenciais atualizadas antes de utilizar o resultado como estudo de direito vigente.</p>
         </div>
       </div>
     </div>
@@ -293,7 +304,7 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-6">
         <div class="rounded-xl p-5 border-2 border-purple-600 bg-purple-50 dark:bg-ratio-cardDark">
           <h3 class="font-bold text-slate-900 dark:text-white">FGV / OAB</h3>
-          <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">46º e 47º Exames disponíveis para correção: 80 questões por prova e quatro cadernos oficiais. 45º a 10º ainda disponíveis apenas no catálogo de links.</p>
+          <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">45º, 46º e 47º Exames disponíveis para correção: 80 questões por prova e quatro cadernos oficiais. 44º a 10º têm links oficiais no catálogo.</p>
           <a href="#oab-arquivo" class="inline-block mt-3 underline font-bold text-purple-800 dark:text-purple-300">Abrir cadernos e gabaritos oficiais</a>
         </div>
         <div class="rounded-xl p-5 border border-slate-300 dark:border-ratio-borderDark bg-slate-50 dark:bg-ratio-cardDark">
