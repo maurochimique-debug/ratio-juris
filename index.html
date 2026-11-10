@@ -870,7 +870,7 @@
       explanation.textContent='Resposta correta: '+letraCorreta+'. '+comentario.fundamentacao;
       if(comentario.observacoes)observation.textContent='Ponto de atenção: '+comentario.observacoes;
       const legalLink=comentario.fonteLegal||comentario.fonteCaderno;
-      if(typeof legalLink==='string' && /^https:\/\/(www\.)?(planalto\.gov\.br|camara\.leg\.br|s\.oab\.org\.br)\//i.test(legalLink)){
+      if(typeof legalLink==='string' && /^https:\/\/(www\.)?planalto\.gov\.br|(?:www\.|www2\.)?camara\.leg\.br|s\.oab\.org\.br\//i.test(legalLink)){
         const anchor=document.createElement('a');
         anchor.href=legalLink;
         anchor.target='_blank';
