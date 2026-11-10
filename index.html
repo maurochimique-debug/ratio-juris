@@ -1011,7 +1011,8 @@
         visualizador._ratioLivroAtual=identidade;
         visualizador.removeAttribute('src');
       }
-      if(document.getElementById('consultaPdfOpcional').open){
+      if(document.getElementById('consultaPdfOpcional').open &&
+         !visualizador.getAttribute('src')){
         visualizador.src=interno+'#toolbar=1&navpanes=0';
       }
       document.getElementById('statusSimuladorOficial').textContent=
