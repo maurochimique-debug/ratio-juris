@@ -213,9 +213,7 @@
   <section id="oab-arquivo" class="py-14 sm:py-20 bg-slate-50 dark:bg-[#0E1216] border-b border-slate-200 dark:border-ratio-borderDark">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="mb-8">
-        <p class="font-mono uppercase tracking-wide text-ratio-purple text-xs font-bold">Fontes oficiais • OAB / Fundação Getulio Vargas</p>
-        <h2 class="font-serif text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mt-2">Arquivo da OAB: 47º ao 10º Exame</h2>
-        <p class="text-slate-600 dark:text-slate-300 mt-3 max-w-4xl">O catálogo reúne links oficiais de 38 exames. O 47º e o 46º possuem folhas de respostas corrigíveis, cada um com quatro cadernos e gabarito definitivo da FGV/OAB. Para o 45º ao 10º, consulte provas e gabaritos no site oficial; ainda não foram importados para correção local. Os comentários jurídicos individuais foram desenvolvidos apenas para o 47º.</p>
+        <h2 class="font-serif text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mt-2">Qual Banca Você Quer Treinar Agora? (Acervo Especial)</h2>
       </div>
       <div class="rounded-2xl p-5 sm:p-7 bg-white dark:bg-ratio-cardDark border border-slate-200 dark:border-ratio-borderDark">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
@@ -224,7 +222,7 @@
             <select id="oabExamSelect" onchange="atualizarArquivoOAB()" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-ratio-borderDark bg-white dark:bg-[#12161A] text-slate-900 dark:text-white" aria-label="Selecionar exame de ordem"></select>
           </div>
           <div>
-            <label for="oabTipoSelect" class="block font-bold text-sm text-slate-900 dark:text-white mb-2">Tipo de caderno (47º e 46º)</label>
+            <label for="oabTipoSelect" class="block font-bold text-sm text-slate-900 dark:text-white mb-2">Tipo de caderno (45º, 46º e 47º)</label>
             <select id="oabTipoSelect" onchange="atualizarArquivoOAB()" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-ratio-borderDark bg-white dark:bg-[#12161A] text-slate-900 dark:text-white" aria-label="Selecionar tipo e cor do caderno">
               <option value="1">Tipo 1 — Branca</option>
               <option value="2">Tipo 2 — Verde</option>
@@ -232,6 +230,19 @@
               <option value="4">Tipo 4 — Azul</option>
             </select>
           </div>
+        </div>
+        <div id="cardEstatisticaOAB" class="mb-5 p-4 sm:p-6 rounded-2xl border-2 border-purple-500/50 bg-purple-50 dark:bg-[#1A2026]" role="region" aria-labelledby="tituloEstatisticaOAB">
+          <h3 id="tituloEstatisticaOAB" class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">Meu desempenho na prova</h3>
+          <p id="estatisticaIdentificacao" class="mt-1 text-xs sm:text-sm text-slate-600 dark:text-slate-300">Selecione a prova e o caderno.</p>
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mt-4">
+            <div class="rounded-lg p-3 bg-white dark:bg-[#111827] border border-slate-300 dark:border-slate-600"><span class="block text-xs text-slate-700 dark:text-slate-300">Respondidas</span><strong id="estRespondidas" class="block mt-1 text-xl text-slate-900 dark:text-white">0</strong></div>
+            <div class="rounded-lg p-3 bg-white dark:bg-[#111827] border border-emerald-400"><span class="block text-xs text-slate-700 dark:text-slate-300">Acertos</span><strong id="estAcertos" class="block mt-1 text-xl text-emerald-700 dark:text-emerald-300">—</strong></div>
+            <div class="rounded-lg p-3 bg-white dark:bg-[#111827] border border-rose-400"><span class="block text-xs text-slate-700 dark:text-slate-300">Erros</span><strong id="estErros" class="block mt-1 text-xl text-rose-700 dark:text-rose-300">—</strong></div>
+            <div class="rounded-lg p-3 bg-white dark:bg-[#111827] border border-slate-300 dark:border-slate-600"><span class="block text-xs text-slate-700 dark:text-slate-300">Em branco</span><strong id="estBrancas" class="block mt-1 text-xl text-slate-900 dark:text-white">80</strong></div>
+            <div class="rounded-lg p-3 bg-white dark:bg-[#111827] border border-amber-400"><span class="block text-xs text-slate-700 dark:text-slate-300">Pontos anulados</span><strong id="estAnuladas" class="block mt-1 text-xl text-amber-700 dark:text-amber-300">0</strong></div>
+            <div class="rounded-lg p-3 bg-white dark:bg-[#111827] border border-purple-400"><span class="block text-xs text-slate-700 dark:text-slate-300">Aproveitamento</span><strong id="estAproveitamento" class="block mt-1 text-xl text-purple-800 dark:text-purple-300">—</strong></div>
+          </div>
+          <p id="estatisticaMensagem" class="mt-4 text-sm text-slate-700 dark:text-slate-200" role="status" aria-live="polite">Corrija sua prova para revelar acertos, erros e aproveitamento.</p>
         </div>
         <p id="oabStatus" class="text-sm text-slate-700 dark:text-slate-300 mb-4" role="status"></p>
         <div class="flex flex-wrap gap-3 mb-6">
@@ -268,17 +279,17 @@
         </div>
         <div id="oab46Bloco" class="hidden mt-4" aria-label="Folha oficial do 46º Exame da OAB">
           <div class="p-4 mb-5 rounded-xl border border-amber-500/40 bg-amber-50 dark:bg-amber-950/30">
-            <p class="font-bold text-sm text-amber-900 dark:text-amber-300">46º Exame — gabarito definitivo oficial, sem comentários individuais</p>
-            <p class="text-xs sm:text-sm text-amber-950 dark:text-slate-200 mt-2">Leia o caderno PDF do tipo selecionado acima. Marque suas 80 respostas nesta folha e clique em corrigir. A correção usa apenas o gabarito definitivo publicado em 20/05/2026; não é uma análise da legislação vigente e não reproduz os enunciados integrais da FGV.</p>
+            <p class="font-bold text-sm text-amber-900 dark:text-amber-300">45º e 46º Exames — gabaritos definitivos oficiais, sem comentários individuais</p>
+            <p class="text-xs sm:text-sm text-amber-950 dark:text-slate-200 mt-2">Leia o PDF do caderno oficial selecionado e marque suas respostas. O resultado usa o gabarito definitivo da edição correspondente; enunciados integrais continuam na fonte da OAB/FGV.</p>
           </div>
           <div class="flex flex-wrap items-center gap-3 mb-4">
-            <button type="button" onclick="corrigirFolha46()" class="px-5 py-3 rounded-lg bg-emerald-700 text-white font-bold text-sm">Corrigir o 46º Exame</button>
+            <button type="button" onclick="corrigirFolha46()" class="px-5 py-3 rounded-lg bg-emerald-700 text-white font-bold text-sm">Corrigir prova selecionada</button>
             <button type="button" onclick="limparFolha46()" class="px-5 py-3 rounded-lg border border-slate-400 text-slate-900 dark:text-white font-bold text-sm">Limpar respostas deste caderno</button>
             <span id="oab46Progresso" class="text-sm font-semibold text-slate-700 dark:text-slate-200" aria-live="polite"></span>
           </div>
           <div id="oab46Resultado" class="hidden mb-5 p-4 rounded-xl border border-purple-500 bg-purple-50 dark:bg-purple-950/40 text-slate-900 dark:text-white" role="status" aria-live="polite"></div>
           <div id="oab46Folha" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"></div>
-          <p class="mt-5 text-xs text-slate-600 dark:text-slate-400">O 46º Exame não teve questões anuladas no gabarito definitivo consultado. O histórico de respostas é salvo neste navegador por exame e tipo de caderno, separadamente do 47º. Consulte as referências legislativas e jurisprudenciais atualizadas antes de utilizar o resultado como estudo de direito vigente.</p>
+          <p class="mt-5 text-xs text-slate-600 dark:text-slate-400">45º e 46º Exames não tiveram questões anuladas nos gabaritos definitivos consultados. O histórico de respostas é separado por exame e tipo de caderno. Consulte as referências legislativas e jurisprudenciais atualizadas antes de utilizar o resultado como estudo de direito vigente.</p>
         </div>
       </div>
     </div>
@@ -293,7 +304,7 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-6">
         <div class="rounded-xl p-5 border-2 border-purple-600 bg-purple-50 dark:bg-ratio-cardDark">
           <h3 class="font-bold text-slate-900 dark:text-white">FGV / OAB</h3>
-          <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">46º e 47º Exames disponíveis para correção: 80 questões por prova e quatro cadernos oficiais. 45º a 10º ainda disponíveis apenas no catálogo de links.</p>
+          <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">45º, 46º e 47º Exames disponíveis para correção: 80 questões por prova e quatro cadernos oficiais. 44º a 10º têm links oficiais no catálogo.</p>
           <a href="#oab-arquivo" class="inline-block mt-3 underline font-bold text-purple-800 dark:text-purple-300">Abrir cadernos e gabaritos oficiais</a>
         </div>
         <div class="rounded-xl p-5 border border-slate-300 dark:border-ratio-borderDark bg-slate-50 dark:bg-ratio-cardDark">
@@ -320,35 +331,56 @@
     <p id="modalCardDesc"></p>
   </div>
 
-  <!-- MODO GABINETE DE PESQUISA JURÍDICA -->
+  <!-- MODO GABINETE — consulta a artigos de legislação oficial -->
   <section id="gabinete" class="py-14 sm:py-20 bg-slate-50 dark:bg-[#0E1216]">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
       <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xl">
-        <h2 class="text-xl font-semibold text-white flex items-center mb-2 font-serif">
-          <i class="fa-solid fa-magnifying-glass text-ratio-purple mr-2"></i> Modo Gabinete — Consulta Demonstrativa
+        <h2 class="text-2xl font-semibold text-white flex items-center mb-2 font-serif">
+          <i class="fa-solid fa-scale-balanced text-ratio-purple mr-2" aria-hidden="true"></i> Modo Gabinete — Artigo por artigo
         </h2>
-        <p class="text-xs sm:text-sm text-slate-400 mb-6">Consulte as referências cadastradas nesta demonstração (por exemplo, Súmula 473/STF, Súmula 366/STJ cancelada, art. 366/CC e Súmula Vinculante 20). Não há busca em tempo real em tribunais.</p>
-        
-        <div class="flex gap-2">
-          <div class="relative flex-grow">
-            <i class="fa-solid fa-search absolute left-3.5 top-3.5 text-slate-500 text-sm"></i>
-            <input type="text" id="gabineteSearchInput" placeholder="Ex: 473 stf, 366 stj, 366 cc, Súmula Vinculante 20..." onkeydown="if(event.key==='Enter'){executarPesquisaGabinete();}" class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-ratio-purple">
+        <p class="text-sm text-slate-300 mb-6">Escolha a lei e o artigo. O RatioJuris prepara um link à fonte oficial do Planalto com localização do trecho no navegador, quando compatível. Não altera nem substitui a redação oficial.</p>
+        <div class="grid grid-cols-1 sm:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] gap-3">
+          <div>
+            <label for="gabineteLeiSelect" class="block text-white text-sm font-semibold mb-2">Qual legislação?</label>
+            <select id="gabineteLeiSelect" class="w-full rounded-xl bg-slate-950 border-2 border-slate-600 text-white p-3 text-sm" aria-label="Selecionar a legislação a consultar">
+              <option value="cc">Código Civil — Lei 10.406/2002</option>
+              <option value="cf">Constituição Federal de 1988</option>
+              <option value="cp">Código Penal</option>
+              <option value="cpp">Código de Processo Penal</option>
+              <option value="cpc">Código de Processo Civil</option>
+              <option value="clt">CLT — Consolidação das Leis do Trabalho</option>
+              <option value="ctn">Código Tributário Nacional</option>
+              <option value="cdc">Código de Defesa do Consumidor</option>
+              <option value="eca">Estatuto da Criança e do Adolescente</option>
+              <option value="lindb">LINDB — Decreto-Lei 4.657/1942</option>
+              <option value="oab">Estatuto da Advocacia — Lei 8.906/1994</option>
+              <option value="l14133">Lei 14.133/2021 — Licitações</option>
+              <option value="l9784">Lei 9.784/1999 — Processo Administrativo</option>
+            </select>
           </div>
-          <button onclick="executarPesquisaGabinete()" class="btn-touch bg-ratio-purple hover:bg-purple-600 text-white px-6 py-3 rounded-xl text-sm font-semibold transition shadow-lg shadow-ratio-purple/20">
-            Pesquisar
-          </button>
-        </div>
-
-        <!-- Container de Resultados da Busca -->
-        <div id="resultadoBuscaContainer" class="mt-4 hidden space-y-3">
-          <div class="p-4 bg-slate-950 border border-ratio-purple/40 rounded-xl shadow-inner">
-            <div class="flex items-center justify-between">
-              <span id="resultadoTitulo" class="text-xs font-bold text-ratio-purple uppercase tracking-wider">Resultado Encontrado</span>
-              <span class="text-xs text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800/50">Referências para conferência em portais oficiais</span>
-            </div>
-            <p id="resultadoDescricao" class="text-sm text-slate-200 mt-2.5 leading-relaxed"></p>
+          <div>
+            <label for="gabineteArtigoInput" class="block text-white text-sm font-semibold mb-2">Número do artigo</label>
+            <input type="text" id="gabineteArtigoInput" inputmode="text" maxlength="12" autocomplete="off" placeholder="Ex.: 366, 20, 28-A" class="w-full rounded-xl bg-slate-950 border-2 border-slate-600 text-white p-3 text-sm" aria-label="Número do artigo, exemplo 366 ou 28-A" onkeydown="if(event.key==='Enter'){pesquisarArtigoPlanalto();}"/>
           </div>
         </div>
+        <div class="flex flex-wrap gap-3 mt-4 items-center">
+          <button type="button" onclick="pesquisarArtigoPlanalto()" class="btn-touch bg-ratio-purpleDeep hover:bg-purple-700 text-white px-5 py-3 rounded-xl text-sm font-bold">Localizar artigo no Planalto</button>
+          <span class="text-xs text-slate-300">Exemplo: Código Civil, art. 366; LINDB, art. 20</span>
+        </div>
+        <div class="border-t border-slate-700 mt-6 pt-5">
+          <label for="gabineteSearchInput" class="block text-white text-sm font-semibold mb-2">Busca por referência ou jurisprudência</label>
+          <div class="flex flex-wrap sm:flex-nowrap gap-2">
+            <input type="search" id="gabineteSearchInput" placeholder="Ex.: art. 366 CC, art. 20 LINDB, Súmula 473 STF" onkeydown="if(event.key==='Enter'){executarPesquisaGabinete();}" class="flex-1 min-w-0 w-full bg-slate-950 border border-slate-600 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-400"/>
+            <button type="button" onclick="executarPesquisaGabinete()" class="btn-touch bg-ratio-purple hover:bg-purple-600 text-white px-5 py-3 rounded-xl text-sm font-semibold">Pesquisar referência</button>
+          </div>
+        </div>
+        <div id="resultadoBuscaContainer" class="mt-5 hidden" aria-live="polite" aria-atomic="false">
+          <div class="p-5 bg-slate-950 border border-purple-500 rounded-xl">
+            <h3 id="resultadoTitulo" class="text-base font-bold text-purple-300">Resultado</h3>
+            <div id="resultadoDescricao" class="text-sm text-slate-200 mt-3 leading-relaxed"></div>
+          </div>
+        </div>
+        <p class="mt-4 text-xs text-slate-300">A localização direta utiliza fragmentos de texto aceitos por navegadores compatíveis (especialmente Chromium). Se o artigo não ficar destacado automaticamente, use Ctrl+F ou Buscar na página com o número indicado. Algumas páginas do Planalto podem limitar o acesso dependendo do navegador ou da rede.</p>
       </div>
     </div>
   </section>
@@ -447,39 +479,129 @@
       box.classList.remove('hidden');box.focus();
     }
     function fecharCardModal(){document.getElementById('cardModalBox').classList.add('hidden');}
-    const referencias = [
-      {termos:['473 stf','sumula 473','súmula 473'],titulo:'Súmula 473 do STF — autotutela administrativa',descricao:'A Administração pode anular atos ilegais e revogar atos por conveniência ou oportunidade, observados direitos adquiridos e controle judicial.',url:'https://jurisprudencia.stf.jus.br/pages/search/seq-sumula473/false'},
-      {termos:['366 stj','sumula 366','súmula 366'],titulo:'Súmula 366 do STJ — CANCELADA',descricao:'A Súmula 366 do STJ foi cancelada pela Corte Especial em 16/09/2009. O enunciado anterior não deve ser apresentado como orientação vigente; consulte a jurisprudência atual.',url:'https://www.stj.jus.br/sites/portalp/Jurisprudencia/Sumulas'},
-      {termos:['366 cc','artigo 366','art 366','novacao','novação'],titulo:'Art. 366 do Código Civil — novação e fiador',descricao:'A novação feita com o devedor principal sem consentimento do fiador importa exoneração deste.',url:'https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm'},
-      {termos:['vinculante 20','sv 20','gdata'],titulo:'Súmula Vinculante 20 do STF — GDATA',descricao:'Trata do pagamento da Gratificação de Desempenho de Atividade Técnico-Administrativa (GDATA) a inativos, segundo períodos e pontuações previstos no enunciado. Consulte o texto integral.',url:'https://portal.stf.jus.br/jurisprudencia/sumariosumulas.asp?base=26&sumula=1252'},
-      {termos:['lindb','4.657','lei 4657'],titulo:'LINDB — Decreto-Lei nº 4.657/1942',descricao:'O art. 20 trata das consequências práticas na aplicação de valores jurídicos abstratos em decisões administrativas, controladoras e judiciais.',url:'https://www.planalto.gov.br/ccivil_03/decreto-lei/del4657compilado.htm'}
+    // Fontes previamente identificadas: jamais aceitar URL fornecida pelo campo do usuário.
+    const fontesLegaisPlanalto = Object.freeze({
+      cc:{nome:'Código Civil',url:'https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm'},
+      cf:{nome:'Constituição Federal',url:'https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm'},
+      cp:{nome:'Código Penal',url:'https://www.planalto.gov.br/ccivil_03/decreto-lei/del2848compilado.htm'},
+      cpp:{nome:'Código de Processo Penal',url:'https://www.planalto.gov.br/ccivil_03/decreto-lei/del3689.htm'},
+      cpc:{nome:'Código de Processo Civil',url:'https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm'},
+      clt:{nome:'CLT',url:'https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452compilado.htm'},
+      ctn:{nome:'Código Tributário Nacional',url:'https://www.planalto.gov.br/ccivil_03/leis/l5172compilado.htm'},
+      cdc:{nome:'Código de Defesa do Consumidor',url:'https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm'},
+      eca:{nome:'Estatuto da Criança e do Adolescente',url:'https://www.planalto.gov.br/ccivil_03/leis/l8069.htm'},
+      lindb:{nome:'LINDB',url:'https://www.planalto.gov.br/ccivil_03/decreto-lei/del4657compilado.htm'},
+      oab:{nome:'Estatuto da Advocacia',url:'https://www.planalto.gov.br/ccivil_03/leis/l8906.htm'},
+      l14133:{nome:'Lei de Licitações 14.133/2021',url:'https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/l14133.htm'},
+      l9784:{nome:'Lei do Processo Administrativo 9.784/1999',url:'https://www.planalto.gov.br/ccivil_03/leis/l9784.htm'}
+    });
+    const referenciasJurisprudenciais=[
+      {termos:['473 stf','sumula 473','súmula 473'],titulo:'Súmula 473 do STF — autotutela administrativa',descricao:'Entendimento sumulado sobre anulação e revogação de atos da Administração.',url:'https://jurisprudencia.stf.jus.br/pages/search/seq-sumula473/false'},
+      {termos:['366 stj','sumula 366 stj','súmula 366 stj'],titulo:'Súmula 366 do STJ — CANCELADA',descricao:'A Súmula 366/STJ foi cancelada em 16/09/2009; não representa orientação vigente.',url:'https://www.stj.jus.br/sites/portalp/Jurisprudencia/Sumulas'},
+      {termos:['vinculante 20','sv 20','gdata'],titulo:'Súmula Vinculante 20 do STF — GDATA',descricao:'Trata da GDATA para inativos; confira o inteiro teor no STF.',url:'https://portal.stf.jus.br/jurisprudencia/sumariosumulas.asp?base=26&sumula=1252'}
     ];
-    function normalizar(str) {return str.toLocaleLowerCase('pt-BR').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();}
-    function executarPesquisaGabinete() {
-      const entrada = document.getElementById('gabineteSearchInput').value.trim();
-      if (!entrada) { abrirCardModal('Pesquisa','Digite uma referência ou palavra-chave para consultar.','Campo vazio'); return; }
-      const termo = normalizar(entrada);
-      const encontrado = referencias.find(item => item.termos.some(t => normalizar(t)===termo || (termo.length>=4 && (normalizar(t).includes(termo) || termo.includes(normalizar(t))))));
-      const container = document.getElementById('resultadoBuscaContainer');
-      const titulo = document.getElementById('resultadoTitulo');
-      const descricao = document.getElementById('resultadoDescricao');
-      container.classList.remove('hidden');
-      titulo.textContent = encontrado ? encontrado.titulo : 'Sem resultado na base demonstrativa';
-      descricao.replaceChildren();
-      const p = document.createElement('p');
-      p.textContent = encontrado ? encontrado.descricao : 'A pesquisa não encontrou correspondência entre as cinco referências cadastradas. Nenhuma consulta ou indexação externa foi realizada. Consulte diretamente os portais oficiais.';
-      descricao.appendChild(p);
-      const links = encontrado ? [{nome:'Conferir fonte oficial',url:encontrado.url}] : [
-        {nome:'Legislação — Planalto',url:'https://www.planalto.gov.br/ccivil_03/'},
-        {nome:'Jurisprudência — STF',url:'https://jurisprudencia.stf.jus.br/'},
-        {nome:'Jurisprudência — STJ',url:'https://scon.stj.jus.br/SCON/'}
+    function normalizar(str){return String(str||'').toLocaleLowerCase('pt-BR').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();}
+    function acharLeiNoTexto(entrada){
+      const t=normalizar(entrada);
+      const checks=[
+        ['lindb',/\blindb\b|4\.657|4657|introducao as normas/],
+        ['oab',/\boab\b|advocacia|8\.906|8906/],
+        ['l14133',/14\.133|14133|licitac/],
+        ['l9784',/9\.784|9784|processo administrativo/],
+        ['cpp',/\bcpp\b|processo penal/],
+        ['cpc',/\bcpc\b|processo civil/],
+        ['ctn',/\bctn\b|tributario/],
+        ['cdc',/\bcdc\b|consumidor/],
+        ['eca',/\beca\b|crianca|adolescente/],
+        ['clt',/\bclt\b|trabalho/],
+        ['cf',/\bcf\b|constituicao|constitucional/],
+        ['cc',/\bcc\b|codigo civil|\bcivil\b/],
+        ['cp',/\bcp\b|codigo penal|\bpenal\b/]
       ];
-      links.forEach(function(item) {
-        const a=document.createElement('a');
-        a.href=item.url;a.target='_blank';a.rel='noopener noreferrer';
-        a.className='block mt-2 underline text-purple-300 font-semibold';
-        a.textContent=item.nome; descricao.appendChild(a);
+      return (checks.find(pair=>pair[1].test(t))||[])[0]||null;
+    }
+    function normalizarNumeroArtigo(value) {
+      const text=String(value||'').trim().replace(/^art(?:igo)?\.?\s*/i,'').replace(/[º°]\s*$/,'');
+      const match=/^(\d{1,4})(?:\s*[-–]\s*([A-Za-z]))?$/.exec(text);
+      if(!match)return null;
+      const n=Number(match[1]);
+      if(!Number.isInteger(n)||n<1||n>9999)return null;
+      return String(n)+(match[2]?'-'+match[2].toUpperCase():'');
+    }
+    // Text fragment do navegador; o Planalto não possui âncora estável em todos os diplomas.
+    // Usar apenas URLs oficiais pré-cadastradas. Nenhuma requisição remota pelo app.
+    function construirUrlArtigoPlanalto(lei,numero) {
+      const norma=fontesLegaisPlanalto[lei];
+      const art=normalizarNumeroArtigo(numero);
+      if(!norma||!art)return null;
+      const ordinal=Number(art.match(/^\d+/)[0])<=9;
+      const label=ordinal?('Art. '+art.replace(/-([A-Z])$/,'º-$1')+(art.includes('-')?'':'º')):('Art. '+art+'.');
+      return norma.url+'#:~:text='+encodeURIComponent(label);
+    }
+    function mostrarResultadoGabinete(titulo,descricao,links,nota){
+      const pane=document.getElementById('resultadoBuscaContainer');
+      const target=document.getElementById('resultadoDescricao');
+      document.getElementById('resultadoTitulo').textContent=titulo;
+      pane.classList.remove('hidden');
+      target.replaceChildren();
+      const p=document.createElement('p');p.textContent=descricao;target.appendChild(p);
+      (links||[]).forEach(item=>{
+        const anchor=document.createElement('a');
+        anchor.href=item.url;anchor.target='_blank';anchor.rel='noopener noreferrer';
+        anchor.className='inline-block mt-3 mr-3 px-4 py-3 underline rounded-lg border border-purple-400 text-purple-200 font-bold';
+        anchor.textContent=item.nome;target.appendChild(anchor);
       });
+      if(nota){const p2=document.createElement('p');p2.className='mt-3 text-xs text-amber-200';p2.textContent=nota;target.appendChild(p2);}
+    }
+    function pesquisarArtigoPlanalto(){
+      const lei=document.getElementById('gabineteLeiSelect').value;
+      const numero=normalizarNumeroArtigo(document.getElementById('gabineteArtigoInput').value);
+      if(!fontesLegaisPlanalto[lei]||!numero){
+        mostrarResultadoGabinete('Artigo inválido','Selecione a legislação e informe um número válido (ex.: 366, 20 ou 28-A).',[],null);
+        return false;
+      }
+      const artigo='art. '+numero;
+      const fonte=fontesLegaisPlanalto[lei];
+      const url=construirUrlArtigoPlanalto(lei,numero);
+      const linkBase=fonte.url;
+      mostrarResultadoGabinete(
+        fonte.nome+' — '+artigo,
+        'Abra o dispositivo na fonte oficial do Planalto. O destaque automático é responsabilidade do navegador; não é possível garantir âncora por artigo em todas as leis.',
+        [{nome:'Abrir '+artigo+' no Planalto',url},{nome:'Abrir lei completa (alternativa)',url:linkBase}],
+        'Se o navegador abrir a lei no início, use Buscar na página / Ctrl+F e procure exatamente “Art. '+numero+'”.'
+      );
+      return true;
+    }
+    function executarPesquisaGabinete() {
+      const entrada=document.getElementById('gabineteSearchInput').value.trim();
+      if(!entrada){mostrarResultadoGabinete('Campo vazio','Informe uma referência, por exemplo: art. 366 CC, art. 20 LINDB ou Súmula 473 STF.',[],null);return false;}
+      const termo=normalizar(entrada);
+      const numero=entrada.match(/\bart(?:igo)?\.?\s*(\d{1,4}(?:\s*[-–]\s*[A-Za-z])?)/i) ||
+        entrada.match(/^\s*(\d{1,4}(?:\s*[-–]\s*[A-Za-z])?)\s+(?:do\s+|da\s+)?/i);
+      const lei=acharLeiNoTexto(entrada);
+      if(numero&&lei){
+        document.getElementById('gabineteLeiSelect').value=lei;
+        document.getElementById('gabineteArtigoInput').value=numero[1].replace(/\s/g,'');
+        return pesquisarArtigoPlanalto();
+      }
+      // Atalhos expressos previamente identificados, sem inventar pesquisa no STF/STJ.
+      if(lei==='cc' && (/novac/.test(termo)||/366/.test(termo))){
+        document.getElementById('gabineteLeiSelect').value='cc';
+        document.getElementById('gabineteArtigoInput').value='366';
+        return pesquisarArtigoPlanalto();
+      }
+      if(lei==='lindb' && (/20/.test(termo)||termo==='lindb')){
+        document.getElementById('gabineteLeiSelect').value='lindb';
+        document.getElementById('gabineteArtigoInput').value='20';
+        return pesquisarArtigoPlanalto();
+      }
+      const match=referenciasJurisprudenciais.find(x=>x.termos.some(k=>normalizar(k)===termo||(termo.length>3 && normalizar(k).includes(termo))));
+      if(match){mostrarResultadoGabinete(match.titulo,match.descricao,[{nome:'Consultar fonte jurisprudencial',url:match.url}],'A consulta jurisprudencial é uma referência cadastrada, não uma pesquisa online em tempo real.');return true;}
+      mostrarResultadoGabinete('Referência não localizada','Escolha a legislação e digite o número do artigo acima. Para jurisprudência não cadastrada, acesse diretamente os portais oficiais.',[
+        {nome:'Portal STF',url:'https://jurisprudencia.stf.jus.br/'},
+        {nome:'Portal STJ',url:'https://scon.stj.jus.br/SCON/'}
+      ],null);
+      return false;
     }
     function fonteOAB() {
       const dados=window.RATIO_OAB_DATA;
@@ -518,50 +640,83 @@
       atualizarArquivoOAB();
     }
     function atualizarArquivoOAB() {
-      const dados=fonteOAB();
+      const db=fonteOAB();
       const num=Number(document.getElementById('oabExamSelect').value);
-      const entry=dados.archive.find(x=>x.exame===num);
+      const entry=db.archive.find(x=>x.exame===num);
       if(!entry)return;
-      const temCorrecao=(num===47||num===46);
+      const exam=db['exam'+num];
+      const available=!!(exam&&Array.isArray(exam.gabaritos)&&exam.gabaritos.length===4);
       const tipo=tipoOABAtual();
       document.getElementById('oabPaginaOficial').href=entry.fgvUrl;
-      document.getElementById('oabTipoSelect').disabled=!temCorrecao;
+      document.getElementById('oabTipoSelect').disabled=!available;
       document.getElementById('oabFolhaBloco').classList.toggle('hidden',num!==47);
-      document.getElementById('oab46Bloco').classList.toggle('hidden',num!==46);
-      document.getElementById('oabCadernoPdf').classList.toggle('hidden',!temCorrecao);
-      document.getElementById('oabGabaritoPdf').classList.toggle('hidden',!temCorrecao);
-      if(temCorrecao) {
-        const config=num===47?dados.exam47:dados.exam46;
-        if(!config||!config.cadernos?.[tipo-1])throw new Error('Caderno oficial do '+num+'º EOU indisponível');
-        const caderno=config.cadernos[tipo-1];
+      document.getElementById('oab46Bloco').classList.toggle('hidden',!(num===46||num===45));
+      document.getElementById('oabCadernoPdf').classList.toggle('hidden',!available);
+      document.getElementById('oabGabaritoPdf').classList.toggle('hidden',!available);
+      if(available){
+        const caderno=exam.cadernos[tipo-1];
         document.getElementById('oabCadernoPdf').href=caderno.pdf;
-        document.getElementById('oabGabaritoPdf').href=config.gabaritoPDF;
-        document.getElementById('oabStatus').textContent=num+'º EOU — Tipo '+tipo+' ('+caderno.cor+'). '+
-          (num===47?
-          'Prova de 06/09/2026; 80 questões, uma anulada. Há comentários jurídicos individuais, sujeitos a verificação de vigência.' :
-          'Prova de 03/05/2026; gabarito definitivo de 20/05/2026; 80 questões, nenhuma anulada. Comentários individuais ainda não importados.');
+        document.getElementById('oabGabaritoPdf').href=exam.gabaritoPDF;
+        const annulled=exam.gabaritos[tipo-1].split('').filter(x=>x==='*').length;
+        document.getElementById('oabStatus').textContent=
+          num+'º Exame — Tipo '+tipo+' ('+caderno.cor+'), 80 questões, gabarito definitivo, '+
+          annulled+' questão(ões) anulada(s). '+(num===47?'Há comentários jurídicos do 47º.':'A correção usa apenas o gabarito histórico desta edição.');
         if(num===47)desenharFolha47();
         else desenharFolha46(false);
-      }else {
-        document.getElementById('oabStatus').textContent=num+'º EOU — consulte a página oficial FGV. Cadernos e gabaritos ainda não importados para correção local; não apresentar como prova corrigível nem comentar sem verificação.';
+      }else{
+        document.getElementById('oabStatus').textContent=num+'º Exame — página oficial da FGV disponível. Ainda sem gabarito importado para correção eletrônica.';
       }
+      atualizarEstatisticaProva();
+    }
+    function chaveAvaliacaoOAB(exame,tipo){return 'ratio_avaliada_'+exame+'_tipo'+tipo;}
+    function invalidarEstatisticaOAB() {
+      const ex=Number(document.getElementById('oabExamSelect').value),tipo=tipoOABAtual();
+      gravarArmazenamento(chaveAvaliacaoOAB(ex,tipo),'0');
+      atualizarEstatisticaProva();
+    }
+    function atualizarEstatisticaProva(revelar) {
+      const ex=Number(document.getElementById('oabExamSelect').value),tipo=tipoOABAtual();
+      const config=fonteOAB()['exam'+ex];
+      const set=(id,value)=>{document.getElementById(id).textContent=String(value);};
+      document.getElementById('estatisticaIdentificacao').textContent=ex+'º Exame • Tipo '+tipo;
+      if(!config||!config.gabaritos?.[tipo-1]){
+        ['estRespondidas','estAcertos','estErros','estBrancas','estAnuladas','estAproveitamento'].forEach(k=>set(k,'—'));
+        document.getElementById('estatisticaMensagem').textContent='Este exame ainda não possui correção eletrônica. Acesse a página oficial da banca.';
+        return null;
+      }
+      const key=config.gabaritos[tipo-1];
+      const responses=ex===47?obterRespostas47(tipo):carregarRespostas46(tipo);
+      if(revelar)gravarArmazenamento(chaveAvaliacaoOAB(ex,tipo),'1');
+      const graded=lerArmazenamento(chaveAvaliacaoOAB(ex,tipo),'0')==='1';
+      const answered=responses.filter(Boolean).length,empty=responses.length-answered;
+      const correct=responses.filter((x,i)=>x&&key[i]!=='*'&&x===key[i]).length;
+      const errors=responses.filter((x,i)=>x&&key[i]!=='*'&&x!==key[i]).length;
+      const annulled=key.split('').filter(x=>x==='*').length,points=correct+annulled;
+      set('estRespondidas',answered);set('estBrancas',empty);set('estAnuladas',annulled);
+      set('estAcertos',graded?correct:'—');set('estErros',graded?errors:'—');
+      set('estAproveitamento',graded?(100*points/key.length).toFixed(1).replace('.',',')+'%':'—');
+      document.getElementById('estatisticaMensagem').textContent=graded?
+        'Pontuação: '+points+'/'+key.length+' (inclui '+annulled+' ponto(s) por anulação). Questões em branco não foram contadas como erros.':
+        'Suas respostas foram salvas. Clique em Corrigir prova para revelar acertos, erros e aproveitamento.';
+      return {ex,tipo,answered,empty,correct,errors,annulled,points,graded};
     }
     // Folha separada do 46º Exame — nenhuma resposta inferida de questões do 47º.
     function fonte46() {
-      const dados=fonteOAB().exam46;
-      if(!dados||dados.gabaritos?.length!==4||dados.gabaritos.some(x=>x.length!==80))
-        throw new Error('Dados oficiais do 46º EOU incompletos');
+      const n=Number(document.getElementById('oabExamSelect').value);
+      const dados=fonteOAB()['exam'+n];
+      if((n!==45&&n!==46)||!dados||dados.gabaritos?.length!==4||dados.gabaritos.some(x=>x.length!==80))
+        throw new Error('Gabaritos oficiais do exame selecionado incompletos');
       return dados;
     }
     function carregarRespostas46(tipo) {
       try {
-        const valor=JSON.parse(lerArmazenamento('ratio_oab46_tipo'+tipo,'[]'));
+        const valor=JSON.parse(lerArmazenamento('ratio_oab'+document.getElementById('oabExamSelect').value+'_tipo'+tipo,'[]'));
         if(Array.isArray(valor)&&valor.length===80)return valor.map(x=>['A','B','C','D'].includes(x)?x:'');
       }catch(_){}
       return Array(80).fill('');
     }
     function salvarRespostas46(tipo,respostas) {
-      gravarArmazenamento('ratio_oab46_tipo'+tipo,JSON.stringify(respostas));
+      gravarArmazenamento('ratio_oab'+document.getElementById('oabExamSelect').value+'_tipo'+tipo,JSON.stringify(respostas));
     }
     function materia46(tipo,n) {
       const prova=fonte46();
@@ -604,6 +759,7 @@
           novo[i]=select.value;
           salvarRespostas46(tipo,novo);
           atualizarProgresso46();
+          invalidarEstatisticaOAB();
           result.classList.add('hidden');
         });
         card.append(heading,disciplina,select);
@@ -624,11 +780,13 @@
       const resultado=document.getElementById('oab46Resultado');
       desenharFolha46(true);
       resultado.classList.remove('hidden');
-      resultado.textContent='46º Exame, Tipo '+tipo+': '+acertos+'/80 pontos. Respostas assinaladas: '+marcadas.filter(Boolean).length+'/80. '+(acertos>=40?'Atingiu 40 pontos neste treino.':'Abaixo dos 40 pontos neste treino.')+' Trata-se do gabarito histórico definitivo, não de revisão de legislação vigente.';
+      resultado.textContent=document.getElementById('oabExamSelect').value+'º Exame, Tipo '+tipo+': '+acertos+'/80 pontos. Respostas assinaladas: '+marcadas.filter(Boolean).length+'/80. '+(acertos>=40?'Atingiu 40 pontos neste treino.':'Abaixo dos 40 pontos neste treino.')+' Trata-se do gabarito histórico definitivo, não de revisão de legislação vigente.';
+      atualizarEstatisticaProva(true);
     }
     function limparFolha46() {
       salvarRespostas46(tipoOABAtual(),Array(80).fill(''));
       desenharFolha46(false);
+      invalidarEstatisticaOAB();
     }
     function materiaTipo47(tipo,num) {
       const dados=fonteOAB().exam47;
@@ -695,6 +853,7 @@
           current[i]=sel.value;
           salvarRespostas47(tipo,current);
           atualizarProgresso47();
+          invalidarEstatisticaOAB();
           document.getElementById('oabResultado').classList.add('hidden');
         });
         card.append(header,descricao,sel);
@@ -788,11 +947,13 @@
       res.textContent='Resultado da prova Tipo '+tipo+': '+acertos+'/80 pontos (inclui 1 ponto por questão anulada). Respostas assinaladas: '+preenchidas+'/80. '+(acertos>=40?'Alcançou 40 pontos neste treino.':'Ainda não alcançou 40 pontos neste treino.')+' Gabarito histórico definitivo, não avaliação de legislação vigente.';
       desenharFolha47(true);
       res.classList.remove('hidden');
+      atualizarEstatisticaProva(true);
     }
     function limparFolha47() {
       const tipo=tipoOABAtual();
       salvarRespostas47(tipo,Array(80).fill(''));
       desenharFolha47();
+      invalidarEstatisticaOAB();
     }
     window.addEventListener('DOMContentLoaded',function(){
       iniciarArquivoOAB();

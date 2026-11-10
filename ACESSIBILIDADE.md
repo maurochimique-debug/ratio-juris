@@ -44,3 +44,7 @@ Referência: **W3C Web Content Accessibility Guidelines (WCAG) 2.2**, https://ww
 O Super Simulador de questões autorais e seus dados foram retirados da interface pública. Apenas gabaritos e cadernos oficiais da OAB/FGV (46º e 47º Exames) estão importados para correção local. Os demais exames permanecem catalogados; outras bancas (CEBRASPE, VUNESP, FCC) não aparecem como portadoras de questões ainda não importadas.
 
 A leitura de enunciados e alternativas depende do PDF oficial em seu leitor de documentos, que deve ser avaliado quanto à acessibilidade. O próprio RatioJuris pode ler o progresso e o resultado da folha da OAB, mas não possui texto integral de enunciados no HTML. Não declarar leitura de enunciados pelo painel quando a fonte está apenas no PDF externo.
+
+## Estatísticas acessíveis — 10/11/2026
+
+O card do resultado possui rótulos e valores em texto e uma mensagem com `role=status`/`aria-live=polite`. A leitura por voz do progresso/resultado foi ajustada para o **45º, 46º e 47º Exames**. Os erros e acertos são revelados somente quando o usuário corrige a prova; as respostas em branco não são erros. Homologação com leitores de tela em ambiente real ainda pendente.
