@@ -1,4 +1,4 @@
-/* Banco de questões autorais: não confundir com prova oficial FGV/OAB. */
+/* Questões originais de treino 2026. NÃO são questões oficiais de nenhuma banca. */
 window.RATIO_TREINO_EXTRA = {
   "schemaVersion": "1.0",
   "createdAt": "2026-11-09",
@@ -344,6 +344,442 @@ window.RATIO_TREINO_EXTRA = {
       "correta": "A",
       "explicacao": "A suspensão por mais de 30 dias consecutivos importa rescisão injusta do contrato de trabalho (CLT, art. 474).",
       "artigo": "CLT, art. 474",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452compilado.htm"
+    },
+    {
+      "id": "RJ-FGV-021",
+      "banca": "FGV",
+      "materiaId": "processotrabalho",
+      "tema": "Homologação de acordo extrajudicial",
+      "enunciado": "Uma empresa e uma trabalhadora celebram acordo extrajudicial. Para iniciar a homologação judicial na Justiça do Trabalho, qual procedimento a CLT prevê?",
+      "alternativas": [
+        "Petição unilateral apresentada apenas pelo empregador.",
+        "Petição conjunta das partes, representadas por advogados distintos.",
+        "Homologação automática no sindicato, sem apreciação judicial.",
+        "Apenas procuração pública lavrada perante tabelião."
+      ],
+      "correta": "B",
+      "explicacao": "O art. 855-B da CLT exige petição conjunta e representação obrigatória por advogados distintos; não há homologação automática.",
+      "artigo": "CLT, art. 855-B",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452compilado.htm"
+    },
+    {
+      "id": "RJ-FGV-022",
+      "banca": "FGV",
+      "materiaId": "processotrabalho",
+      "tema": "Prazo do recurso ordinário trabalhista",
+      "enunciado": "Uma sentença definitiva é proferida por Vara do Trabalho. Observadas as regras de contagem, qual é o prazo de interposição do recurso ordinário previsto na CLT?",
+      "alternativas": [
+        "Dois dias.",
+        "Cinco dias.",
+        "Quinze dias.",
+        "Oito dias."
+      ],
+      "correta": "D",
+      "explicacao": "O art. 895, I, da CLT prevê prazo de oito dias para o recurso ordinário contra decisões definitivas ou terminativas das Varas do Trabalho, sem prejuízo das normas de contagem e exceções legais.",
+      "artigo": "CLT, art. 895, I",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452compilado.htm"
+    },
+    {
+      "id": "RJ-FGV-023",
+      "banca": "FGV",
+      "materiaId": "administrativo",
+      "tema": "Limites legais à delegação administrativa",
+      "enunciado": "Autoridade administrativa federal pretende delegar a subordinado a decisão de recursos administrativos. Essa delegação é:",
+      "alternativas": [
+        "Proibida pelo art. 13, II, da Lei 9.784/1999.",
+        "Obrigatória se o subordinado for especialista.",
+        "Permitida sem limites quando formalizada por memorando.",
+        "Válida se o recurso envolver valor inferior a um salário mínimo."
+      ],
+      "correta": "A",
+      "explicacao": "O art. 13, II, da Lei 9.784/1999 veda expressamente delegar a decisão de recursos administrativos.",
+      "artigo": "Lei 9.784/1999, art. 13, II",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l9784.htm"
+    },
+    {
+      "id": "RJ-FGV-024",
+      "banca": "FGV",
+      "materiaId": "administrativo",
+      "tema": "Inexigibilidade para contratação de artista",
+      "enunciado": "Um município planeja contratar artista consagrado pela crítica especializada, por intermédio de empresário exclusivo, com instrução formal do processo. Qual fundamento de contratação direta pode ser aplicável?",
+      "alternativas": [
+        "Dispensa automática por baixo valor, independentemente do cachê.",
+        "Inexigibilidade pela inviabilidade de competição, nos termos do art. 74, II.",
+        "Licitação por pregão obrigatoriamente, sem exceções.",
+        "Dispensa por calamidade pública presumida."
+      ],
+      "correta": "B",
+      "explicacao": "A Lei 14.133/2021, art. 74, II, prevê inexigibilidade para contratação de artista consagrado, diretamente ou por empresário exclusivo; a demonstração de exclusividade e demais requisitos segue a lei.",
+      "artigo": "Lei 14.133/2021, art. 74, II e § 2º",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/l14133.htm"
+    },
+    {
+      "id": "RJ-FGV-025",
+      "banca": "FGV",
+      "materiaId": "tributario",
+      "tema": "Parcelamento e exigibilidade do crédito tributário",
+      "enunciado": "Contribuinte obtém parcelamento válido de crédito tributário, respeitadas as condições da lei específica. Qual é seu efeito sobre a exigibilidade do crédito?",
+      "alternativas": [
+        "Extingue automaticamente o crédito, independentemente do pagamento.",
+        "Transforma todo tributo em preço público.",
+        "Suspende a exigibilidade nos termos do CTN.",
+        "Elimina a obrigação de entregar declarações acessórias em qualquer hipótese."
+      ],
+      "correta": "C",
+      "explicacao": "O parcelamento é causa de suspensão da exigibilidade do crédito tributário, nos termos do art. 151, VI, do CTN. A extinção por pagamento é situação diferente.",
+      "artigo": "CTN, art. 151, VI",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l5172compilado.htm"
+    },
+    {
+      "id": "RJ-FGV-026",
+      "banca": "FGV",
+      "materiaId": "tributario",
+      "tema": "Certidão positiva com efeitos de negativa",
+      "enunciado": "Uma empresa possui crédito tributário cuja exigibilidade está legalmente suspensa. Qual certidão pode ser emitida, cumpridos os requisitos legais?",
+      "alternativas": [
+        "Certidão positiva com os efeitos de negativa.",
+        "Somente certidão negativa que omita o débito.",
+        "Certidão de remissão automática do crédito.",
+        "Nenhuma certidão até o trânsito em julgado de sentença penal."
+      ],
+      "correta": "A",
+      "explicacao": "Nos termos do art. 206 do CTN, crédito com exigibilidade suspensa permite certidão positiva com efeitos de negativa, observadas as condições legais.",
+      "artigo": "CTN, art. 206",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l5172compilado.htm"
+    },
+    {
+      "id": "RJ-FGV-027",
+      "banca": "FGV",
+      "materiaId": "empresarial",
+      "tema": "Atividade intelectual e empresário",
+      "enunciado": "Uma médica exerce pessoalmente atividade intelectual de natureza científica, sem constituir elemento de empresa. Na classificação do Código Civil, essa profissional:",
+      "alternativas": [
+        "É empresária obrigatoriamente apenas porque aufere remuneração.",
+        "É comerciante por força de lei em todas as atividades médicas.",
+        "Deve registrar-se automaticamente como sociedade anônima.",
+        "Não é considerada empresária apenas pelo exercício da profissão intelectual nessa situação."
+      ],
+      "correta": "D",
+      "explicacao": "O art. 966, parágrafo único, do Código Civil exclui o exercício de profissão intelectual, de natureza científica, literária ou artística, salvo quando constituir elemento de empresa.",
+      "artigo": "Código Civil, art. 966, parágrafo único",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm"
+    },
+    {
+      "id": "RJ-FGV-028",
+      "banca": "FGV",
+      "materiaId": "empresarial",
+      "tema": "Juros posteriores à falência",
+      "enunciado": "Na falência de uma sociedade, o ativo arrecadado é insuficiente para pagar credores subordinados. Como a Lei 11.101 trata os juros vencidos após a decretação da quebra?",
+      "alternativas": [
+        "Tornam-se todos exigíveis com prioridade absoluta.",
+        "Não são exigíveis contra a massa falida nessa condição, observadas as exceções legais.",
+        "Transformam-se automaticamente em crédito trabalhista.",
+        "São sempre exigíveis independentemente do ativo."
+      ],
+      "correta": "B",
+      "explicacao": "O art. 124 da Lei 11.101/2005 estabelece que juros vencidos após a decretação da falência não são exigíveis contra a massa se o ativo não bastar aos subordinados, ressalvadas exceções do parágrafo único.",
+      "artigo": "Lei 11.101/2005, art. 124",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2004-2006/2005/lei/l11101compilado.htm"
+    },
+    {
+      "id": "RJ-FGV-029",
+      "banca": "FGV",
+      "materiaId": "eca",
+      "tema": "Definição legal de criança",
+      "enunciado": "Para aplicação ordinária do Estatuto da Criança e do Adolescente, considera-se criança a pessoa:",
+      "alternativas": [
+        "Até doze anos de idade incompletos.",
+        "Até quatorze anos completos.",
+        "Entre doze e dezoito anos de idade.",
+        "Com menos de vinte e um anos, sem exceções."
+      ],
+      "correta": "A",
+      "explicacao": "O ECA define criança como pessoa até doze anos incompletos; adolescente é quem tem entre doze e dezoito anos (art. 2º).",
+      "artigo": "ECA, art. 2º",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l8069compilado.htm"
+    },
+    {
+      "id": "RJ-FGV-030",
+      "banca": "FGV",
+      "materiaId": "eca",
+      "tema": "Reparação do dano em ato infracional",
+      "enunciado": "Adolescente comete ato infracional com reflexos patrimoniais e demonstra impossibilidade manifesta de reparar economicamente o prejuízo. Segundo o ECA:",
+      "alternativas": [
+        "A reparação sempre se converte em prisão civil.",
+        "O processo deve ser extinto sem outras possibilidades legais.",
+        "A medida de reparação pode ser substituída por outra adequada.",
+        "O adolescente será automaticamente internado por tempo indeterminado."
+      ],
+      "correta": "C",
+      "explicacao": "O art. 116, parágrafo único, do ECA prevê substituição da reparação por outra medida adequada em caso de manifesta impossibilidade de cumprimento.",
+      "artigo": "ECA, art. 116, parágrafo único",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l8069compilado.htm"
+    },
+    {
+      "id": "RJ-FGV-031",
+      "banca": "FGV",
+      "materiaId": "consumidor",
+      "tema": "Direito de arrependimento em compra fora do estabelecimento",
+      "enunciado": "Consumidor contrata serviço pela internet e comunica desistência no quinto dia após a contratação, dentro das hipóteses do CDC. Qual regra geral se aplica?",
+      "alternativas": [
+        "O prazo legal é de 24 horas.",
+        "O fornecedor pode impedir arrependimento sem motivação.",
+        "O direito só existe se o produto vier com defeito.",
+        "O consumidor pode exercer o arrependimento no prazo de sete dias."
+      ],
+      "correta": "D",
+      "explicacao": "O art. 49 do CDC prevê direito de arrependimento em sete dias para contratação fora do estabelecimento comercial, nas hipóteses legais; valores pagos devem ser devolvidos conforme o parágrafo único.",
+      "artigo": "CDC, art. 49",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm"
+    },
+    {
+      "id": "RJ-FGV-032",
+      "banca": "FGV",
+      "materiaId": "consumidor",
+      "tema": "Vício de quantidade",
+      "enunciado": "Pacote alimentício contém quantidade inferior à indicada na embalagem, fora das variações toleradas. Segundo o CDC, qual faculdade pertence ao consumidor?",
+      "alternativas": [
+        "Somente aceitar desconto definido unilateralmente pelo fabricante.",
+        "Escolher uma das soluções do art. 19, como complementação, substituição, abatimento ou restituição.",
+        "Exigir apenas troca por marca diferente, sem outra opção.",
+        "Concordar obrigatoriamente com crédito para compras futuras."
+      ],
+      "correta": "B",
+      "explicacao": "O art. 19 do CDC assegura ao consumidor a escolha entre soluções legais para vício de quantidade, inclusive complementação, abatimento, substituição ou restituição.",
+      "artigo": "CDC, art. 19",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm"
+    },
+    {
+      "id": "RJ-FGV-033",
+      "banca": "FGV",
+      "materiaId": "ambiental",
+      "tema": "Estudo prévio de impacto ambiental",
+      "enunciado": "Uma atividade é potencialmente causadora de significativa degradação ambiental. Que exigência consta expressamente na Constituição?",
+      "alternativas": [
+        "Dispensa automática de análise ambiental pela autoridade.",
+        "Licenciamento por mera declaração em todos os casos.",
+        "Exigência, na forma da lei, de estudo prévio de impacto ambiental, a que se dará publicidade.",
+        "Substituição obrigatória de toda avaliação por exame financeiro."
+      ],
+      "correta": "C",
+      "explicacao": "O art. 225, § 1º, IV, da CF determina exigir, na forma da lei, estudo prévio de impacto ambiental para instalação de obra ou atividade potencialmente causadora de significativa degradação, com publicidade.",
+      "artigo": "CF, art. 225, § 1º, IV",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm"
+    },
+    {
+      "id": "RJ-FGV-034",
+      "banca": "FGV",
+      "materiaId": "internacional",
+      "tema": "Regime de bens e domicílio conjugal",
+      "enunciado": "Dois nubentes domiciliados em países diferentes se casam. Para determinação do regime de bens conforme a LINDB, qual lei é tomada como referência?",
+      "alternativas": [
+        "Lei do primeiro domicílio conjugal.",
+        "Lei da nacionalidade da pessoa mais velha.",
+        "Lei do país onde ocorreu a cerimônia em qualquer hipótese.",
+        "Lei escolhida unilateralmente por uma das famílias."
+      ],
+      "correta": "A",
+      "explicacao": "A LINDB, art. 7º, § 4º, vincula o regime de bens à lei do domicílio dos nubentes, e se diversos, à lei do primeiro domicílio conjugal.",
+      "artigo": "LINDB, art. 7º, § 4º",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/decreto-lei/del4657compilado.htm"
+    },
+    {
+      "id": "RJ-FGV-035",
+      "banca": "FGV",
+      "materiaId": "humanos",
+      "tema": "Princípios constitucionais das relações internacionais",
+      "enunciado": "Entre os princípios que regem as relações internacionais do Brasil, a Constituição inclui expressamente:",
+      "alternativas": [
+        "Subordinação irrestrita a potência estrangeira.",
+        "Veto à cooperação entre povos.",
+        "Proibição de proteção internacional de direitos humanos.",
+        "Prevalência dos direitos humanos."
+      ],
+      "correta": "D",
+      "explicacao": "A Constituição Federal, art. 4º, II, prevê a prevalência dos direitos humanos como princípio das relações internacionais do Brasil.",
+      "artigo": "CF, art. 4º, II",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm"
+    },
+    {
+      "id": "RJ-FGV-036",
+      "banca": "FGV",
+      "materiaId": "previdenciario",
+      "tema": "Atividade concomitante com RPPS e RGPS",
+      "enunciado": "Servidora efetiva vinculada a RPPS também exerce atividade privada remunerada sujeita ao Regime Geral. Nessa atividade privada, será:",
+      "alternativas": [
+        "Sempre impedida de contribuir para a Previdência Social.",
+        "Segurada obrigatória do RGPS, conforme os requisitos legais.",
+        "Segurada facultativa obrigatória, escolha que exclui o RPPS.",
+        "Isenta de qualquer filiação previdenciária."
+      ],
+      "correta": "B",
+      "explicacao": "Conforme Lei 8.213/1991, art. 12, § 1º, servidor amparado por RPPS que exerce concomitantemente atividade abrangida pelo RGPS torna-se segurado obrigatório em relação a essa outra atividade.",
+      "artigo": "Lei 8.213/1991, art. 12, § 1º",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l8213cons.htm"
+    },
+    {
+      "id": "RJ-FGV-037",
+      "banca": "FGV",
+      "materiaId": "eleitoral",
+      "tema": "Idade mínima para governador",
+      "enunciado": "Uma candidata tem 29 anos e pretende concorrer ao cargo de governadora. Qual idade mínima constitucional se exige para esse cargo?",
+      "alternativas": [
+        "Vinte e um anos.",
+        "Vinte e cinco anos.",
+        "Trinta anos.",
+        "Trinta e cinco anos."
+      ],
+      "correta": "C",
+      "explicacao": "A Constituição, art. 14, § 3º, VI, b, exige idade mínima de trinta anos para Governador e Vice-Governador.",
+      "artigo": "CF, art. 14, § 3º, VI, b",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm"
+    },
+    {
+      "id": "RJ-CEBRASPE-001",
+      "banca": "CEBRASPE",
+      "materiaId": "constitucional",
+      "tema": "Liberdade de manifestação do pensamento",
+      "enunciado": "Segundo a Constituição, a liberdade de manifestação do pensamento abrange a possibilidade de anonimato sem restrições?",
+      "alternativas": [
+        "Sim, a Constituição protege expressamente o anonimato.",
+        "Não, a manifestação é livre, mas o anonimato é vedado."
+      ],
+      "correta": "B",
+      "explicacao": "O art. 5º, IV, da CF garante a livre manifestação do pensamento, vedando o anonimato.",
+      "artigo": "CF, art. 5º, IV",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm"
+    },
+    {
+      "id": "RJ-CEBRASPE-002",
+      "banca": "CEBRASPE",
+      "materiaId": "tributario",
+      "tema": "Prazo de prescrição tributária",
+      "enunciado": "A ação de cobrança de crédito tributário, em regra, prescreve em cinco anos contados da constituição definitiva desse crédito.",
+      "alternativas": [
+        "Certo.",
+        "Errado."
+      ],
+      "correta": "A",
+      "explicacao": "O CTN, art. 174, fixa prazo de cinco anos para cobrança do crédito tributário desde a constituição definitiva, sem prejuízo das causas legais de interrupção.",
+      "artigo": "CTN, art. 174",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l5172compilado.htm"
+    },
+    {
+      "id": "RJ-CEBRASPE-003",
+      "banca": "CEBRASPE",
+      "materiaId": "consumidor",
+      "tema": "Nulidade de cláusula abusiva",
+      "enunciado": "No CDC, a cláusula contratual que coloca o consumidor em desvantagem exagerada, incompatível com boa-fé ou equidade, é sempre válida se escrita em letras maiúsculas.",
+      "alternativas": [
+        "Certo.",
+        "Errado."
+      ],
+      "correta": "B",
+      "explicacao": "O art. 51, IV, do CDC torna nula de pleno direito cláusula abusiva que imponha obrigações iníquas ou desvantagem exagerada, ainda que destacada.",
+      "artigo": "CDC, art. 51, IV",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm"
+    },
+    {
+      "id": "RJ-VUNESP-001",
+      "banca": "VUNESP",
+      "materiaId": "constitucional",
+      "tema": "Princípios da Administração Pública",
+      "enunciado": "Qual conjunto corresponde aos princípios expressos no caput do art. 37 da Constituição?",
+      "alternativas": [
+        "Legalidade, sigilo, subordinação, lucro e hierarquia.",
+        "Pessoalidade, preferência, eficiência, exclusividade e oportunidade.",
+        "Legalidade, impessoalidade, moralidade, publicidade e eficiência.",
+        "Competitividade, economicidade, secreto e subsidiariedade."
+      ],
+      "correta": "C",
+      "explicacao": "O caput do art. 37 da CF expressa legalidade, impessoalidade, moralidade, publicidade e eficiência.",
+      "artigo": "CF, art. 37, caput",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm"
+    },
+    {
+      "id": "RJ-VUNESP-002",
+      "banca": "VUNESP",
+      "materiaId": "civil",
+      "tema": "Transmissão imobiliária por registro",
+      "enunciado": "Em compra e venda de imóvel, quando, em regra, o adquirente passa a ser proprietário em relação a terceiros segundo o Código Civil?",
+      "alternativas": [
+        "Com o simples pagamento do sinal.",
+        "Com a entrega de uma cópia do contrato à imobiliária.",
+        "Após a assinatura de proposta sem registro.",
+        "Com o registro do título translativo no Registro de Imóveis, ressalvadas hipóteses legais."
+      ],
+      "correta": "D",
+      "explicacao": "O art. 1.245 do Código Civil vincula a transferência inter vivos da propriedade imobiliária ao registro do título translativo no Registro de Imóveis.",
+      "artigo": "CC, art. 1.245",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm"
+    },
+    {
+      "id": "RJ-VUNESP-003",
+      "banca": "VUNESP",
+      "materiaId": "processopenal",
+      "tema": "Provas exclusivas da investigação",
+      "enunciado": "Um juiz pretende condenar réu exclusivamente com base em elementos informativos obtidos no inquérito policial, sem prova produzida sob contraditório. Segundo o CPP:",
+      "alternativas": [
+        "A decisão não pode se fundamentar exclusivamente nesses elementos, ressalvadas provas cautelares, não repetíveis e antecipadas.",
+        "É sempre possível condenar apenas com informação policial, sem exceções.",
+        "Somente elementos de inquérito têm validade probatória.",
+        "A prova judicial é sempre irrelevante para a condenação."
+      ],
+      "correta": "A",
+      "explicacao": "O art. 155 do CPP impede fundamentação exclusiva em elementos informativos colhidos na investigação, ressalvadas provas cautelares, não repetíveis e antecipadas.",
+      "artigo": "CPP, art. 155",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/decreto-lei/del3689.htm"
+    },
+    {
+      "id": "RJ-FCC-001",
+      "banca": "FCC",
+      "materiaId": "eca",
+      "tema": "Limite da prestação de serviços à comunidade",
+      "enunciado": "Qual é a duração máxima prevista no art. 117 do ECA para medida socioeducativa de prestação de serviços à comunidade?",
+      "alternativas": [
+        "Um ano, sem possibilidade de redução.",
+        "Seis meses.",
+        "Três anos.",
+        "Prazo indeterminado até os 21 anos."
+      ],
+      "correta": "B",
+      "explicacao": "O ECA, art. 117, limita a prestação de serviços à comunidade ao período não excedente de seis meses.",
+      "artigo": "ECA, art. 117",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l8069compilado.htm"
+    },
+    {
+      "id": "RJ-FCC-002",
+      "banca": "FCC",
+      "materiaId": "administrativo",
+      "tema": "Motivação de decisão administrativa",
+      "enunciado": "Autoridade federal indefere requerimento que afeta direito do interessado. Pela Lei 9.784/1999, o ato:",
+      "alternativas": [
+        "Dispensa motivação se praticado por titular do órgão.",
+        "Exige motivação apenas em processos disciplinares.",
+        "Deve indicar fatos e fundamentos jurídicos da decisão.",
+        "Só precisa motivação após apresentação de recurso judicial."
+      ],
+      "correta": "C",
+      "explicacao": "Lei 9.784/1999, art. 50, I, exige motivação com indicação dos fatos e fundamentos jurídicos de atos que neguem, limitem ou afetem direitos ou interesses.",
+      "artigo": "Lei 9.784/1999, art. 50, I",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l9784.htm"
+    },
+    {
+      "id": "RJ-FCC-003",
+      "banca": "FCC",
+      "materiaId": "trabalho",
+      "tema": "Limite diário de horas extras na CLT",
+      "enunciado": "Conforme a regra geral do art. 59 da CLT, a duração diária do trabalho pode ser acrescida de horas extras em número não excedente de:",
+      "alternativas": [
+        "Uma hora.",
+        "Três horas.",
+        "Quatro horas.",
+        "Duas horas."
+      ],
+      "correta": "D",
+      "explicacao": "O art. 59, caput, da CLT estabelece, na regra geral de sobrejornada, acréscimo não superior a duas horas diárias, mediante acordo individual, convenção ou acordo coletivo.",
+      "artigo": "CLT, art. 59, caput",
       "fonte": "https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452compilado.htm"
     }
   ]
