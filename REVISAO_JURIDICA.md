@@ -1,3 +1,43 @@
+## Atualização de 10/11/2026 — 46º EOU corrigível e banco autoral sem repetição
+
+### 46º Exame de Ordem — fontes oficiais
+
+A 1ª fase do 46º EOU ocorreu em **03/05/2026**. Em **20/05/2026**, a OAB divulgou o **gabarito definitivo** de cada um dos quatro cadernos. Os PDFs, as 320 respostas (4 × 80) e a tabela de correspondência estão integrados no `oab-data.js` (seção `exam46`). As correspondências dos quatro tipos foram conferidas contra as respostas oficiais, sem divergências.
+
+- **Gabarito definitivo:** https://s.oab.org.br/arquivos/2026/05/0662d6ed-01a3-4ee5-905f-a6704d72992b.pdf
+- **Publicação oficial do gabarito em 20/05/2026:** https://www.oab.org.br/noticia/64200/confira-o-gabarito-definitivo-e-o-resultado-preliminar-da-prova-objetiva-do-46-eou
+- **Caderno Tipo 1 (Branca):** https://s.oab.org.br/arquivos/2026/05/b5f2a4bd-8885-4f42-909f-a2ecac329dab.pdf
+- **Caderno Tipo 2 (Verde):** https://s.oab.org.br/arquivos/2026/05/9e37bd12-07a3-4cdb-aef9-09bb663721c5.pdf
+- **Caderno Tipo 3 (Amarela):** https://s.oab.org.br/arquivos/2026/05/c58cbc52-71d3-4991-a415-97c0b31c959e.pdf
+- **Caderno Tipo 4 (Azul):** https://s.oab.org.br/arquivos/2026/05/44ac1fe4-5f00-43c8-a7c8-647c978a9012.pdf
+
+O 46º Exame agora possui **folha de respostas e cálculo de acertos local**, com armazenamento por tipo em chaves `ratio_oab46_tipo1` a `tipo4`, independentes do 47º. Não foi identificada questão anulada nos gabaritos definitivos desse exame; por isso o sistema não atribui ponto automático. O resultado é histórico e não implica avaliação da legislação atualmente vigente.
+
+**Não concluído:** o 46º ainda não conta com **80 comentários jurídicos individualizados**, nem republicação de enunciados (que devem ser consultados no PDF oficial). O projeto preserva 79 comentários e uma questão anulada do **47º Exame**; o 45º ao 10º permanecem apenas no catálogo de links.
+
+### Ampliação do Super Simulador autoral
+
+Foram adicionadas **12 questões autorais inéditas no estilo FGV**, IDs `RJ-FGV-038` a `RJ-FGV-049`, cobrindo Ética, Constitucional, Civil, Processo Civil, Tributário, Penal, Trabalho, Consumidor e ECA. Estes itens **não são questões oficiais da FGV nem da OAB**, mas exercícios originais elaborados sobre dispositivos legais com links de consulta.
+
+| Banco de treino autoral | Antes | Adicionadas | Total |
+|---|---:|---:|---:|
+| FGV | 42 | 12 | **54** |
+| CEBRASPE | 4 | 0 | 4 |
+| VUNESP | 4 | 0 | 4 |
+| FCC | 4 | 0 | 4 |
+| **Total** | **54** | **12** | **66** |
+
+O algoritmo de seleção sem reposição mantém histórico por banca; as 12 novas questões podem aparecer como inéditas para usuários que já esgotaram as 42 anteriores. Reinício é manual, jamais automático.
+
+### Testes e limites
+
+- 31/31 testes automatizados em ambiente DOM simulado aprovados: gabaritos dos quatro tipos do 46º, PDFs por tipo, acerto máximo 80/80, nota zero sem respostas, limpeza seletiva, armazenamento independente, preservação do 47º, exaustão sem repetição das 54 FGV e integridade de provas ainda não importadas.
+- Os textos legais foram selecionados em consulta aos portais oficiais até 10/11/2026, mas **não há auditoria integral de jurisprudência, homologação jurídica formal ou monitoramento contínuo de alterações legislativas**.
+- Homologação visual E2E de navegador autenticado permanece pendente devido à proteção SSO configurada no projeto.
+- Comentários de preparação são educacionais, e não substituem exame de alterações normativas e precedentes específicos.
+
+---
+
 ## Ampliação do Super Simulador autoral — 09/11/2026
 
 ### Problema e solução
