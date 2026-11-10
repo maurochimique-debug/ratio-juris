@@ -1,4 +1,4 @@
-/* FGV/OAB 42º–47º: quatro gabaritos históricos por edição, com fontes oficiais e anulações. */
+/* Gabaritos de provas oficiais OAB/FGV, exames 42–47. Cadernos múltiplos não duplicam questões. */
 window.RATIO_OAB_DATA = {
   "version": "2026-11-09",
   "metadata": {
@@ -8,7 +8,7 @@ window.RATIO_OAB_DATA = {
     "aviso": "O gabarito é histórico. Comentários sobre legislação e jurisprudência atuais exigem revisão individual.",
     "validacaoJuridicaIndividual": false,
     "ultimaIntegracao": "2026-11-10",
-    "escopoGabaritos": "47º e 46º Exames integrados; demais exames arquivados com links",
+    "escopoGabaritos": "42º a 47º Exames oficiais com quatro cadernos e gabaritos definitivos por edição; 41º a 10º somente catálogo externo",
     "ultimaImportacao": "2026-11-10",
     "examesCorrigiveis": [
       47,
@@ -17,7 +17,16 @@ window.RATIO_OAB_DATA = {
       44,
       43,
       42
-    ]
+    ],
+    "auditoriaAtual": {
+      "data": "2026-11-10",
+      "totalQuestoesDistintas": 480,
+      "totalExamesCorrigiveis": 6,
+      "totalExamesCatalogados": 38,
+      "gabaritosPorExame": 4,
+      "status": "GABARITOS_HISTORICOS_OFICIAIS_PDF_E_LINKS_ENUNCIADOS_NAO_TRANSCRITOS",
+      "comentario": "Não se deve contar quatro cadernos como quatro vezes mais questões; não há 6.000 questões distintas verificadas neste repositório."
+    }
   },
   "bancas": [
     "FGV",
@@ -29,8 +38,8 @@ window.RATIO_OAB_DATA = {
     {
       "exame": 47,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=650",
-      "status": "fontes_oficiais",
-      "importado": false
+      "status": "gabarito_oficial_verificado",
+      "importado": true
     },
     {
       "exame": 46,
@@ -65,193 +74,193 @@ window.RATIO_OAB_DATA = {
     {
       "exame": 41,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=644",
-      "status": "fontes_oficiais",
+      "status": "pagina_historica_sem_importacao",
       "importado": false
     },
     {
       "exame": 40,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=643",
-      "status": "fontes_oficiais",
+      "status": "pagina_historica_sem_importacao",
       "importado": false
     },
     {
       "exame": 39,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=642",
-      "status": "fontes_oficiais",
+      "status": "pagina_historica_sem_importacao",
       "importado": false
     },
     {
       "exame": 38,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=641",
-      "status": "fontes_oficiais",
+      "status": "pagina_historica_sem_importacao",
       "importado": false
     },
     {
       "exame": 37,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=640",
-      "status": "fontes_oficiais",
+      "status": "pagina_historica_sem_importacao",
       "importado": false
     },
     {
       "exame": 36,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=639",
-      "status": "fontes_oficiais",
+      "status": "pagina_historica_sem_importacao",
       "importado": false
     },
     {
       "exame": 35,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=638",
-      "status": "fontes_oficiais",
+      "status": "pagina_historica_sem_importacao",
       "importado": false
     },
     {
       "exame": 34,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=637",
-      "status": "fontes_oficiais",
+      "status": "pagina_historica_sem_importacao",
       "importado": false
     },
     {
       "exame": 33,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=636",
-      "status": "fontes_oficiais",
+      "status": "pagina_historica_sem_importacao",
       "importado": false
     },
     {
       "exame": 32,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=635",
-      "status": "fontes_oficiais",
+      "status": "pagina_historica_sem_importacao",
       "importado": false
     },
     {
       "exame": 31,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=634",
-      "status": "fontes_oficiais",
+      "status": "pagina_historica_sem_importacao",
       "importado": false
     },
     {
       "exame": 30,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=633",
-      "status": "fontes_oficiais",
+      "status": "pagina_historica_sem_importacao",
       "importado": false
     },
     {
       "exame": 29,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=632",
-      "status": "fontes_oficiais",
+      "status": "pagina_historica_sem_importacao",
       "importado": false
     },
     {
       "exame": 28,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=631",
-      "status": "fontes_oficiais",
+      "status": "pagina_historica_sem_importacao",
       "importado": false
     },
     {
       "exame": 27,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=630",
-      "status": "fontes_oficiais",
+      "status": "pagina_historica_sem_importacao",
       "importado": false
     },
     {
       "exame": 26,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=629",
-      "status": "fontes_oficiais",
+      "status": "pagina_historica_sem_importacao",
       "importado": false
     },
     {
       "exame": 25,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=628",
-      "status": "fontes_oficiais",
+      "status": "pagina_historica_sem_importacao",
       "importado": false
     },
     {
       "exame": 24,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=627",
-      "status": "fontes_oficiais",
+      "status": "pagina_historica_sem_importacao",
       "importado": false
     },
     {
       "exame": 23,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=626",
-      "status": "fontes_oficiais",
+      "status": "pagina_historica_sem_importacao",
       "importado": false
     },
     {
       "exame": 22,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=625",
-      "status": "fontes_oficiais",
+      "status": "pagina_historica_sem_importacao",
       "importado": false
     },
     {
       "exame": 21,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=624",
-      "status": "fontes_oficiais",
+      "status": "pagina_historica_sem_importacao",
       "importado": false
     },
     {
       "exame": 20,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=621",
-      "status": "fontes_oficiais",
+      "status": "pagina_historica_sem_importacao",
       "importado": false
     },
     {
       "exame": 19,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=620",
-      "status": "fontes_oficiais",
+      "status": "pagina_historica_sem_importacao",
       "importado": false
     },
     {
       "exame": 18,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=617",
-      "status": "fontes_oficiais",
+      "status": "pagina_historica_sem_importacao",
       "importado": false
     },
     {
       "exame": 17,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=616",
-      "status": "fontes_oficiais",
+      "status": "pagina_historica_sem_importacao",
       "importado": false
     },
     {
       "exame": 16,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=615",
-      "status": "fontes_oficiais",
+      "status": "pagina_historica_sem_importacao",
       "importado": false
     },
     {
       "exame": 15,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=513",
-      "status": "fontes_oficiais",
+      "status": "pagina_historica_sem_importacao",
       "importado": false
     },
     {
       "exame": 14,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=461",
-      "status": "fontes_oficiais",
+      "status": "pagina_historica_sem_importacao",
       "importado": false
     },
     {
       "exame": 13,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=421",
-      "status": "fontes_oficiais",
+      "status": "pagina_historica_sem_importacao",
       "importado": false
     },
     {
       "exame": 12,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=382",
-      "status": "fontes_oficiais",
+      "status": "pagina_historica_sem_importacao",
       "importado": false
     },
     {
       "exame": 11,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=336",
-      "status": "fontes_oficiais",
+      "status": "pagina_historica_sem_importacao",
       "importado": false
     },
     {
       "exame": 10,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=303",
-      "status": "fontes_oficiais",
+      "status": "pagina_historica_sem_importacao",
       "importado": false
     }
   ],
