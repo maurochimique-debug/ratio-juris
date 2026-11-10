@@ -144,10 +144,10 @@
         </div>
         <button type="button" onclick="RatioA11y.close()" class="px-4 py-2 rounded-lg border-2 border-purple-600 text-purple-800 dark:text-purple-300 font-bold">Fechar painel (Esc)</button>
       </div>
-      <p class="mb-5 text-sm text-slate-700 dark:text-slate-200">Todos os comandos funcionam com teclado ou toque. A leitura utiliza a voz disponível no navegador, não um professor de IA. Nenhuma mensagem escrita abaixo é enviada ao servidor.</p>
+      <p class="mb-5 text-sm text-slate-700 dark:text-slate-200">Abra somente o card que deseja utilizar. Os recursos ficam recolhidos inicialmente e estão disponíveis a todas as pessoas, sem cadastro especial. Todos os comandos funcionam com teclado ou toque. A leitura utiliza a voz disponível no navegador. Nenhuma mensagem escrita abaixo é enviada ao servidor.</p>
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        <article class="rounded-2xl border border-purple-300 dark:border-purple-700 bg-white dark:bg-ratio-cardDark p-5" aria-labelledby="a11yVisualTitulo">
-          <h3 id="a11yVisualTitulo" class="text-xl font-bold text-slate-900 dark:text-white"><i class="fa-solid fa-eye-low-vision mr-2" aria-hidden="true"></i> Acessibilidade visual e leitura por voz</h3>
+        <details class="rounded-2xl border border-purple-300 dark:border-purple-700 bg-white dark:bg-ratio-cardDark p-5" aria-labelledby="a11yVisualTitulo">
+          <summary id="a11yVisualTitulo" class="cursor-pointer min-h-[44px] flex items-center text-xl font-bold text-slate-900 dark:text-white"><i class="fa-solid fa-eye-low-vision mr-2" aria-hidden="true"></i> Acessibilidade visual e leitura por voz</summary>
           <p class="text-sm text-slate-600 dark:text-slate-300 mt-2">Amplie o texto, use alto contraste e ouça o progresso e o resultado da prova. Os enunciados oficiais encontram-se nos PDFs originais da OAB/FGV.</p>
           <div class="flex flex-wrap items-center gap-3 mt-5">
             <button id="a11yContrastBtn" type="button" aria-pressed="false" onclick="RatioA11y.toggleContrast()" class="px-4 py-2 rounded-lg border-2 border-purple-600 text-purple-800 dark:text-purple-200 font-bold">Alto contraste</button>
@@ -172,9 +172,9 @@
             </select>
           </div>
           <p id="a11yVoiceAvailability" class="text-xs text-slate-600 dark:text-slate-300 mt-4" role="status">Verificando disponibilidade de leitura no dispositivo.</p>
-        </article>
-        <article class="rounded-2xl border border-purple-300 dark:border-purple-700 bg-white dark:bg-ratio-cardDark p-5" aria-labelledby="a11yComunicacaoTitulo">
-          <h3 id="a11yComunicacaoTitulo" class="text-xl font-bold text-slate-900 dark:text-white"><i class="fa-solid fa-keyboard mr-2" aria-hidden="true"></i> Comunicação alternativa (sem precisar falar)</h3>
+        </details>
+        <details class="rounded-2xl border border-purple-300 dark:border-purple-700 bg-white dark:bg-ratio-cardDark p-5" aria-labelledby="a11yComunicacaoTitulo">
+          <summary id="a11yComunicacaoTitulo" class="cursor-pointer min-h-[44px] flex items-center text-xl font-bold text-slate-900 dark:text-white"><i class="fa-solid fa-keyboard mr-2" aria-hidden="true"></i> Comunicação alternativa (sem precisar falar)</summary>
           <p class="text-sm text-slate-600 dark:text-slate-300 mt-2">Para usuários com deficiência de fala ou dificuldade de comunicação oral: escreva uma mensagem ou escolha uma frase pronta. Ela pode permanecer na tela ou ser reproduzida por voz, por sua escolha.</p>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-5">
             <button type="button" onclick="RatioA11y.fillMessage('Preciso de ajuda para usar esta página.')" class="px-3 py-2 rounded-lg border-2 border-purple-500 text-purple-800 dark:text-purple-200 font-semibold text-sm">Preciso de ajuda</button>
@@ -189,7 +189,7 @@
             <button type="button" onclick="RatioA11y.clearMessage()" class="px-4 py-2 rounded-lg border-2 border-slate-400 text-slate-800 dark:text-white font-semibold">Limpar mensagem</button>
           </div>
           <p class="mt-3 text-xs text-slate-600 dark:text-slate-300">Nenhum áudio é iniciado automaticamente. Se a voz estiver indisponível, o campo escrito continua funcionando como apoio à comunicação.</p>
-        </article>
+        </details>
       </div>
     </div>
   </section>
