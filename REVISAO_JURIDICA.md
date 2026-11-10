@@ -1,3 +1,38 @@
+# RatioJuris — Correção integral do simulador oficial e do leitor acessível (10/11/2026)
+
+## Regra de procedência — sem inventar questões
+
+Esta versão oferece navegação e correção **exclusivamente vinculadas a documentos oficiais da OAB/FGV**. O usuário escolhe exame, tipo e número da questão, abre o PDF do caderno original, marca A–D e pode corrigir a prova pelo gabarito definitivo da mesma edição e caderno. Não são fabricados enunciados ou alternativas e não há importação de prova de banca diferente sem fonte real.
+
+**Acervo efetivamente integrado:** provas 42º–47º (seis edições × 80 = **480 questões de exame distintas**, em quatro versões de caderno por exame). Os arquivos do 41º ao 10º continuam somente catalogados como links, **sem correção interna**. A primeira fase OAB/FGV do 47º ao 10º, mesmo que todas as 38 edições fossem verificadas, equivaleria a 3.040 questões distintas (38 × 80), e não a 6.000. Outras bancas ainda não possuem questões oficiais importadas; não inflar contagens com cadernos equivalentes.
+
+## Simulador oficial funcional
+
+- Card "Simulador de questões oficiais" ligado à base importada, **80 questões por exame/tipo**.
+- Navegação por questão anterior/próxima e seleção direta pelo número, sem loop ou repetição forçada no final. A posição selecionada é armazenada por edição/caderno.
+- Alternativas A/B/C/D representam as **letras das alternativas do PDF original**, não textos novos; a banca é citada explicitamente. O arquivo oficial fica disponível para abrir e consultar.
+- A alternativa marcada é salva no mesmo histórico da folha de respostas completa, com sincronização bidirecional. Corrigir exibe acerto ou erro segundo gabarito **somente após a ação de correção**.
+- Questões anuladas não exigem resposta e rendem ponto automático conforme o gabarito de cada caderno.
+- Card de acertos e erros restaurado ao **estilo compacto original**, com total respondido, em branco, anulações e aproveitamento associados a cada prova.
+- Removidos os trechos especificados pelo usuário, mantido exatamente "Acervo de questões • Legislação Atualizada".
+- Links do Modo Gabinete para artigos no Planalto preservados com fallback para a lei completa.
+
+## Leitor acessível do PDF original
+
+Foi adicionado `leitor-pdf-oficial.js`, com leitura local de PDF escolhido pelo usuário usando **Mozilla PDF.js versão 6.4.299** via CDN (https://cdnjs.com/libraries/pdf.js/6.4.299). A biblioteca é carregada sob demanda; o PDF é lido por `File.arrayBuffer()`, sem envio do arquivo a backend. O leitor apresenta texto extraído por página com região acessível para leitores de tela e permite procurar aproximadamente a questão selecionada e reproduzir seu texto por síntese de voz do navegador.
+
+Limitações técnicas declaradas: páginas digitalizadas exclusivamente como imagem podem não conter texto extraível (não foi implementado OCR); layout em colunas pode alterar a ordem das frases; o texto original deve ser conferido no PDF; o arquivo carregado localmente **não é autenticado como oficial** pelo aplicativo e deve ter sido baixado pelo usuário da fonte da banca. A qualidade/compatibilidade da voz depende de navegador, sistema e vozes instaladas. A leitura em voz foi ajustada para segmentos controlados, com possibilidade de pausar e parar sem retomar automaticamente uma fila cancelada.
+
+## Testes e limites de homologação
+
+- **172/172 testes simulados de integração**: 6 exames × 4 cadernos, respostas, correção, estatísticas, anulações, persistência de posição, sincronização com folha e bloqueio de edições sem gabarito.
+- **14/14 testes de PDF local (com biblioteca simulada)**: seleção, leitura, páginas, extração de texto, localização aproximada de questão, saída por voz, limpeza e falhas de arquivo.
+- **Auditoria estática de HTML/JS**: sem IDs duplicados, botões clicáveis com funções existentes, sem referências ausentes a IDs de controles e JavaScript compilável.
+- Estes testes **não constituem teste de navegador real nem certificação de WCAG**. Faltam teste ponta a ponta autenticado sob Vercel SSO, validação em NVDA, VoiceOver e TalkBack e prova de funcionamento com PDFs reais em diferentes navegadores.
+- A integração do PDF.js depende de conexão à CDN, embora **o próprio PDF permaneça local**; não afirmar suporte offline.
+
+---
+
 # Importação do 42º Exame FGV/OAB — 10/11/2026
 
 ## Documentos e retificação oficial
