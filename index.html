@@ -318,6 +318,14 @@
               <button type="button" onclick="responderQuestaoOficial('D')" class="btn-touch rounded-xl px-5 py-3 border-2 border-purple-500 text-purple-800 dark:text-purple-300 font-black">D</button>
             </div>
             <p id="feedbackQuestaoOficial" class="text-sm font-semibold text-slate-800 dark:text-slate-200 mt-4" role="status" aria-live="polite">Selecione A, B, C ou D após ler a questão oficial.</p>
+            <aside id="fundamentacaoErroOficial" class="hidden mt-5 rounded-xl border-2 border-amber-500 bg-amber-50 dark:bg-[#252016] p-4 sm:p-5" role="region" aria-labelledby="tituloFundamentacaoErro">
+              <h5 id="tituloFundamentacaoErro" class="text-base font-black text-amber-950 dark:text-amber-200">Entenda o fundamento da questão</h5>
+              <p id="referenciaFundamentacaoErro" class="mt-2 text-sm font-bold text-slate-900 dark:text-white"></p>
+              <p id="explicacaoFundamentacaoErro" class="mt-2 text-sm text-slate-800 dark:text-slate-200 leading-relaxed"></p>
+              <p id="observacaoFundamentacaoErro" class="mt-2 text-xs text-slate-700 dark:text-slate-300"></p>
+              <div id="linksFundamentacaoErro" class="mt-3 flex flex-wrap gap-3"></div>
+              <p id="statusFundamentacaoErro" class="mt-3 text-xs text-slate-700 dark:text-slate-300"></p>
+            </aside>
           </div>
           <div class="flex flex-wrap gap-3 items-center mt-5">
             <button id="btnQuestaoAnterior" type="button" onclick="moverQuestaoOficial(-1)" class="btn-touch px-5 py-3 rounded-lg border-2 border-purple-500 text-purple-800 dark:text-purple-300 font-semibold">Questão anterior</button>
@@ -831,6 +839,62 @@
       if(numero===47)salvarRespostas47(tipo,respostas);
       else salvarRespostas46(tipo,respostas);
     }
+    // O comentário é exibido somente depois da correção e se estiver
+    // documentado para a questão exata. Não criar fundamento para preencher lacunas.
+    function atualizarFundamentacaoErroOficial(contexto,numeroQuestao,alternativa,letraCorreta,avaliada){
+      const panel=document.getElementById('fundamentacaoErroOficial');
+      const source=document.getElementById('linksFundamentacaoErro');
+      const title=document.getElementById('tituloFundamentacaoErro');
+      const ref=document.getElementById('referenciaFundamentacaoErro');
+      const explanation=document.getElementById('explicacaoFundamentacaoErro');
+      const observation=document.getElementById('observacaoFundamentacaoErro');
+      const status=document.getElementById('statusFundamentacaoErro');
+      source.replaceChildren();
+      ref.textContent='';explanation.textContent='';observation.textContent='';status.textContent='';
+      const incorreta=avaliada && alternativa && letraCorreta!=='*' && alternativa!==letraCorreta;
+      panel.classList.toggle('hidden',!incorreta);
+      if(!incorreta)return null;
+      const {numero,tipo}=contexto;
+      title.textContent='Questão '+numeroQuestao+' — entenda o erro';
+      const comentario=numero===47?comentarioOAB47(tipo,numeroQuestao):null;
+      if(!comentario||comentario.natureza==='REGISTRO_DE_ANULACAO'){
+        ref.textContent='Gabarito oficial: alternativa '+letraCorreta+'.';
+        explanation.textContent='Ainda não existe comentário jurídico individual com artigo verificado para esta questão. Confira o enunciado original e o gabarito definitivo da FGV/OAB.';
+        status.textContent='Não exibimos artigos ou jurisprudência não verificados. A fundamentação desta questão está em preparação.';
+        return {comReferencia:false};
+      }
+      ref.textContent=(comentario.natureza==='DOUTRINARIA'?
+        'Fundamentação doutrinária: ':'Artigo e legislação: ')+
+        (comentario.dispositivo||'Dispositivo não especificado')+
+        (comentario.lei?' — '+comentario.lei:'');
+      explanation.textContent='Resposta correta: '+letraCorreta+'. '+comentario.fundamentacao;
+      if(comentario.observacoes)observation.textContent='Ponto de atenção: '+comentario.observacoes;
+      const legalLink=comentario.fonteLegal||comentario.fonteCaderno;
+      if(typeof legalLink==='string' && /^https:\/\/(www\.)?(planalto\.gov\.br|camara\.leg\.br|s\.oab\.org\.br)\//i.test(legalLink)){
+        const anchor=document.createElement('a');
+        anchor.href=legalLink;
+        anchor.target='_blank';
+        anchor.rel='noopener noreferrer';
+        anchor.className='inline-flex items-center rounded-lg border-2 border-amber-700 dark:border-amber-300 px-3 py-2 text-sm font-bold underline text-amber-950 dark:text-amber-200';
+        anchor.textContent=comentario.natureza==='DOUTRINARIA'?'Consultar fonte doutrinária/caderno oficial':'Consultar legislação na fonte oficial';
+        source.appendChild(anchor);
+      }
+      const precedentes=Array.isArray(comentario.precedentesValidados)?comentario.precedentesValidados:[];
+      precedentes.slice(0,3).forEach(item=>{
+        if(!/^https:\/\/(portal\.stf\.jus\.br|www\.stf\.jus\.br|scon\.stj\.jus\.br|www\.tst\.jus\.br|www\.trt9\.jus\.br)/.test(item.url||''))return;
+        const precedent=document.createElement('a');
+        precedent.href=item.url;
+        precedent.target='_blank';
+        precedent.rel='noopener noreferrer';
+        precedent.className='inline-flex rounded-lg px-3 py-2 border border-purple-500 text-purple-800 dark:text-purple-300 underline text-xs font-semibold';
+        precedent.textContent=item.tribunal+' — '+item.processo;
+        source.appendChild(precedent);
+      });
+      status.textContent='Referência editorial consultada em '+
+        (comentario.revisaoLegislacao||'data não registrada')+
+        '. O entendimento pode ter sido alterado; consulte a redação legal e a jurisprudência vigentes. A resposta histórica da banca permanece preservada.';
+      return {comReferencia:true,dispositivo:comentario.dispositivo};
+    }
     function renderizarSimuladorOficial() {
       const ctx=obterExameParaSimulador();
       const painel=document.getElementById('simulador-oficial');
@@ -905,6 +969,7 @@
         feedback.textContent='Alternativa '+escolha+' — '+(escolha===gabarito?'ACERTO':'ERRO')+
           '. Gabarito definitivo: '+gabarito+'.';
       }
+      atualizarFundamentacaoErroOficial(ctx,pos,escolha,gabarito,avaliada);
       const anterior=document.getElementById('btnQuestaoAnterior');
       const proxima=document.getElementById('btnQuestaoProxima');
       anterior.disabled=pos===1;
