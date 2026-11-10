@@ -303,6 +303,33 @@
           </div>
           <p class="text-xs text-slate-600 dark:text-slate-300 mt-4">O histórico é salvo por exame e tipo de caderno neste navegador. Ao atingir a questão 80, a sequência termina sem repetir perguntas automaticamente.</p>
         </div>
+        <!-- Texto original proveniente SOMENTE de PDF oficial escolhido pelo usuário; execução local -->
+        <section id="leitorPdfAcessivel" class="mb-6 rounded-2xl border-2 border-amber-400 bg-amber-50 dark:bg-[#191b22] p-5 sm:p-6" aria-labelledby="tituloLeitorPdf">
+          <h3 id="tituloLeitorPdf" class="text-lg font-bold text-slate-900 dark:text-white">Leitor acessível de prova oficial (PDF)</h3>
+          <p class="text-sm text-slate-700 dark:text-slate-200 mt-2">Para pessoas com deficiência visual ou dificuldade de leitura: baixe o PDF da prova no link oficial acima e selecione esse arquivo no seu dispositivo. O leitor tenta converter o texto original em conteúdo acessível e permite ouvi-lo. <strong>O arquivo é processado localmente, sem envio ao servidor.</strong></p>
+          <div class="mt-4 flex flex-col sm:flex-row sm:items-end gap-3">
+            <div class="flex-1">
+              <label for="pdfOficialLocal" class="block text-sm font-bold text-slate-900 dark:text-white mb-2">Selecionar PDF do caderno oficial no dispositivo</label>
+              <input id="pdfOficialLocal" type="file" accept=".pdf,application/pdf" class="block w-full rounded-lg border border-slate-400 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white p-2 text-sm"/>
+            </div>
+            <button id="btnCarregarPdfAcessivel" type="button" onclick="RatioPdfAcessivel.carregar()" class="px-4 py-3 rounded-lg bg-purple-700 text-white font-bold text-sm">Preparar leitura do PDF</button>
+          </div>
+          <p id="pdfLeitorStatus" class="mt-3 text-sm text-slate-800 dark:text-slate-200" role="status" aria-live="polite">Selecione o arquivo oficial baixado. Se o PDF for apenas imagem, poderá não ter texto extraível.</p>
+          <div id="pdfLeitorControles" class="hidden mt-4">
+            <div class="flex flex-wrap gap-3 items-end">
+              <div>
+                <label for="pdfPaginaSelect" class="block text-sm font-bold text-slate-900 dark:text-white mb-1">Página do PDF</label>
+                <select id="pdfPaginaSelect" onchange="RatioPdfAcessivel.mostrarPagina(this.value)" class="px-3 py-2 rounded-lg border border-slate-400 bg-white dark:bg-slate-900 text-slate-900 dark:text-white"></select>
+              </div>
+              <button type="button" onclick="RatioPdfAcessivel.localizarQuestao()" class="px-4 py-2 rounded-lg border border-purple-600 text-purple-800 dark:text-purple-300 font-bold">Localizar questão atual</button>
+              <button type="button" onclick="RatioPdfAcessivel.ouvirTrecho()" class="px-4 py-2 rounded-lg bg-purple-700 text-white font-bold">Ouvir texto extraído</button>
+              <button type="button" onclick="RatioA11y.stop()" class="px-4 py-2 rounded-lg border border-slate-500 text-slate-800 dark:text-white">Parar voz</button>
+            </div>
+            <div id="pdfTextoExtraido" tabindex="0" role="region" aria-label="Texto acessível extraído do PDF oficial" class="mt-4 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-950 p-4 text-slate-900 dark:text-white text-base whitespace-pre-wrap leading-relaxed max-h-[32rem] overflow-y-auto"></div>
+            <p class="mt-3 text-xs text-slate-700 dark:text-slate-300">A ordem do texto pode variar em PDFs com duas colunas ou imagens. A localização da questão é aproximada; confira o número no original. Se não houver texto extraível, utilize o leitor de PDF do sistema ou uma versão acessível fornecida pela banca.</p>
+          </div>
+        </section>
+
         <div id="oabFolhaBloco">
           <p class="text-sm text-slate-700 dark:text-slate-300 mb-4">Leia as 80 questões no caderno PDF oficial da cor selecionada e marque suas respostas abaixo. A questão anulada recebe pontuação automática. Use o botão de correção quando terminar.</p>
           <div class="flex flex-wrap items-center gap-3 mb-4">
@@ -1150,6 +1177,7 @@
       iniciarArquivoOAB();
     });
   </script>
+  <script src="/leitor-pdf-oficial.js"></script>
   <script src="/acessibilidade.js"></script>
 </body>
 </html>
