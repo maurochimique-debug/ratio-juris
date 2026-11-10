@@ -86,33 +86,6 @@
       return false;
     }
   }
-  function question(){
-    const subject=$("labelMateria")?.textContent||"";
-    const prompt=$("enunciadoTexto")?.textContent||"";
-    return voiceText(subject+". "+prompt);
-  }
-  function options(){
-    const rootEl=$("containerAlternativas");
-    const buttons=rootEl?Array.from(rootEl.querySelectorAll("button")):[];
-    if(!buttons.length){
-      announce("Nenhuma alternativa disponível no momento.");
-      return false;
-    }
-    return voiceText(buttons.map((btn,i)=>
-      "Alternativa "+(i+1)+". "+btn.textContent.trim()).join(". "));
-  }
-  function explanation(){
-    const card=$("cardAutopsia");
-    if(!card||card.classList.contains("hidden")){
-      announce("Responda à questão para habilitar a leitura da explicação.");
-      return false;
-    }
-    return voiceText([
-      $("badgeResultado")?.textContent,
-      $("artigoReferencia")?.textContent,
-      $("textoLeiAutopsia")?.textContent
-    ].filter(Boolean).join(". "));
-  }
   function readExamStatus(){
     const examNumber=$("oabExamSelect")?.value||"";
     const status=$("oabStatus")?.textContent||"";
@@ -172,7 +145,7 @@
   }
   window.RatioA11y={
     toggle, close:()=>setExpanded(false),setContrast,toggleContrast,
-    setTextScale,question,options,explanation,readExamStatus,pauseResume,stop,fillMessage,
+    setTextScale,readExamStatus,pauseResume,stop,fillMessage,
     speakMessage,clearMessage,voiceText
   };
   document.addEventListener("DOMContentLoaded",init);
