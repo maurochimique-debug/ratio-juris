@@ -306,6 +306,7 @@
             <label for="questaoOficialNumeroSelect" class="text-sm font-semibold text-slate-900 dark:text-white">Ir para a questão</label>
             <select id="questaoOficialNumeroSelect" onchange="irParaQuestaoOficial(this.value)" aria-label="Escolher uma das 80 questões da prova oficial" class="px-3 py-2 rounded-lg border-2 border-purple-500 bg-white dark:bg-[#12161A] text-slate-900 dark:text-white"></select>
           </div>
+          <p id="statusLocalizacaoQuestao" class="mt-3 text-sm text-purple-900 dark:text-purple-200 font-semibold" role="status" aria-live="polite">Selecione uma questão para localizar o enunciado no documento original.</p>
           <div class="ratio-study-layout mt-5">
           <div id="visualizadorProvaIntegrado" class="mt-5 rounded-xl border-2 border-purple-500 bg-white dark:bg-[#12161A] overflow-hidden" role="region" aria-labelledby="tituloVisualizadorIntegrado">
             <div class="flex flex-wrap justify-between items-center gap-3 p-3 sm:p-4 bg-purple-50 dark:bg-purple-950/40">
@@ -361,8 +362,15 @@
             <button id="btnPararQuestao" type="button" onclick="RatioA11y.stop()" disabled class="btn-touch px-4 py-3 rounded-lg border-2 border-rose-600 text-rose-700 dark:text-rose-300 font-semibold">Parar leitura</button>
           </div>
           <p class="text-xs text-slate-600 dark:text-slate-300 mt-4">O histórico é salvo por exame e tipo de caderno neste navegador. Ao atingir a questão 80, a sequência termina sem repetir perguntas automaticamente. No PC, com o foco no simulador, use Alt + seta esquerda ou direita para navegar entre questões.</p>
+          <div class="mt-4 flex flex-wrap gap-3">
+            <button type="button" onclick="alternarCardsDeRespostas()" class="min-h-[44px] px-4 py-3 rounded-lg border-2 border-purple-600 font-bold text-purple-800 dark:text-purple-300">Exibir ou ocultar cards de respostas e precedentes</button>
+            <button type="button" onclick="alternarLeitorPdfAcessivel()" class="min-h-[44px] px-4 py-3 rounded-lg border-2 border-purple-600 font-bold text-purple-800 dark:text-purple-300">Exibir ou ocultar leitura acessível do PDF</button>
+          </div>
         </div>
         <!-- Texto original proveniente SOMENTE de PDF oficial escolhido pelo usuário; execução local -->
+        <details id="detalhesLeitorPdf" class="mb-6 rounded-xl border border-amber-500/50 bg-white dark:bg-ratio-cardDark p-3">
+          <summary class="cursor-pointer min-h-[44px] flex items-center font-bold text-slate-900 dark:text-white">Exibir ou ocultar página de leitura acessível do PDF</summary>
+          <div class="mt-3">
         <section id="leitorPdfAcessivel" class="mb-6 rounded-2xl border-2 border-amber-400 bg-amber-50 dark:bg-[#191b22] p-5 sm:p-6" aria-labelledby="tituloLeitorPdf">
           <h3 id="tituloLeitorPdf" class="text-lg font-bold text-slate-900 dark:text-white">Leitor acessível de prova oficial (PDF)</h3>
           <p class="text-sm text-slate-700 dark:text-slate-200 mt-2">O PDF oficial pode ser carregado <strong>diretamente pelo aplicativo</strong>, sem download ou seleção manual. Para pessoas com deficiência visual, o texto extraído pode ser lido por voz e acessado com tecnologias assistivas. O servidor transmite a prova pública diretamente da OAB, sem manter uma cópia permanente nem receber arquivos pessoais.</p>
@@ -392,6 +400,8 @@
             <p class="mt-3 text-xs text-slate-700 dark:text-slate-300">A ordem do texto pode variar em PDFs com duas colunas ou imagens. A localização da questão é aproximada; confira o número no original. Se não houver texto extraível, utilize o leitor de PDF do sistema ou uma versão acessível fornecida pela banca.</p>
           </div>
         </section>
+          </div>
+        </details>
 
         <div id="oabFolhaBloco">
           <details id="painelCards47" class="rounded-xl border border-purple-400/60 bg-white dark:bg-ratio-cardDark p-3 sm:p-4">
@@ -975,6 +985,24 @@
       if(!detalhes.open){frame.removeAttribute('src');return;}
       if(!config?.cadernos?.[tipo-1]?.pdf){detalhes.open=false;return;}
       frame.src='/api/oab-pdf?exame='+exame+'&tipo='+tipo+'#toolbar=1&navpanes=0';
+    }
+    function alternarCardsDeRespostas() {
+      const num=Number(document.getElementById('oabExamSelect').value);
+      const painel=document.getElementById(num===47?'painelCards47':'painelCardsHistoricos');
+      if(!painel || painel.closest('.hidden')) {
+        document.getElementById('statusLocalizacaoQuestao').textContent='Os cards deste exame serão exibidos após a importação e validação do gabarito.';
+        return;
+      }
+      painel.open=!painel.open;
+      painel.scrollIntoView({block:'start',behavior:'auto'});
+      if(painel.open)painel.querySelector('summary')?.focus();
+    }
+    function alternarLeitorPdfAcessivel() {
+      const painel=document.getElementById('detalhesLeitorPdf');
+      if(!painel)return;
+      painel.open=!painel.open;
+      painel.scrollIntoView({block:'start',behavior:'auto'});
+      if(painel.open)painel.querySelector('summary')?.focus();
     }
     function renderizarSimuladorOficial() {
       const ctx=obterExameParaSimulador();
