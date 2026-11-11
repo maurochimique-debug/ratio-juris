@@ -36,7 +36,12 @@ return entities(html.replace(/<!--[\s\S]*?-->/g,"")
 .replace(/\r/g,"").replace(/[ \t]+/g," ").replace(/ *\n */g,"\n").replace(/\n{3,}/g,"\n\n");
 }
 function extract(text,num){
-const n=num.replace(/-/g,"[-–]");
+// Números como 1678 aparecem como "1.678" no Código Civil.
+const numeric=num.match(/^(\d{1,4})(?:-([A-Z]))?$/);
+if(!numeric)return null;
+const digits=numeric[1];
+const grouped=digits.length>3?digits.slice(0,-3)+"[.]?"+digits.slice(-3):digits;
+const n=grouped+(numeric[2]?"[-–]"+numeric[2]:"");
 const pattern=new RegExp("(^|\\n)\\s*Art(?:igo)?\\.?\\s*"+n+"(?:[º°]|\\.)?\\s*(?:[-–—.]|\\s)","gim");
 const candidates=[...text.matchAll(pattern)];
 const all=[...text.matchAll(/(^|\n)\s*Art(?:igo)?\.?\s*\d{1,4}(?:[-–][A-Za-z])?(?:[º°]|\.)?\s*(?:[-–—.]|\s)/gim)];
