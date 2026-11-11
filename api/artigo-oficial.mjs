@@ -14,6 +14,10 @@ oab:"https://www.planalto.gov.br/ccivil_03/leis/l8906.htm",
 l14133:"https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/l14133.htm",
 l9784:"https://www.planalto.gov.br/ccivil_03/leis/l9784.htm"
 });
+const FONTES_ALTERNATIVAS=Object.freeze({
+  cc:"https://www2.camara.leg.br/legin/fed/lei/2002/lei-10406-10-janeiro-2002-432893-normaatualizada-pl.html",
+  oab:"https://www2.camara.leg.br/legin/fed/lei/1994/lei-8906-4-julho-1994-349751-normaatualizada-pl.html"
+});
 function entities(s){
 return s.replace(/&#x([0-9a-f]+);/gi,(_,h)=>String.fromCodePoint(parseInt(h,16)))
 .replace(/&#(\d+);/g,(_,n)=>String.fromCodePoint(Number(n)))
@@ -51,24 +55,37 @@ if(!Object.hasOwn(FONTES,lei)||!/^[1-9]\d{0,3}(?:-[A-Z])?$/.test(artigo)){
  res.status(400).json({error:"Lei ou artigo inválido"});return;
 }
 const source=FONTES[lei];
-try{
- const response=await fetch(source,{headers:{"Accept":"text/html"},signal:AbortSignal.timeout(9500),redirect:"follow"});
- if(!response.ok){res.status(502).json({error:"Fonte oficial indisponível",source,status:response.status});return;}
- const hostname=new URL(response.url).hostname;
- if(!["www.planalto.gov.br","planalto.gov.br"].includes(hostname)){
-  res.status(502).json({error:"Redirecionamento não autorizado",source});return;
- }
- if(Number(response.headers.get("content-length")||"0")>6000000){
-  res.status(502).json({error:"Documento muito extenso",source});return;
- }
- const bytes=await response.arrayBuffer();
- if(bytes.byteLength>6000000){res.status(502).json({error:"Documento muito extenso",source});return;}
- const header=response.headers.get("content-type")||"";
- const charset=/charset\s*=\s*["']?([\w-]+)/i.exec(header)?.[1]||"";
- const html=new TextDecoder(/iso-8859-1|windows-1252/i.test(charset)?"windows-1252":"utf-8").decode(bytes);
- if(!/<(?:html|body)/i.test(html)){res.status(502).json({error:"Formato não reconhecido",source});return;}
- const conteudo=extract(toText(html),artigo);
- if(!conteudo){res.status(404).json({error:"Artigo não identificado com segurança",source});return;}
- res.status(200).json({lei,artigo,source,conteudo,aviso:"Texto extraído automaticamente da fonte oficial. Confira formatação, alterações e vigência no Planalto."});
-}catch(_){res.status(502).json({error:"Não foi possível consultar o texto oficial",source});}
+const candidates=[source,FONTES_ALTERNATIVAS[lei]].filter(Boolean);
+const failures=[];
+for(const candidate of candidates){
+ try{
+  const response=await fetch(candidate,{headers:{"Accept":"text/html"},signal:AbortSignal.timeout(9500),redirect:"follow"});
+  if(!response.ok){failures.push(response.status);continue;}
+  const host=new URL(response.url).hostname;
+  if(!["www.planalto.gov.br","planalto.gov.br","www2.camara.leg.br"].includes(host)){
+    failures.push("redirecionamento");continue;
+  }
+  if(Number(response.headers.get("content-length")||"0")>6000000){failures.push("tamanho");continue;}
+  const bytes=await response.arrayBuffer();
+  if(bytes.byteLength>6000000){failures.push("tamanho");continue;}
+  const header=response.headers.get("content-type")||"";
+  const charset=/charset\s*=\s*["']?([\w-]+)/i.exec(header)?.[1]||"";
+  const utf8=new TextDecoder("utf-8").decode(bytes);
+  const html=/iso-8859-1|windows-1252/i.test(charset)||utf8.includes("�")?
+    new TextDecoder("windows-1252").decode(bytes):utf8;
+  if(!/<(?:html|body)/i.test(html)){failures.push("html");continue;}
+  const conteudo=extract(toText(html),artigo);
+  if(!conteudo){failures.push("artigo não localizado");continue;}
+  res.status(200).json({
+    lei,artigo,source:response.url,conteudo,
+    aviso:"Transcrição automática de fonte legislativa oficial. Confira redação vigente, notas e alterações na fonte."
+  });
+  return;
+ }catch(_){failures.push("fonte indisponível");}
+}
+res.status(502).json({
+  error:"Não foi possível recuperar com segurança o artigo solicitado.",
+  source,alternativa:FONTES_ALTERNATIVAS[lei]||null,
+  aviso:"Use os links oficiais para consultar o texto completo. Nenhum conteúdo jurídico foi inventado."
+});
 }
