@@ -370,6 +370,12 @@
             </aside>
           </div>
           </div>
+          <div class="mt-4 flex items-center gap-3">
+            <label for="somAcertoSimulador" class="inline-flex items-center gap-2 text-sm font-semibold text-purple-800 dark:text-purple-200">
+              <input id="somAcertoSimulador" type="checkbox" checked class="w-5 h-5 accent-purple-700" onchange="salvarPreferenciaSomAcerto(this.checked)"/>
+              Som ao acertar questão
+            </label>
+          </div>
           <div class="ratio-study-actions mt-5">
             <button id="btnQuestaoAnterior" type="button" onclick="return moverQuestaoOficial(-1)" class="btn-touch px-5 py-3 rounded-lg border-2 border-purple-500 text-purple-800 dark:text-purple-300 font-semibold">Questão anterior</button>
             <button id="btnQuestaoProxima" type="button" onclick="return moverQuestaoOficial(1)" class="btn-touch px-5 py-3 rounded-lg bg-purple-700 text-white font-semibold">Próxima questão</button>
@@ -754,7 +760,7 @@
       return (checks.find(pair=>pair[1].test(t))||[])[0]||null;
     }
     function normalizarNumeroArtigo(value) {
-      const text=String(value||'').trim().replace(/^art(?:igo)?\.?\s*/i,'').replace(/[º°]\s*$/,'');
+      const text=String(value||'').trim().replace(/^art(?:igo)?\.?\s*/i,'').replace(/[º°]\s*$/,'').replace(/^(\d{1,2})\.(\d{3})(?=$|\s*[-–])/,'$1$2');
       const match=/^(\d{1,4})(?:\s*[-–]\s*([A-Za-z]))?$/.exec(text);
       if(!match)return null;
       const n=Number(match[1]);
@@ -1189,6 +1195,14 @@
         anchor.textContent=comentario.natureza==='DOUTRINARIA'?'Consultar fonte doutrinária/caderno oficial':'Consultar legislação na fonte oficial';
         source.appendChild(anchor);
       }
+      if(comentario.natureza==='DOUTRINARIA' && comentario.fonteDoutrinaria){
+        const doutrina=document.createElement('a');
+        doutrina.href=comentario.fonteDoutrinaria;
+        doutrina.target='_blank';doutrina.rel='noopener noreferrer';
+        doutrina.textContent='Consultar fundamento doutrinário';
+        doutrina.className='inline-flex underline font-bold text-amber-950 dark:text-amber-200';
+        source.appendChild(doutrina);
+      }
       const precedentes=Array.isArray(comentario.precedentesValidados)?comentario.precedentesValidados:[];
       precedentes.slice(0,3).forEach(item=>{
         if(!/^https:\/\/(portal\.stf\.jus\.br|www\.stf\.jus\.br|scon\.stj\.jus\.br|www\.tst\.jus\.br|www\.trt9\.jus\.br)/.test(item.url||''))return;
@@ -1201,7 +1215,7 @@
         source.appendChild(precedent);
       });
       status.textContent='Referência editorial consultada em '+
-        (comentario.revisaoLegislacao||'data não registrada')+
+        (comentario.revisaoLegislacao||comentario.revisaoDoutrinaria||'data não registrada')+
         '. O entendimento pode ter sido alterado; consulte a redação legal e a jurisprudência vigentes. A resposta histórica da banca permanece preservada.';
       return {comReferencia:true,dispositivo:comentario.dispositivo};
     }
@@ -1422,6 +1436,36 @@
       if(proxima<1||proxima>80)return false;
       return irParaQuestaoOficial(proxima);
     }
+    let audioContextoAcerto=null;
+    function salvarPreferenciaSomAcerto(ativo){
+      try{localStorage.setItem('ratio_som_acerto',ativo?'1':'0')}catch(_){}
+    }
+    function tocarSomAcerto(){
+      const controle=document.getElementById('somAcertoSimulador');
+      if(!controle?.checked)return;
+      try{
+        const Audio=window.AudioContext||window.webkitAudioContext;
+        if(!Audio)return;
+        audioContextoAcerto=audioContextoAcerto||new Audio();
+        const audio=audioContextoAcerto;
+        if(audio.state==='suspended')audio.resume().catch(()=>{});
+        const agora=audio.currentTime;
+        [659.25,880].forEach((freq,i)=>{
+          const oscilador=audio.createOscillator();
+          const volume=audio.createGain();
+          oscilador.type='sine';oscilador.frequency.value=freq;
+          volume.gain.setValueAtTime(.0001,agora+i*.1);
+          volume.gain.exponentialRampToValueAtTime(.055,agora+i*.1+.025);
+          volume.gain.exponentialRampToValueAtTime(.0001,agora+i*.1+.18);
+          oscilador.connect(volume).connect(audio.destination);
+          oscilador.start(agora+i*.1);oscilador.stop(agora+i*.1+.19);
+        });
+      }catch(_){}
+    }
+    window.addEventListener('DOMContentLoaded',()=>{
+      const controle=document.getElementById('somAcertoSimulador');
+      if(controle){try{controle.checked=localStorage.getItem('ratio_som_acerto')!=='0'}catch(_){}}
+    });
     function responderQuestaoOficial(letra) {
       const ctx=obterExameParaSimulador();
       if(!ctx||!['A','B','C','D'].includes(letra))return false;
@@ -1429,7 +1473,9 @@
       const gabarito=ctx.exam.gabaritos[ctx.tipo-1][pos-1];
       if(gabarito==='*')return false;
       const respostas=obterRespostasOficiais(ctx.numero,ctx.tipo);
+      const respostaAnterior=respostas[pos-1];
       respostas[pos-1]=letra;
+      if(letra===gabarito && respostaAnterior!==letra)tocarSomAcerto();
       conferenciasIndividuais.set(chaveConferencia(ctx.numero,ctx.tipo,pos),letra);
       salvarRespostasOficiais(ctx.numero,ctx.tipo,respostas);
       invalidarEstatisticaOAB();
