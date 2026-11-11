@@ -47,6 +47,21 @@
 #cardEstatisticaOAB{min-width:0}
 #pdfLeitorControles{min-width:0}
 #pdfTextoExtraido{max-width:100%;word-break:normal;overflow-wrap:anywhere}
+@media(max-width:767px){
+ /* O simulador ocupa a largura util da tela, sem margens internas duplas. */
+ html,body,#appBody{max-width:100%;min-width:0}
+ #oab-arquivo{width:100%;padding-top:1.5rem!important;padding-bottom:2rem!important}
+ #oab-arquivo>.max-w-6xl{width:100%;max-width:none!important;padding-inline:8px!important}
+ #oab-arquivo>.max-w-6xl>.rounded-2xl{padding:10px!important;border-radius:12px}
+ #simulador-oficial{width:100%;padding:10px!important;margin-inline:0!important;box-shadow:none}
+ #simulador-oficial>.ratio-study-layout{gap:.5rem}
+ #simulador-oficial .ratio-study-pane{margin-top:0!important;padding:10px!important}
+ #cardEnunciadoCompleto{padding:10px!important}
+ #textoQuestaoDentroSimulador{max-width:100%;line-height:1.7;font-size:1rem;max-height:min(62svh,600px)}
+ #alternativasQuestaoOficial{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ #alternativasQuestaoOficial button{padding:12px 10px!important}
+ #simulador-oficial :where(select,input,button){max-width:100%}
+}
 @media(max-width:430px){
  .ratio-header-inner{padding-left:.6rem!important;padding-right:.6rem!important;gap:.35rem}
  .ratio-brand{gap:.4rem!important}
