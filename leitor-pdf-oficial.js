@@ -136,6 +136,10 @@
      if(parsed)try{await parsed.destroy?.()}catch(_){}
      documento=null;cache.clear();cacheQuestoes.clear();trechoAtual="";
      $("pdfLeitorControles")?.classList.add("hidden");
+     const preview=$("textoQuestaoDentroSimulador");
+     if(preview && exame===$("oabExamSelect")?.value && tipo===$("oabTipoSelect")?.value){
+       preview.textContent="A prova oficial foi identificada, mas o texto não pôde ser carregado automaticamente neste dispositivo. Toque em 'Recarregar texto oficial desta questão' ou abra o caderno PDF opcional. Não exibiremos conteúdo inventado.";
+     }
      avisar("Não foi possível carregar o texto oficial nesta conexão. Use a prova integrada acima ou o link direto da OAB. Nenhuma questão será substituída por conteúdo inventado.");
      return false;
    }finally {
