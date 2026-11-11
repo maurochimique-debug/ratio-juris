@@ -924,6 +924,7 @@
     function executarPesquisaGabinete() {
       const entrada=document.getElementById('gabineteSearchInput').value.trim();
       if(!entrada){mostrarResultadoGabinete('Campo vazio','Informe uma referência, por exemplo: art. 366 CC, art. 20 LINDB ou Súmula 473 STF.',[],null);return false;}
+      const termo=normalizar(entrada);
       const match=referenciasJurisprudenciais.find(x=>x.termos.some(k=>normalizar(k)===termo||(termo.length>3 && normalizar(k).includes(termo))));
       if(match){
         mostrarResultadoGabinete(match.titulo,match.descricao,
@@ -932,7 +933,6 @@
         return true;
       }
       if(buscarNumeroJurisprudencial(entrada))return true;
-      const termo=normalizar(entrada);
       const numero=entrada.match(/\bart(?:igo)?\.?\s*(\d{1,4}(?:\s*[-–]\s*[A-Za-z])?)/i) ||
         entrada.match(/^\s*(\d{1,4}(?:\s*[-–]\s*[A-Za-z])?)\s+(?:do\s+|da\s+)?/i);
       const lei=acharLeiNoTexto(entrada);
