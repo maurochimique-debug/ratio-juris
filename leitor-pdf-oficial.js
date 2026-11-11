@@ -14,7 +14,11 @@
  let promessaOficial=null;
  let buscaAtual=0;
  let identidadeDocumento="";
- function avisar(msg){const el=$("pdfLeitorStatus");if(el)el.textContent=String(msg||"");}
+ function avisar(msg){
+   const texto=String(msg||"");
+   const el=$("pdfLeitorStatus");if(el)el.textContent=texto;
+   const avisoSimulador=$("statusLocalizacaoQuestao");if(avisoSimulador)avisoSimulador.textContent=texto;
+ }
  function limpar(){
    buscaAtual++;
    identidadeDocumento="";
