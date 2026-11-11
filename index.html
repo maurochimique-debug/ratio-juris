@@ -686,8 +686,8 @@
       l9784:{nome:'Lei do Processo Administrativo 9.784/1999',url:'https://www.planalto.gov.br/ccivil_03/leis/l9784.htm'}
     });
     const referenciasJurisprudenciais=[
-      {termos:['473 stf','sumula 473','súmula 473'],titulo:'Súmula 473 do STF — autotutela administrativa',descricao:'Entendimento sumulado sobre anulação e revogação de atos da Administração.',url:'https://portal.stf.jus.br/jurisprudencia/pages/search/seq-sumula473/false'},
-      {termos:['366 stj','sumula 366 stj','súmula 366 stj'],titulo:'Súmula 366 do STJ — CANCELADA',descricao:'A Súmula 366/STJ foi cancelada em 16/09/2009; não representa orientação vigente.',url:'https://www.stj.jus.br/sites/portalp/Jurisprudencia/Sumulas'},
+      {termos:['473 stf','sumula 473','súmula 473'],titulo:'Súmula 473 do STF — autotutela administrativa',descricao:'Entendimento sumulado sobre anulação e revogação de atos da Administração.',url:'https://portal.stf.jus.br/jurisprudencia/'},
+      {termos:['366 stj','sumula 366 stj','súmula 366 stj'],titulo:'Súmula 366 do STJ — CANCELADA',descricao:'A Súmula 366/STJ foi cancelada em 16/09/2009; não representa orientação vigente.',url:'https://processo.stj.jus.br/SCON/'},
       {termos:['vinculante 20','sv 20','gdata'],titulo:'Súmula Vinculante 20 do STF — GDATA',descricao:'Trata da GDATA para inativos; confira o inteiro teor no STF.',url:'https://portal.stf.jus.br/jurisprudencia/sumariosumulas.asp?base=26&sumula=1252'}
     ];
     function normalizar(str){return String(str||'').toLocaleLowerCase('pt-BR').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();}
@@ -825,7 +825,7 @@
         return pesquisarArtigoPlanalto();
       }
       const match=referenciasJurisprudenciais.find(x=>x.termos.some(k=>normalizar(k)===termo||(termo.length>3 && normalizar(k).includes(termo))));
-      if(match){mostrarResultadoGabinete(match.titulo,match.descricao,[{nome:'Consultar fonte jurisprudencial',url:match.url}],'A consulta jurisprudencial é uma referência cadastrada, não uma pesquisa online em tempo real.');return true;}
+      if(match){mostrarResultadoGabinete(match.titulo,match.descricao,[{nome:'Consultar fonte jurisprudencial',url:match.url}],'Referência cadastrada. Na página oficial, pesquise pelo número da súmula ou pelo tema indicado; não é uma pesquisa em tempo real.');return true;}
       mostrarResultadoGabinete('Referência não localizada','Escolha a legislação e digite o número do artigo acima. Para jurisprudência não cadastrada, acesse diretamente os portais oficiais.',[
         {nome:'Portal STF',url:'https://portal.stf.jus.br/jurisprudencia/'},
         {nome:'Portal STJ',url:'https://processo.stj.jus.br/SCON/'}
