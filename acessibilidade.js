@@ -44,16 +44,25 @@
     announce(on?"Alto contraste ativado.":"Alto contraste desativado.");
   }
   function toggleContrast(){setContrast(!root.classList.contains("a11y-high-contrast"));}
+  const textScaleLevels=[90,100,110,125,150];
   function setTextScale(percent){
-    const accepted=[100,125,150];
     const n=Number(percent);
-    const value=accepted.includes(n)?n:100;
+    const value=textScaleLevels.includes(n)?n:100;
+    root.classList.toggle("a11y-font-small",value===90);
+    root.classList.toggle("a11y-font-medium",value===110);
     root.classList.toggle("a11y-font-large",value===125);
     root.classList.toggle("a11y-font-xlarge",value===150);
     const selector=$("a11yFontSelect");
     if(selector)selector.value=String(value);
     save("textscale",String(value));
     announce("Tamanho do texto configurado em "+value+" por cento.");
+  }
+  function adjustTextScale(direction){
+    const stored=Number(load("textscale","100"));
+    const current=textScaleLevels.includes(stored)?stored:100;
+    const index=textScaleLevels.indexOf(current);
+    const next=Math.min(textScaleLevels.length-1,Math.max(0,index+(direction>0?1:-1)));
+    setTextScale(textScaleLevels[next]);
   }
   function rate(){
     const n=Number($("a11ySpeechRate")?.value);
@@ -212,7 +221,7 @@
   }
   window.RatioA11y={
     toggle, close:()=>setExpanded(false),setContrast,toggleContrast,
-    setTextScale,readExamStatus,readOfficialQuestion,readLegalExplanation,pauseResume,stop,fillMessage,
+    setTextScale,adjustTextScale,readExamStatus,readOfficialQuestion,readLegalExplanation,pauseResume,stop,fillMessage,
     speakMessage,clearMessage,voiceText
   };
   document.addEventListener("DOMContentLoaded",init);
