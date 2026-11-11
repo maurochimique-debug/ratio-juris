@@ -15,8 +15,8 @@ l14133:"https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/l14133.htm"
 l9784:"https://www.planalto.gov.br/ccivil_03/leis/l9784.htm"
 });
 const FONTES_ALTERNATIVAS=Object.freeze({
-  cc:"https://www2.camara.leg.br/legin/fed/lei/2002/lei-10406-10-janeiro-2002-432893-normaatualizada-pl.html",
-  oab:"https://www2.camara.leg.br/legin/fed/lei/1994/lei-8906-4-julho-1994-349751-normaatualizada-pl.html"
+  cc:["https://www2.camara.leg.br/legin/fed/lei/2002/lei-10406-10-janeiro-2002-432893-normaatualizada-pl.html","https://legis.senado.leg.br/norma/552282/publicacao/34620807"],
+  oab:["https://www2.camara.leg.br/legin/fed/lei/1994/lei-8906-4-julho-1994-349751-normaatualizada-pl.html","https://legis.senado.leg.br/norma/550782/publicacao/34619591"]
 });
 function entities(s){
 return s.replace(/&#x([0-9a-f]+);/gi,(_,h)=>String.fromCodePoint(parseInt(h,16)))
@@ -55,14 +55,14 @@ if(!Object.hasOwn(FONTES,lei)||!/^[1-9]\d{0,3}(?:-[A-Z])?$/.test(artigo)){
  res.status(400).json({error:"Lei ou artigo inválido"});return;
 }
 const source=FONTES[lei];
-const candidates=[source,FONTES_ALTERNATIVAS[lei]].filter(Boolean);
+const candidates=[source,...(FONTES_ALTERNATIVAS[lei]||[])];
 const failures=[];
 for(const candidate of candidates){
  try{
   const response=await fetch(candidate,{headers:{"Accept":"text/html"},signal:AbortSignal.timeout(9500),redirect:"follow"});
   if(!response.ok){failures.push(response.status);continue;}
   const host=new URL(response.url).hostname;
-  if(!["www.planalto.gov.br","planalto.gov.br","www2.camara.leg.br"].includes(host)){
+  if(!["www.planalto.gov.br","planalto.gov.br","www2.camara.leg.br","legis.senado.leg.br"].includes(host)){
     failures.push("redirecionamento");continue;
   }
   if(Number(response.headers.get("content-length")||"0")>6000000){failures.push("tamanho");continue;}
@@ -85,7 +85,7 @@ for(const candidate of candidates){
 }
 res.status(502).json({
   error:"Não foi possível recuperar com segurança o artigo solicitado.",
-  source,alternativa:FONTES_ALTERNATIVAS[lei]||null,
+  source,alternativa:FONTES_ALTERNATIVAS[lei]?.[0]||null,
   aviso:"Use os links oficiais para consultar o texto completo. Nenhum conteúdo jurídico foi inventado.",
   motivos:failures
 });
