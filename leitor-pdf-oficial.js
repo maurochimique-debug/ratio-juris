@@ -233,8 +233,8 @@
    if(preview){
      preview._ratioQuestaoAnterior=chaveDocumento+"-"+n;
      const separado=separarAlternativasOficiais(trecho);
-     preview.textContent=separado?separado.enunciado:
-       "Não foi possível separar com segurança o enunciado das alternativas neste PDF. Consulte o documento original pelo card opcional e use as letras A, B, C ou D somente após conferir as opções.";
+     // Na dúvida, preservar integralmente o texto extraído em vez de apagar a questão.
+     preview.textContent=separado?separado.enunciado:trecho;
      preview.setAttribute("data-extracao-validada",separado?"sim":"nao");
      const botoes=$("alternativasQuestaoOficial")?.querySelectorAll("button");
      if(botoes)Array.from(botoes).forEach((botao,i)=>{
