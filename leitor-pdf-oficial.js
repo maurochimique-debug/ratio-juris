@@ -236,16 +236,16 @@
    const preview=$("textoQuestaoDentroSimulador");
    if(preview){
      preview._ratioQuestaoAnterior=chaveDocumento+"-"+n;
+     // O card recolhivel preserva integralmente o enunciado e as alternativas
+     // do documento original; os botões abaixo servem apenas para responder.
      const separado=separarAlternativasOficiais(trecho);
-     // Na dúvida, preservar integralmente o texto extraído em vez de apagar a questão.
-     preview.textContent=separado?separado.enunciado:trecho;
+     preview.textContent=trecho;
      preview.setAttribute("data-extracao-validada",separado?"sim":"nao");
      const botoes=$("alternativasQuestaoOficial")?.querySelectorAll("button");
      if(botoes)Array.from(botoes).forEach((botao,i)=>{
        const letra="ABCD"[i];
-       botao.textContent=separado?letra+" — "+separado.alternativas[i]:letra;
-       botao.setAttribute("aria-label",separado?
-         "Alternativa "+letra+": "+separado.alternativas[i]:"Alternativa "+letra+" (conferir no PDF original)");
+       botao.textContent=letra;
+       botao.setAttribute("aria-label","Responder alternativa "+letra);
      });
      if(opcoes.foco!==false)preview.focus();
    }
