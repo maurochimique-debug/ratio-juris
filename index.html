@@ -483,6 +483,7 @@
   <section id="bancas-oficiais" class="py-12 border-b border-slate-200 dark:border-ratio-borderDark bg-white dark:bg-[#0E1216]">
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
       <p class="text-sm text-slate-700 dark:text-slate-300 mb-4">Toque na banca para expandir seu acervo de provas anteriores de Direito. A correção integrada será liberada somente após conferir os gabaritos.</p>
+      <p id="statusBancaSelecionada" class="text-sm font-semibold text-purple-800 dark:text-purple-300 mb-3" role="status" aria-live="polite">Selecione uma banca para consultar provas anteriores.</p>
       <div class="flex flex-wrap gap-2 mb-4">
         <button type="button" onclick="abrirAcervoBanca('cebraspe')" class="px-4 py-3 rounded-lg border border-purple-500 text-purple-800 dark:text-purple-300 font-bold">CEBRASPE</button>
         <button type="button" onclick="abrirAcervoBanca('vunesp')" class="px-4 py-3 rounded-lg border border-purple-500 text-purple-800 dark:text-purple-300 font-bold">VUNESP</button>
@@ -884,6 +885,9 @@
       const pane=document.getElementById('acervo-'+banca);
       if(!pane)return false;
       pane.open=true;
+      const fonte=pane.querySelector('a[href^="https://"]');
+      const status=document.getElementById('statusBancaSelecionada');
+      if(status)status.textContent=banca.toUpperCase()+' selecionada. O card foi expandido. Use o botão “Abrir provas anteriores” para consultar o caderno oficial'+(banca==='fcc'?' no portal da FCC.':', ou “Exibir o caderno” quando disponível.')+' A correção integrada desta banca está em preparação.';
       pane.scrollIntoView({block:'start',behavior:'auto'});
       pane.querySelector('summary')?.focus();
       return true;
