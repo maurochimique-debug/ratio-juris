@@ -86,6 +86,7 @@ for(const candidate of candidates){
 res.status(502).json({
   error:"Não foi possível recuperar com segurança o artigo solicitado.",
   source,alternativa:FONTES_ALTERNATIVAS[lei]||null,
-  aviso:"Use os links oficiais para consultar o texto completo. Nenhum conteúdo jurídico foi inventado."
+  aviso:"Use os links oficiais para consultar o texto completo. Nenhum conteúdo jurídico foi inventado.",
+  motivos:failures
 });
 }
