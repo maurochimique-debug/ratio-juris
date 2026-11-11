@@ -101,7 +101,7 @@
             
       <!-- Menu de Navegação com Cards de Acessibilidade na Aba Superior -->
       <nav class="hidden lg:flex items-center gap-6 text-sm font-semibold text-slate-700 dark:text-slate-300">
-        <a href="#oab-arquivo" class="hover:text-ratio-purple transition">OAB 47º ao 10º</a>
+        <a href="#oab-arquivo" class="hover:text-ratio-purple transition">OAB</a>
         <a href="#oab-arquivo" class="hover:text-ratio-purple transition">Simulador Livre</a>
         <a href="#gabinete" class="hover:text-ratio-purple transition">Modo Gabinete</a>
         <a href="#planos" class="hover:text-ratio-purple transition text-ratio-amber font-bold">Planos & Preços</a>
@@ -126,7 +126,8 @@
     </div>
     <nav id="menuMobile" class="ratio-nav-mobile hidden lg:hidden border-t border-slate-200 dark:border-ratio-borderDark bg-white dark:bg-[#12161A] px-3 pb-3 pt-2 shadow-lg" aria-label="Navegação principal no celular e tablet" hidden>
       <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-1 text-slate-900 dark:text-slate-100">
-        <a href="#oab-arquivo" onclick="RatioResponsive.closeMenu()">Simulador Livre de Questões Oficiais</a>
+        <a href="#oab-arquivo" onclick="RatioResponsive.closeMenu()">OAB — Simulador Livre</a>
+        <a href="#bancas-oficiais" onclick="RatioResponsive.closeMenu()">Outras bancas</a>
         <a href="#gabinete" onclick="RatioResponsive.closeMenu()">Modo Gabinete e legislação</a>
         <a href="#planos" onclick="RatioResponsive.closeMenu()">Planos e preços</a>
         <a href="#painelAcessibilidade" onclick="RatioResponsive.closeMenu();RatioA11y.toggle();return false;">Abrir recursos de acessibilidade</a>
@@ -468,14 +469,25 @@
 
   <section id="bancas-oficiais" class="py-12 border-b border-slate-200 dark:border-ratio-borderDark bg-white dark:bg-[#0E1216]">
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <p class="text-sm text-slate-700 dark:text-slate-300 mb-4">Toque na banca para expandir seu acervo de provas anteriores de Direito. A correção integrada será liberada somente após conferir os gabaritos.</p>
+      <div class="flex flex-wrap gap-2 mb-4">
+        <button type="button" onclick="abrirAcervoBanca('cebraspe')" class="px-4 py-3 rounded-lg border border-purple-500 text-purple-800 dark:text-purple-300 font-bold">CEBRASPE</button>
+        <button type="button" onclick="abrirAcervoBanca('vunesp')" class="px-4 py-3 rounded-lg border border-purple-500 text-purple-800 dark:text-purple-300 font-bold">VUNESP</button>
+        <button type="button" onclick="abrirAcervoBanca('fcc')" class="px-4 py-3 rounded-lg border border-purple-500 text-purple-800 dark:text-purple-300 font-bold">FCC</button>
+      </div>
+    </div>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-2">
         <div class="rounded-xl p-5 border-2 border-purple-600 bg-purple-50 dark:bg-ratio-cardDark">
           <h3 class="font-bold text-slate-900 dark:text-white">Exames da Ordem</h3>
           <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">Cadernos e gabaritos de exames oficiais com consulta documental.</p>
           <a href="#oab-arquivo" class="inline-block mt-3 underline font-bold text-purple-800 dark:text-purple-300">Abrir cadernos e gabaritos oficiais</a>
         </div>
-        <details class="rounded-xl p-5 border border-slate-300 dark:border-ratio-borderDark bg-slate-50 dark:bg-ratio-cardDark" aria-label="Acervo jurídico CEBRASPE">
+        <details id="acervo-cebraspe" class="rounded-xl p-5 border border-slate-300 dark:border-ratio-borderDark bg-slate-50 dark:bg-ratio-cardDark" aria-label="Acervo jurídico CEBRASPE">
           <summary class="cursor-pointer min-h-[44px] flex items-center font-bold text-slate-900 dark:text-white">CEBRASPE — Direito e jurisprudência</summary>
+          <div class="mt-3">
+            <a href="https://cdn.cebraspe.org.br/concursos/CNJ_12/arquivos/CNJ13_002_08.pdf" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-[44px] items-center rounded-lg bg-purple-700 text-white px-4 py-3 text-sm font-bold">Abrir provas anteriores de CEBRASPE</a>
+          </div>
           <a class="inline-flex mt-3 rounded-lg border border-purple-600 px-3 py-2 font-bold text-purple-800 dark:text-purple-300 underline text-sm" href="https://cdn.cebraspe.org.br/concursos/CNJ_12/arquivos/CNJ13_002_08.pdf" target="_blank" rel="noopener noreferrer">Caderno aplicado — CNJ, conhecimentos específicos (2013)</a>
           <p class="mt-3 text-sm text-slate-700 dark:text-slate-300">Questões jurídicas específicas desta banca: importação e verificação pendentes. Nenhuma questão será inventada ou apresentada como disponível antes da auditoria.</p>
           <a href="https://www.cebraspe.org.br/concursos/" target="_blank" rel="noopener noreferrer" class="inline-block mt-3 underline font-bold text-purple-800 dark:text-purple-300">Consultar provas e gabaritos na fonte da banca</a>
@@ -485,8 +497,11 @@
             <a href="https://processo.stj.jus.br/SCON/" target="_blank" rel="noopener noreferrer" class="underline text-purple-800 dark:text-purple-300">STJ</a>
           </div>
         </details>
-        <details class="rounded-xl p-5 border border-slate-300 dark:border-ratio-borderDark bg-slate-50 dark:bg-ratio-cardDark" aria-label="Acervo jurídico VUNESP">
+        <details id="acervo-vunesp" class="rounded-xl p-5 border border-slate-300 dark:border-ratio-borderDark bg-slate-50 dark:bg-ratio-cardDark" aria-label="Acervo jurídico VUNESP">
           <summary class="cursor-pointer min-h-[44px] flex items-center font-bold text-slate-900 dark:text-white">VUNESP — Direito e jurisprudência</summary>
+          <div class="mt-3">
+            <a href="https://documento.vunesp.com.br/documento/stream/NzMwNzExNQ%3D%3D" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-[44px] items-center rounded-lg bg-purple-700 text-white px-4 py-3 text-sm font-bold">Abrir provas anteriores de VUNESP</a>
+          </div>
           <a class="inline-flex mt-3 rounded-lg border border-purple-600 px-3 py-2 font-bold text-purple-800 dark:text-purple-300 underline text-sm" href="https://documento.vunesp.com.br/documento/stream/NzMwNzExNQ%3D%3D" target="_blank" rel="noopener noreferrer">Caderno aplicado — Analista Jurídico do Ministério Público (2025)</a>
           <p class="mt-3 text-sm text-slate-700 dark:text-slate-300">Questões jurídicas específicas desta banca: importação e verificação pendentes. Nenhuma questão será inventada ou apresentada como disponível antes da auditoria.</p>
           <a href="https://www.vunesp.com.br/" target="_blank" rel="noopener noreferrer" class="inline-block mt-3 underline font-bold text-purple-800 dark:text-purple-300">Consultar provas e gabaritos na fonte da banca</a>
@@ -496,8 +511,11 @@
             <a href="https://processo.stj.jus.br/SCON/" target="_blank" rel="noopener noreferrer" class="underline text-purple-800 dark:text-purple-300">STJ</a>
           </div>
         </details>
-        <details class="rounded-xl p-5 border border-slate-300 dark:border-ratio-borderDark bg-slate-50 dark:bg-ratio-cardDark" aria-label="Acervo jurídico FCC">
+        <details id="acervo-fcc" class="rounded-xl p-5 border border-slate-300 dark:border-ratio-borderDark bg-slate-50 dark:bg-ratio-cardDark" aria-label="Acervo jurídico FCC">
           <summary class="cursor-pointer min-h-[44px] flex items-center font-bold text-slate-900 dark:text-white">FCC — Direito e jurisprudência</summary>
+          <div class="mt-3">
+            <a href="https://www.concursosfcc.com.br/concursoOutraSituacao.html" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-[44px] items-center rounded-lg bg-purple-700 text-white px-4 py-3 text-sm font-bold">Abrir provas anteriores de FCC</a>
+          </div>
           <a class="inline-flex mt-3 rounded-lg border border-purple-600 px-3 py-2 font-bold text-purple-800 dark:text-purple-300 underline text-sm" href="https://www.concursosfcc.com.br/concursoOutraSituacao.html" target="_blank" rel="noopener noreferrer">Concursos jurídicos anteriores — consultar provas e gabaritos</a>
           <p class="mt-3 text-sm text-slate-700 dark:text-slate-300">Questões jurídicas específicas desta banca: importação e verificação pendentes. Nenhuma questão será inventada ou apresentada como disponível antes da auditoria.</p>
           <a href="https://www.concursosfcc.com.br/" target="_blank" rel="noopener noreferrer" class="inline-block mt-3 underline font-bold text-purple-800 dark:text-purple-300">Consultar provas e gabaritos na fonte da banca</a>
@@ -801,9 +819,52 @@
       carregarTextoArtigoOficial(lei,numero);
       return true;
     }
+    function abrirAcervoBanca(banca){
+      if(!['cebraspe','vunesp','fcc'].includes(banca))return false;
+      const pane=document.getElementById('acervo-'+banca);
+      if(!pane)return false;
+      pane.open=true;
+      pane.scrollIntoView({block:'center',behavior:'auto'});
+      pane.querySelector('summary')?.focus();
+      return true;
+    }
+    // Abre pesquisas oficiais para qualquer número informado, sem alegar
+    // a existência de decisão, processo ou súmula não verificada.
+    function buscarNumeroJurisprudencial(entrada){
+      const termo=normalizar(entrada);
+      const temSTF=/\b(?:stf|supremo)\b/.test(termo);
+      const temSTJ=/\b(?:stj|superior tribunal de justica)\b/.test(termo);
+      const classe=/\b(?:sumula vinculante|sv|sumula|tema|re|resp|aresp|adi|adpf|hc|rcl|agint|processo|acordao)\b/.test(termo);
+      const numeros=(entrada.match(/\d[\d.\/-]*/g)||[]);
+      // Não confundir número de artigo com pesquisa de jurisprudência.
+      if(!numeros.length || /^\s*(?:art(?:igo)?\.?\s*)/i.test(entrada))return false;
+      if(!temSTF&&!temSTJ&&!classe&&!/^\s*\d[\d.\/-]*\s*$/.test(entrada))return false;
+      const numero=numeros[0].replace(/[^\d]/g,'');
+      if(!numero||numero.length>20)return false;
+      const tribunais=temSTF&&!temSTJ?['STF']:temSTJ&&!temSTF?['STJ']:['STF','STJ'];
+      const links=[];
+      if(tribunais.includes('STF')){
+        links.push({nome:'Pesquisar '+numero+' na jurisprudência do STF',
+          url:'https://jurisprudencia.stf.jus.br/pages/search'});
+        links.push({nome:'Pesquisa avançada do STF (número/classe)',
+          url:'https://portal.stf.jus.br/pesquisa'});
+      }
+      if(tribunais.includes('STJ')){
+        links.push({nome:'Pesquisar '+numero+' na jurisprudência do STJ',
+          url:'https://processo.stj.jus.br/SCON/'});
+      }
+      mostrarResultadoGabinete(
+        'Pesquisa de jurisprudência — número '+numero,
+        'Número identificado: '+numero+'. Abra a pesquisa do tribunal indicado e informe esse número no campo apropriado (súmula, tema ou processo). Não há confirmação automática de existência de precedente.',
+        links,
+        'Os tribunais possuem bases distintas para súmulas, temas e processos. O número isolado não identifica uma decisão específica.'
+      );
+      return true;
+    }
     function executarPesquisaGabinete() {
       const entrada=document.getElementById('gabineteSearchInput').value.trim();
       if(!entrada){mostrarResultadoGabinete('Campo vazio','Informe uma referência, por exemplo: art. 366 CC, art. 20 LINDB ou Súmula 473 STF.',[],null);return false;}
+      if(buscarNumeroJurisprudencial(entrada))return true;
       const termo=normalizar(entrada);
       const numero=entrada.match(/\bart(?:igo)?\.?\s*(\d{1,4}(?:\s*[-–]\s*[A-Za-z])?)/i) ||
         entrada.match(/^\s*(\d{1,4}(?:\s*[-–]\s*[A-Za-z])?)\s+(?:do\s+|da\s+)?/i);
