@@ -43,8 +43,9 @@ const all=[...text.matchAll(/(^|\n)\s*Art(?:igo)?\.?\s*\d{1,4}(?:[-–][A-Za-z])
 for(const m of candidates){
   const at=m.index+(m[1]?.length||0);
   const next=all.find(x=>x.index>at+20);
-  const snippet=text.slice(at,next?.index??Math.min(text.length,at+12000)).trim();
-  if(snippet.length>=45 && snippet.length<=12000 && /Art(?:igo)?\.?\s*\d+/i.test(snippet.slice(0,50)))return snippet;
+  const snippet=text.slice(at,next?.index??Math.min(text.length,at+100000)).trim();
+  // Artigos longos, como o art. 5º da Constituição, excedem 12 mil caracteres.
+  if(snippet.length>=45 && snippet.length<=100000 && /Art(?:igo)?\.?\s*\d+/i.test(snippet.slice(0,50)))return snippet;
 }
 return null;
 }
