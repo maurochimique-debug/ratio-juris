@@ -44,7 +44,7 @@ const grouped=digits.length>3?digits.slice(0,-3)+"[.]?"+digits.slice(-3):digits;
 const n=grouped+(numeric[2]?"[-–]"+numeric[2]:"");
 const pattern=new RegExp("(^|\\n)\\s*Art(?:igo)?\\.?\\s*"+n+"(?:[º°]|\\.)?\\s*(?:[-–—.]|\\s)","gim");
 const candidates=[...text.matchAll(pattern)];
-const all=[...text.matchAll(/(^|\n)\s*Art(?:igo)?\.?\s*\d{1,4}(?:[-–][A-Za-z])?(?:[º°]|\.)?\s*(?:[-–—.]|\s)/gim)];
+const all=[...text.matchAll(/(^|\n)\s*Art(?:igo)?\.?\s*(?:\d{1,2}\.\d{3}|\d{1,4})(?:[-–][A-Za-z])?(?:[º°]|\.)?\s*(?:[-–—.]|\s)/gim)];
 for(const m of candidates){
   const at=m.index+(m[1]?.length||0);
   const next=all.find(x=>x.index>at+20);
