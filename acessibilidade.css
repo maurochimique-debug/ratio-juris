@@ -12,6 +12,8 @@
 .a11y-panel button { white-space: normal; }
 :focus-visible { outline: 3px solid #fbbf24 !important; outline-offset: 3px !important; }
 #enunciadoTexto:focus { outline: 3px solid #facc15; outline-offset: .35rem; }
+html.a11y-font-small { font-size: 90% !important; }
+html.a11y-font-medium { font-size: 110% !important; }
 html.a11y-font-large { font-size: 125% !important; }
 html.a11y-font-xlarge { font-size: 150% !important; }
 html.a11y-high-contrast, html.a11y-high-contrast body { background-color: #000 !important; color: #fff !important; }
