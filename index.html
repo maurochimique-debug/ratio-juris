@@ -612,6 +612,19 @@
           </div>
         </div>
         <div class="border-t border-slate-700 mt-6 pt-5">
+          <h3 class="text-white font-bold text-lg mb-3">Jurisprudência — STF e STJ</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+            <div class="rounded-xl border border-purple-500 p-4 bg-slate-950">
+              <h4 class="text-white font-extrabold">STF — Supremo Tribunal Federal</h4>
+              <p class="text-xs text-slate-300 my-2">Súmulas, temas e julgados. Pesquise o número ou a classe no tribunal.</p>
+              <a href="https://portal.stf.jus.br/jurisprudencia/" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-[44px] items-center rounded-lg bg-purple-700 text-white px-4 py-2 font-bold text-sm">Abrir jurisprudência STF</a>
+            </div>
+            <div class="rounded-xl border border-purple-500 p-4 bg-slate-950">
+              <h4 class="text-white font-extrabold">STJ — Superior Tribunal de Justiça</h4>
+              <p class="text-xs text-slate-300 my-2">Súmulas e acórdãos. Pesquise o número ou termo no tribunal.</p>
+              <a href="https://processo.stj.jus.br/SCON/" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-[44px] items-center rounded-lg bg-purple-700 text-white px-4 py-2 font-bold text-sm">Abrir jurisprudência STJ</a>
+            </div>
+          </div>
           <label for="gabineteSearchInput" class="block text-white text-sm font-semibold mb-2">Busca por referência ou jurisprudência</label>
           <div class="flex flex-wrap sm:flex-nowrap gap-2">
             <input type="search" id="gabineteSearchInput" placeholder="Ex.: art. 366 CC, art. 20 LINDB, Súmula 473 STF" onkeydown="if(event.key==='Enter'){executarPesquisaGabinete();}" class="flex-1 min-w-0 w-full bg-slate-950 border border-slate-600 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-400"/>
@@ -1173,8 +1186,15 @@
       const comentario=numero===47?comentarioOAB47(tipo,numeroQuestao):null;
       if(!comentario||comentario.natureza==='REGISTRO_DE_ANULACAO'){
         ref.textContent='Gabarito oficial: alternativa '+letraCorreta+'.';
-        explanation.textContent='Ainda não existe fundamentação jurídica individual conferida para esta questão. Consulte a fonte original e a legislação vigente; não serão atribuídos artigos nem precedentes sem verificação.';
-        status.textContent='Não exibimos artigos ou jurisprudência não verificados. A fundamentação desta questão está em preparação.';
+        explanation.textContent='O gabarito definitivo aponta a alternativa '+letraCorreta+'. Ainda não há fundamentação jurídica individual validada para esta questão. Não atribuímos artigos ou precedentes sem conferência documental.';
+        const prova=contexto.exam?.cadernos?.[tipo-1]?.pdf;
+        if(typeof prova==='string'&&/^https:\/\/s\.oab\.org\.br\//.test(prova)){
+          const link=document.createElement('a');link.href=prova;link.target='_blank';link.rel='noopener noreferrer';
+          link.className='inline-flex underline font-bold text-amber-950 dark:text-amber-200';
+          link.textContent='Conferir a questão no caderno oficial';
+          source.appendChild(link);
+        }
+        status.textContent='Comentário jurídico específico em revisão. Consulte a legislação e jurisprudência atuais antes de usar esta resposta como referência.';
         return {comReferencia:false};
       }
       ref.textContent=(comentario.natureza==='DOUTRINARIA'?
