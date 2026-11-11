@@ -143,20 +143,50 @@
      if(button)button.disabled=false;
    }
  }
+ function reconstruirPaginaPorColunas(items,largura,altura){
+   // Páginas da OAB possuem duas colunas; a sequência bruta do PDF.js
+   // pode intercalar alternativas de questões distintas.
+   if(!Array.isArray(items)||!largura||!altura)return "";
+   const meio=largura/2, colunas=[[],[]];
+   for(const item of items){
+     if(typeof item?.str!=="string"||!item.str.trim())continue;
+     const x=Number(item.transform?.[4]),y=Number(item.transform?.[5]);
+     if(!Number.isFinite(x)||!Number.isFinite(y))continue;
+     if(y<altura*.055 || y>altura*.945)continue;
+     colunas[x<meio?0:1].push({x,y,text:item.str.trim(),width:Number(item.width)||0});
+   }
+   const juntar=(itemsCol)=>{
+     const sorted=itemsCol.sort((a,b)=>b.y-a.y||a.x-b.x);
+     const lines=[];
+     for(const item of sorted){
+       let line=lines.find(l=>Math.abs(l.y-item.y)<=2.4);
+       if(!line){line={y:item.y,parts:[]};lines.push(line);}
+       line.parts.push(item);
+     }
+     return lines.sort((a,b)=>b.y-a.y).map(l=>{
+       let result="",last=null;
+       for(const item of l.parts.sort((a,b)=>a.x-b.x)){
+         const gap=last?item.x-(last.x+last.width):0;
+         result+=(result&&gap>1.3?" ":"")+item.text;
+         last=item;
+       }
+       return result.trim();
+     }).filter(Boolean).join("\n");
+   };
+   return colunas.map(juntar).filter(Boolean).join("\n");
+ }
  async function textoPagina(pageNo){
    if(!documento)return "";
    const numero=Number(pageNo);
    if(!Number.isInteger(numero)||numero<1||numero>documento.numPages)return "";
    if(cache.has(numero))return cache.get(numero);
    const page=await documento.getPage(numero);
-   const text=await page.getTextContent();
-   let result="";
-   for(const item of text.items){
-     if(typeof item.str!=="string")continue;
-     result+=item.str;
-     result+=item.hasEOL?"\n":" ";
-   }
-   const cleaned=result.replace(/[ \t]+\n/g,"\n").replace(/\n[ \t]+/g,"\n").trim();
+   const content=await page.getTextContent();
+   const viewport=page.getViewport({scale:1});
+   const emColunas=reconstruirPaginaPorColunas(content.items,viewport.width,viewport.height);
+   const original=content.items.map(item=>typeof item.str==="string"?
+     item.str+(item.hasEOL?"\n":" "):"").join("").trim();
+   const cleaned=(emColunas||original).replace(/[ \t]+\n/g,"\n").replace(/\n[ \t]+/g,"\n").trim();
    cache.set(numero,cleaned);
    return cleaned;
  }
@@ -183,24 +213,20 @@
    if(!texto)return null;
    const n=Number(numero);
    if(!Number.isInteger(n)||n<1||n>80)return null;
-   // Questões podem aparecer como "Questão 1", "QUESTÃO 01" ou número isolado.
-   const pad=String(n).padStart(2,"0");
-   const explicit=new RegExp("\\bquest[aã]o\\s*0*"+n+"\\b","i");
-   let found=explicit.exec(texto);
-   if(!found) {
-     const numeric=new RegExp("(?:^|\\n)\\s*(?:"+n+"|"+pad+")\\s*(?:\\n|$)");
-     found=numeric.exec(texto);
+   // OAB: marcador numérico isolado ("46") ou "QUESTÃO 46".
+   // Exige início de linha para não confundir datas, valores ou artigos.
+   const linhas=String(texto).split(/\n/);
+   const marcador=(linha)=>/^\s*(?:(?:QUEST[AÃ]O)\s*)?0*(\d{1,2})\s*$/i.exec(linha);
+   const inicio=linhas.findIndex(l=>Number(marcador(l)?.[1])===n);
+   if(inicio<0)return null;
+   let fim=linhas.length;
+   for(let i=inicio+1;i<linhas.length;i++){
+     const numeroSeguinte=Number(marcador(linhas[i])?.[1]);
+     if(numeroSeguinte===n+1){fim=i;break;}
    }
-   if(!found)return null;
-   const offset=found.index;
-   const rest=texto.slice(offset);
-   const next=n+1;
-   const nextRegex=new RegExp("(?:\\bquest[aã]o\\s*0*"+next+"\\b)|(?:\\n\\s*0*"+next+"\\s*\\n)","i");
-   const nextMatch=nextRegex.exec(rest.slice(Math.max(1,found[0].length)));
-   let candidate=nextMatch?
-     rest.slice(0,Math.max(found[0].length,found[0].length+nextMatch.index)):rest;
-   candidate=candidate.trim();
-   return candidate.length>=30?candidate:null;
+   const trecho=linhas.slice(inicio,fim).join("\n").trim();
+   // Requer texto significativo, não apenas o número impresso.
+   return trecho.length>=55?trecho:null;
  }
  // Separa alternativas somente quando as quatro marcações estão inequívocas.
  // Se a extração estiver ambígua, preserva o texto integral para não omitir respostas.
