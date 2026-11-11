@@ -25,7 +25,23 @@
  overflow-wrap:anywhere;
 }
 #alternativasQuestaoOficial button{min-height:55px;font-size:1.05rem}
-#textoQuestaoDentroSimulador{font-size:1rem;line-height:1.65}
+/* Leitura confortavel para textos juridicos extensos, sem alterar o conteudo. */
+#cardEnunciadoCompleto{min-width:0;overflow-wrap:anywhere}
+#textoQuestaoDentroSimulador{
+  font-size:1rem;
+  line-height:1.85;
+  letter-spacing:.005em;
+  max-width:72ch;
+  max-height:clamp(320px,62vh,760px);
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  padding:.35rem .25rem 1rem;
+  white-space:pre-line;
+  overflow-wrap:break-word;
+}
+#cardEnunciadoCompleto[open]>summary{padding-bottom:.5rem;border-bottom:1px solid rgba(124,58,237,.25)}
+#cardEnunciadoCompleto>summary{line-height:1.5}
+
 #fundamentacaoErroOficial a{max-width:100%;white-space:normal;word-break:break-word}
 #fundamentacaoErroOficial{min-width:0}
 #cardEstatisticaOAB{min-width:0}
