@@ -956,10 +956,8 @@
         '. Não confundir síntese editorial com citação literal do autor.';
       fontes.replaceChildren();
       const fonte=comentario.fonteDoutrinaria;
-      if(typeof fonte==='string'&&/^https:\/\/plato\.(?:stanford|sydney)\.edu\.au\//.test(fonte)===false &&
-         !/^https:\/\/plato\.stanford\.edu\//.test(fonte)){
-        // Sem URL académica numa origem conhecida; não substituir por referência inventada.
-      }else if(typeof fonte==='string'){
+      if(typeof fonte==='string' &&
+         /^https:\/\/(?:plato\.stanford\.edu|plato\.sydney\.edu\.au)\//.test(fonte)){
         const link=document.createElement('a');
         link.href=fonte;link.target='_blank';link.rel='noopener noreferrer';
         link.className='inline-flex underline font-bold text-purple-900 dark:text-purple-200';
