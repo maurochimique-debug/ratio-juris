@@ -92,3 +92,21 @@
 @media(prefers-reduced-motion:reduce){
  .ratio-nav-mobile,.ratio-pdf-iframe{scroll-behavior:auto!important}
 }
+
+/* Estados de correção com contraste independente do compilador Tailwind. */
+#feedbackQuestaoOficial.ratio-resposta-certa{
+  background:#d1fae5!important;color:#064e3b!important;
+  border:3px solid #059669!important;box-shadow:0 0 0 2px rgba(5,150,105,.14);
+}
+#feedbackQuestaoOficial.ratio-resposta-errada{
+  background:#ffe4e6!important;color:#881337!important;
+  border:3px solid #e11d48!important;
+}
+html.dark #feedbackQuestaoOficial.ratio-resposta-certa{
+  background:#064e3b!important;color:#ecfdf5!important;border-color:#34d399!important;
+}
+html.dark #feedbackQuestaoOficial.ratio-resposta-errada{
+  background:#881337!important;color:#fff1f2!important;border-color:#fda4af!important;
+}
+#conferenciaLegislacaoOpcional>summary{list-style-position:inside}
+#selecaoBancaJuridica :where(a,button){min-width:0;overflow-wrap:anywhere}
