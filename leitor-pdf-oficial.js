@@ -14,15 +14,19 @@
  let promessaOficial=null;
  let buscaAtual=0;
  let identidadeDocumento="";
+ let versaoSelecao=0;
  function avisar(msg){
    const texto=String(msg||"");
    const el=$("pdfLeitorStatus");if(el)el.textContent=texto;
    const avisoSimulador=$("statusLocalizacaoQuestao");if(avisoSimulador)avisoSimulador.textContent=texto;
  }
  function limpar(){
+   versaoSelecao++;
    buscaAtual++;
    identidadeDocumento="";
+   const anterior=documento;
    documento=null;
+   if(anterior)Promise.resolve(anterior.destroy?.()).catch(()=>{});
    cache.clear();
    cacheQuestoes.clear();
    trechoAtual="";
@@ -46,6 +50,7 @@
    if(button)button.disabled=true;
    const examAtStart=$("oabExamSelect")?.value;
    const typeAtStart=$("oabTipoSelect")?.value;
+   const versao=versaoSelecao;
    try {
      avisar("Preparando o PDF no navegador. Nenhum arquivo será enviado ao servidor.");
      const pdfjs=await import(PDF_LIB);
@@ -53,7 +58,8 @@
      const bytes=new Uint8Array(await file.arrayBuffer());
      const loadingTask=pdfjs.getDocument({data:bytes,useSystemFonts:true,disableFontFace:true});
      const parsed=await loadingTask.promise;
-     if(examAtStart!==$("oabExamSelect")?.value||typeAtStart!==$("oabTipoSelect")?.value){
+     if(versao!==versaoSelecao||examAtStart!==$("oabExamSelect")?.value||typeAtStart!==$("oabTipoSelect")?.value){
+       await parsed.destroy?.();
        avisar("O exame ou o caderno mudou durante a leitura. Selecione novamente o PDF correspondente.");
        return false;
      }
@@ -102,6 +108,7 @@
    if(!book?.pdf||!/^https:\/\/(?:s\.oab\.org\.br\/arquivos\/|oab\.fgv\.br\/arq\/)/.test(book.pdf)){
      avisar("Esta edição ainda não possui PDF oficial verificado no acervo.");return false;
    }
+   const versao=versaoSelecao;
    carregando=true;
    const button=$("btnCarregarPdfOficial");
    if(button)button.disabled=true;
@@ -113,7 +120,7 @@
      const url="/api/oab-pdf?exame="+exame+"&tipo="+tipo;
      const task=pdfjs.getDocument({url,disableRange:true,disableStream:true,useSystemFonts:true,disableFontFace:true});
      parsed=await task.promise;
-     if(exame!==$("oabExamSelect")?.value||tipo!==$("oabTipoSelect")?.value){
+     if(versao!==versaoSelecao||exame!==$("oabExamSelect")?.value||tipo!==$("oabTipoSelect")?.value){
        await parsed.destroy?.();
        avisar("A prova selecionada mudou. Selecione novamente o caderno para carregar seu texto.");
        return false;
@@ -131,11 +138,13 @@
      selector.value="1";
      $("pdfLeitorControles").classList.remove("hidden");
      await mostrarPagina(1);
+     if(versao!==versaoSelecao||identidadeDocumento!==exame+"-"+tipo)return false;
      avisar("Caderno oficial "+exame+"º, Tipo "+tipo+", carregado dentro do aplicativo ("+
        documento.numPages+" páginas). O texto extraído depende da estrutura do PDF da OAB.");
      return true;
    }catch(_){
-     if(parsed)try{await parsed.destroy?.()}catch(_){}
+     if(parsed && parsed!==documento)try{await parsed.destroy?.()}catch(_){}
+     if(versao!==versaoSelecao)return false;
      documento=null;cache.clear();cacheQuestoes.clear();trechoAtual="";
      $("pdfLeitorControles")?.classList.add("hidden");
      const preview=$("textoQuestaoDentroSimulador");
@@ -332,20 +341,22 @@
    }
    const identidadeAlvo=exame+"-"+tipo;
    if(!documento||identidadeDocumento!==identidadeAlvo){
-     // Reutiliza a operação em andamento quando o estudante troca rapidamente de questão.
+     // Aguarda eventual PDF antigo sem reutilizar sua identidade nem recursão.
      if(promessaOficial){
-       await promessaOficial;
-       if(exame!==$("oabExamSelect")?.value || tipo!==$("oabTipoSelect")?.value)return false;
-       // Uma troca de exame durante o carregamento anterior pode invalidar o PDF.
-       // Inicia o carregamento do exame atual em vez de deixar o cartão sem resposta.
-       if(identidadeDocumento!==identidadeAlvo)return estudarQuestaoAtual(opcoes);
-     }else{
+       try{await promessaOficial}catch(_){}
+       if(exame!==$("oabExamSelect")?.value||tipo!==$("oabTipoSelect")?.value)return false;
+     }
+     if(identidadeDocumento!==identidadeAlvo){
        if(documento)limpar();
+       if(carregando){
+         avisar("O leitor está finalizando a prova anterior. Toque em Recarregar texto oficial desta questão.");
+         return false;
+       }
        const tarefa=carregarOficial();
        promessaOficial=tarefa;
        let ok=false;
        try{ok=await tarefa}finally{if(promessaOficial===tarefa)promessaOficial=null}
-       if(!ok || exame!==$("oabExamSelect")?.value || tipo!==$("oabTipoSelect")?.value)return false;
+       if(!ok||exame!==$("oabExamSelect")?.value||tipo!==$("oabTipoSelect")?.value)return false;
      }
    }
    if(identidadeDocumento!==identidadeAlvo)return false;
@@ -365,7 +376,7 @@
    return window.RatioA11y.voiceText(trechoAtual.slice(0,3200));
  }
  document.addEventListener("change",function(event){
-   if(["oabExamSelect","oabTipoSelect"].includes(event.target?.id)&&documento)limpar();
+   if(["oabExamSelect","oabTipoSelect"].includes(event.target?.id))limpar();
  });
  window.RatioPdfAcessivel={carregar,carregarOficial,estudarQuestaoAtual,limpar,mostrarPagina,localizarQuestao,cancelarBusca,ouvirTrecho,extrairTrechoQuestao};
 })();
