@@ -1278,6 +1278,15 @@
       iniciarConsultaGabaritosHistoricos();
     }
     const arquivosDocumentaisOAB=Object.freeze({
+      19:{
+        cadernos:[
+          {tipo:1,cor:'Branca',pdf:'https://s.oab.org.br/arquivos/2019/10/252248a1-72f1-499a-a0a1-86dceffcd256.PDF'}
+        ],
+        gabaritoPDF:'https://s.oab.org.br/arquivos/2019/10/0e4841f4-3119-4349-a44c-673a36c21318.pdf',
+        status:'prova_tipo_1_documentada_gabarito_preliminar_sem_correcao_integrada',
+        fonteOficial:'https://oab.fgv.br/home.aspx?key=620',
+        aviso:'XIX Exame de 03/04/2016: apenas o PDF do Tipo 1 foi documentado aqui; outros tipos ainda pendentes. O gabarito original publicado em 03/04/2016 foi mantido sem anulações segundo resultado definitivo da primeira fase (29/04/2016).'
+      },
       30:{
         cadernos:[
           {tipo:1,cor:'Branca',pdf:'https://s.oab.org.br/arquivos/2019/10/5d1e94ef-83ee-4506-a2e9-38c62c98a8d1.pdf'},
@@ -1435,7 +1444,9 @@
       blocoGabarito.classList.toggle('hidden',!temGabarito);
       document.getElementById('detalhesGabaritoIntegrado').classList.toggle('hidden',!temGabarito);
       if(!temGabarito)document.getElementById("detalhesGabaritoIntegrado").open=false;
-      if(temProva)document.getElementById('oabCadernoPdf').href=documentos.cadernos[tipo-1].pdf;
+      if(temProva && documentos.cadernos[tipo-1]?.pdf)document.getElementById('oabCadernoPdf').href=documentos.cadernos[tipo-1].pdf;
+      const temCadernoSelecionado=!!documentos?.cadernos?.[tipo-1]?.pdf;
+      document.getElementById('oabCadernoPdf').classList.toggle('hidden',!temCadernoSelecionado);
       if(temGabarito)document.getElementById('oabGabaritoPdf').href=documentos.gabaritoPDF;
       const retificacao=available&&exam.comunicadoAnulacaoPosterior;
       const retificacaoLink=document.getElementById('oabRetificacaoPdf');
@@ -1453,9 +1464,11 @@
         if(num===47)desenharFolha47();
         else desenharFolha46(false);
       }else{
-        document.getElementById('oabStatus').textContent=num+'º Exame • '+(temProva?
-          'Caderno oficial e gabarito definitivo disponíveis para consulta no aplicativo. Respostas eletrônicas ainda não homologadas.':
-          'Consulte os documentos na página oficial da FGV. A integração de cadernos e gabaritos ainda está pendente.');
+        document.getElementById('oabStatus').textContent=num+'º Exame • '+(
+          documentos?.aviso||(
+            temCadernoSelecionado?'Caderno oficial da cor selecionada disponível para consulta; a correção eletrônica ainda não está homologada.':
+            'O caderno deste tipo ainda não está disponível. Consulte a fonte oficial; a integração continua pendente.')
+        );
       }
       const alerta=document.getElementById('avisoExameHistorico');
       if(alerta)alerta.textContent=num+'º Exame — '+(exam?.dataProva?'prova de '+exam.dataProva+'. ':'data da prova: consulte o documento oficial. ')+'Gabarito histórico; atualização jurídica individual não certificada.';
