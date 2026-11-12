@@ -4,6 +4,12 @@ import {Readable} from "node:stream";
  * Os enunciados continuam originários de s.oab.org.br.
  */
 const SOURCES = Object.freeze({
+  "28":[
+    "https://oab.fgv.br/arq/631/1338368_CADERNO_TIPO_1_XXVIII_EXAME%20-%20ENVIO.pdf",
+    "https://s.oab.org.br/arquivos/2019/10/8fa07fe0-1947-4a84-8c86-2ce25ad6808c.pdf",
+    "https://s.oab.org.br/arquivos/2019/10/4c1bb9b9-e0ca-42eb-b148-b7f30a70cadf.pdf",
+    "https://s.oab.org.br/arquivos/2019/10/c2f79da6-616f-4a8e-b3fb-59437dd3a8a0.pdf"
+  ],
  "29":[
  "https://s.oab.org.br/arquivos/2019/10/b960528b-8433-4d32-be2f-d8a98eb911a2.pdf",
  "https://s.oab.org.br/arquivos/2019/10/2def5693-0e41-4ea0-9579-073348c7cc78.pdf",
