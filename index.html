@@ -286,6 +286,11 @@
           <details id="blocoGabaritoOpcional" class="p-2 rounded-lg border border-purple-600 text-sm font-semibold text-purple-800 dark:text-purple-300">
             <summary class="cursor-pointer py-1">Consultar gabarito oficial (opcional)</summary>
             <a id="oabGabaritoPdf" href="https://oab.fgv.br/" target="_blank" rel="noopener noreferrer" class="inline-flex mt-2 px-4 py-2 rounded-lg border border-purple-600 text-ratio-purple dark:text-purple-300 underline font-semibold text-sm">Abrir gabarito oficial na fonte</a>
+            <details id="detalhesGabaritoIntegrado" class="mt-3 rounded-lg border border-purple-500 p-3" ontoggle="alternarGabaritoIntegrado(this)">
+              <summary class="cursor-pointer min-h-[44px] flex items-center font-bold">Exibir ou ocultar gabarito definitivo dentro do aplicativo</summary>
+              <iframe id="iframeGabaritoOficial" loading="lazy" title="Gabarito definitivo oficial da OAB FGV" class="ratio-pdf-iframe mt-2 bg-white"></iframe>
+              <p id="statusGabaritoOficial" class="mt-2 text-xs text-slate-700 dark:text-slate-200" role="status">Gabarito oficial disponível para consulta.</p>
+            </details>
           </details>
           <a id="oabRetificacaoPdf" href="https://www.oab.org.br/" target="_blank" rel="noopener noreferrer" class="hidden inline-flex px-4 py-2 rounded-lg border-2 border-amber-500 text-amber-900 dark:text-amber-300 font-bold text-sm">Anulação posterior — comunicado OAB</a>
           </div>
@@ -1071,6 +1076,30 @@
       document.getElementById('oabTipoSelect').value='1';
       atualizarArquivoOAB();
     }
+    const arquivosDocumentaisOAB=Object.freeze({
+      38:{
+        cadernos:[
+          {tipo:1,cor:'Branca',pdf:'https://s.oab.org.br/arquivos/2023/07/1bf68b8c-a8da-4bbe-a1ec-2134353ad2e6.pdf'},
+          {tipo:2,cor:'Verde',pdf:'https://s.oab.org.br/arquivos/2023/07/19b6be37-874d-4c7b-9c85-f4ed6143af56.pdf'},
+          {tipo:3,cor:'Amarela',pdf:'https://s.oab.org.br/arquivos/2023/07/bd47af79-8f5f-4dbe-9cb7-afc3c09c631e.pdf'},
+          {tipo:4,cor:'Azul',pdf:'https://s.oab.org.br/arquivos/2023/07/1ddd5487-f965-498b-b1da-c556d644cef1.pdf'}
+        ],
+        gabaritoPDF:'https://s.oab.org.br/arquivos/2023/07/899aa8b1-ad89-4f8a-8eae-6fa62154c0da.pdf'
+      }
+    });
+    function documentosDoExameOAB(numero){
+      return fonteOAB()['exam'+numero]||arquivosDocumentaisOAB[numero]||null;
+    }
+    function alternarGabaritoIntegrado(detalhes){
+      const quadro=document.getElementById('iframeGabaritoOficial');
+      const exame=Number(document.getElementById('oabExamSelect').value);
+      const documentos=documentosDoExameOAB(exame);
+      if(!detalhes.open){quadro.removeAttribute('src');return;}
+      if(!documentos?.gabaritoPDF){detalhes.open=false;quadro.removeAttribute('src');return;}
+      const url='/api/oab-gabarito?exame='+exame+'#toolbar=1&navpanes=0';
+      if(quadro.getAttribute('src')!==url)quadro.src=url;
+      document.getElementById('statusGabaritoOficial').textContent='Gabarito definitivo do '+exame+'º Exame aberto no aplicativo. Se o leitor de PDF não funcionar, utilize o link original.';
+    }
     function atualizarArquivoOAB() {
       const db=fonteOAB();
       const num=Number(document.getElementById('oabExamSelect').value);
@@ -1078,9 +1107,22 @@
       if(!entry)return;
       const exam=db['exam'+num];
       const available=!!(exam&&Array.isArray(exam.gabaritos)&&exam.gabaritos.length===4);
+      const documentos=documentosDoExameOAB(num);
+      const temProva=!!documentos?.cadernos?.length;
+      const temGabarito=!!documentos?.gabaritoPDF;
       const tipo=tipoOABAtual();
+      // Trocar de edição nunca deixa um PDF antigo visível como se fosse da nova.
+      const quadro=document.getElementById('iframeProvaOficial');
+      quadro.removeAttribute('src');
+      quadro._ratioLivroAtual='';
+      const gabaritoFrame=document.getElementById('iframeGabaritoOficial');
+      gabaritoFrame.removeAttribute('src');
+      const blocoPDF=document.getElementById('consultaPdfOpcional');
+      blocoPDF.open=false;
+      document.getElementById('blocoGabaritoOpcional').open=false;
+      document.getElementById('detalhesGabaritoIntegrado').open=false;
       document.getElementById('oabPaginaOficial').href=entry.fgvUrl;
-      document.getElementById('oabTipoSelect').disabled=!available;
+      document.getElementById('oabTipoSelect').disabled=!temProva;
       document.getElementById('oabFolhaBloco').classList.toggle('hidden',num!==47);
       document.getElementById('oab46Bloco').classList.toggle('hidden',!(num>=39&&num<=46));
       const arquivoHistorico=document.getElementById('oabArquivoHistorico');
@@ -1092,11 +1134,14 @@
         document.getElementById('linkArquivoHistorico').href=
           entry.fgvUrl || 'https://www.oab.org.br/servicos/examedeordem';
       }
-      document.getElementById('oabCadernoPdf').classList.toggle('hidden',!available);
-      document.getElementById('oabGabaritoPdf').classList.toggle('hidden',!available);
+      document.getElementById('oabCadernoPdf').classList.toggle('hidden',!temProva);
+      document.getElementById('oabGabaritoPdf').classList.toggle('hidden',!temGabarito);
       const blocoGabarito=document.getElementById('blocoGabaritoOpcional');
-      blocoGabarito.classList.toggle('hidden',!available);
-      if(!available)blocoGabarito.open=false;
+      blocoGabarito.classList.toggle('hidden',!temGabarito);
+      document.getElementById('detalhesGabaritoIntegrado').classList.toggle('hidden',!temGabarito);
+      if(!temGabarito)blocoGabarito.open=false;
+      if(temProva)document.getElementById('oabCadernoPdf').href=documentos.cadernos[tipo-1].pdf;
+      if(temGabarito)document.getElementById('oabGabaritoPdf').href=documentos.gabaritoPDF;
       const retificacao=available&&exam.comunicadoAnulacaoPosterior;
       const retificacaoLink=document.getElementById('oabRetificacaoPdf');
       retificacaoLink.classList.toggle('hidden',!retificacao);
@@ -1113,7 +1158,9 @@
         if(num===47)desenharFolha47();
         else desenharFolha46(false);
       }else{
-        document.getElementById('oabStatus').textContent=num+'º Exame • Consulte o documento original. O simulado deste exame ainda não foi validado para respostas e correção.';
+        document.getElementById('oabStatus').textContent=num+'º Exame • '+(temProva?
+          'Caderno oficial e gabarito definitivo disponíveis para consulta no aplicativo. Respostas eletrônicas ainda não homologadas.':
+          'Consulte os documentos na página oficial da FGV. A integração de cadernos e gabaritos ainda está pendente.');
       }
       atualizarEstatisticaProva();
       renderizarSimuladorOficial();
@@ -1329,9 +1376,13 @@
       const frame=document.getElementById('iframeProvaOficial');
       const exame=Number(document.getElementById('oabExamSelect').value);
       const tipo=tipoOABAtual();
-      const config=fonteOAB()['exam'+exame];
+      const config=documentosDoExameOAB(exame);
       if(!detalhes.open){frame.removeAttribute('src');return;}
-      if(!config?.cadernos?.[tipo-1]?.pdf){detalhes.open=false;return;}
+      if(!config?.cadernos?.[tipo-1]?.pdf){
+        frame.removeAttribute('src');
+        document.getElementById('statusPdfOabIntegrado').textContent='O caderno desta edição ainda não foi integrado. Consulte a página histórica oficial da FGV.';
+        return;
+      }
       const url='/api/oab-pdf?exame='+exame+'&tipo='+tipo+'#toolbar=1&navpanes=0';
       if(frame.getAttribute('src')!==url)frame.src=url;
       const status=document.getElementById('statusPdfOabIntegrado');
@@ -1361,7 +1412,9 @@
       painel.classList.remove('hidden');
       const aviso=document.getElementById('situacaoAcervoSimulador');
       if(!ctx){
-        painel.querySelector('.ratio-study-layout').classList.add('hidden');
+        // O documento oficial permanece disponível mesmo sem correção eletrônica.
+        painel.querySelector('.ratio-study-layout').classList.remove('hidden');
+        painel.querySelector('.ratio-study-pane').classList.add('hidden');
         painel.querySelector('.ratio-study-actions').classList.remove('hidden');
         const exameSelecionado=Number(document.getElementById('oabExamSelect').value);
         const tipoSelecionado=tipoOABAtual();
@@ -1383,10 +1436,23 @@
         document.getElementById('btnCorrigirSimulador').disabled=true;
         document.getElementById('btnLerQuestao').disabled=true;
         document.getElementById('statusSimuladorOficial').textContent=exameSelecionado+'º Exame • Questão '+numeroQuestao;
-        aviso.textContent='Esta questão ainda não está disponível para responder no aplicativo: faltam o enunciado, as alternativas e o gabarito conferidos desta edição. Você pode consultar a fonte original abaixo; nenhuma resposta será inventada.';
+        const docs=documentosDoExameOAB(exameSelecionado);
+        const caderno=docs?.cadernos?.[tipoSelecionado-1];
+        document.getElementById('rotuloVisualizadorIntegrado').textContent=caderno?
+          exameSelecionado+'º Exame • Tipo '+tipoSelecionado+' ('+caderno.cor+')':
+          exameSelecionado+'º Exame • Consulte a fonte histórica da FGV';
+        document.getElementById('linkProvaOabDireto').href=caderno?.pdf||
+          fonteOAB().archive.find(x=>x.exame===exameSelecionado)?.fgvUrl||'https://oab.fgv.br/';
+        document.getElementById('statusPdfOabIntegrado').textContent=caderno?
+          'Caderno oficial identificado. Toque em “Exibir caderno FGV aqui” para abrir o documento dentro do aplicativo.':
+          'Ainda não há PDF integrado nesta edição; consulte a fonte oficial da FGV.';
+        aviso.textContent=caderno?
+          'Consulta documental do '+exameSelecionado+'º Exame disponível. A correção eletrônica ainda não está homologada; escolha o caderno ou o gabarito oficial acima.':
+          'Este exame aguarda a importação do caderno e do gabarito para consulta integrada. Consulte a fonte histórica oficial.';
         return;
       }
       painel.querySelector('.ratio-study-layout').classList.remove('hidden');
+      painel.querySelector('.ratio-study-pane').classList.remove('hidden');
       painel.querySelector('.ratio-study-actions').classList.remove('hidden');
       document.getElementById('btnCorrigirSimulador').disabled=false;
       document.getElementById('btnLerQuestao').disabled=false;
