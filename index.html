@@ -522,7 +522,7 @@
             <summary class="cursor-pointer font-bold text-slate-900 dark:text-white min-h-[44px] flex items-center">Exibir ou ocultar cards de respostas deste exame</summary>
             <div class="mt-4">
           <div class="p-4 mb-5 rounded-xl border border-amber-500/40 bg-amber-50 dark:bg-amber-950/30">
-            <p class="font-bold text-sm text-amber-900 dark:text-amber-300">26º a 29º e 31º ao 46º Exames — gabaritos oficiais auditados, sem comentários individuais</p>
+            <p class="font-bold text-sm text-amber-900 dark:text-amber-300">25º a 29º e 31º ao 46º Exames — gabaritos oficiais auditados, sem comentários individuais</p>
             <p class="text-xs sm:text-sm text-amber-950 dark:text-slate-200 mt-2">Leia o PDF do caderno oficial selecionado e marque suas respostas. O resultado usa o gabarito definitivo da edição correspondente; enunciados integrais continuam na fonte da OAB/FGV.</p>
           </div>
           <div class="flex flex-wrap items-center gap-3 mb-4">
@@ -812,7 +812,7 @@
     </div>
   </section>
 
-  <script src="/oab-data.js?v=20261112-2330"></script>
+  <script src="/oab-data.js?v=20261112-2335"></script>
   <script src="/oab47-comentarios.js"></script>
   <!-- Lógica de cadernos e gabaritos oficiais FGV/OAB -->
   <script>
@@ -1985,7 +1985,7 @@
     function fonte46() {
       const n=Number(document.getElementById('oabExamSelect').value);
       const dados=fonteOAB()['exam'+n];
-      if(n<26||n>46||!dados||dados.gabaritos?.length!==4||dados.gabaritos.some(x=>x.length!==80))
+      if(n<25||n>46||!dados||dados.gabaritos?.length!==4||dados.gabaritos.some(x=>x.length!==80))
         throw new Error('Gabaritos oficiais do exame selecionado incompletos');
       return dados;
     }
