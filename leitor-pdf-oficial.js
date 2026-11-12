@@ -237,20 +237,30 @@
    if(!texto)return null;
    const n=Number(numero);
    if(!Number.isInteger(n)||n<1||n>80)return null;
-   // OAB: marcador numérico isolado ("46") ou "QUESTÃO 46".
-   // Exige início de linha para não confundir datas, valores ou artigos.
-   const linhas=String(texto).split(/\n/);
-   const marcador=(linha)=>/^\s*(?:(?:QUEST(?:Ã|A)O)\s*(?:N[º°.]\s*)?)?0*(\d{1,2})\s*[.):-]?\s*$/i.exec(linha);
-   const inicio=linhas.findIndex(l=>Number(marcador(l)?.[1])===n);
-   if(inicio<0)return null;
-   let fim=linhas.length;
-   for(let i=inicio+1;i<linhas.length;i++){
-     const numeroSeguinte=Number(marcador(linhas[i])?.[1]);
-     if(numeroSeguinte===n+1){fim=i;break;}
+   const lines=String(texto).replace(/\r/g,"").split(/\n/);
+   // PDFs oficiais usam "QUESTÃO 39", "Questão 39 —", "39" isolado
+   // ou o número no começo da mesma linha do enunciado.
+   const marcador=(line)=>{
+     const value=String(line||"").trim();
+     const formal=/^(?:QUEST[AÃ]O|QUESTAO)\s*(?:N[º°.]?\s*)?0*(\d{1,2})(?:\s*[.):-–—]\s*|\s+|$)/i.exec(value);
+     if(formal)return {numero:Number(formal[1]),formal:true};
+     const standalone=/^0*(\d{1,2})\s*[.):-]?\s*$/.exec(value);
+     return standalone?{numero:Number(standalone[1]),formal:false}:null;
+   };
+   let start=-1;
+   for(let index=0;index<lines.length;index++){
+     const m=marcador(lines[index]);
+     if(m?.numero===n){start=index;break;}
    }
-   const trecho=linhas.slice(inicio,fim).join("\n").trim();
-   // Requer texto significativo, não apenas o número impresso.
-   return trecho.length>=55?trecho:null;
+   if(start<0)return null;
+   let end=lines.length;
+   for(let k=start+1;k<lines.length;k++){
+     const m=marcador(lines[k]);
+     if(m&&(m.numero===n+1||m.numero===n+2)){end=k;break;}
+   }
+   const excerpt=lines.slice(start,end).join("\n").trim();
+   if(excerpt.length<55||excerpt.length>9500)return null;
+   return excerpt;
  }
  // Separa alternativas somente quando as quatro marcações estão inequívocas.
  // Se a extração estiver ambígua, preserva o texto integral para não omitir respostas.
@@ -291,6 +301,7 @@
      const separado=separarAlternativasOficiais(trecho);
      preview.textContent=trecho;
      preview.setAttribute("data-extracao-validada",separado?"sim":"nao");
+     const card=$("cardEnunciadoCompleto");if(card)card.open=true;
      const official=$("questaoOficialPdf");if(official)official.classList.add("hidden");
      const botoes=$("alternativasQuestaoOficial")?.querySelectorAll("button");
      if(botoes)Array.from(botoes).forEach((botao,i)=>{
@@ -323,7 +334,14 @@
        const full=await textoPagina(pageNo);
        if(token!==buscaAtual||(identidadeDocumento!==chaveDocumento&&identidadeDocumento!=="arquivo-local")||
           Number($("questaoOficialNumeroSelect")?.value)!==n)return false;
-       const excerpt=extrairTrechoQuestao(full,n);
+       let excerpt=extrairTrechoQuestao(full,n);
+       // Questões que começam no fim da página podem continuar na próxima.
+       // Só mesclar quando o marcador da questão está na página atual.
+       if(excerpt && pageNo<documento.numPages && excerpt.length<180){
+         const next=await textoPagina(pageNo+1);
+         const combined=extrairTrechoQuestao(full+"\n"+next,n);
+         if(combined&&combined.length>excerpt.length)excerpt=combined;
+       }
        if(excerpt){
          const ok=renderizarTextoQuestao(n,pageNo,excerpt,opcoes);
          if(!ok)return false;
