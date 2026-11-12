@@ -12,7 +12,18 @@ eca:"https://www.planalto.gov.br/ccivil_03/leis/l8069.htm",
 lindb:"https://www.planalto.gov.br/ccivil_03/decreto-lei/del4657compilado.htm",
 oab:"https://www.planalto.gov.br/ccivil_03/leis/l8906.htm",
 l14133:"https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/l14133.htm",
-l9784:"https://www.planalto.gov.br/ccivil_03/leis/l9784.htm"
+l9784:"https://www.planalto.gov.br/ccivil_03/leis/l9784.htm",
+lep:"https://www.planalto.gov.br/ccivil_03/leis/l7210.htm",
+je:"https://www.planalto.gov.br/ccivil_03/leis/l9099.htm",
+eleitoral:"https://www.planalto.gov.br/ccivil_03/leis/l9504.htm",
+lrf:"https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp101.htm",
+mariapenha:"https://www.planalto.gov.br/ccivil_03/_ato2004-2006/2006/lei/l11340.htm",
+lgpd:"https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm",
+lbi:"https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13146.htm",
+hediondos:"https://www.planalto.gov.br/ccivil_03/leis/l8072compilada.htm",
+lai:"https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2011/lei/l12527.htm",
+orgcrime:"https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2013/lei/l12850.htm",
+previdencia:"https://www.planalto.gov.br/ccivil_03/leis/l8213cons.htm"
 });
 const FONTES_ALTERNATIVAS=Object.freeze({
   cc:["https://www2.camara.leg.br/legin/fed/lei/2002/lei-10406-10-janeiro-2002-432893-normaatualizada-pl.html","https://legis.senado.leg.br/norma/552282/publicacao/34620807"],
