@@ -1213,6 +1213,11 @@
         35:'https://examedeordem.oab.org.br/EditaisProvas?NumeroExame=13415'
       };
       const gabaritosDocumentais={
+        27:{
+          url:'https://s.oab.org.br/arquivos/2019/10/2f041f29-9c43-4409-9c32-171428a67b3a.pdf',
+          tipo:'preliminar',
+          descricao:'Gabarito preliminar retificado da XXVII OAB, de 18/11/2018. Comunicado de 18/12/2018 anulou a questão 41 do Tipo 1 e correspondentes 39, 40 e 39 nos Tipos 2, 3 e 4. Falta importar e auditar as quatro sequências antes da correção automática.'
+        },
         30:{
           url:'https://s.oab.org.br/arquivos/2019/10/244695e0-d919-4f6d-8aa0-98a3baa100af.pdf',
           tipo:'preliminar',
@@ -1221,11 +1226,11 @@
 
       };
       if(cadastrado && /^https:\/\/(?:s\.oab\.org\.br\/arquivos\/|oab\.fgv\.br\/arq\/)/.test(cadastrado)){
-        const pdfPreliminar=numero===29;
+        const pdfPreliminar=[28,29].includes(numero);
         link.href=cadastrado;
-        link.textContent=pdfPreliminar?'Abrir gabarito preliminar e conferir anulações':'Abrir gabarito definitivo em PDF';
+        link.textContent=pdfPreliminar?'Abrir gabarito retificado e conferir anulações':'Abrir gabarito definitivo em PDF';
         status.textContent=pdfPreliminar?
-          '29º Exame — respostas preliminares integradas e anulações conciliadas com comunicado posterior. Consulte o resultado final e confirme alterações.':
+          numero+'º Exame — respostas de tabela preliminar/retificada conciliadas com comunicado de anulação. Não confundir a fonte com gabarito definitivo independente.':
           numero+'º Exame — gabarito por caderno integrado ao RATIO JURIS. A legislação da época pode estar desatualizada.';
       }else{
         const documento=gabaritosDocumentais[numero];
