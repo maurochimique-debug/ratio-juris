@@ -874,13 +874,28 @@
           area.textContent='Não foi possível recuperar o artigo com segurança. Use os links oficiais acima para consultar a lei completa. Nenhum texto foi preenchido artificialmente.';
           return;
         }
-        const fonte=document.createElement('a');
-        fonte.href=json.source;fonte.target='_blank';fonte.rel='noopener noreferrer';
-        fonte.className='block mt-3 underline font-bold text-purple-200';
-        fonte.textContent='Conferir o artigo na fonte legislativa oficial';
         area.textContent=json.conteudo+'\n\n'+(json.aviso||'Confira a redação vigente na fonte oficial.');
         detalhes.open=true;
-        detalhes.appendChild(fonte);
+        const origem=fontesLegaisPlanalto[lei]?.url;
+        const fontes=document.createElement('div');
+        fontes.className='mt-4 flex flex-wrap items-center gap-2';
+        const links=[
+          {rotulo:'Conferir no Planalto',url:origem},
+          {rotulo:'Conferir na fonte legislativa oficial utilizada',url:json.source}
+        ];
+        links.forEach(item=>{
+          if(typeof item.url!=='string'||!/^https:\/\//i.test(item.url))return;
+          const link=document.createElement('a');
+          link.href=item.url;link.target='_blank';link.rel='noopener noreferrer';
+          link.className='inline-flex min-h-[44px] items-center rounded-lg border border-purple-400 px-3 py-2 underline font-bold text-purple-200';
+          link.textContent=item.rotulo;
+          fontes.appendChild(link);
+        });
+        detalhes.appendChild(fontes);
+        const observacao=document.createElement('p');
+        observacao.className='mt-2 text-xs text-slate-300';
+        observacao.textContent='As duas fontes são opcionais para conferência. Portais externos podem solicitar consentimento de cookies; a leitura acima permanece no aplicativo.';
+        detalhes.appendChild(observacao);
       }catch(_){
         if(token!==consultaArtigoOficialSeq||!detalhes.isConnected)return;
         area.textContent='A fonte legislativa não respondeu nesta conexão. Use os links oficiais acima para acessar a norma.';
