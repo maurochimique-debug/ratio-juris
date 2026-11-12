@@ -54,8 +54,11 @@
   append("aluno",question);
   input.value="";
   try{
+   const token=await window.RatioJurisAuth?.getAccessToken?.();
+   const headers={"Content-Type":"application/json"};
+   if(typeof token==="string"&&token)headers.Authorization="Bearer "+token;
    const resp=await fetch("/api/assistente-juridico",{
-     method:"POST",headers:{"Content-Type":"application/json"},cache:"no-store",
+     method:"POST",headers,cache:"no-store",
      body:JSON.stringify({pergunta:question,contexto:c,historico:history.slice(-4)})
    });
    let data={};try{data=await resp.json()}catch(_){}
@@ -63,6 +66,8 @@
     const explanation=resp.status===503?
       "A interface está pronta, mas a conexão segura com a IA ainda não foi ativada. Continue consultando os PDFs oficiais e o Modo Gabinete; não haverá resposta artificial.":
       resp.status===429?"O limite de consultas foi atingido. Tente novamente mais tarde.":
+      resp.status===401?"Para utilizar o assistente, será necessário entrar com sua conta quando o login estiver habilitado.":
+      resp.status===403?"A função está reservada ao piloto autorizado antes da abertura comercial.":
       "Não foi possível consultar a IA agora. Utilize os documentos oficiais da prova.";
     append("assistente",explanation);notice(data.error||"Consulta indisponível.");return;
    }
