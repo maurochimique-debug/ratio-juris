@@ -1,4 +1,4 @@
-/* Provas oficiais OAB/FGV 39–47, gabaritos por caderno. Não inventar correspondência. */
+/* Dados públicos dos cadernos e gabaritos oficiais OAB/FGV; verificação documental por exame. */
 window.RATIO_OAB_DATA = {
   "version": "2026-11-09",
   "metadata": {
@@ -7,8 +7,8 @@ window.RATIO_OAB_DATA = {
     "dataProva": "2026-09-06",
     "aviso": "O gabarito é histórico. Comentários sobre legislação e jurisprudência atuais exigem revisão individual.",
     "validacaoJuridicaIndividual": false,
-    "ultimaIntegracao": "2026-11-10",
-    "escopoGabaritos": "39º–47º Exames OAB: 9 edições com 4 gabaritos/cadernos; 38º–10º somente catálogo externo",
+    "ultimaIntegracao": "2026-11-12",
+    "escopoGabaritos": "38º–47º Exames OAB: gabaritos definitivos por tipo de caderno; 37º–10º catálogo documental",
     "ultimaImportacao": "2026-11-10",
     "examesCorrigiveis": [
       47,
@@ -19,7 +19,8 @@ window.RATIO_OAB_DATA = {
       42,
       41,
       40,
-      39
+      39,
+      38
     ],
     "auditoriaAtual": {
       "data": "2026-11-10",
@@ -94,7 +95,7 @@ window.RATIO_OAB_DATA = {
     {
       "exame": 38,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=641",
-      "status": "pagina_historica_sem_importacao",
+      "status": "gabarito_definitivo_cadernos_integrados",
       "importado": false
     },
     {
@@ -3860,5 +3861,467 @@ window.RATIO_OAB_DATA = {
     "disciplinas": [],
     "avisoCorrespondencia": "Não se utiliza tabela de equivalência entre tipos: a tabela publicada diverge das posições de certas anulações. Cada prova é corrigida exclusivamente contra o gabarito definitivo da mesma cor/tipo.",
     "nota": "Três anulações por caderno no gabarito definitivo consolidado; uma delas decorre do comunicado adicional de 7 de dezembro de 2023. Não reutilizar gabaritos entre tipos."
+  },
+  "exam38": {
+    "exame": 38,
+    "dataProva": "2023-07-09",
+    "dataGabaritoDefinitivo": "2023-07-27",
+    "status": "GABARITO_DEFINITIVO_QUATRO_CADERNOS_AUDITADO_FONTE_OAB",
+    "gabaritos": [
+      "CDBACBDBAADCACCACCDBBADBCDADCDADADDCDACDBACC*AADBABCDDABABB*B*CCABCCABDDBBBCACAD",
+      "BCDBACBDAACCADCACCBDABDBCCDADDDADACDADACDBCCA*DBAABADBCD*ABB*BCCCABCABBDDBBDCACA",
+      "DBCDBACBAACADCACCCBDBABDDCCDAADDADDCDBADACCC*ABAADABBCDDB*ABB*CCCCABBABBDDBADCAC",
+      "BDBCDBACAAADCACCCCDBABBDADCCDDADDACDBADACDCCA*AADBDDBABC*B*ABBBCCCCABABBBDDCADCA"
+    ],
+    "correspondencia": [
+      [
+        2,
+        3,
+        4
+      ],
+      [
+        3,
+        4,
+        5
+      ],
+      [
+        4,
+        5,
+        6
+      ],
+      [
+        5,
+        6,
+        7
+      ],
+      [
+        6,
+        7,
+        8
+      ],
+      [
+        7,
+        8,
+        1
+      ],
+      [
+        8,
+        1,
+        2
+      ],
+      [
+        1,
+        2,
+        3
+      ],
+      [
+        10,
+        9,
+        10
+      ],
+      [
+        9,
+        10,
+        9
+      ],
+      [
+        14,
+        13,
+        12
+      ],
+      [
+        15,
+        14,
+        13
+      ],
+      [
+        16,
+        15,
+        14
+      ],
+      [
+        11,
+        16,
+        15
+      ],
+      [
+        12,
+        11,
+        16
+      ],
+      [
+        13,
+        12,
+        11
+      ],
+      [
+        18,
+        18,
+        17
+      ],
+      [
+        17,
+        17,
+        18
+      ],
+      [
+        20,
+        20,
+        19
+      ],
+      [
+        19,
+        19,
+        20
+      ],
+      [
+        22,
+        21,
+        22
+      ],
+      [
+        21,
+        22,
+        21
+      ],
+      [
+        23,
+        24,
+        24
+      ],
+      [
+        24,
+        23,
+        23
+      ],
+      [
+        26,
+        27,
+        28
+      ],
+      [
+        27,
+        28,
+        29
+      ],
+      [
+        28,
+        29,
+        25
+      ],
+      [
+        29,
+        25,
+        26
+      ],
+      [
+        25,
+        26,
+        27
+      ],
+      [
+        31,
+        32,
+        33
+      ],
+      [
+        32,
+        33,
+        34
+      ],
+      [
+        33,
+        34,
+        30
+      ],
+      [
+        34,
+        30,
+        31
+      ],
+      [
+        30,
+        31,
+        32
+      ],
+      [
+        36,
+        35,
+        36
+      ],
+      [
+        35,
+        36,
+        35
+      ],
+      [
+        38,
+        40,
+        39
+      ],
+      [
+        39,
+        41,
+        40
+      ],
+      [
+        40,
+        42,
+        41
+      ],
+      [
+        41,
+        37,
+        42
+      ],
+      [
+        42,
+        38,
+        37
+      ],
+      [
+        37,
+        39,
+        38
+      ],
+      [
+        44,
+        44,
+        43
+      ],
+      [
+        43,
+        43,
+        44
+      ],
+      [
+        46,
+        45,
+        46
+      ],
+      [
+        45,
+        46,
+        45
+      ],
+      [
+        50,
+        49,
+        48
+      ],
+      [
+        47,
+        50,
+        49
+      ],
+      [
+        48,
+        47,
+        50
+      ],
+      [
+        49,
+        48,
+        47
+      ],
+      [
+        54,
+        53,
+        55
+      ],
+      [
+        55,
+        54,
+        56
+      ],
+      [
+        56,
+        55,
+        51
+      ],
+      [
+        53,
+        56,
+        52
+      ],
+      [
+        52,
+        51,
+        54
+      ],
+      [
+        51,
+        52,
+        53
+      ],
+      [
+        58,
+        59,
+        60
+      ],
+      [
+        59,
+        60,
+        61
+      ],
+      [
+        60,
+        61,
+        62
+      ],
+      [
+        61,
+        62,
+        57
+      ],
+      [
+        62,
+        57,
+        58
+      ],
+      [
+        57,
+        58,
+        59
+      ],
+      [
+        64,
+        65,
+        66
+      ],
+      [
+        65,
+        66,
+        67
+      ],
+      [
+        66,
+        67,
+        68
+      ],
+      [
+        67,
+        68,
+        63
+      ],
+      [
+        68,
+        63,
+        64
+      ],
+      [
+        63,
+        64,
+        65
+      ],
+      [
+        69,
+        70,
+        70
+      ],
+      [
+        70,
+        69,
+        69
+      ],
+      [
+        72,
+        73,
+        74
+      ],
+      [
+        73,
+        74,
+        75
+      ],
+      [
+        74,
+        75,
+        71
+      ],
+      [
+        75,
+        71,
+        72
+      ],
+      [
+        71,
+        72,
+        73
+      ],
+      [
+        77,
+        78,
+        79
+      ],
+      [
+        78,
+        79,
+        80
+      ],
+      [
+        79,
+        80,
+        76
+      ],
+      [
+        80,
+        76,
+        77
+      ],
+      [
+        76,
+        77,
+        78
+      ]
+    ],
+    "cadernos": [
+      {
+        "tipo": 1,
+        "cor": "Branca",
+        "pdf": "https://s.oab.org.br/arquivos/2023/07/1bf68b8c-a8da-4bbe-a1ec-2134353ad2e6.pdf"
+      },
+      {
+        "tipo": 2,
+        "cor": "Verde",
+        "pdf": "https://s.oab.org.br/arquivos/2023/07/19b6be37-874d-4c7b-9c85-f4ed6143af56.pdf"
+      },
+      {
+        "tipo": 3,
+        "cor": "Amarela",
+        "pdf": "https://s.oab.org.br/arquivos/2023/07/bd47af79-8f5f-4dbe-9cb7-afc3c09c631e.pdf"
+      },
+      {
+        "tipo": 4,
+        "cor": "Azul",
+        "pdf": "https://s.oab.org.br/arquivos/2023/07/1ddd5487-f965-498b-b1da-c556d644cef1.pdf"
+      }
+    ],
+    "gabaritoPDF": "https://s.oab.org.br/arquivos/2023/07/899aa8b1-ad89-4f8a-8eae-6fa62154c0da.pdf",
+    "fonteOficial": "https://www.oab.org.br/noticia/61222/confira-o-gabarito-definitivo-e-o-resultado-preliminar-da-1-fase-do-38-eou",
+    "anulacoesPorTipo": [
+      [
+        45,
+        60,
+        62
+      ],
+      [
+        46,
+        57,
+        61
+      ],
+      [
+        45,
+        58,
+        62
+      ],
+      [
+        46,
+        57,
+        59
+      ]
+    ],
+    "disciplinas": [],
+    "nota": "Gabarito definitivo conferido com a publicação da OAB; inclui três anulações por cor e a tabela oficial de equivalência do PDF. Enunciados somente nos PDFs originais."
   }
 };
