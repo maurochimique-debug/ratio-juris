@@ -99,7 +99,7 @@
    }
    const allowed=window.RATIO_OAB_DATA?.["exam"+exame];
    const book=allowed?.cadernos?.[Number(tipo)-1] || (exame==="38"?{pdf:$("oabCadernoPdf")?.href}:null);
-   if(!book?.pdf||!book.pdf.startsWith("https://s.oab.org.br/arquivos/")){
+   if(!book?.pdf||!/^https:\/\/(?:s\.oab\.org\.br\/arquivos\/|oab\.fgv\.br\/arq\/)/.test(book.pdf)){
      avisar("Esta edição ainda não possui PDF oficial verificado no acervo.");return false;
    }
    carregando=true;
