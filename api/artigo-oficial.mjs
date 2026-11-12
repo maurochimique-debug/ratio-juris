@@ -48,23 +48,27 @@ return entities(html.replace(/<!--[\s\S]*?-->/g,"")
 .replace(/\r/g,"").replace(/[ \t]+/g," ").replace(/ *\n */g,"\n").replace(/\n{3,}/g,"\n\n");
 }
 function extract(text,num){
-// Números como 1678 aparecem como "1.678" no Código Civil.
-const numeric=num.match(/^(\d{1,4})(?:-([A-Z]))?$/);
-if(!numeric)return null;
-const digits=numeric[1];
-const grouped=digits.length>3?digits.slice(0,-3)+"[.]?"+digits.slice(-3):digits;
-const n=grouped+(numeric[2]?"[-–]"+numeric[2]:"");
-const pattern=new RegExp("(^|\\n)\\s*Art(?:igo)?\\.?\\s*"+n+"(?:[º°]|\\.)?\\s*(?:[-–—.:]|\\s)","gim");
-const candidates=[...text.matchAll(pattern)];
-const all=[...text.matchAll(/(^|\n)\s*Art(?:igo)?\.?\s*(?:\d{1,2}\.\d{3}|\d{1,4})(?:[-–][A-Za-z])?(?:[º°]|\.)?\s*(?:[-–—.]|\s)/gim)];
-for(const m of candidates){
-  const at=m.index+(m[1]?.length||0);
-  const next=all.find(x=>x.index>at+20);
-  const snippet=text.slice(at,next?.index??Math.min(text.length,at+100000)).trim();
-  // Artigos longos, como o art. 5º da Constituição, excedem 12 mil caracteres.
-  if(snippet.length>=45 && snippet.length<=100000 && /Art(?:igo)?\.?\s*\d+/i.test(snippet.slice(0,50)))return snippet;
-}
-return null;
+  // A redação oficial pode representar "Art. 5º" como "Art. 5 o",
+  // usar hífen, ponto, sobrescrito HTML ou espaço de largura variável.
+  const parts=/^(\d{1,4})(?:-([A-Z]))?$/.exec(num);
+  if(!parts)return null;
+  const digits=parts[1];
+  const quantity=digits.length>3?digits.slice(0,-3)+"\\.?"+digits.slice(-3):digits;
+  const suffix=parts[2]?"\\s*[-–]\\s*"+parts[2]:"";
+  const head="Art(?:igo)?\\.?\\s*"+quantity+suffix+"(?:(?:\\s*[º°o])?\\s*[.:-–—]?)(?=\\s|$)";
+  const start=new RegExp("(^|\\n)\\s*"+head,"gim");
+  const anyArticle=/(^|\n)\s*Art(?:igo)?\.?\s*(?:\d{1,2}\.\d{3}|\d{1,4})(?:\s*[-–]\s*[A-Z])?(?:\s*[º°o])?\s*[.:-–—]?(?=\s|$)/gim;
+  const matches=[...text.matchAll(start)];
+  const boundaries=[...text.matchAll(anyArticle)];
+  for(const match of matches){
+    const at=match.index+(match[1]?.length||0);
+    const next=boundaries.find(x=>x.index>at+20);
+    const passage=text.slice(at,next?.index??Math.min(text.length,at+100000)).trim();
+    if(passage.length>=30&&passage.length<=100000&&/^Art(?:igo)?\.?\s*\d/i.test(passage)){
+      return passage;
+    }
+  }
+  return null;
 }
 export default async function handler(req,res){
 res.setHeader("Cache-Control","no-store");
