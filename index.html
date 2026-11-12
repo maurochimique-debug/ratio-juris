@@ -1316,9 +1316,13 @@
       const documentos=documentosDoExameOAB(exame);
       if(!detalhes.open){quadro.removeAttribute('src');return;}
       if(!documentos?.gabaritoPDF){detalhes.open=false;quadro.removeAttribute('src');return;}
-      const url='/api/oab-gabarito?exame='+exame+'#toolbar=1&navpanes=0';
+      const url='/api/oab-gabarito?exame='+exame+'&selecao='+encodeURIComponent(exame+'-'+tipoOABAtual())+'#toolbar=1&navpanes=0';
       if(quadro.getAttribute('src')!==url)quadro.src=url;
-      document.getElementById('statusGabaritoOficial').textContent='Gabarito definitivo do '+exame+'º Exame solicitado ao leitor interno. Caso não apareça, abra o PDF oficial na fonte original.';
+      quadro.title='Gabarito documental do '+exame+'º Exame da OAB';
+      const statusFonte=String(documentos.status||'');
+      document.getElementById('statusGabaritoOficial').textContent=(/PRELIMINAR|RETIFICADO|conciliad/i.test(statusFonte)?
+        'Documento histórico do '+exame+'º Exame (confira anulações e eventuais retificações).':
+        'Gabarito oficial do '+exame+'º Exame.')+' Se o PDF não aparecer, abra o arquivo na fonte original.';
     }
     let ultimaSelecaoExameCaderno=null;
     function ajustarQuestaoAoTrocarCaderno(numero,tipo){
@@ -1373,6 +1377,18 @@
       gabaritoFrame.removeAttribute('src');
       const blocoPDF=document.getElementById('consultaPdfOpcional');
       blocoPDF.open=false;
+      const extras=document.getElementById('ajudaDocumentosProva');
+      if(extras)extras.open=false;
+      const leitor=document.getElementById('detalhesLeitorPdf');
+      if(leitor)leitor.open=false;
+      if(window.RatioPdfAcessivel?.limpar)window.RatioPdfAcessivel.limpar();
+      const preview=document.getElementById('textoQuestaoDentroSimulador');
+      if(preview){
+        preview.textContent='Preparando o enunciado oficial da prova selecionada...';
+        preview._ratioQuestaoAnterior='';
+        preview.removeAttribute('data-extracao-validada');
+      }
+      document.getElementById('simulador-oficial')._ratioAutoQuestao='';
       document.getElementById('blocoGabaritoOpcional').open=false;
       document.getElementById('detalhesGabaritoIntegrado').open=false;
       document.getElementById('oabPaginaOficial').href=entry.fgvUrl;
@@ -1624,6 +1640,8 @@
     function abrirCadernoOabIntegrado(){
       const detalhes=document.getElementById('consultaPdfOpcional');
       if(!detalhes)return false;
+      const exterior=document.getElementById('ajudaDocumentosProva');
+      if(exterior)exterior.open=true;
       detalhes.open=true;
       alternarConsultaPdfOficial(detalhes);
       detalhes.scrollIntoView({block:'start',behavior:'auto'});
@@ -1641,8 +1659,9 @@
         document.getElementById('statusPdfOabIntegrado').textContent='O caderno desta edição ainda não foi integrado. Consulte a página histórica oficial da FGV.';
         return;
       }
-      const url='/api/oab-pdf?exame='+exame+'&tipo='+tipo+'#toolbar=1&navpanes=0';
+      const url='/api/oab-pdf?exame='+exame+'&tipo='+tipo+'&selecao='+encodeURIComponent(exame+'-'+tipo)+'#toolbar=1&navpanes=0';
       if(frame.getAttribute('src')!==url)frame.src=url;
+      frame.title='Caderno oficial do '+exame+'º Exame, tipo '+tipo;
       const status=document.getElementById('statusPdfOabIntegrado');
       if(status)status.textContent='Caderno FGV/OAB '+exame+'º, tipo '+tipo+', solicitado ao visualizador interno. Se o PDF não aparecer neste navegador, use “Abrir fonte original”.';
     }
@@ -1762,7 +1781,8 @@
       document.getElementById('questaoOficialPdf').href=caderno.pdf;
       const visualizador=document.getElementById('iframeProvaOficial');
       const identidade=numero+'-'+tipo;
-      const interno='/api/oab-pdf?exame='+numero+'&tipo='+tipo;
+      visualizador.title='Caderno oficial do '+numero+'º Exame, tipo '+tipo;
+      const interno='/api/oab-pdf?exame='+numero+'&tipo='+tipo+'&selecao='+encodeURIComponent(numero+'-'+tipo);
       const linkDireto=document.getElementById('linkProvaOabDireto');
       linkDireto.href=caderno.pdf;
       document.getElementById('rotuloVisualizadorIntegrado').textContent=
