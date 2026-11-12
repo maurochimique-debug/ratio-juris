@@ -197,13 +197,17 @@
    const numero=Number(pageNo);
    if(!Number.isInteger(numero)||numero<1||numero>documento.numPages)return "";
    if(cache.has(numero))return cache.get(numero);
-   const page=await documento.getPage(numero);
+   const pdfAtual=documento;
+   const versao=versaoSelecao;
+   const page=await pdfAtual.getPage(numero);
    const content=await page.getTextContent();
+   if(versao!==versaoSelecao||pdfAtual!==documento)return "";
    const viewport=page.getViewport({scale:1});
    const emColunas=reconstruirPaginaPorColunas(content.items,viewport.width,viewport.height);
    const original=content.items.map(item=>typeof item.str==="string"?
      item.str+(item.hasEOL?"\n":" "):"").join("").trim();
    const cleaned=(emColunas||original).replace(/[ \t]+\n/g,"\n").replace(/\n[ \t]+/g,"\n").trim();
+   if(versao!==versaoSelecao||pdfAtual!==documento)return "";
    cache.set(numero,cleaned);
    return cleaned;
  }
@@ -211,9 +215,12 @@
    if(!documento){avisar("Carregue um PDF do caderno oficial primeiro.");return false;}
    const number=Number(n);
    if(!Number.isInteger(number)||number<1||number>documento.numPages)return false;
+   const versao=versaoSelecao;
+   const pdfAtual=documento;
    try{
      avisar("Extraindo texto da página "+number+".");
      const txt=await textoPagina(number);
+     if(versao!==versaoSelecao||pdfAtual!==documento)return false;
      trechoAtual=txt;
      $("pdfPaginaSelect").value=String(number);
      const target=$("pdfTextoExtraido");
