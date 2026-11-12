@@ -327,8 +327,8 @@
      const botoes=$("alternativasQuestaoOficial")?.querySelectorAll("button");
      if(botoes)Array.from(botoes).forEach((botao,i)=>{
        const letra="ABCD"[i];
-       botao.textContent=letra;
-       botao.setAttribute("aria-label","Responder alternativa "+letra);
+       botao.textContent=separado?letra+") "+separado.alternativas[i]:letra;
+       botao.setAttribute("aria-label",separado?"Responder alternativa "+letra+": "+separado.alternativas[i]:"Responder alternativa "+letra);
      });
      if(opcoes.foco!==false)preview.focus();
    }
