@@ -4,6 +4,18 @@ import {Readable} from "node:stream";
  * Os enunciados continuam originários de s.oab.org.br.
  */
 const SOURCES = Object.freeze({
+  "36": [
+    "https://oab.fgv.br/arq/639/527735_Advogado(EOU)%20Tipo%201.pdf",
+    "https://oab.fgv.br/arq/639/562789_Advogado(EOU)%20Tipo%202.pdf",
+    "https://oab.fgv.br/arq/639/586336_Advogado(EOU)%20Tipo%203.pdf",
+    "https://oab.fgv.br/arq/639/556216_Advogado(EOU)%20Tipo%204.pdf"
+  ],
+  "37": [
+    "https://s.oab.org.br/arquivos/2023/02/20ac00a0-9a53-482a-89d2-b1cee39f6a08.pdf",
+    "https://s.oab.org.br/arquivos/2023/02/8632a339-3b5e-468b-9795-28c62801bb6d.pdf",
+    "https://s.oab.org.br/arquivos/2023/02/bbe9a510-bfc4-4017-89ce-d333e4e5d6d1.pdf",
+    "https://s.oab.org.br/arquivos/2023/02/7e2b885c-aa86-4ffc-88cd-f7c42e0e23da.pdf"
+  ],
   "38": [
     "https://s.oab.org.br/arquivos/2023/07/1bf68b8c-a8da-4bbe-a1ec-2134353ad2e6.pdf",
     "https://s.oab.org.br/arquivos/2023/07/19b6be37-874d-4c7b-9c85-f4ed6143af56.pdf",
