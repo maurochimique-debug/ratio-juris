@@ -110,3 +110,38 @@ html.dark #feedbackQuestaoOficial.ratio-resposta-errada{
 }
 #conferenciaLegislacaoOpcional>summary{list-style-position:inside}
 #selecaoBancaJuridica :where(a,button){min-width:0;overflow-wrap:anywhere}
+
+/* RATIO JURIS — fluxo único para leitura confortável em todas as telas.
+   A questão aparece primeiro; documentos oficiais permanecem opcionais. */
+#simulador-oficial .ratio-study-layout{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:stretch!important;
+  gap:1rem!important;
+}
+#simulador-oficial .ratio-study-layout > .ratio-study-pane{
+  order:0!important;
+  width:100%;
+}
+#simulador-oficial .ratio-study-layout > #ajudaDocumentosProva{
+  order:1!important;
+  width:100%;
+}
+#simulador-oficial summary,
+#simulador-oficial select,
+#simulador-oficial button{
+  min-height:44px;
+}
+#simulador-oficial #alternativasQuestaoOficial button{
+  min-height:54px;
+  font-size:1.05rem;
+}
+@media (max-width:640px){
+  #simulador-oficial #alternativasQuestaoOficial{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  #simulador-oficial #alternativasQuestaoOficial button{
+    font-size:1.15rem;
+    text-align:center;
+  }
+}
