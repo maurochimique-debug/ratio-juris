@@ -577,7 +577,7 @@
         <h2 class="text-2xl font-semibold text-white flex items-center mb-2 font-serif">
           <i class="fa-solid fa-scale-balanced text-ratio-purple mr-2" aria-hidden="true"></i> Modo Gabinete — Artigo por artigo
         </h2>
-        <p class="text-sm text-slate-300 mb-6">Escolha a lei e o artigo. O RatioJuris prepara um link à fonte oficial do Planalto com localização do trecho no navegador, quando compatível. Não altera nem substitui a redação oficial.</p>
+        <p class="text-sm text-slate-300 mb-6">Escolha a lei e o número do artigo para ler o texto diretamente no RATIO JURIS, com indicação da fonte legislativa oficial. A abertura de sites externos é opcional e pode apresentar avisos de cookies próprios desses portais.</p>
         <div class="grid grid-cols-1 sm:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] gap-3">
           <div>
             <label for="gabineteLeiSelect" class="block text-white text-sm font-semibold mb-2">Qual legislação?</label>
@@ -599,11 +599,11 @@
           </div>
           <div>
             <label for="gabineteArtigoInput" class="block text-white text-sm font-semibold mb-2">Número do artigo</label>
-            <input type="text" id="gabineteArtigoInput" inputmode="text" maxlength="12" autocomplete="off" placeholder="Ex.: 366, 20, 28-A" class="w-full rounded-xl bg-slate-950 border-2 border-slate-600 text-white p-3 text-sm" aria-label="Número do artigo, exemplo 366 ou 28-A" onkeydown="if(event.key==='Enter'){pesquisarArtigoPlanalto(true);}"/>
+            <input type="text" id="gabineteArtigoInput" inputmode="text" maxlength="12" autocomplete="off" placeholder="Ex.: 366, 20, 28-A" class="w-full rounded-xl bg-slate-950 border-2 border-slate-600 text-white p-3 text-sm" aria-label="Número do artigo, exemplo 366 ou 28-A" onkeydown="if(event.key==='Enter'){pesquisarArtigoPlanalto(false);}"/>
           </div>
         </div>
         <div class="flex flex-wrap gap-3 mt-4 items-center">
-          <button type="button" onclick="pesquisarArtigoPlanalto(true)" class="btn-touch bg-ratio-purpleDeep hover:bg-purple-700 text-white px-5 py-3 rounded-xl text-sm font-bold">Localizar artigo no Planalto</button>
+          <button type="button" onclick="pesquisarArtigoPlanalto(false)" class="btn-touch bg-ratio-purpleDeep hover:bg-purple-700 text-white px-5 py-3 rounded-xl text-sm font-bold">Exibir artigo aqui no RATIO JURIS</button>
           <span class="text-xs text-slate-300">Exemplo: Código Civil, art. 366; LINDB, art. 20</span>
         </div>
         <div id="resultadoBuscaContainer" class="mt-5 hidden" aria-live="polite" aria-atomic="false">
@@ -614,6 +614,7 @@
         </div>
         <div class="border-t border-slate-700 mt-6 pt-5">
           <h3 class="text-white font-bold text-lg mb-3">Jurisprudência — STF e STJ</h3>
+          <p class="text-xs text-slate-300 mb-3">A consulta pelo número é feita no aplicativo. Abrir os portais dos tribunais é opcional e pode exigir consentimento de cookies, conforme as regras desses sites.</p>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
             <div class="rounded-xl border border-purple-500 p-4 bg-slate-950">
               <h4 class="text-white font-extrabold">STF — Supremo Tribunal Federal</h4>
@@ -799,7 +800,21 @@
       target.replaceChildren();
       pane.scrollIntoView({block:'nearest',behavior:'auto'});
       const p=document.createElement('p');p.textContent=descricao;target.appendChild(p);
-      (links||[]).forEach(item=>{
+      if(Array.isArray(links)&&links.length&&/jurisprudência|súmula|precedente|processo/i.test(titulo)){
+        const d=document.createElement('details');
+        d.className='rounded-lg border border-purple-500 p-3 mt-3';
+        const summary=document.createElement('summary');
+        summary.className='cursor-pointer font-bold text-purple-200';
+        summary.textContent='Exibir links externos de pesquisa STF/STJ (cookies opcionais)';
+        const list=document.createElement('div');d.append(summary,list);
+        target.appendChild(d);
+        (links||[]).forEach(item=>{
+          const anchor=document.createElement('a');
+          anchor.href=item.url;anchor.target='_blank';anchor.rel='noopener noreferrer';
+          anchor.className='inline-block mt-3 mr-3 px-4 py-3 underline rounded-lg border border-purple-400 text-purple-200 font-bold';
+          anchor.textContent=item.nome;list.appendChild(anchor);
+        });
+      }else (links||[]).forEach(item=>{
         const anchor=document.createElement('a');
         anchor.href=item.url;anchor.target='_blank';anchor.rel='noopener noreferrer';
         anchor.className='inline-block mt-3 mr-3 px-4 py-3 underline rounded-lg border border-purple-400 text-purple-200 font-bold';
@@ -873,14 +888,27 @@
       const url=construirUrlArtigoPlanalto(lei,numero);
       const linkBase=fonte.url;
       const alternativas={cc:'https://www2.camara.leg.br/legin/fed/lei/2002/lei-10406-10-janeiro-2002-432893-normaatualizada-pl.html',oab:'https://www2.camara.leg.br/legin/fed/lei/1994/lei-8906-4-julho-1994-349751-normaatualizada-pl.html'};
-      const links=[{nome:'Abrir a lei oficial no Planalto',url:linkBase},{nome:'Tentar destacar '+artigo,url}];
-      if(alternativas[lei])links.push({nome:'Texto atualizado na Câmara dos Deputados',url:alternativas[lei]});
+      // A consulta é interna por padrão. Nenhum portal de terceiros abre
+      // automaticamente e, por isso, não se apresenta o banner de cookies deles.
       mostrarResultadoGabinete(
         fonte.nome+' — '+artigo,
-        'O artigo selecionado será exibido abaixo quando a fonte oficial permitir a consulta. A localização exata no Planalto pode variar conforme o navegador.',
-        links,
-        'Sempre confira alterações, revogações e a redação vigente na fonte oficial.'
+        'Consulta interna de legislação. O texto será exibido abaixo caso a fonte legislativa oficial possa ser verificada.',
+        [],
+        'A leitura interna não utiliza cookies dos portais oficiais. A confirmação externa é opcional.'
       );
+      const detalhesLinks=document.createElement('details');
+      detalhesLinks.className='mt-3 rounded-lg border border-slate-600 p-3';
+      const sum=document.createElement('summary');
+      sum.className='cursor-pointer text-purple-200 font-bold';
+      sum.textContent='Exibir ou ocultar links das fontes oficiais (podem solicitar cookies)';
+      detalhesLinks.appendChild(sum);
+      for(const item of [{nome:'Abrir a lei no Planalto',url:linkBase},{nome:'Tentar destacar '+artigo,url},
+        ...(alternativas[lei]?[{nome:'Texto na Câmara dos Deputados',url:alternativas[lei]}]:[])]){
+        const link=document.createElement('a');link.href=item.url;link.target='_blank';link.rel='noopener noreferrer';
+        link.className='inline-flex mt-3 mr-3 rounded-lg border border-purple-500 px-3 py-2 underline text-purple-200';
+        link.textContent=item.nome;detalhesLinks.appendChild(link);
+      }
+      document.getElementById('resultadoDescricao').appendChild(detalhesLinks);
       carregarTextoArtigoOficial(lei,numero);
       return true;
     }
