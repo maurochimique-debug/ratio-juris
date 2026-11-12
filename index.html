@@ -260,7 +260,7 @@
                 <div class="flex flex-wrap gap-x-4 gap-y-2 mt-2 text-sm font-bold">
                   <span class="text-emerald-600 dark:text-emerald-400">Acertos: <strong id="estAcertos" class="tabular-nums">—</strong></span>
                   <span class="text-rose-600 dark:text-rose-400">Erros: <strong id="estErros" class="tabular-nums">—</strong></span>
-                  <span class="text-slate-700 dark:text-slate-300">Total: <strong id="estRespondidas" class="tabular-nums">0</strong> / 80</span>
+                  <span class="text-slate-700 dark:text-slate-300">Respondidas: <strong id="estRespondidas" class="tabular-nums">0</strong> / <strong id="estTotalPossivel" class="tabular-nums">80</strong></span>
                 </div>
               </div>
             </div>
@@ -314,7 +314,8 @@
             </div>
             <span id="statusSimuladorOficial" class="text-sm font-bold text-purple-800 dark:text-purple-300" aria-live="polite">Selecione um exame</span>
           </div>
-          <p class="text-sm text-slate-700 dark:text-slate-200">Leia a questão diretamente no card e assinale A, B, C ou D. O resultado aparece após a resposta, com explicação jurídica e referências verificadas quando disponíveis. O PDF original fica em um card opcional para consulta.</p>
+          <p class="text-base font-semibold text-slate-800 dark:text-slate-100">1. Escolha a prova e a cor acima. 2. Selecione a questão. 3. Leia e marque A, B, C ou D. 4. Veja seu resultado.</p>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Para sortear questões ou consultar os documentos originais, abra as opções adicionais. Cada cor pode usar uma numeração diferente.</p>
           <p id="situacaoAcervoSimulador" class="mt-3 text-xs text-slate-700 dark:text-slate-300" role="status" aria-live="polite">Legislação vigente exige revisão individual.</p>
           <details id="configSimuladoAleatorio" class="mt-5 rounded-xl border-2 border-purple-400 p-4 bg-purple-50 dark:bg-[#1c1830]" aria-labelledby="tituloAleatorio">
             <summary id="tituloAleatorio" class="cursor-pointer font-black text-slate-900 dark:text-white text-lg min-h-[44px]">Simulado aleatório — toque para configurar</summary>
@@ -1318,7 +1319,7 @@
       const set=(id,value)=>{document.getElementById(id).textContent=String(value);};
       document.getElementById('estatisticaIdentificacao').textContent=ex+'º Exame • Tipo '+tipo;
       if(!config||!config.gabaritos?.[tipo-1]){
-        ['estRespondidas','estAcertos','estErros','estBrancas','estAnuladas','estAproveitamento'].forEach(k=>set(k,'—'));
+        ['estRespondidas','estAcertos','estErros','estBrancas','estAnuladas','estAproveitamento','estTotalPossivel'].forEach(k=>set(k,'—'));
         document.getElementById('estatisticaMensagem').textContent='Este exame ainda não possui correção eletrônica. Acesse a página oficial da banca.';
         return null;
       }
@@ -1331,6 +1332,7 @@
       const errors=responses.filter((x,i)=>x&&key[i]!=='*'&&x!==key[i]).length;
       const annulled=key.split('').filter(x=>x==='*').length,points=correct+annulled;
       const percentual=(100*points/key.length).toFixed(1).replace('.',',')+'%';
+      set('estTotalPossivel',key.length);
       set('estRespondidas',answered);set('estBrancas',empty);set('estAnuladas',annulled);
       set('estAcertos',correct);set('estErros',errors);
       set('estAproveitamento',percentual);
