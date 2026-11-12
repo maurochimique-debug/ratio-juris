@@ -1,4 +1,4 @@
-/* RATIO JURIS: documentos históricos oficiais da OAB, inclusive versões preliminares claramente identificadas. */
+/* RATIO JURIS: documentos OAB/FGV, fontes preliminares identificadas explicitamente. */
 window.RATIO_OAB_DATA = {
   "version": "2026-11-09",
   "metadata": {
@@ -8,7 +8,7 @@ window.RATIO_OAB_DATA = {
     "aviso": "O gabarito é histórico. Comentários sobre legislação e jurisprudência atuais exigem revisão individual.",
     "validacaoJuridicaIndividual": false,
     "ultimaIntegracao": "2026-11-12",
-    "escopoGabaritos": "28º–47º: 19 edições com respostas por tipo e suas fontes; 27º–10º ainda não auditados. 28º e 29º têm fonte preliminar conciliada com anulações.",
+    "escopoGabaritos": "27º-47º: 20 exames com correção integrada, exceto 30º, pendente de documento definitivo; 27º, 28º e 29º identificados como preliminares/retificados conciliados com anulações oficiais.",
     "ultimaImportacao": "2026-11-10",
     "examesCorrigiveis": [
       47,
@@ -29,7 +29,8 @@ window.RATIO_OAB_DATA = {
       32,
       31,
       29,
-      28
+      28,
+      27
     ],
     "auditoriaAtual": {
       "data": "2026-11-10",
@@ -170,7 +171,7 @@ window.RATIO_OAB_DATA = {
     {
       "exame": 27,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=630",
-      "status": "pagina_historica_sem_importacao",
+      "status": "preliminar_retificado_conciliado_com_anulacao_definitiva",
       "importado": false
     },
     {
@@ -8425,5 +8426,459 @@ window.RATIO_OAB_DATA = {
     ],
     "disciplinas": [],
     "nota": "Transcrição da tabela preliminar retificada do PDF oficial FGV, conciliada com a anulação comunicada em 10/04/2019. Todas as 80 posições dos quatro tipos foram confrontadas com a tabela de correspondência. Documento identifica-se internamente como PRELIMINAR; não afirmar que é PDF definitivo. Simulado histórico com esta ressalva."
+  },
+  "exam27": {
+    "exame": 27,
+    "dataProva": "2018-11-18",
+    "status": "GABARITO_PRELIMINAR_RETIFICADO_COM_ANULACAO_FINAL_OFICIAL_CONCILIADA",
+    "gabaritos": [
+      "ACCDDDBADCCAABCDBDBCDBBCAAADBCABACBCACAB*ABDADBDABCDADACBCBCBDDBDCABCDADAACBADCC",
+      "CDACBADDCDACBADBCBDDCACABBCABADBCABBCA*ACBAADBABDDACBDCADDDCCBBCBBDACADADCAACBCD",
+      "DDBAACCDDCDBCAABCDBCDABCABBABDCAACACBCB*AABDADDBBAADCDBACDBDBCCCBDBCAAADCADCBADC",
+      "DDDCABACCDABBCACDBDDCCAABBCABBADCACABB*CABAADBDDBADCDACABCCBDBDDACBCBACADADBDACC"
+    ],
+    "correspondencia": [
+      [
+        3,
+        5,
+        7
+      ],
+      [
+        4,
+        6,
+        8
+      ],
+      [
+        1,
+        7,
+        4
+      ],
+      [
+        2,
+        8,
+        3
+      ],
+      [
+        7,
+        1,
+        2
+      ],
+      [
+        8,
+        2,
+        1
+      ],
+      [
+        5,
+        3,
+        6
+      ],
+      [
+        6,
+        4,
+        5
+      ],
+      [
+        10,
+        9,
+        10
+      ],
+      [
+        9,
+        10,
+        9
+      ],
+      [
+        12,
+        13,
+        14
+      ],
+      [
+        11,
+        14,
+        15
+      ],
+      [
+        14,
+        15,
+        11
+      ],
+      [
+        13,
+        16,
+        12
+      ],
+      [
+        17,
+        17,
+        16
+      ],
+      [
+        15,
+        11,
+        17
+      ],
+      [
+        16,
+        12,
+        13
+      ],
+      [
+        19,
+        18,
+        19
+      ],
+      [
+        18,
+        19,
+        18
+      ],
+      [
+        21,
+        20,
+        21
+      ],
+      [
+        20,
+        21,
+        20
+      ],
+      [
+        26,
+        23,
+        25
+      ],
+      [
+        25,
+        26,
+        26
+      ],
+      [
+        23,
+        24,
+        22
+      ],
+      [
+        24,
+        22,
+        23
+      ],
+      [
+        22,
+        25,
+        24
+      ],
+      [
+        30,
+        28,
+        31
+      ],
+      [
+        31,
+        30,
+        32
+      ],
+      [
+        32,
+        27,
+        29
+      ],
+      [
+        27,
+        31,
+        27
+      ],
+      [
+        28,
+        32,
+        28
+      ],
+      [
+        29,
+        29,
+        30
+      ],
+      [
+        34,
+        33,
+        34
+      ],
+      [
+        33,
+        34,
+        33
+      ],
+      [
+        36,
+        37,
+        38
+      ],
+      [
+        41,
+        38,
+        35
+      ],
+      [
+        38,
+        35,
+        36
+      ],
+      [
+        37,
+        36,
+        40
+      ],
+      [
+        40,
+        41,
+        41
+      ],
+      [
+        35,
+        39,
+        37
+      ],
+      [
+        39,
+        40,
+        39
+      ],
+      [
+        43,
+        42,
+        43
+      ],
+      [
+        42,
+        43,
+        42
+      ],
+      [
+        45,
+        44,
+        45
+      ],
+      [
+        44,
+        45,
+        44
+      ],
+      [
+        49,
+        47,
+        48
+      ],
+      [
+        48,
+        48,
+        49
+      ],
+      [
+        50,
+        46,
+        47
+      ],
+      [
+        47,
+        50,
+        50
+      ],
+      [
+        46,
+        49,
+        46
+      ],
+      [
+        55,
+        53,
+        52
+      ],
+      [
+        54,
+        54,
+        51
+      ],
+      [
+        56,
+        51,
+        54
+      ],
+      [
+        57,
+        52,
+        53
+      ],
+      [
+        51,
+        56,
+        56
+      ],
+      [
+        52,
+        57,
+        55
+      ],
+      [
+        53,
+        55,
+        57
+      ],
+      [
+        60,
+        63,
+        59
+      ],
+      [
+        62,
+        61,
+        60
+      ],
+      [
+        61,
+        62,
+        58
+      ],
+      [
+        63,
+        59,
+        62
+      ],
+      [
+        59,
+        60,
+        63
+      ],
+      [
+        58,
+        58,
+        61
+      ],
+      [
+        66,
+        65,
+        67
+      ],
+      [
+        67,
+        66,
+        64
+      ],
+      [
+        69,
+        64,
+        68
+      ],
+      [
+        68,
+        69,
+        65
+      ],
+      [
+        65,
+        67,
+        69
+      ],
+      [
+        64,
+        68,
+        66
+      ],
+      [
+        73,
+        72,
+        75
+      ],
+      [
+        70,
+        74,
+        72
+      ],
+      [
+        71,
+        75,
+        73
+      ],
+      [
+        72,
+        70,
+        74
+      ],
+      [
+        75,
+        71,
+        70
+      ],
+      [
+        74,
+        73,
+        71
+      ],
+      [
+        78,
+        77,
+        76
+      ],
+      [
+        76,
+        78,
+        78
+      ],
+      [
+        80,
+        79,
+        77
+      ],
+      [
+        77,
+        80,
+        80
+      ],
+      [
+        79,
+        76,
+        79
+      ]
+    ],
+    "cadernos": [
+      {
+        "tipo": 1,
+        "cor": "Branca",
+        "pdf": "https://s.oab.org.br/arquivos/2019/10/9f651111-3c54-4ed5-b5e8-31f3da3a2036.pdf"
+      },
+      {
+        "tipo": 2,
+        "cor": "Verde",
+        "pdf": "https://s.oab.org.br/arquivos/2019/10/4f54546b-7017-4ff5-a0b2-684fd73deb88.pdf"
+      },
+      {
+        "tipo": 3,
+        "cor": "Amarela",
+        "pdf": "https://s.oab.org.br/arquivos/2019/10/478afb9c-0658-4393-921c-3bac6cc0a0cd.pdf"
+      },
+      {
+        "tipo": 4,
+        "cor": "Azul",
+        "pdf": "https://s.oab.org.br/arquivos/2019/10/0b654f83-378d-4b51-89cd-82993a77fb5d.pdf"
+      }
+    ],
+    "gabaritoPDF": "https://s.oab.org.br/arquivos/2019/10/2f041f29-9c43-4409-9c32-171428a67b3a.pdf",
+    "comunicadoAnulacaoPosterior": "https://s.oab.org.br/arquivos/2019/10/1cf6de62-cca7-406c-8dbc-6eeabb0d87d7.pdf",
+    "fonteOficial": "https://examedeordem.oab.org.br/EditaisProvas?NumeroExame=11560",
+    "anulacoesPorTipo": [
+      [
+        41
+      ],
+      [
+        39
+      ],
+      [
+        40
+      ],
+      [
+        39
+      ]
+    ],
+    "disciplinas": [],
+    "nota": "Gabarito PRELIMINAR RETIFICADO FGV 19/11/2018 + comunicado definitivo de 18/12/2018 com anulação Q41 tipo 1. Todas as 320 respostas / 80 correspondências consistentes. Não rotular PDF preliminar como definitivo. Questões anuladas NULAS no treino."
   }
 };
