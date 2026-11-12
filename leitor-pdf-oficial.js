@@ -4,8 +4,8 @@
 (function(){
  "use strict";
  const $=id=>document.getElementById(id);
- const PDF_LIB="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.4.299/pdf.min.mjs";
- const PDF_WORKER="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.4.299/pdf.worker.min.mjs";
+ const PDF_LIB="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs";
+ const PDF_WORKER="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
  let documento=null;
  let cache=new Map();
  let cacheQuestoes=new Map();
@@ -33,6 +33,7 @@
    avisar("Selecione o PDF oficial correspondente ao exame e ao tipo de caderno atuais.");
  }
  async function carregar(){
+   const panel=$("detalhesLeitorPdf");if(panel)panel.open=true;
    if(carregando){avisar("Uma prova já está sendo preparada. Aguarde o resultado.");return false;}
    const file=$("pdfOficialLocal")?.files?.[0];
    if(!file){avisar("Escolha primeiro o arquivo PDF oficial do caderno em seu dispositivo.");return false;}
@@ -50,7 +51,7 @@
      const pdfjs=await import(PDF_LIB);
      pdfjs.GlobalWorkerOptions.workerSrc=PDF_WORKER;
      const bytes=new Uint8Array(await file.arrayBuffer());
-     const loadingTask=pdfjs.getDocument({data:bytes});
+     const loadingTask=pdfjs.getDocument({data:bytes,useSystemFonts:true,disableFontFace:true});
      const parsed=await loadingTask.promise;
      if(examAtStart!==$("oabExamSelect")?.value||typeAtStart!==$("oabTipoSelect")?.value){
        avisar("O exame ou o caderno mudou durante a leitura. Selecione novamente o PDF correspondente.");
@@ -90,13 +91,14 @@
    }
  }
  async function carregarOficial(){
+   const panel=$("detalhesLeitorPdf");if(panel)panel.open=true;
    if(carregando){avisar("Uma prova já está sendo preparada. Aguarde a conclusão.");return false;}
    const exame=$("oabExamSelect")?.value,tipo=$("oabTipoSelect")?.value;
    if(!/^\d{2}$/.test(exame||"")||! /^[1-4]$/.test(tipo||"")){
      avisar("Selecione primeiro um exame e o tipo de caderno.");return false;
    }
    const allowed=window.RATIO_OAB_DATA?.["exam"+exame];
-   const book=allowed?.cadernos?.[Number(tipo)-1];
+   const book=allowed?.cadernos?.[Number(tipo)-1] || (exame==="38"?{pdf:$("oabCadernoPdf")?.href}:null);
    if(!book?.pdf||!book.pdf.startsWith("https://s.oab.org.br/arquivos/")){
      avisar("Esta edição ainda não possui PDF oficial verificado no acervo.");return false;
    }
@@ -109,7 +111,7 @@
      const pdfjs=await import(PDF_LIB);
      pdfjs.GlobalWorkerOptions.workerSrc=PDF_WORKER;
      const url="/api/oab-pdf?exame="+exame+"&tipo="+tipo;
-     const task=pdfjs.getDocument({url,rangeChunkSize:65536});
+     const task=pdfjs.getDocument({url,disableRange:true,disableStream:true,useSystemFonts:true,disableFontFace:true});
      parsed=await task.promise;
      if(exame!==$("oabExamSelect")?.value||tipo!==$("oabTipoSelect")?.value){
        await parsed.destroy?.();
@@ -323,6 +325,7 @@
    return false;
  }
  async function estudarQuestaoAtual(opcoes={}){
+   const card=$("cardEnunciadoCompleto");if(card)card.open=true;
    const exame=$("oabExamSelect")?.value,tipo=$("oabTipoSelect")?.value;
    if(!/^\d{2}$/.test(exame||"")||! /^[1-4]$/.test(tipo||"")){
      avisar("Selecione um exame oficial e o caderno primeiro.");return false;
