@@ -330,6 +330,7 @@
               </div>
               <div class="flex flex-wrap gap-2">
                 <button type="button" onclick="abrirCadernoOabIntegrado()" class="px-3 py-2 rounded-lg bg-purple-700 text-white font-bold text-xs sm:text-sm">Exibir caderno FGV aqui</button>
+                <button id="btnAbrirGabaritoOab" type="button" onclick="abrirGabaritoOabIntegrado()" class="px-3 py-2 rounded-lg border-2 border-emerald-600 text-emerald-900 dark:text-emerald-200 font-bold text-xs sm:text-sm">Exibir gabarito aqui</button>
                 <button type="button" onclick="RatioPdfAcessivel.carregarOficial()" class="px-3 py-2 rounded-lg bg-purple-700 text-white font-bold text-xs sm:text-sm">Ler prova em texto acessível</button>
                 <a id="linkProvaOabDireto" href="https://oab.fgv.br/" target="_blank" rel="noopener noreferrer" class="px-3 py-2 rounded-lg border border-purple-600 text-purple-800 dark:text-purple-300 underline text-xs sm:text-sm font-bold">Abrir fonte original</a>
               </div>
@@ -1090,6 +1091,24 @@
     function documentosDoExameOAB(numero){
       return fonteOAB()['exam'+numero]||arquivosDocumentaisOAB[numero]||null;
     }
+    function abrirGabaritoOabIntegrado(){
+      const exame=Number(document.getElementById('oabExamSelect').value);
+      if(!documentosDoExameOAB(exame)?.gabaritoPDF){
+        document.getElementById('statusLocalizacaoQuestao').textContent=
+          'O gabarito deste exame ainda não foi integrado. Consulte a página histórica da FGV.';
+        return false;
+      }
+      const outer=document.getElementById('blocoGabaritoOpcional');
+      const parent=outer?.parentElement?.closest('details');
+      if(parent)parent.open=true;
+      outer.open=true;
+      const painel=document.getElementById('detalhesGabaritoIntegrado');
+      painel.open=true;
+      alternarGabaritoIntegrado(painel);
+      painel.scrollIntoView({block:'start',behavior:'auto'});
+      painel.querySelector('summary')?.focus();
+      return true;
+    }
     function alternarGabaritoIntegrado(detalhes){
       const quadro=document.getElementById('iframeGabaritoOficial');
       const exame=Number(document.getElementById('oabExamSelect').value);
@@ -1098,7 +1117,7 @@
       if(!documentos?.gabaritoPDF){detalhes.open=false;quadro.removeAttribute('src');return;}
       const url='/api/oab-gabarito?exame='+exame+'#toolbar=1&navpanes=0';
       if(quadro.getAttribute('src')!==url)quadro.src=url;
-      document.getElementById('statusGabaritoOficial').textContent='Gabarito definitivo do '+exame+'º Exame aberto no aplicativo. Se o leitor de PDF não funcionar, utilize o link original.';
+      document.getElementById('statusGabaritoOficial').textContent='Gabarito definitivo do '+exame+'º Exame solicitado ao leitor interno. Caso não apareça, abra o PDF oficial na fonte original.';
     }
     function atualizarArquivoOAB() {
       const db=fonteOAB();
@@ -1110,6 +1129,12 @@
       const documentos=documentosDoExameOAB(num);
       const temProva=!!documentos?.cadernos?.length;
       const temGabarito=!!documentos?.gabaritoPDF;
+      const btnGabarito=document.getElementById('btnAbrirGabaritoOab');
+      if(btnGabarito){
+        btnGabarito.disabled=!temGabarito;
+        btnGabarito.setAttribute('aria-disabled',String(!temGabarito));
+        btnGabarito.title=temGabarito?'Abrir gabarito definitivo no próprio RATIO JURIS':'Gabarito ainda não integrado';
+      }
       const tipo=tipoOABAtual();
       // Trocar de edição nunca deixa um PDF antigo visível como se fosse da nova.
       const quadro=document.getElementById('iframeProvaOficial');
@@ -1386,7 +1411,7 @@
       const url='/api/oab-pdf?exame='+exame+'&tipo='+tipo+'#toolbar=1&navpanes=0';
       if(frame.getAttribute('src')!==url)frame.src=url;
       const status=document.getElementById('statusPdfOabIntegrado');
-      if(status)status.textContent='Caderno FGV/OAB '+exame+'º, tipo '+tipo+', carregado no visualizador interno. Caso apareça em branco, utilize “Abrir fonte original”.';
+      if(status)status.textContent='Caderno FGV/OAB '+exame+'º, tipo '+tipo+', solicitado ao visualizador interno. Se o PDF não aparecer neste navegador, use “Abrir fonte original”.';
     }
     function alternarCardsDeRespostas() {
       const num=Number(document.getElementById('oabExamSelect').value);
