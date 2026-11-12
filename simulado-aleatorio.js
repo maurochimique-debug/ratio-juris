@@ -63,7 +63,7 @@
   const anuladas=s.questoes.filter(n=>gabarito[n-1]==="*").length;
   const acertos=s.questoes.filter(n=>Boolean(s.respostas[n])&&gabarito[n-1]!=="*"&&s.respostas[n]===gabarito[n-1]).length;
   const erros=s.questoes.filter(n=>Boolean(s.respostas[n])&&gabarito[n-1]!=="*"&&s.respostas[n]!==gabarito[n-1]).length;
-  const dados={estRespondidas:respondidas,estAcertos:acertos,estErros:erros,estBrancas:total-respondidas,estAnuladas:anuladas,estAproveitamento:((acertos+anuladas)*100/total).toFixed(1).replace(".",",")+"%"};
+  const dados={estTotalPossivel:total,estRespondidas:respondidas,estAcertos:acertos,estErros:erros,estBrancas:total-respondidas,estAnuladas:anuladas,estAproveitamento:((acertos+anuladas)*100/total).toFixed(1).replace(".",",")+"%"};
   for(const [id,val] of Object.entries(dados)){if($(id))$(id).textContent=String(val);}
   if($("estatisticaIdentificacao"))$("estatisticaIdentificacao").textContent="Simulado aleatório • Exame "+s.exame+" Tipo "+s.tipo+" • "+total+" questões";
   if($("estatisticaMensagem"))$("estatisticaMensagem").textContent="Resultado parcial do sorteio: "+(acertos+anuladas)+"/"+total+" pontos. Inclui "+anuladas+" anulação(ões). Estatísticas independentes da prova completa.";
