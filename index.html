@@ -324,13 +324,15 @@
                 <p id="rotuloVisualizadorIntegrado" class="text-xs text-slate-600 dark:text-slate-300 mt-1">Selecione um exame e tipo de caderno.</p>
               </div>
               <div class="flex flex-wrap gap-2">
+                <button type="button" onclick="abrirCadernoOabIntegrado()" class="px-3 py-2 rounded-lg bg-purple-700 text-white font-bold text-xs sm:text-sm">Exibir caderno FGV aqui</button>
                 <button type="button" onclick="RatioPdfAcessivel.carregarOficial()" class="px-3 py-2 rounded-lg bg-purple-700 text-white font-bold text-xs sm:text-sm">Ler prova em texto acessível</button>
                 <a id="linkProvaOabDireto" href="https://oab.fgv.br/" target="_blank" rel="noopener noreferrer" class="px-3 py-2 rounded-lg border border-purple-600 text-purple-800 dark:text-purple-300 underline text-xs sm:text-sm font-bold">Abrir fonte original</a>
               </div>
             </div>
             <details id="consultaPdfOpcional" class="px-3 pb-3" ontoggle="alternarConsultaPdfOficial(this)">
-              <summary class="cursor-pointer py-3 font-semibold text-purple-800 dark:text-purple-300">Exibir ou ocultar PDF do exame selecionado</summary>
-              <iframe id="iframeProvaOficial" title="Consulta opcional ao caderno oficial do exame" class="ratio-pdf-iframe bg-white" loading="lazy" referrerpolicy="no-referrer" aria-label="PDF oficial aberto por escolha do estudante"></iframe>
+              <summary class="cursor-pointer py-3 font-semibold text-purple-800 dark:text-purple-300">Exibir ou ocultar caderno oficial FGV/OAB dentro do aplicativo</summary>
+              <iframe id="iframeProvaOficial" title="Caderno oficial FGV/OAB integrado" class="ratio-pdf-iframe bg-white" loading="lazy" referrerpolicy="no-referrer" aria-label="Caderno FGV OAB consultado dentro do aplicativo"></iframe>
+              <p id="statusPdfOabIntegrado" class="mt-2 text-xs text-slate-700 dark:text-slate-300" role="status" aria-live="polite">O caderno abre dentro desta área ao expandir o painel. Se o leitor do dispositivo não suportar PDF incorporado, utilize o link da fonte original.</p>
             </details>
             <p class="text-xs p-3 text-slate-700 dark:text-slate-300">O PDF é opcional. Caso não seja exibido, use <strong>Abrir fonte original</strong> ou <strong>Ler prova em texto acessível</strong>. A transcrição automática pode conter erros de diagramação e não substitui a conferência do original.</p>
           </div>
@@ -1299,6 +1301,15 @@
       document.getElementById('feedbackQuestaoOficial').focus?.();
       return true;
     }
+    function abrirCadernoOabIntegrado(){
+      const detalhes=document.getElementById('consultaPdfOpcional');
+      if(!detalhes)return false;
+      detalhes.open=true;
+      alternarConsultaPdfOficial(detalhes);
+      detalhes.scrollIntoView({block:'start',behavior:'auto'});
+      detalhes.querySelector('summary')?.focus();
+      return true;
+    }
     function alternarConsultaPdfOficial(detalhes) {
       const frame=document.getElementById('iframeProvaOficial');
       const exame=Number(document.getElementById('oabExamSelect').value);
@@ -1306,7 +1317,10 @@
       const config=fonteOAB()['exam'+exame];
       if(!detalhes.open){frame.removeAttribute('src');return;}
       if(!config?.cadernos?.[tipo-1]?.pdf){detalhes.open=false;return;}
-      frame.src='/api/oab-pdf?exame='+exame+'&tipo='+tipo+'#toolbar=1&navpanes=0';
+      const url='/api/oab-pdf?exame='+exame+'&tipo='+tipo+'#toolbar=1&navpanes=0';
+      if(frame.getAttribute('src')!==url)frame.src=url;
+      const status=document.getElementById('statusPdfOabIntegrado');
+      if(status)status.textContent='Caderno FGV/OAB '+exame+'º, tipo '+tipo+', carregado no visualizador interno. Caso apareça em branco, utilize “Abrir fonte original”.';
     }
     function alternarCardsDeRespostas() {
       const num=Number(document.getElementById('oabExamSelect').value);
