@@ -1,3 +1,4 @@
+import {Readable} from "node:stream";
 /* RATIO JURIS: gabaritos definitivos oficiais por exame, proxy fechado. */
 const SOURCES=Object.freeze({
   "38": "https://s.oab.org.br/arquivos/2023/07/899aa8b1-ad89-4f8a-8eae-6fa62154c0da.pdf",
@@ -11,25 +12,32 @@ const SOURCES=Object.freeze({
   "46": "https://s.oab.org.br/arquivos/2026/05/0662d6ed-01a3-4ee5-905f-a6704d72992b.pdf",
   "47": "https://s.oab.org.br/arquivos/2026/09/572dc8e2-78a0-4e37-b6de-20709e2c59ab.pdf"
 });
-function error(status,message){return new Response(message,{status,headers:{"Content-Type":"text/plain; charset=utf-8","Cache-Control":"no-store"}})}
-export default {
-  async fetch(request){
-    if(!["GET","HEAD"].includes(request.method))return error(405,"Método não permitido");
-    const exam=new URL(request.url).searchParams.get("exame");
-    const original=SOURCES[exam];
-    if(!original)return error(404,"Gabarito definitivo não integrado nesta edição");
-    const range=request.headers.get("range");
-    if(range&&!/^bytes=\d*-\d*$/.test(range))return error(416,"Intervalo inválido");
-    const headers=new Headers({Accept:"application/pdf"});
-    if(range)headers.set("Range",range);
-    try{
-      const response=await fetch(original,{method:request.method,headers,redirect:"manual",signal:AbortSignal.timeout(35000)});
-      if(![200,206].includes(response.status))return error(502,"Gabarito oficial indisponível na origem");
-      const type=response.headers.get("content-type")||"";
-      if(type&&!/pdf|octet-stream/i.test(type))return error(502,"A fonte não retornou PDF");
-      const out=new Headers({"Content-Type":"application/pdf","Content-Disposition":'inline; filename="oab-'+exam+'-gabarito-definitivo.pdf"',"X-Content-Type-Options":"nosniff","Cache-Control":"public,s-maxage=1200,max-age=600"});
-      for(const key of ["content-length","content-range","accept-ranges"]){const value=response.headers.get(key);if(value)out.set(key,value)}
-      return new Response(request.method==="HEAD"?null:response.body,{status:response.status,headers:out});
-    }catch(_){return error(502,"Não foi possível carregar o gabarito neste momento")}
+
+export default async function handler(req,res){
+ res.setHeader("Cache-Control","no-store");
+ res.setHeader("X-Content-Type-Options","nosniff");
+ if(!["GET","HEAD"].includes(req.method))return res.status(405).end("Método não permitido.");
+ const exame=String(req.query.exame||"");if(!/^\d{2}$/.test(exame))return res.status(400).end("Exame inválido.");
+ const original=SOURCES[exame];
+ if(!original)return res.status(404).end("Documento oficial não cadastrado.");
+ const range=typeof req.headers.range==="string"?req.headers.range:"";
+ if(range&&!/^bytes=\d*-\d*$/.test(range))return res.status(416).end("Intervalo inválido.");
+ const headers={Accept:"application/pdf"};if(range)headers.Range=range;
+ try{
+  const upstream=await fetch(original,{method:req.method,headers,redirect:"manual",signal:AbortSignal.timeout(30000)});
+  if(![200,206].includes(upstream.status))return res.status(502).end("Fonte oficial indisponível.");
+  const type=upstream.headers.get("content-type")||"";
+  if(type&&!/pdf|octet-stream/i.test(type))return res.status(502).end("A fonte não retornou PDF.");
+  res.status(upstream.status);
+  res.setHeader("Content-Type","application/pdf");
+  res.setHeader("Content-Disposition",'inline; filename="oab-${exame}-gabarito.pdf"');
+  for(const name of ["content-length","content-range","accept-ranges","etag","last-modified"]){
+   const value=upstream.headers.get(name);if(value)res.setHeader(name,value);
   }
-};
+  if(req.method==="HEAD"){await upstream.body?.cancel();return res.end();}
+  if(!upstream.body)return res.status(502).end("PDF sem conteúdo.");
+  const stream=Readable.fromWeb(upstream.body);
+  stream.on("error",()=>{if(!res.headersSent)res.status(502);res.destroy();});
+  stream.pipe(res);
+ }catch(_){if(!res.headersSent)res.status(502).end("Falha ao transmitir documento oficial.");else res.destroy();}
+}
