@@ -1,3 +1,4 @@
+import {Readable} from "node:stream";
 /* Proxy de transmissão temporária de PDFs oficiais OAB/FGV, sem armazenar ou editar cadernos.
  * Lista fechada de fontes de provas já verificadas no repositório. Não é um proxy público aberto.
  * Os enunciados continuam originários de s.oab.org.br.
@@ -64,53 +65,33 @@ const SOURCES = Object.freeze({
     "https://s.oab.org.br/arquivos/2026/09/fc8c5341-bad3-49a5-918e-3b99e63c286b.pdf"
   ]
 });
-const allowMethods = new Set(["GET","HEAD"]);
-const validRange = /^bytes=\d*-\d*$/;
-function makeError(status,message) {
-  return new Response(message,{status,headers:{"Content-Type":"text/plain; charset=utf-8","Cache-Control":"no-store","X-Content-Type-Options":"nosniff"}});
-}
-export default {
-  async fetch(request) {
-    if(!allowMethods.has(request.method))return makeError(405,"Método não permitido.");
-    let url;
-    try {url=new URL(request.url);} catch(_) {return makeError(400,"Endereço inválido.");}
-    const exam=url.searchParams.get("exame"),type=url.searchParams.get("tipo");
-    if(!/^\d{2}$/.test(exam||"")||! /^[1-4]$/.test(type||""))return makeError(400,"Exame ou caderno inválido.");
-    const original=SOURCES[exam]?.[Number(type)-1];
-    if(!original)return makeError(404,"Prova ainda não disponível no acervo verificado.");
-    const source=new URL(original);
-    if(source.protocol!=="https:" || source.hostname!=="s.oab.org.br"||!source.pathname.startsWith("/arquivos/")||!source.pathname.endsWith(".pdf"))
-      return makeError(500,"Fonte oficial não reconhecida.");
-    const requestedRange=request.headers.get("range");
-    if(requestedRange && !validRange.test(requestedRange))return makeError(416,"Intervalo PDF não suportado.");
-    const headers=new Headers({Accept:"application/pdf"});
-    if(requestedRange)headers.set("Range",requestedRange);
-    try {
-      const upstream=await fetch(original,{method:request.method,headers,redirect:"manual",signal:AbortSignal.timeout(45000)});
-      if(upstream.status!==200 && upstream.status!==206){
-        return makeError(502,"O PDF oficial está indisponível temporariamente. Use o link da OAB na plataforma.");
-      }
-      const ct=upstream.headers.get("content-type")||"";
-      if(ct && !/application\/(pdf|octet-stream)/i.test(ct))
-        return makeError(502,"O servidor oficial não retornou um PDF. Utilize o link direto da OAB.");
-      const out=new Headers({
-        "Content-Type":"application/pdf",
-        "Content-Disposition":'inline; filename="oab-'+exam+'-tipo-'+type+'.pdf"',
-        "X-Content-Type-Options":"nosniff",
-        "Referrer-Policy":"no-referrer",
-        "Cache-Control":requestedRange?"private, max-age=0":"public, s-maxage=3600, max-age=600",
-        "Access-Control-Expose-Headers":"Content-Length, Content-Range, Accept-Ranges"
-      });
-      for(const name of ["content-length","content-range","accept-ranges","etag","last-modified"]){
-        const value=upstream.headers.get(name);
-        if(value)out.set(name,value);
-      }
-      return new Response(request.method==="HEAD"?null:upstream.body,{
-        status:upstream.status,
-        headers:out
-      });
-    }catch(_){
-      return makeError(502,"Não foi possível carregar a prova neste momento. Abra o arquivo diretamente na OAB.");
-    }
+
+export default async function handler(req,res){
+ res.setHeader("Cache-Control","no-store");
+ res.setHeader("X-Content-Type-Options","nosniff");
+ if(!["GET","HEAD"].includes(req.method))return res.status(405).end("Método não permitido.");
+ const exame=String(req.query.exame||""),tipo=String(req.query.tipo||"");
+  if(!/^\d{2}$/.test(exame)||!/^[1-4]$/.test(tipo))return res.status(400).end("Exame ou caderno inválido.");
+ const original=SOURCES[exame]?.[Number(tipo)-1];
+ if(!original)return res.status(404).end("Documento oficial não cadastrado.");
+ const range=typeof req.headers.range==="string"?req.headers.range:"";
+ if(range&&!/^bytes=\d*-\d*$/.test(range))return res.status(416).end("Intervalo inválido.");
+ const headers={Accept:"application/pdf"};if(range)headers.Range=range;
+ try{
+  const upstream=await fetch(original,{method:req.method,headers,redirect:"manual",signal:AbortSignal.timeout(30000)});
+  if(![200,206].includes(upstream.status))return res.status(502).end("Fonte oficial indisponível.");
+  const type=upstream.headers.get("content-type")||"";
+  if(type&&!/pdf|octet-stream/i.test(type))return res.status(502).end("A fonte não retornou PDF.");
+  res.status(upstream.status);
+  res.setHeader("Content-Type","application/pdf");
+  res.setHeader("Content-Disposition",'inline; filename="oab-${exame}-tipo-${tipo}.pdf"');
+  for(const name of ["content-length","content-range","accept-ranges","etag","last-modified"]){
+   const value=upstream.headers.get(name);if(value)res.setHeader(name,value);
   }
-};
+  if(req.method==="HEAD"){await upstream.body?.cancel();return res.end();}
+  if(!upstream.body)return res.status(502).end("PDF sem conteúdo.");
+  const stream=Readable.fromWeb(upstream.body);
+  stream.on("error",()=>{if(!res.headersSent)res.status(502);res.destroy();});
+  stream.pipe(res);
+ }catch(_){if(!res.headersSent)res.status(502).end("Falha ao transmitir documento oficial.");else res.destroy();}
+}
