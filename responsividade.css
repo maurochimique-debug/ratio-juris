@@ -145,3 +145,70 @@ html.dark #feedbackQuestaoOficial.ratio-resposta-errada{
     text-align:center;
   }
 }
+
+/* Ajustes multiplataforma: telefones compactos, tablets e desktops. */
+html{scroll-padding-top:5.5rem}
+body,#appBody{overflow-x:clip}
+#oabExamSelect,#oabTipoSelect,#questaoOficialNumeroSelect,#gabaritoHistoricoSelect{
+  width:100%;max-width:100%;font-size:1rem;min-height:50px;
+  touch-action:manipulation;
+}
+#oab-arquivo :where(button,a,summary,input,select),
+#leitorPdfAcessivel :where(button,a,input,select),
+#gabinete :where(button,a,input,select){
+  touch-action:manipulation;
+}
+#oab-arquivo :where(button,select),#gabinete :where(button,select),#leitorPdfAcessivel :where(button,select){
+  font-size:max(.875rem,14px);
+}
+#oab-arquivo :where(button,summary),#leitorPdfAcessivel :where(button,summary){
+  min-height:44px;
+}
+#oab-arquivo :where(.grid,.flex)>*{min-width:0}
+#cardEstatisticaOAB,#simulador-oficial,#ajudaDocumentosProva,#detalhesLeitorPdf{
+  max-width:100%;min-width:0;
+}
+#statusLocalizacaoQuestao,#oabStatus,#pdfLeitorStatus,#feedbackQuestaoOficial{
+  overflow-wrap:anywhere;
+}
+#alternativasQuestaoOficial button{
+  touch-action:manipulation;
+  font-weight:800;
+}
+#consultaPdfOpcional iframe,#detalhesGabaritoIntegrado iframe,
+#pdf-banca-cebraspe,#pdf-banca-vunesp{
+  width:100%;max-width:100%;min-width:0;
+}
+@media(max-width:359px){
+  #oab-arquivo>.max-w-6xl{padding-inline:4px!important}
+  #oab-arquivo>.max-w-6xl>.rounded-2xl{padding:8px!important}
+  #cardEstatisticaOAB{padding:10px!important}
+  #simulador-oficial{padding:8px!important}
+  #alternativasQuestaoOficial{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #alternativasQuestaoOficial button{padding:12px 5px!important;font-size:1.1rem!important}
+  .ratio-study-actions{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+  .ratio-study-actions button{padding:12px 6px!important;font-size:.88rem!important}
+}
+@media(min-width:360px) and (max-width:767px){
+  #oab-arquivo>.max-w-6xl>.rounded-2xl{padding:12px!important}
+  .ratio-study-actions{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .ratio-study-actions button{font-size:1rem!important}
+  #oabExamSelect,#oabTipoSelect{font-size:16px}
+  #textoQuestaoDentroSimulador{max-height:none;overflow-y:visible}
+}
+@media(min-width:768px) and (max-width:1199px){
+  #simulador-oficial{padding:1.25rem!important}
+  #alternativasQuestaoOficial{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ratio-study-actions{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #textoQuestaoDentroSimulador{max-height:min(65svh,760px)}
+}
+@media(min-width:1200px){
+  #simulador-oficial{max-width:100%}
+  #textoQuestaoDentroSimulador{max-width:90ch}
+}
+@media(hover:none) and (pointer:coarse){
+  #oab-arquivo select,#oab-arquivo input,#gabinete input,#gabinete select{
+    font-size:16px!important;
+  }
+  #alternativasQuestaoOficial button{min-height:60px}
+}
