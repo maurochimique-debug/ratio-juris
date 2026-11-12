@@ -1,4 +1,4 @@
-/* RATIO JURIS — gabaritos e correspondências oficiais por caderno */
+/* RATIO JURIS — provas e gabaritos OAB/FGV com documentação de origem. */
 window.RATIO_OAB_DATA = {
   "version": "2026-11-09",
   "metadata": {
@@ -8,7 +8,7 @@ window.RATIO_OAB_DATA = {
     "aviso": "O gabarito é histórico. Comentários sobre legislação e jurisprudência atuais exigem revisão individual.",
     "validacaoJuridicaIndividual": false,
     "ultimaIntegracao": "2026-11-12",
-    "escopoGabaritos": "23 edições com correção histórica integrada entre 47º e 24º, exceto 30º pendente; 24º preliminar conciliado com anulação oficial.",
+    "escopoGabaritos": "24 edições com correção histórica integrada (47º ao 23º exceto 30º). 23º mantido sem anulações.",
     "ultimaImportacao": "2026-11-10",
     "examesCorrigiveis": [
       47,
@@ -33,7 +33,8 @@ window.RATIO_OAB_DATA = {
       27,
       26,
       25,
-      24
+      24,
+      23
     ],
     "auditoriaAtual": {
       "data": "2026-11-10",
@@ -198,7 +199,7 @@ window.RATIO_OAB_DATA = {
     {
       "exame": 23,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=626",
-      "status": "pagina_historica_sem_importacao",
+      "status": "gabarito_mantido_sem_anulacoes",
       "importado": false
     },
     {
@@ -10229,5 +10230,451 @@ window.RATIO_OAB_DATA = {
     ],
     "disciplinas": [],
     "nota": "Gabarito preliminar publicado em 19/11/2017, conciliado com anulação oficial Q71 Tipo 1 em 13/12/2017. 4×80 letras e 80 equivalências validadas. Fonte PDF identificada como preliminar."
+  },
+  "exam23": {
+    "exame": 23,
+    "dataProva": "2017-07-23",
+    "status": "GABARITO_PRELIMINAR_MANTIDO_INTEGRALMENTE_APOS_RECURSOS",
+    "gabaritos": [
+      "DCACAABCDADBBBACADBBCDCABDCDADAADDACACACBBDDCBCDCBDBCCCBCBBCDBDCDBDCDCBDCAADCDAA",
+      "ACDCCAABADBADBABCBDBCDADBCCDADAADDCBACACADBCDCBBDCCBCDBCCCDBBDBDCBDDCBDCACAADCDA",
+      "CCDCAAABADDBBABACBDBCADDCBACDDAADDAACACBCBDDCDCBBCCCDBBCCBDBBCDDBCDDCAACBDCAADCD",
+      "CDCABCAADABADBACBDBCBBDCDACADADADDABCAACCDBCDBBDCCBCBCDCCDCBDBBBDCDCDCCADBADCDAA"
+    ],
+    "correspondencia": [
+      [
+        3,
+        3,
+        2
+      ],
+      [
+        4,
+        2,
+        1
+      ],
+      [
+        1,
+        5,
+        4
+      ],
+      [
+        2,
+        4,
+        3
+      ],
+      [
+        6,
+        7,
+        7
+      ],
+      [
+        7,
+        6,
+        8
+      ],
+      [
+        8,
+        8,
+        5
+      ],
+      [
+        5,
+        1,
+        6
+      ],
+      [
+        10,
+        10,
+        9
+      ],
+      [
+        9,
+        9,
+        10
+      ],
+      [
+        13,
+        11,
+        13
+      ],
+      [
+        14,
+        13,
+        11
+      ],
+      [
+        16,
+        12,
+        14
+      ],
+      [
+        11,
+        15,
+        17
+      ],
+      [
+        12,
+        14,
+        15
+      ],
+      [
+        17,
+        17,
+        16
+      ],
+      [
+        15,
+        16,
+        12
+      ],
+      [
+        19,
+        19,
+        18
+      ],
+      [
+        18,
+        18,
+        19
+      ],
+      [
+        20,
+        20,
+        21
+      ],
+      [
+        21,
+        21,
+        20
+      ],
+      [
+        24,
+        23,
+        25
+      ],
+      [
+        26,
+        25,
+        24
+      ],
+      [
+        23,
+        22,
+        26
+      ],
+      [
+        25,
+        26,
+        22
+      ],
+      [
+        22,
+        24,
+        23
+      ],
+      [
+        27,
+        28,
+        27
+      ],
+      [
+        30,
+        29,
+        29
+      ],
+      [
+        31,
+        31,
+        30
+      ],
+      [
+        28,
+        30,
+        31
+      ],
+      [
+        29,
+        32,
+        28
+      ],
+      [
+        32,
+        27,
+        32
+      ],
+      [
+        34,
+        33,
+        34
+      ],
+      [
+        33,
+        34,
+        33
+      ],
+      [
+        37,
+        35,
+        38
+      ],
+      [
+        38,
+        37,
+        40
+      ],
+      [
+        39,
+        36,
+        35
+      ],
+      [
+        40,
+        39,
+        37
+      ],
+      [
+        41,
+        38,
+        39
+      ],
+      [
+        35,
+        41,
+        41
+      ],
+      [
+        36,
+        40,
+        36
+      ],
+      [
+        43,
+        42,
+        43
+      ],
+      [
+        42,
+        43,
+        42
+      ],
+      [
+        45,
+        44,
+        45
+      ],
+      [
+        44,
+        45,
+        44
+      ],
+      [
+        47,
+        49,
+        47
+      ],
+      [
+        46,
+        50,
+        49
+      ],
+      [
+        49,
+        46,
+        48
+      ],
+      [
+        50,
+        47,
+        50
+      ],
+      [
+        48,
+        48,
+        46
+      ],
+      [
+        54,
+        53,
+        55
+      ],
+      [
+        55,
+        54,
+        53
+      ],
+      [
+        56,
+        51,
+        54
+      ],
+      [
+        57,
+        52,
+        56
+      ],
+      [
+        51,
+        57,
+        57
+      ],
+      [
+        52,
+        55,
+        51
+      ],
+      [
+        53,
+        56,
+        52
+      ],
+      [
+        61,
+        60,
+        62
+      ],
+      [
+        60,
+        61,
+        63
+      ],
+      [
+        58,
+        62,
+        59
+      ],
+      [
+        59,
+        63,
+        58
+      ],
+      [
+        63,
+        58,
+        60
+      ],
+      [
+        62,
+        59,
+        61
+      ],
+      [
+        65,
+        66,
+        68
+      ],
+      [
+        67,
+        64,
+        65
+      ],
+      [
+        66,
+        65,
+        64
+      ],
+      [
+        64,
+        67,
+        69
+      ],
+      [
+        69,
+        69,
+        66
+      ],
+      [
+        68,
+        68,
+        67
+      ],
+      [
+        72,
+        72,
+        70
+      ],
+      [
+        70,
+        73,
+        74
+      ],
+      [
+        71,
+        74,
+        73
+      ],
+      [
+        74,
+        75,
+        71
+      ],
+      [
+        75,
+        70,
+        72
+      ],
+      [
+        73,
+        71,
+        75
+      ],
+      [
+        77,
+        78,
+        78
+      ],
+      [
+        78,
+        79,
+        77
+      ],
+      [
+        79,
+        80,
+        76
+      ],
+      [
+        76,
+        77,
+        80
+      ],
+      [
+        80,
+        76,
+        79
+      ]
+    ],
+    "cadernos": [
+      {
+        "tipo": 1,
+        "cor": "Branca",
+        "pdf": "https://oab.fgv.br/arq/626/853921_CADERNO_TIPO_1_XXIII_EXAME.pdf"
+      },
+      {
+        "tipo": 2,
+        "cor": "Verde",
+        "pdf": "https://oab.fgv.br/arq/626/1136234_CADERNO_TIPO_2_XXIII_EXAME.pdf"
+      },
+      {
+        "tipo": 3,
+        "cor": "Amarela",
+        "pdf": "https://oab.fgv.br/arq/626/879083_CADERNO_TIPO_3_XXIII_EXAME.pdf"
+      },
+      {
+        "tipo": 4,
+        "cor": "Azul",
+        "pdf": "https://oab.fgv.br/arq/626/863326_CADERNO_TIPO_4_XXIII_EXAME.pdf"
+      }
+    ],
+    "gabaritoPDF": "https://oab.fgv.br/arq/626/101773_GABARITOS%20PRELIMIARES_XXIII_EXAME_DE_ORDEM.pdf",
+    "comunicadoAnulacaoPosterior": "https://oab.fgv.br/arq/626/84312_COMUNICADO_210817.pdf",
+    "fonteOficial": "https://oab.fgv.br/NovoSec.aspx?codSec=5124&key=VNURVq3Hznw%3D",
+    "anulacoesPorTipo": [
+      [],
+      [],
+      [],
+      []
+    ],
+    "disciplinas": [],
+    "nota": "Comunicado FGV/OAB 22/08/2017 confirmou 0 questões anuladas e manutenção integral do gabarito de 23/07/2017. 320 alternativas e mapeamento 80x3 auditados."
   }
 };
