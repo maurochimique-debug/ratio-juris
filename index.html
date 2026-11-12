@@ -278,6 +278,11 @@
           <p id="estatisticaMensagem" class="mt-3 text-sm text-slate-700 dark:text-slate-200" role="status" aria-live="polite">Acertos e erros são atualizados automaticamente ao responder.</p>
         </div>
         <p id="oabStatus" class="text-sm text-slate-700 dark:text-slate-300 mb-4" role="status"></p>
+        <aside id="alertaHistoricoLegislativo" role="note" aria-label="Aviso sobre legislação histórica" class="mb-5 rounded-xl border-2 border-amber-600 bg-amber-50 dark:bg-[#302419] px-4 py-4 text-amber-950 dark:text-amber-100">
+          <p class="font-black text-base">Atenção: questões antigas podem estar desatualizadas</p>
+          <p class="mt-2 text-sm leading-relaxed">A resposta oficial é a adotada pela banca na data da prova. Leis, artigos, súmulas e entendimentos dos tribunais podem ter sido modificados, revogados ou superados desde então. A alternativa historicamente correta nem sempre corresponde ao Direito vigente. Confira a redação atual da legislação antes de utilizar a questão como orientação jurídica.</p>
+          <p id="avisoExameHistorico" class="mt-2 text-sm font-semibold" aria-live="polite">Cada prova será identificada com sua edição e a necessidade de revisão legislativa individual.</p>
+        </aside>
         <details id="consultaGabaritosHistoricos" class="mb-5 rounded-xl border border-purple-500 p-4 bg-white dark:bg-ratio-cardDark">
           <summary class="cursor-pointer min-h-[44px] text-base font-bold text-purple-800 dark:text-purple-200">Gabaritos da OAB — 47º ao 10º Exame</summary>
           <p class="mt-3 text-sm text-slate-700 dark:text-slate-200">Escolha o exame. Quando o PDF definitivo estiver integrado, ele abre diretamente. Nos demais exames, consulte o portal oficial para localizar a publicação correspondente. As respostas antigas não serão inventadas.</p>
@@ -1380,6 +1385,8 @@
           'Caderno oficial e gabarito definitivo disponíveis para consulta no aplicativo. Respostas eletrônicas ainda não homologadas.':
           'Consulte os documentos na página oficial da FGV. A integração de cadernos e gabaritos ainda está pendente.');
       }
+      const alerta=document.getElementById('avisoExameHistorico');
+      if(alerta)alerta.textContent=num+'º Exame — '+(exam?.dataProva?'prova de '+exam.dataProva+'. ':'data da prova: consulte o documento oficial. ')+'Gabarito histórico; atualização jurídica individual não certificada.';
       atualizarEstatisticaProva();
       renderizarSimuladorOficial();
     }
