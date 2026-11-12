@@ -63,10 +63,10 @@
   const anuladas=s.questoes.filter(n=>gabarito[n-1]==="*").length;
   const acertos=s.questoes.filter(n=>Boolean(s.respostas[n])&&gabarito[n-1]!=="*"&&s.respostas[n]===gabarito[n-1]).length;
   const erros=s.questoes.filter(n=>Boolean(s.respostas[n])&&gabarito[n-1]!=="*"&&s.respostas[n]!==gabarito[n-1]).length;
-  const dados={estTotalPossivel:total,estRespondidas:respondidas,estAcertos:acertos,estErros:erros,estBrancas:total-respondidas,estAnuladas:anuladas,estAproveitamento:((acertos+anuladas)*100/total).toFixed(1).replace(".",",")+"%"};
+  const dados={estTotalPossivel:total-anuladas,estRespondidas:respondidas,estAcertos:acertos,estErros:erros,estBrancas:total-respondidas,estAnuladas:anuladas,estAproveitamento:((total>anuladas?acertos*100/(total-anuladas):0)).toFixed(1).replace(".",",")+"%"};
   for(const [id,val] of Object.entries(dados)){if($(id))$(id).textContent=String(val);}
   if($("estatisticaIdentificacao"))$("estatisticaIdentificacao").textContent="Simulado aleatório • Exame "+s.exame+" Tipo "+s.tipo+" • "+total+" questões";
-  if($("estatisticaMensagem"))$("estatisticaMensagem").textContent="Resultado parcial do sorteio: "+(acertos+anuladas)+"/"+total+" pontos. Inclui "+anuladas+" anulação(ões). Estatísticas independentes da prova completa.";
+  if($("estatisticaMensagem"))$("estatisticaMensagem").textContent="Resultado parcial: "+acertos+"/"+(total-anuladas)+" acertos válidos; "+anuladas+" NULA(S), excluídas da pontuação. Estatísticas independentes da prova completa.";
  }
  function atualizar(){
   const s=estado();if(!s)return;
@@ -81,7 +81,7 @@
   const alternativa=s.respostas[pos]||"";
   if(feedback){
     const key=window.RATIO_OAB_DATA["exam"+s.exame].gabaritos[s.tipo-1][pos-1];
-    feedback.textContent=s.corrigida?(key==="*"?"Questão anulada: ponto automático.":"Sua resposta: "+(alternativa||"em branco")+". Gabarito oficial: "+key+"."):(alternativa?"Alternativa "+alternativa+" registrada neste simulado.":"Leia o enunciado original e escolha A, B, C ou D.");
+    feedback.textContent=s.corrigida?(key==="*"?"NULA: não pontua no treino.":"Sua resposta: "+(alternativa||"em branco")+". Gabarito oficial: "+key+"."):(alternativa?"Alternativa "+alternativa+" registrada neste simulado.":"Leia o enunciado original e escolha A, B, C ou D.");
   }
   const buttons=$("alternativasQuestaoOficial")?.querySelectorAll("button");
   buttons?.forEach((b,i)=>{
@@ -104,9 +104,10 @@
   const s=estado();if(!s)return false;
   s.corrigida=true;
   const chave=window.RATIO_OAB_DATA["exam"+s.exame].gabaritos[s.tipo-1];
-  const pontos=s.questoes.filter(n=>chave[n-1]==="*"||s.respostas[n]===chave[n-1]).length;
+  const anuladas=s.questoes.filter(n=>chave[n-1]==="*").length;
+  const pontos=s.questoes.filter(n=>chave[n-1]!=="*"&&s.respostas[n]===chave[n-1]).length;
   const feitas=s.questoes.filter(n=>Boolean(s.respostas[n])).length;
-  status("Resultado: "+pontos+"/"+s.questoes.length+" pontos (anulações oficiais incluídas); "+feitas+" questões respondidas. Correção restrita às questões sorteadas.");
+  status("Resultado do treino: "+pontos+"/"+(s.questoes.length-anuladas)+" acertos válidos, "+anuladas+" NULA(S) sem pontos; "+feitas+" questões respondidas. A pontuação oficial da OAB pode conceder pontos por anulação.");
   atualizar();return true;
  }
  const original={};
@@ -136,7 +137,7 @@
    const pos=s.questoes[s.index];
    if(!"ABCD".includes(letra))return false;
    const chave=window.RATIO_OAB_DATA["exam"+s.exame].gabaritos[s.tipo-1][pos-1];
-   if(chave==="*"){status("Questão anulada no gabarito definitivo; ponto automático.");return false;}
+   if(chave==="*"){status("Questão NULA conforme o gabarito: não há resposta válida e não conta pontos no treino.");return false;}
    const anterior=s.respostas[pos];
    s.respostas[pos]=letra;
    if(anterior!==letra && letra===chave && $("somAcertoSimulador")?.checked)window.RatioSomAcerto?.();
