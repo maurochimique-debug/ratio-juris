@@ -19,7 +19,8 @@ const FONTES_ALTERNATIVAS=Object.freeze({
   oab:["https://www2.camara.leg.br/legin/fed/lei/1994/lei-8906-4-julho-1994-349751-normaatualizada-pl.html","https://legis.senado.leg.br/norma/550782/publicacao/34619591"],
   cf:["https://legis.senado.leg.br/norma/579494/publicacao/16434817"],
   cpc:["https://www2.camara.leg.br/legin/fed/lei/2015/lei-13105-16-marco-2015-780273-normaatualizada-pl.html","https://legis.senado.leg.br/norma/584917/publicacao/34619046"],
-  lindb:["https://legis.senado.leg.br/norma/529744/publicacao/34620738"]
+  lindb:["https://legis.senado.leg.br/norma/529744/publicacao/34620738"],
+  ctn:["https://www2.camara.leg.br/legin/fed/lei/1960-1969/lei-5172-25-outubro-1966-358971-normaatualizada-pl.html"]
 });
 function entities(s){
 return s.replace(/&#x([0-9a-f]+);/gi,(_,h)=>String.fromCodePoint(parseInt(h,16)))
@@ -42,7 +43,7 @@ if(!numeric)return null;
 const digits=numeric[1];
 const grouped=digits.length>3?digits.slice(0,-3)+"[.]?"+digits.slice(-3):digits;
 const n=grouped+(numeric[2]?"[-–]"+numeric[2]:"");
-const pattern=new RegExp("(^|\\n)\\s*Art(?:igo)?\\.?\\s*"+n+"(?:[º°]|\\.)?\\s*(?:[-–—.]|\\s)","gim");
+const pattern=new RegExp("(^|\\n)\\s*Art(?:igo)?\\.?\\s*"+n+"(?:[º°]|\\.)?\\s*(?:[-–—.:]|\\s)","gim");
 const candidates=[...text.matchAll(pattern)];
 const all=[...text.matchAll(/(^|\n)\s*Art(?:igo)?\.?\s*(?:\d{1,2}\.\d{3}|\d{1,4})(?:[-–][A-Za-z])?(?:[º°]|\.)?\s*(?:[-–—.]|\s)/gim)];
 for(const m of candidates){
