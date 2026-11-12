@@ -48,6 +48,26 @@
      if(menu.hidden||menu.contains(event.target)||toggle.contains(event.target))return;
      closeMenu();
    });
+   // Restaurar página do histórico (back-forward cache) não pode reapresentar
+   // a prova antiga após alteração de exame ou caderno.
+   window.addEventListener("pageshow",event=>{
+     if(!event.persisted)return;
+     const exam=$("oabExamSelect"),type=$("oabTipoSelect");
+     if(!exam||!type)return;
+     const label=$("questaoOficialContexto")?.textContent||"";
+     if(!label.startsWith(exam.value+"º Exame da OAB, Tipo "+type.value)){
+       window.atualizarArquivoOAB?.();
+     }
+   });
+   // O endereço original da prova permanece acessível caso o leitor
+   // PDF embutido não seja suportado no navegador móvel.
+   const iframe=$("iframeProvaOficial");
+   iframe?.addEventListener("error",()=>{
+     const original=$("linkProvaOabDireto"),status=$("statusPdfOabIntegrado");
+     if(status&&original)status.textContent=
+       "O PDF não foi exibido pelo navegador. Use Abrir fonte original: "+original.href;
+   });
+
  }
  window.RatioResponsive={toggleMenu,closeMenu};
  document.addEventListener("DOMContentLoaded",init);
