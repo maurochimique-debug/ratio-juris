@@ -1181,18 +1181,22 @@
         35:'https://examedeordem.oab.org.br/EditaisProvas?NumeroExame=13415'
       };
       const gabaritosDocumentais={
-        32:'https://oab.fgv.br/arq/635/590557_GABARITOS%20PRELIMINARES_XXXII_EXAME_DE_ORDEM_Proposta2_ANULACOES.pdf'
+        30:{
+          url:'https://s.oab.org.br/arquivos/2019/10/244695e0-d919-4f6d-8aa0-98a3baa100af.pdf',
+          tipo:'preliminar',
+          descricao:'Gabarito PRELIMINAR oficial da prova de 20/10/2019. A OAB confirmou posteriormente as anulações das questões 20, 30 e 57 (Tipo 1), inclusive as equivalentes nas outras cores. Este documento não substitui a versão definitiva após recursos.'
+        }
       };
-      if(cadastrado && /^https:\/\/s\.oab\.org\.br\/arquivos\//.test(cadastrado)){
+      if(cadastrado && /^https:\/\/(?:s\.oab\.org\.br\/arquivos\/|oab\.fgv\.br\/arq\/)/.test(cadastrado)){
         link.href=cadastrado;
         link.textContent='Abrir gabarito definitivo em PDF';
         status.textContent=numero+'º Exame — gabarito definitivo por caderno integrado ao RATIO JURIS.';
       }else{
-        link.href=gabaritosDocumentais[numero] || avisos[numero] || arquivo?.fgvUrl || 'https://www.oab.org.br/servicos/examedeordem';
-        link.textContent=gabaritosDocumentais[numero]?'Abrir gabarito definitivo na FGV':'Consultar o exame na fonte oficial';
-        status.textContent=numero+'º Exame — '+(gabaritosDocumentais[numero]?
-          'Gabarito definitivo disponível para consulta em PDF. Correção automática pendente de conferência dos cadernos.':
-          'Documentos históricos disponíveis na OAB/FGV. Correção automática ainda pendente.');
+        const documento=gabaritosDocumentais[numero];
+        link.href=documento?.url || avisos[numero] || arquivo?.fgvUrl || 'https://www.oab.org.br/servicos/examedeordem';
+        link.textContent=documento?.tipo==='preliminar'?'Consultar gabarito preliminar oficial':'Consultar o exame na fonte oficial';
+        status.textContent=numero+'º Exame — '+(documento?.descricao ||
+          'Documentos históricos disponíveis na OAB/FGV. Correção automática ainda pendente de gabarito definitivo verificado.');
       }
     }
     function iniciarConsultaGabaritosHistoricos(){
