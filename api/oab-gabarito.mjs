@@ -1,6 +1,7 @@
 import {Readable} from "node:stream";
 /* RATIO JURIS: gabaritos definitivos oficiais por exame, proxy fechado. */
 const SOURCES=Object.freeze({
+ "23":"https://oab.fgv.br/arq/626/101773_GABARITOS%20PRELIMIARES_XXIII_EXAME_DE_ORDEM.pdf",
  "24":"https://s.oab.org.br/arquivos/2019/10/4d42e652-059a-4d53-bd1a-3b9d4664aed6.pdf",
  "25":"https://s.oab.org.br/arquivos/2019/10/4ec4500e-8317-4ff4-ade3-360c4041cf43.pdf",
  "26":"https://oab.fgv.br/arq/629/85363_GABARITOS%20PRELIMIARES_XXVI_EXAME_DE_ORDEM%20%281%29.pdf",
