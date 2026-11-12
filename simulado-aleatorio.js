@@ -124,7 +124,11 @@
    if(!"ABCD".includes(letra))return false;
    const chave=window.RATIO_OAB_DATA["exam"+s.exame].gabaritos[s.tipo-1][pos-1];
    if(chave==="*"){status("Questão anulada no gabarito definitivo; ponto automático.");return false;}
-   s.respostas[pos]=letra;atualizar();return true;
+   const anterior=s.respostas[pos];
+   s.respostas[pos]=letra;
+   if(anterior!==letra && letra===chave && $("somAcertoSimulador")?.checked)window.RatioSomAcerto?.();
+   atualizar();
+   return true;
   };
   window.corrigirSimuladorOficial=function(){return estado()?corrigir():original.corrigirSimuladorOficial()};
   window.renderizarSimuladorOficial=function(){const result=original.renderizarSimuladorOficial();atualizar();return result;};
