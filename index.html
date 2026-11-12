@@ -1180,15 +1180,19 @@
         36:'https://oab.fgv.br/NovoSec.aspx?codSec=5136&key=L7X80yWJsR4%3D',
         35:'https://examedeordem.oab.org.br/EditaisProvas?NumeroExame=13415'
       };
+      const gabaritosDocumentais={
+        32:'https://oab.fgv.br/arq/635/590557_GABARITOS%20PRELIMINARES_XXXII_EXAME_DE_ORDEM_Proposta2_ANULACOES.pdf'
+      };
       if(cadastrado && /^https:\/\/s\.oab\.org\.br\/arquivos\//.test(cadastrado)){
         link.href=cadastrado;
         link.textContent='Abrir gabarito definitivo em PDF';
         status.textContent=numero+'º Exame — gabarito definitivo por caderno integrado ao RATIO JURIS.';
       }else{
-        // Um link de acompanhamento não é apresentado como PDF de gabarito.
-        link.href=avisos[numero] || arquivo?.fgvUrl || 'https://www.oab.org.br/servicos/examedeordem';
-        link.textContent='Consultar o exame na fonte oficial';
-        status.textContent=numero+'º Exame — documento histórico disponível para consulta na OAB/FGV; gabarito ainda não importado para correção automática.';
+        link.href=gabaritosDocumentais[numero] || avisos[numero] || arquivo?.fgvUrl || 'https://www.oab.org.br/servicos/examedeordem';
+        link.textContent=gabaritosDocumentais[numero]?'Abrir gabarito definitivo na FGV':'Consultar o exame na fonte oficial';
+        status.textContent=numero+'º Exame — '+(gabaritosDocumentais[numero]?
+          'Gabarito definitivo disponível para consulta em PDF. Correção automática pendente de conferência dos cadernos.':
+          'Documentos históricos disponíveis na OAB/FGV. Correção automática ainda pendente.');
       }
     }
     function iniciarConsultaGabaritosHistoricos(){
