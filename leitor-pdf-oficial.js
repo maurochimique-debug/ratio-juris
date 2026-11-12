@@ -20,6 +20,26 @@
    const el=$("pdfLeitorStatus");if(el)el.textContent=texto;
    const avisoSimulador=$("statusLocalizacaoQuestao");if(avisoSimulador)avisoSimulador.textContent=texto;
  }
+ function exibirDocumentoNoCard(exame,tipo,mensagem){
+   if(String($("oabExamSelect")?.value)!==String(exame)||
+      String($("oabTipoSelect")?.value)!==String(tipo))return false;
+   const wrap=$("fallbackEnunciado"),frame=$("fallbackEnunciadoPdf");
+   const link=$("questaoPdfLinkVisivel");
+   const book=window.RATIO_OAB_DATA?.["exam"+exame]?.cadernos?.[Number(tipo)-1];
+   if(!book?.pdf)return false;
+   if(link){link.href=book.pdf;link.classList.remove("hidden");}
+   if(wrap&&frame){
+     wrap.classList.remove("hidden");
+     const url="/api/oab-pdf?exame="+encodeURIComponent(exame)+
+       "&tipo="+encodeURIComponent(tipo)+"&fallback="+Date.now()+"#toolbar=1&navpanes=0";
+     if(frame.getAttribute("src")!==url)frame.src=url;
+     frame.title="Caderno oficial do "+exame+"º Exame, Tipo "+tipo+" — consulta do enunciado";
+   }
+   const preview=$("textoQuestaoDentroSimulador");
+   if(preview){preview.textContent=mensagem;preview.setAttribute("data-extracao-validada","nao");}
+   const card=$("cardEnunciadoCompleto");if(card)card.open=true;
+   return true;
+ }
  function limpar(){
    versaoSelecao++;
    buscaAtual++;
@@ -148,10 +168,9 @@
      documento=null;cache.clear();cacheQuestoes.clear();trechoAtual="";
      $("pdfLeitorControles")?.classList.add("hidden");
      const preview=$("textoQuestaoDentroSimulador");
-     if(preview && exame===$("oabExamSelect")?.value && tipo===$("oabTipoSelect")?.value){
-       preview.textContent="O texto desta prova não pôde ser carregado automaticamente. Use o link do caderno original e confira o enunciado antes de responder. Não apresentaremos outra prova em seu lugar.";
-       const official=$("questaoOficialPdf");
-       if(official){official.classList.remove("hidden");official.textContent="Abrir caderno original do "+exame+"º Exame";}
+     if(exame===$("oabExamSelect")?.value && tipo===$("oabTipoSelect")?.value){
+       exibirDocumentoNoCard(exame,tipo,
+         "Não foi possível extrair o texto automaticamente. O caderno original desta prova está disponível abaixo, com os botões de resposta A, B, C e D.");
      }
      avisar("Não foi possível carregar o texto oficial nesta conexão. Use a prova integrada acima ou o link direto da OAB. Nenhuma questão será substituída por conteúdo inventado.");
      return false;
@@ -303,6 +322,8 @@
      preview.setAttribute("data-extracao-validada",separado?"sim":"nao");
      const card=$("cardEnunciadoCompleto");if(card)card.open=true;
      const official=$("questaoOficialPdf");if(official)official.classList.add("hidden");
+     const wrap=$("fallbackEnunciado");if(wrap)wrap.classList.add("hidden");
+     const frame=$("fallbackEnunciadoPdf");if(frame)frame.removeAttribute("src");
      const botoes=$("alternativasQuestaoOficial")?.querySelectorAll("button");
      if(botoes)Array.from(botoes).forEach((botao,i)=>{
        const letra="ABCD"[i];
@@ -354,10 +375,8 @@
    }
    const preview=$("textoQuestaoDentroSimulador");
    if(preview && token===buscaAtual && (identidadeDocumento===chaveDocumento||identidadeDocumento==="arquivo-local")){
-     preview.textContent="Não foi possível identificar com segurança o enunciado da questão "+n+
-       " neste PDF. Abra o caderno oficial abaixo para conferir o texto original e, se desejar, assinale a alternativa no simulador.";
-     const official=$("questaoOficialPdf");
-     if(official){official.classList.remove("hidden");official.textContent="Abrir o caderno oficial da questão "+n;}
+     exibirDocumentoNoCard($("oabExamSelect")?.value,$("oabTipoSelect")?.value,
+       "A questão "+n+" não foi encontrada com segurança no texto extraído. Leia o caderno original exibido abaixo e assinale sua resposta. A numeração e o gabarito continuam vinculados à cor selecionada.");
    }
    avisar("A questão "+n+" não foi identificada automaticamente. "+
      "Use o seletor de páginas do PDF; a numeração pode não ser extraível na diagramação original.");
