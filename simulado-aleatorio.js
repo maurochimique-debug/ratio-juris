@@ -26,7 +26,7 @@
   const exame=Number($("oabExamSelect")?.value),tipo=Number($("oabTipoSelect")?.value);
   const config=window.RATIO_OAB_DATA?.["exam"+exame];
   const chave=config?.gabaritos?.[tipo-1];
-  if(typeof chave!=="string"||chave.length!==80){status("Escolha um exame com gabarito oficial integrado (19º a 29º e 31º a 47º).");return false;}
+  if(typeof chave!=="string"||chave.length!==80){status("Escolha um exame com gabarito oficial integrado (18º a 29º e 31º a 47º).");return false;}
   const listaManual=String($("aleatorioQuestoesEspecificas")?.value||"").trim();
   const primeiro=Number($("aleatorioInicio").value),ultimo=Number($("aleatorioFim").value),qtd=Number($("aleatorioQuantidade").value);
   let candidatas=null;
