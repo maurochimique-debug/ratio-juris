@@ -97,7 +97,7 @@
    }
  }
  async function carregarOficial(){
-   const panel=$("detalhesLeitorPdf");if(panel)panel.open=true;
+   // Carregamentos automáticos não expandem painéis extras na tela de estudo.
    if(carregando){avisar("Uma prova já está sendo preparada. Aguarde a conclusão.");return false;}
    const exame=$("oabExamSelect")?.value,tipo=$("oabTipoSelect")?.value;
    if(!/^\d{2}$/.test(exame||"")||! /^[1-4]$/.test(tipo||"")){
@@ -149,7 +149,9 @@
      $("pdfLeitorControles")?.classList.add("hidden");
      const preview=$("textoQuestaoDentroSimulador");
      if(preview && exame===$("oabExamSelect")?.value && tipo===$("oabTipoSelect")?.value){
-       preview.textContent="A prova oficial foi identificada, mas o texto não pôde ser carregado automaticamente neste dispositivo. Toque em 'Recarregar texto oficial desta questão' ou abra o caderno PDF opcional. Não exibiremos conteúdo inventado.";
+       preview.textContent="O texto desta prova não pôde ser carregado automaticamente. Use o link do caderno original e confira o enunciado antes de responder. Não apresentaremos outra prova em seu lugar.";
+       const official=$("questaoOficialPdf");
+       if(official){official.classList.remove("hidden");official.textContent="Abrir caderno original do "+exame+"º Exame";}
      }
      avisar("Não foi possível carregar o texto oficial nesta conexão. Use a prova integrada acima ou o link direto da OAB. Nenhuma questão será substituída por conteúdo inventado.");
      return false;
@@ -231,7 +233,7 @@
    // OAB: marcador numérico isolado ("46") ou "QUESTÃO 46".
    // Exige início de linha para não confundir datas, valores ou artigos.
    const linhas=String(texto).split(/\n/);
-   const marcador=(linha)=>/^\s*(?:(?:QUEST[AÃ]O)\s*)?0*(\d{1,2})\s*$/i.exec(linha);
+   const marcador=(linha)=>/^\s*(?:(?:QUEST(?:Ã|A)O)\s*(?:N[º°.]\s*)?)?0*(\d{1,2})\s*[.):-]?\s*$/i.exec(linha);
    const inicio=linhas.findIndex(l=>Number(marcador(l)?.[1])===n);
    if(inicio<0)return null;
    let fim=linhas.length;
@@ -282,6 +284,7 @@
      const separado=separarAlternativasOficiais(trecho);
      preview.textContent=trecho;
      preview.setAttribute("data-extracao-validada",separado?"sim":"nao");
+     const official=$("questaoOficialPdf");if(official)official.classList.add("hidden");
      const botoes=$("alternativasQuestaoOficial")?.querySelectorAll("button");
      if(botoes)Array.from(botoes).forEach((botao,i)=>{
        const letra="ABCD"[i];
@@ -327,11 +330,18 @@
    const preview=$("textoQuestaoDentroSimulador");
    if(preview && token===buscaAtual && (identidadeDocumento===chaveDocumento||identidadeDocumento==="arquivo-local")){
      preview.textContent="Não foi possível identificar com segurança o enunciado da questão "+n+
-       " neste PDF. Use o link de consulta opcional; não exibimos enunciados ou alternativas inventados.";
+       " neste PDF. Abra o caderno oficial abaixo para conferir o texto original e, se desejar, assinale a alternativa no simulador.";
+     const official=$("questaoOficialPdf");
+     if(official){official.classList.remove("hidden");official.textContent="Abrir o caderno oficial da questão "+n;}
    }
    avisar("A questão "+n+" não foi identificada automaticamente. "+
      "Use o seletor de páginas do PDF; a numeração pode não ser extraível na diagramação original.");
    return false;
+ }
+ async function abrirLeitorPdfAcessivel(){
+   const panel=$("detalhesLeitorPdf");if(panel)panel.open=true;
+   if(panel)panel.scrollIntoView({block:"start",behavior:"smooth"});
+   return carregarOficial();
  }
  async function estudarQuestaoAtual(opcoes={}){
    const card=$("cardEnunciadoCompleto");if(card)card.open=true;
@@ -378,5 +388,5 @@
  document.addEventListener("change",function(event){
    if(["oabExamSelect","oabTipoSelect"].includes(event.target?.id))limpar();
  });
- window.RatioPdfAcessivel={carregar,carregarOficial,estudarQuestaoAtual,limpar,mostrarPagina,localizarQuestao,cancelarBusca,ouvirTrecho,extrairTrechoQuestao};
+ window.RatioPdfAcessivel={carregar,carregarOficial,abrirLeitorPdfAcessivel,estudarQuestaoAtual,limpar,mostrarPagina,localizarQuestao,cancelarBusca,ouvirTrecho,extrairTrechoQuestao};
 })();
