@@ -1,0 +1,10 @@
+/* RATIO JURIS — chat jurídico acessível, oculto quando não utilizado. */
+.rj-ai-panel[hidden]{display:none!important}
+.rj-ai-panel{position:fixed;z-index:1100;bottom:5.75rem;right:1rem;width:min(440px,calc(100vw - 2rem));max-height:min(72vh,690px);display:flex;flex-direction:column;border:2px solid #7e22ce;border-radius:16px;box-shadow:0 12px 42px #0006;background:#fff;color:#111827;overflow:hidden}
+.rj-ai-messages{overflow-y:auto;min-height:8rem;flex:1;padding:1rem;display:flex;flex-direction:column;gap:.6rem}
+.rj-ai-message{font-size:.92rem;line-height:1.5;white-space:normal;padding:.75rem;border-radius:12px;background:#f1f5f9;color:#0f172a}
+.rj-ai-user{background:#f3e8ff}
+.rj-ai-toggle{position:fixed;right:1rem;bottom:1rem;z-index:1101;min-height:52px;border-radius:999px;background:#6b21a8;color:white;padding:0.8rem 1.2rem;font-weight:800;box-shadow:0 5px 22px #0005;cursor:pointer}
+.rj-ai-panel button{min-height:44px}
+.rj-ai-panel textarea{font-size:16px;min-height:76px;resize:vertical;border:1px solid #64748b;border-radius:10px;width:100%;padding:.75rem;color:#0f172a;background:white}
+@media(max-width:480px){.rj-ai-panel{bottom:4.9rem;right:.5rem;width:calc(100vw - 1rem);max-height:76dvh}.rj-ai-toggle{bottom:.5rem;right:.5rem}}
