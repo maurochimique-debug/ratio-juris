@@ -515,7 +515,7 @@
             <summary class="cursor-pointer font-bold text-slate-900 dark:text-white min-h-[44px] flex items-center">Exibir ou ocultar cards de respostas deste exame</summary>
             <div class="mt-4">
           <div class="p-4 mb-5 rounded-xl border border-amber-500/40 bg-amber-50 dark:bg-amber-950/30">
-            <p class="font-bold text-sm text-amber-900 dark:text-amber-300">29º e 31º ao 46º Exames — gabaritos oficiais auditados, sem comentários individuais</p>
+            <p class="font-bold text-sm text-amber-900 dark:text-amber-300">28º, 29º e 31º ao 46º Exames — gabaritos oficiais auditados, sem comentários individuais</p>
             <p class="text-xs sm:text-sm text-amber-950 dark:text-slate-200 mt-2">Leia o PDF do caderno oficial selecionado e marque suas respostas. O resultado usa o gabarito definitivo da edição correspondente; enunciados integrais continuam na fonte da OAB/FGV.</p>
           </div>
           <div class="flex flex-wrap items-center gap-3 mb-4">
@@ -1218,11 +1218,7 @@
           tipo:'preliminar',
           descricao:'Gabarito PRELIMINAR oficial da prova de 20/10/2019. A OAB confirmou posteriormente as anulações das questões 20, 30 e 57 (Tipo 1), inclusive as equivalentes nas outras cores. Este documento não substitui a versão definitiva após recursos.'
         },
-        28:{
-          url:'https://oab.fgv.br/arq/631/283981_339414_GABARITOS_RETIFICADOS_XXVIII_EXAME_DE_ORDEM.pdf',
-          tipo:'retificado',
-          descricao:'Gabarito retificado oficial do 28º Exame (17/03/2019), para conferência documental. A OAB confirmou a anulação da questão 37 do Tipo 1 em 10/04/2019. O resultado após recursos deve ser confrontado antes de liberar correção automática.'
-        }
+
       };
       if(cadastrado && /^https:\/\/(?:s\.oab\.org\.br\/arquivos\/|oab\.fgv\.br\/arq\/)/.test(cadastrado)){
         const pdfPreliminar=numero===29;
@@ -1926,7 +1922,7 @@
     function fonte46() {
       const n=Number(document.getElementById('oabExamSelect').value);
       const dados=fonteOAB()['exam'+n];
-      if(n<29||n>46||!dados||dados.gabaritos?.length!==4||dados.gabaritos.some(x=>x.length!==80))
+      if(n<28||n>46||!dados||dados.gabaritos?.length!==4||dados.gabaritos.some(x=>x.length!==80))
         throw new Error('Gabaritos oficiais do exame selecionado incompletos');
       return dados;
     }
