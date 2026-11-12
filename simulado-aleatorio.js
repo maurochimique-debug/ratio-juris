@@ -55,9 +55,22 @@
   atualizar();
   return true;
  }
- function encerrar(){sessao=null;status("Modo livre: escolha qualquer uma das 80 questões.");original.renderizarSimuladorOficial();return true;}
+ function encerrar(){sessao=null;status("Modo livre: escolha qualquer uma das 80 questões.");original.renderizarSimuladorOficial();window.atualizarEstatisticaProva?.();return true;}
+ function atualizarEstatisticaSorteio(s){
+  const gabarito=window.RATIO_OAB_DATA["exam"+s.exame].gabaritos[s.tipo-1];
+  const total=s.questoes.length;
+  const respondidas=s.questoes.filter(n=>Boolean(s.respostas[n])).length;
+  const anuladas=s.questoes.filter(n=>gabarito[n-1]==="*").length;
+  const acertos=s.questoes.filter(n=>Boolean(s.respostas[n])&&gabarito[n-1]!=="*"&&s.respostas[n]===gabarito[n-1]).length;
+  const erros=s.questoes.filter(n=>Boolean(s.respostas[n])&&gabarito[n-1]!=="*"&&s.respostas[n]!==gabarito[n-1]).length;
+  const dados={estRespondidas:respondidas,estAcertos:acertos,estErros:erros,estBrancas:total-respondidas,estAnuladas:anuladas,estAproveitamento:((acertos+anuladas)*100/total).toFixed(1).replace(".",",")+"%"};
+  for(const [id,val] of Object.entries(dados)){if($(id))$(id).textContent=String(val);}
+  if($("estatisticaIdentificacao"))$("estatisticaIdentificacao").textContent="Simulado aleatório • Exame "+s.exame+" Tipo "+s.tipo+" • "+total+" questões";
+  if($("estatisticaMensagem"))$("estatisticaMensagem").textContent="Resultado parcial do sorteio: "+(acertos+anuladas)+"/"+total+" pontos. Inclui "+anuladas+" anulação(ões). Estatísticas independentes da prova completa.";
+ }
  function atualizar(){
   const s=estado();if(!s)return;
+  atualizarEstatisticaSorteio(s);
   const pos=s.questoes[s.index];
   const label=$("statusSimuladorOficial");
   if(label)label.textContent="Sorteada "+(s.index+1)+"/"+s.questoes.length+" • Questão "+pos+" • Exame "+s.exame+" Tipo "+s.tipo;
@@ -134,7 +147,7 @@
   window.renderizarSimuladorOficial=function(){const result=original.renderizarSimuladorOficial();atualizar();return result;};
   window.atualizarArquivoOAB=function(){
    if(sessao&&(Number($("oabExamSelect")?.value)!==sessao.exame||Number($("oabTipoSelect")?.value)!==sessao.tipo))sessao=null;
-   const result=original.atualizarArquivoOAB();if(!estado()){const btn=$("btnCorrigirSimulador");if(btn)btn.textContent="Corrigir minha prova";}
+   const result=original.atualizarArquivoOAB();if(!estado()){const btn=$("btnCorrigirSimulador");if(btn)btn.textContent="Corrigir minha prova";window.atualizarEstatisticaProva?.();}
    atualizar();return result;
   };
   window.iniciarSimuladoAleatorio=iniciar;
