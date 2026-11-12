@@ -1790,13 +1790,13 @@
       const marcadas=respostas.filter(Boolean).length;
       document.getElementById('questaoOficialTitulo').textContent=
         'Questão '+pos+' de 80'+(anulada?' — ANULADA':'');
-      const fallback=document.getElementById('fallbackEnunciado');
-      const fallbackFrame=document.getElementById('fallbackEnunciadoPdf');
-      if(fallback)fallback.classList.add('hidden');
-      if(fallbackFrame)fallbackFrame.removeAttribute('src');
       const textoQuestao=document.getElementById('textoQuestaoDentroSimulador');
       const chaveAtual=numero+'-'+tipo+'-'+pos;
       if(textoQuestao._ratioQuestaoAnterior!==chaveAtual){
+        const fallback=document.getElementById('fallbackEnunciado');
+        const fallbackFrame=document.getElementById('fallbackEnunciadoPdf');
+        if(fallback)fallback.classList.add('hidden');
+        if(fallbackFrame)fallbackFrame.removeAttribute('src');
         textoQuestao._ratioQuestaoAnterior=chaveAtual;
         textoQuestao.textContent='Preparando o texto oficial da questão '+pos+' no card. Caso o documento não permita extração, utilize o PDF opcional ao lado.';
         Array.from(document.getElementById('alternativasQuestaoOficial').querySelectorAll('button')).forEach((botao,i)=>{
