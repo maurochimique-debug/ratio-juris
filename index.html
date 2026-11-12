@@ -382,6 +382,7 @@
           <div class="ratio-study-pane mt-5 p-5 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-[#12161A]">
             <h4 id="questaoOficialTitulo" class="text-xl font-bold text-slate-900 dark:text-white" tabindex="-1">Questão oficial</h4>
             <p id="questaoOficialContexto" class="text-sm text-slate-700 dark:text-slate-300 mt-2"></p>
+            <p class="text-sm font-semibold text-amber-900 dark:text-amber-200 mt-3 p-3 rounded-lg border border-amber-500 bg-amber-50 dark:bg-[#302419]" role="note">Questão histórica: confira se a lei, o artigo e a jurisprudência continuam em vigor. O gabarito mostra a resposta da época da prova; não comprova atualização legislativa.</p>
             <a id="questaoOficialPdf" href="https://oab.fgv.br/" target="_blank" rel="noopener noreferrer" class="hidden mt-4 px-4 py-3 bg-purple-700 text-white font-bold rounded-lg underline">Abrir PDF oficial e ler esta questão</a>
             
             <button id="btnExtrairQuestaoOficial" type="button" onclick="RatioPdfAcessivel.estudarQuestaoAtual()" class="mt-5 px-4 py-3 rounded-xl bg-purple-700 text-white font-bold text-sm">Recarregar texto oficial desta questão</button>
@@ -1198,9 +1199,12 @@
         }
       };
       if(cadastrado && /^https:\/\/(?:s\.oab\.org\.br\/arquivos\/|oab\.fgv\.br\/arq\/)/.test(cadastrado)){
+        const pdfPreliminar=numero===29;
         link.href=cadastrado;
-        link.textContent='Abrir gabarito definitivo em PDF';
-        status.textContent=numero+'º Exame — gabarito definitivo por caderno integrado ao RATIO JURIS.';
+        link.textContent=pdfPreliminar?'Abrir gabarito preliminar e conferir anulações':'Abrir gabarito definitivo em PDF';
+        status.textContent=pdfPreliminar?
+          '29º Exame — respostas preliminares integradas e anulações conciliadas com comunicado posterior. Consulte o resultado final e confirme alterações.':
+          numero+'º Exame — gabarito por caderno integrado ao RATIO JURIS. A legislação da época pode estar desatualizada.';
       }else{
         const documento=gabaritosDocumentais[numero];
         link.href=documento?.url || avisos[numero] || arquivo?.fgvUrl || 'https://www.oab.org.br/servicos/examedeordem';
