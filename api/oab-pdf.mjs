@@ -4,6 +4,12 @@ import {Readable} from "node:stream";
  * Os enunciados continuam originários de s.oab.org.br.
  */
 const SOURCES = Object.freeze({
+ "14":[
+ "https://s.oab.org.br/arquivos/2019/10/55923b81-a9f3-4557-9c68-bc05a1e84b4d.pdf",
+ "https://s.oab.org.br/arquivos/2019/10/b1c746ce-e2c0-4dd9-aad0-3c117ae44275.pdf",
+ "https://s.oab.org.br/arquivos/2019/10/9b6ae632-3c63-41e3-8cfe-acbad99b2365.pdf",
+ "https://s.oab.org.br/arquivos/2019/10/baebb210-6062-4a9f-a7ef-d3e8614fc1d6.pdf"
+ ],
  "15":[
  "https://s.oab.org.br/arquivos/2019/10/9338b13c-b7b8-40d7-8f08-4de8497f4eaf.pdf",
  "https://s.oab.org.br/arquivos/2019/10/775912e4-3038-4a9e-a18e-a4bcb310177c.pdf",
