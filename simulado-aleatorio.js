@@ -71,7 +71,18 @@
     feedback.textContent=s.corrigida?(key==="*"?"Questão anulada: ponto automático.":"Sua resposta: "+(alternativa||"em branco")+". Gabarito oficial: "+key+"."):(alternativa?"Alternativa "+alternativa+" registrada neste simulado.":"Leia o enunciado original e escolha A, B, C ou D.");
   }
   const buttons=$("alternativasQuestaoOficial")?.querySelectorAll("button");
-  buttons?.forEach((b,i)=>b.setAttribute("aria-pressed",String(alternativa==="ABCD"[i])));
+  buttons?.forEach((b,i)=>{
+   const selecionada=alternativa==="ABCD"[i];
+   b.setAttribute("aria-pressed",String(selecionada));
+   b.className="btn-touch rounded-xl px-5 py-3 border-2 font-black text-left whitespace-normal "+(selecionada?
+     "border-purple-800 bg-purple-200 text-purple-950 dark:bg-purple-950 dark:text-white":
+     "border-purple-500 bg-white dark:bg-[#12161A] text-purple-800 dark:text-purple-300");
+  });
+  // Não mostrar a avaliação prévia da prova completa durante o sorteio.
+  for(const id of ["fundamentacaoErroOficial","painelDoutrinaQuestao"]){
+   const pane=$(id);if(pane)pane.classList.add("hidden");
+  }
+  const fullCheck=$("btnConferirQuestaoOficial");if(fullCheck)fullCheck.classList.add("hidden");
   const correct=$("btnCorrigirSimulador");if(correct)correct.textContent="Corrigir questões sorteadas";
   const select=$("questaoOficialNumeroSelect");
   if(select)select.setAttribute("aria-label","Questão oficial atual. Durante o sorteio, utilize as setas de navegação.");
