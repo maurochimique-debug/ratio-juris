@@ -13,7 +13,7 @@
   const a=list.slice();
   for(let i=a.length-1;i>0;i--){
    let j;
-   if(crypto?.getRandomValues){
+   if(window.crypto?.getRandomValues){
     const b=new Uint32Array(1),cap=Math.floor(4294967296/(i+1))*(i+1);
     do{crypto.getRandomValues(b)}while(b[0]>=cap);
     j=b[0]%(i+1);
@@ -27,11 +27,27 @@
   const config=window.RATIO_OAB_DATA?.["exam"+exame];
   const chave=config?.gabaritos?.[tipo-1];
   if(typeof chave!=="string"||chave.length!==80){status("Escolha um exame com gabarito oficial integrado (39º a 47º).");return false;}
+  const listaManual=String($("aleatorioQuestoesEspecificas")?.value||"").trim();
   const primeiro=Number($("aleatorioInicio").value),ultimo=Number($("aleatorioFim").value),qtd=Number($("aleatorioQuantidade").value);
-  if(![primeiro,ultimo,qtd].every(Number.isInteger)||primeiro<1||ultimo>80||ultimo<primeiro||qtd<1||qtd>ultimo-primeiro+1){
+  let candidatas=null;
+  if(listaManual){
+   const valores=new Set();
+   for(const trecho of listaManual.split(/[,;\s]+/).filter(Boolean)){
+    const m=/^(\d{1,2})(?:-(\d{1,2}))?$/.exec(trecho);
+    if(!m){status("Lista inválida. Use: 1, 5, 10-15.");return false;}
+    const i=Number(m[1]),f=Number(m[2]||m[1]);
+    if(i<1||f>80||f<i){status("Os números devem estar entre 1 e 80.");return false;}
+    for(let n=i;n<=f;n++)valores.add(n);
+   }
+   candidatas=[...valores];
+  }
+  if(!listaManual&&(![primeiro,ultimo,qtd].every(Number.isInteger)||primeiro<1||ultimo>80||ultimo<primeiro||qtd<1||qtd>ultimo-primeiro+1)){
    status("Informe um intervalo válido de 1 a 80 e uma quantidade que caiba nesse intervalo.");return false;
   }
-  const questoes=shuffle(Array.from({length:ultimo-primeiro+1},(_,i)=>i+primeiro)).slice(0,qtd);
+  if(listaManual&&(!Number.isInteger(qtd)||qtd<1||qtd>candidatas.length)){
+   status("A quantidade deve estar entre 1 e "+candidatas.length+" questões selecionadas.");return false;
+  }
+  const questoes=shuffle(candidatas||Array.from({length:ultimo-primeiro+1},(_,i)=>i+primeiro)).slice(0,qtd);
   sessao={exame,tipo,questoes,index:0,corrigida:false,respostas:{}};
   // Evita reaproveitar respostas de uma prova completa anterior sem o consentimento do aluno.
   status("Simulado com "+qtd+" questões sorteadas do "+exame+"º Exame, caderno Tipo "+tipo+".");
