@@ -394,7 +394,7 @@
               <summary class="cursor-pointer min-h-[44px] flex items-center text-sm font-bold text-purple-800 dark:text-purple-300">Exibir ou ocultar enunciado completo e alternativas</summary>
               <div id="textoQuestaoDentroSimulador" role="region" aria-label="Enunciado e alternativas originais extraídos do PDF" tabindex="0" class="mt-3 text-base text-slate-900 dark:text-white whitespace-pre-wrap leading-relaxed">Carregando enunciado completo e alternativas do documento oficial. Se a extração falhar, consulte o PDF opcional.</div>
               <div id="fallbackEnunciado" class="hidden mt-4" role="region" aria-label="Visualizador alternativo da prova oficial">
-                <p class="font-semibold text-amber-800 dark:text-amber-200">Não foi possível extrair esta questão com segurança. Abaixo está o caderno oficial selecionado para leitura. Utilize os controles A, B, C e D para registrar sua resposta.</p>
+                <p class="font-semibold text-amber-800 dark:text-amber-200">Caderno oficial selecionado. Leia a questão correspondente ao número exibido acima e responda com A, B, C ou D. Quando a extração do enunciado for concluída, esta visualização será recolhida automaticamente.</p>
                 <iframe id="fallbackEnunciadoPdf" title="Caderno original para leitura da questão" class="ratio-pdf-iframe mt-3 border rounded-lg bg-white" loading="lazy"></iframe>
               </div>
             </details>
@@ -1796,10 +1796,17 @@
       if(textoQuestao._ratioQuestaoAnterior!==chaveAtual){
         const fallback=document.getElementById('fallbackEnunciado');
         const fallbackFrame=document.getElementById('fallbackEnunciadoPdf');
-        if(fallback)fallback.classList.add('hidden');
-        if(fallbackFrame)fallbackFrame.removeAttribute('src');
+        // Disponibiliza o PDF real de imediato, mesmo que PDF.js falhe.
+        if(fallback)fallback.classList.remove('hidden');
+        if(fallbackFrame){
+          const url='/api/oab-pdf?exame='+numero+'&tipo='+tipo+'#toolbar=1&navpanes=0';
+          if(fallbackFrame.getAttribute('src')!==url)fallbackFrame.src=url;
+          fallbackFrame.title='Caderno oficial do '+numero+'º Exame, Tipo '+tipo;
+        }
+        const card=document.getElementById('cardEnunciadoCompleto');
+        if(card)card.open=true;
         textoQuestao._ratioQuestaoAnterior=chaveAtual;
-        textoQuestao.textContent='Preparando o texto oficial da questão '+pos+' no card. Caso o documento não permita extração, utilize o PDF opcional ao lado.';
+        textoQuestao.textContent='Localizando a questão '+pos+' no documento original. O caderno oficial está disponível abaixo para leitura e resposta.';
         Array.from(document.getElementById('alternativasQuestaoOficial').querySelectorAll('button')).forEach((botao,i)=>{
           botao.textContent='ABCD'[i];
         });
@@ -2261,7 +2268,7 @@
       }
     });
   </script>
-  <script src="/leitor-pdf-oficial.js?v=20261112-2324"></script>
+  <script src="/leitor-pdf-oficial.js?v=20261112-2327"></script>
   <script src="/acessibilidade.js"></script>
   <script src="/simulado-aleatorio.js?v=20261112-2309"></script>
   <script src="/responsividade.js?v=20261112-2309"></script>
