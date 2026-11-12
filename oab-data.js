@@ -1,4 +1,4 @@
-/* RATIO JURIS — gabaritos históricos e correspondências da OAB/FGV, com fonte oficial */
+/* RATIO JURIS: provas oficiais, gabaritos e anulações documentadas */
 window.RATIO_OAB_DATA = {
   "version": "2026-11-09",
   "metadata": {
@@ -8,7 +8,7 @@ window.RATIO_OAB_DATA = {
     "aviso": "O gabarito é histórico. Comentários sobre legislação e jurisprudência atuais exigem revisão individual.",
     "validacaoJuridicaIndividual": false,
     "ultimaIntegracao": "2026-11-12",
-    "escopoGabaritos": "25 exames integrados do 47º até o 22º, exceto 30º pendente. 22º e 23º confirmados sem anulações após recursos.",
+    "escopoGabaritos": "26 exames integrados do 47º até o 21º, exceto 30º pendente; 21º com 2 anulações por caderno conforme comunicado final.",
     "ultimaImportacao": "2026-11-10",
     "examesCorrigiveis": [
       47,
@@ -35,7 +35,8 @@ window.RATIO_OAB_DATA = {
       25,
       24,
       23,
-      22
+      22,
+      21
     ],
     "auditoriaAtual": {
       "data": "2026-11-10",
@@ -212,7 +213,7 @@ window.RATIO_OAB_DATA = {
     {
       "exame": 21,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=624",
-      "status": "pagina_historica_sem_importacao",
+      "status": "preliminar_conciliado_com_duas_anulacoes_confirmadas",
       "importado": false
     },
     {
@@ -11123,5 +11124,463 @@ window.RATIO_OAB_DATA = {
     ],
     "disciplinas": [],
     "nota": "Documento FGV/OAB preliminar 02/04/2017 mantido integralmente no comunicado de 03/05/2017; nenhuma anulação. 4 gabaritos e correspondência 80x3 conferidos."
+  },
+  "exam21": {
+    "exame": 21,
+    "dataProva": "2016-11-27",
+    "status": "GABARITO_PRELIMINAR_COM_ANULACOES_DEFINITIVAS_CONCILIADAS",
+    "gabaritos": [
+      "ADBBCC*BDBCDBBDBDCDCCADDDCACBCDCCCBBCDDACADDBBCABADCACBBBCAABCDDBA*AAAABCABABBCD",
+      "*BDADBBBCCDCDCDBBDBCACDDACDCDCCBCCBBADACDDCBDBCCDBAAABBCCBDCDABAA*BAACABAABCDABB",
+      "BCC*DBDBBACDBBDCDDBACCDDCDCACCCBCDBBDDCADACDBCBAABCDBCACBBDDAACBAA*BACAABBABBDAC",
+      "BDBCA*DBCBDCDBBBDDCCACDDCDACCCBCDCBBDAACDCDBDBCCAABDCABBCBAACBDDABA*AACBABAACBBD"
+    ],
+    "correspondencia": [
+      [
+        4,
+        10,
+        5
+      ],
+      [
+        5,
+        5,
+        7
+      ],
+      [
+        6,
+        9,
+        8
+      ],
+      [
+        7,
+        1,
+        10
+      ],
+      [
+        9,
+        2,
+        9
+      ],
+      [
+        10,
+        3,
+        4
+      ],
+      [
+        1,
+        4,
+        6
+      ],
+      [
+        2,
+        6,
+        3
+      ],
+      [
+        3,
+        7,
+        2
+      ],
+      [
+        8,
+        8,
+        1
+      ],
+      [
+        12,
+        11,
+        12
+      ],
+      [
+        11,
+        12,
+        11
+      ],
+      [
+        16,
+        14,
+        15
+      ],
+      [
+        17,
+        13,
+        16
+      ],
+      [
+        18,
+        18,
+        13
+      ],
+      [
+        19,
+        19,
+        14
+      ],
+      [
+        13,
+        15,
+        18
+      ],
+      [
+        14,
+        16,
+        19
+      ],
+      [
+        15,
+        17,
+        17
+      ],
+      [
+        22,
+        21,
+        20
+      ],
+      [
+        20,
+        22,
+        22
+      ],
+      [
+        21,
+        20,
+        21
+      ],
+      [
+        24,
+        23,
+        24
+      ],
+      [
+        23,
+        24,
+        23
+      ],
+      [
+        27,
+        26,
+        26
+      ],
+      [
+        28,
+        25,
+        28
+      ],
+      [
+        25,
+        28,
+        27
+      ],
+      [
+        26,
+        27,
+        25
+      ],
+      [
+        32,
+        32,
+        31
+      ],
+      [
+        33,
+        33,
+        32
+      ],
+      [
+        29,
+        34,
+        33
+      ],
+      [
+        34,
+        30,
+        29
+      ],
+      [
+        30,
+        31,
+        34
+      ],
+      [
+        31,
+        29,
+        30
+      ],
+      [
+        36,
+        35,
+        36
+      ],
+      [
+        35,
+        36,
+        35
+      ],
+      [
+        40,
+        39,
+        40
+      ],
+      [
+        41,
+        38,
+        37
+      ],
+      [
+        42,
+        37,
+        41
+      ],
+      [
+        37,
+        42,
+        38
+      ],
+      [
+        43,
+        43,
+        42
+      ],
+      [
+        39,
+        40,
+        39
+      ],
+      [
+        38,
+        41,
+        43
+      ],
+      [
+        45,
+        44,
+        45
+      ],
+      [
+        44,
+        45,
+        44
+      ],
+      [
+        46,
+        47,
+        46
+      ],
+      [
+        47,
+        46,
+        47
+      ],
+      [
+        51,
+        49,
+        49
+      ],
+      [
+        50,
+        50,
+        51
+      ],
+      [
+        52,
+        48,
+        50
+      ],
+      [
+        49,
+        52,
+        52
+      ],
+      [
+        48,
+        51,
+        48
+      ],
+      [
+        53,
+        55,
+        54
+      ],
+      [
+        57,
+        54,
+        53
+      ],
+      [
+        58,
+        53,
+        56
+      ],
+      [
+        54,
+        57,
+        55
+      ],
+      [
+        55,
+        58,
+        58
+      ],
+      [
+        56,
+        56,
+        57
+      ],
+      [
+        64,
+        62,
+        60
+      ],
+      [
+        62,
+        61,
+        59
+      ],
+      [
+        63,
+        64,
+        62
+      ],
+      [
+        60,
+        63,
+        61
+      ],
+      [
+        61,
+        59,
+        64
+      ],
+      [
+        59,
+        60,
+        63
+      ],
+      [
+        67,
+        68,
+        66
+      ],
+      [
+        65,
+        69,
+        65
+      ],
+      [
+        66,
+        67,
+        68
+      ],
+      [
+        69,
+        65,
+        67
+      ],
+      [
+        68,
+        66,
+        69
+      ],
+      [
+        73,
+        71,
+        70
+      ],
+      [
+        74,
+        75,
+        73
+      ],
+      [
+        75,
+        74,
+        72
+      ],
+      [
+        70,
+        70,
+        71
+      ],
+      [
+        71,
+        72,
+        75
+      ],
+      [
+        72,
+        73,
+        74
+      ],
+      [
+        78,
+        79,
+        76
+      ],
+      [
+        79,
+        76,
+        79
+      ],
+      [
+        80,
+        77,
+        78
+      ],
+      [
+        76,
+        80,
+        77
+      ],
+      [
+        77,
+        78,
+        80
+      ]
+    ],
+    "cadernos": [
+      {
+        "tipo": 1,
+        "cor": "Branca",
+        "pdf": "https://oab.fgv.br/arq/624/27112016173211_CADERNO_TIPO_1_XXI_EXAME.pdf"
+      },
+      {
+        "tipo": 2,
+        "cor": "Verde",
+        "pdf": "https://oab.fgv.br/arq/624/27112016173223_CADERNO_TIPO_2_XXI_EXAME.pdf"
+      },
+      {
+        "tipo": 3,
+        "cor": "Amarela",
+        "pdf": "https://oab.fgv.br/arq/624/27112016173234_CADERNO_TIPO_3_XXI_EXAME.pdf"
+      },
+      {
+        "tipo": 4,
+        "cor": "Azul",
+        "pdf": "https://oab.fgv.br/arq/624/27112016173245_CADERNO_TIPO_4_XXI_EXAME.pdf"
+      }
+    ],
+    "gabaritoPDF": "https://oab.fgv.br/arq/624/27112016191040_GABARITOS%20PRELIMIARES_XXI_EXAME_DE_ORDEM.pdf",
+    "comunicadoAnulacaoPosterior": "https://oab.fgv.br/arq/624/23122016100705_COMUNICADO_231216.pdf",
+    "fonteOficial": "https://oab.fgv.br/NovoSec.aspx?codSec=5146&key=KKHv75PmMAISCI%3D",
+    "anulacoesPorTipo": [
+      [
+        7,
+        67
+      ],
+      [
+        1,
+        66
+      ],
+      [
+        4,
+        67
+      ],
+      [
+        6,
+        68
+      ]
+    ],
+    "disciplinas": [],
+    "nota": "FGV/OAB 23/12/2016 ratificou anuladas Q7 e Q67 Tipo 1 e correspondentes nos demais. Não houve novas anulações. Fonte PDF letras preliminar conciliada com comunicado definitivo, não rotular o PDF como definitivo."
   }
 };
