@@ -918,7 +918,7 @@
       const fonte=fontesLegaisPlanalto[lei];
       const url=construirUrlArtigoPlanalto(lei,numero);
       const linkBase=fonte.url;
-      const alternativas={cc:'https://www2.camara.leg.br/legin/fed/lei/2002/lei-10406-10-janeiro-2002-432893-normaatualizada-pl.html',oab:'https://www2.camara.leg.br/legin/fed/lei/1994/lei-8906-4-julho-1994-349751-normaatualizada-pl.html'};
+      const alternativas={cc:'https://www2.camara.leg.br/legin/fed/lei/2002/lei-10406-10-janeiro-2002-432893-normaatualizada-pl.html',oab:'https://www2.camara.leg.br/legin/fed/lei/1994/lei-8906-4-julho-1994-349751-normaatualizada-pl.html',ctn:'https://www2.camara.leg.br/legin/fed/lei/1960-1969/lei-5172-25-outubro-1966-358971-normaatualizada-pl.html'};
       // A consulta é interna por padrão. Nenhum portal de terceiros abre
       // automaticamente e, por isso, não se apresenta o banner de cookies deles.
       mostrarResultadoGabinete(
@@ -1147,7 +1147,7 @@
       document.getElementById('blocoGabaritoOpcional').open=false;
       document.getElementById('detalhesGabaritoIntegrado').open=false;
       document.getElementById('oabPaginaOficial').href=entry.fgvUrl;
-      document.getElementById('oabTipoSelect').disabled=!temProva;
+      document.getElementById('oabTipoSelect').disabled=false;
       document.getElementById('oabFolhaBloco').classList.toggle('hidden',num!==47);
       document.getElementById('oab46Bloco').classList.toggle('hidden',!(num>=39&&num<=46));
       const arquivoHistorico=document.getElementById('oabArquivoHistorico');
