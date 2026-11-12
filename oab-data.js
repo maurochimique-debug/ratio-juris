@@ -1,4 +1,4 @@
-/* RATIO JURIS: cadernos oficiais e gabaritos com anulações documentadas */
+/* RATIO JURIS — questões e gabaritos oficiais FGV/OAB verificados */
 window.RATIO_OAB_DATA = {
   "version": "2026-11-09",
   "metadata": {
@@ -8,7 +8,7 @@ window.RATIO_OAB_DATA = {
     "aviso": "O gabarito é histórico. Comentários sobre legislação e jurisprudência atuais exigem revisão individual.",
     "validacaoJuridicaIndividual": false,
     "ultimaIntegracao": "2026-11-12",
-    "escopoGabaritos": "30 edições integradas 47º–17º, exceto 30º pendente; 17º gabarito definitivo com duas anulações.",
+    "escopoGabaritos": "31 exames integrados do 47º ao 16º, exceto 30º pendente",
     "ultimaImportacao": "2026-11-10",
     "examesCorrigiveis": [
       47,
@@ -40,7 +40,8 @@ window.RATIO_OAB_DATA = {
       20,
       19,
       18,
-      17
+      17,
+      16
     ],
     "auditoriaAtual": {
       "data": "2026-11-10",
@@ -247,7 +248,7 @@ window.RATIO_OAB_DATA = {
     {
       "exame": 16,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=615",
-      "status": "pagina_historica_sem_importacao",
+      "status": "gabarito_definitivo_integrado",
       "importado": false
     },
     {
@@ -13382,5 +13383,450 @@ window.RATIO_OAB_DATA = {
     ],
     "disciplinas": [],
     "nota": "Gabarito DEFINITIVO FGV/OAB 21/08/2015. Anulações Q20 e Q76 no tipo 1, equivalentes nas demais cores, conferidas. PDF visual confirma Q80 Tipo 1=A e Tipo 3=A (artefato textual de PDF podia aparentar 'AB')."
+  },
+  "exam16": {
+    "exame": 16,
+    "dataProva": "2015-03-15",
+    "status": "GABARITOS_DEFINITIVOS_FGV",
+    "gabaritos": [
+      "DADCBDBCACBACCCBABADAACBDABCBBDABCCAAABABCDCBCDDCDCBDDBABACCDCBCDAACDCDADCBCBCAC",
+      "CBDDADCBCAABACCCABBADABCACDBCBBDABACAABDCBABCDCDBDCCBDADABDCCBCCAADDCDCCADBBCACC",
+      "BCACCDADBDBACBCCBAAAADCBCABDDABBCBCABAAACDBCBCDCDBDCBBDDAACCDBCCACDDAADCBCDACCBC",
+      "CACBDADCBDABBABACCCADABCBADCABCBBDACABCDAABBCDCDCBDCABADBDCDCCCBCDDAADCBCDACACCB"
+    ],
+    "correspondencia": [
+      [
+        4,
+        6,
+        5
+      ],
+      [
+        5,
+        7,
+        6
+      ],
+      [
+        6,
+        8,
+        7
+      ],
+      [
+        1,
+        5,
+        8
+      ],
+      [
+        2,
+        9,
+        9
+      ],
+      [
+        3,
+        10,
+        10
+      ],
+      [
+        8,
+        1,
+        4
+      ],
+      [
+        7,
+        2,
+        3
+      ],
+      [
+        10,
+        3,
+        2
+      ],
+      [
+        9,
+        4,
+        1
+      ],
+      [
+        12,
+        11,
+        12
+      ],
+      [
+        11,
+        12,
+        11
+      ],
+      [
+        14,
+        15,
+        18
+      ],
+      [
+        16,
+        16,
+        17
+      ],
+      [
+        15,
+        13,
+        19
+      ],
+      [
+        18,
+        14,
+        13
+      ],
+      [
+        17,
+        19,
+        14
+      ],
+      [
+        19,
+        17,
+        15
+      ],
+      [
+        13,
+        18,
+        16
+      ],
+      [
+        21,
+        22,
+        21
+      ],
+      [
+        20,
+        20,
+        22
+      ],
+      [
+        22,
+        21,
+        20
+      ],
+      [
+        24,
+        23,
+        24
+      ],
+      [
+        23,
+        24,
+        23
+      ],
+      [
+        27,
+        28,
+        27
+      ],
+      [
+        25,
+        26,
+        26
+      ],
+      [
+        28,
+        27,
+        25
+      ],
+      [
+        26,
+        25,
+        28
+      ],
+      [
+        30,
+        31,
+        32
+      ],
+      [
+        31,
+        32,
+        33
+      ],
+      [
+        32,
+        29,
+        34
+      ],
+      [
+        33,
+        30,
+        29
+      ],
+      [
+        34,
+        34,
+        30
+      ],
+      [
+        29,
+        33,
+        31
+      ],
+      [
+        36,
+        35,
+        36
+      ],
+      [
+        35,
+        36,
+        35
+      ],
+      [
+        38,
+        39,
+        41
+      ],
+      [
+        37,
+        40,
+        42
+      ],
+      [
+        42,
+        37,
+        43
+      ],
+      [
+        43,
+        38,
+        37
+      ],
+      [
+        39,
+        43,
+        38
+      ],
+      [
+        41,
+        41,
+        39
+      ],
+      [
+        40,
+        42,
+        40
+      ],
+      [
+        45,
+        44,
+        45
+      ],
+      [
+        44,
+        45,
+        44
+      ],
+      [
+        47,
+        46,
+        47
+      ],
+      [
+        46,
+        47,
+        46
+      ],
+      [
+        50,
+        49,
+        51
+      ],
+      [
+        51,
+        48,
+        52
+      ],
+      [
+        48,
+        51,
+        48
+      ],
+      [
+        52,
+        52,
+        49
+      ],
+      [
+        49,
+        50,
+        50
+      ],
+      [
+        54,
+        55,
+        56
+      ],
+      [
+        56,
+        56,
+        58
+      ],
+      [
+        53,
+        54,
+        57
+      ],
+      [
+        55,
+        58,
+        55
+      ],
+      [
+        58,
+        53,
+        54
+      ],
+      [
+        57,
+        57,
+        53
+      ],
+      [
+        61,
+        60,
+        62
+      ],
+      [
+        64,
+        63,
+        61
+      ],
+      [
+        59,
+        61,
+        60
+      ],
+      [
+        60,
+        59,
+        63
+      ],
+      [
+        62,
+        62,
+        64
+      ],
+      [
+        63,
+        64,
+        59
+      ],
+      [
+        67,
+        68,
+        67
+      ],
+      [
+        65,
+        69,
+        68
+      ],
+      [
+        66,
+        65,
+        69
+      ],
+      [
+        69,
+        66,
+        65
+      ],
+      [
+        68,
+        67,
+        66
+      ],
+      [
+        71,
+        74,
+        73
+      ],
+      [
+        74,
+        75,
+        74
+      ],
+      [
+        73,
+        70,
+        75
+      ],
+      [
+        70,
+        71,
+        70
+      ],
+      [
+        72,
+        72,
+        71
+      ],
+      [
+        75,
+        73,
+        72
+      ],
+      [
+        80,
+        78,
+        79
+      ],
+      [
+        76,
+        79,
+        80
+      ],
+      [
+        77,
+        80,
+        76
+      ],
+      [
+        78,
+        76,
+        77
+      ],
+      [
+        79,
+        77,
+        78
+      ]
+    ],
+    "cadernos": [
+      {
+        "tipo": 1,
+        "cor": "Branca",
+        "pdf": "https://oab.fgv.br/arq/615/15032015183319_CADERNO_TIPO_1_XVI_EXAME.pdf"
+      },
+      {
+        "tipo": 2,
+        "cor": "Verde",
+        "pdf": "https://oab.fgv.br/arq/615/15032015183332_CADERNO_TIPO_2_XVI_EXAME.pdf"
+      },
+      {
+        "tipo": 3,
+        "cor": "Amarela",
+        "pdf": "https://oab.fgv.br/arq/615/15032015183341_CADERNO_TIPO_3_XVI_EXAME.pdf"
+      },
+      {
+        "tipo": 4,
+        "cor": "Azul",
+        "pdf": "https://oab.fgv.br/arq/615/15032015183351_CADERNO_TIPO_4_XVI_EXAME.pdf"
+      }
+    ],
+    "gabaritoPDF": "https://oab.fgv.br/arq/615/17042015171107_GABARITOS%20DEFINITIVOS_XVI_EXAME_DE_ORDEM.pdf",
+    "fonteOficial": "https://oab.fgv.br/NovoSec.aspx?codSec=5141&key=31pi5pjiqHU%3D",
+    "anulacoesPorTipo": [
+      [],
+      [],
+      [],
+      []
+    ],
+    "disciplinas": [],
+    "nota": "PDF GABARITOS DEFINITIVOS de 17/04/2015. Nenhuma anulação. Q29 Tipo 1 corrigida de C para B após retificação de março, já incorporada na versão definitiva."
   }
 };
