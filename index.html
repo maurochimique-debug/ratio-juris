@@ -1261,8 +1261,10 @@
         op.textContent=entry.exame+'º Exame de Ordem Unificado';
         sel.appendChild(op);
       });
-      sel.value='47';
-      document.getElementById('oabTipoSelect').value='1';
+      const ultimoExame=lerArmazenamento('ratio_ultimo_exame','47');
+      sel.value=dados.archive.some(x=>String(x.exame)===ultimoExame)?ultimoExame:'47';
+      const ultimoTipo=lerArmazenamento('ratio_ultimo_caderno','1');
+      document.getElementById('oabTipoSelect').value=/^[1-4]$/.test(ultimoTipo)?ultimoTipo:'1';
       atualizarArquivoOAB();
       iniciarConsultaGabaritosHistoricos();
     }
@@ -1367,6 +1369,8 @@
         btnGabarito.title=temGabarito?'Abrir gabarito definitivo no próprio RATIO JURIS':'Gabarito ainda não integrado';
       }
       const tipo=tipoOABAtual();
+      gravarArmazenamento('ratio_ultimo_exame',String(num));
+      gravarArmazenamento('ratio_ultimo_caderno',String(tipo));
       ajustarQuestaoAoTrocarCaderno(num,tipo);
       const fonteSelecionada=documentos?.cadernos?.[tipo-1];
       document.getElementById('rotuloVisualizadorIntegrado').textContent=
