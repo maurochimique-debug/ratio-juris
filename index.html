@@ -1185,6 +1185,11 @@
           url:'https://s.oab.org.br/arquivos/2019/10/244695e0-d919-4f6d-8aa0-98a3baa100af.pdf',
           tipo:'preliminar',
           descricao:'Gabarito PRELIMINAR oficial da prova de 20/10/2019. A OAB confirmou posteriormente as anulações das questões 20, 30 e 57 (Tipo 1), inclusive as equivalentes nas outras cores. Este documento não substitui a versão definitiva após recursos.'
+        },
+        28:{
+          url:'https://oab.fgv.br/arq/631/283981_339414_GABARITOS_RETIFICADOS_XXVIII_EXAME_DE_ORDEM.pdf',
+          tipo:'retificado',
+          descricao:'Gabarito retificado oficial do 28º Exame (17/03/2019), para conferência documental. A OAB confirmou a anulação da questão 37 do Tipo 1 em 10/04/2019. O resultado após recursos deve ser confrontado antes de liberar correção automática.'
         }
       };
       if(cadastrado && /^https:\/\/(?:s\.oab\.org\.br\/arquivos\/|oab\.fgv\.br\/arq\/)/.test(cadastrado)){
@@ -1194,7 +1199,7 @@
       }else{
         const documento=gabaritosDocumentais[numero];
         link.href=documento?.url || avisos[numero] || arquivo?.fgvUrl || 'https://www.oab.org.br/servicos/examedeordem';
-        link.textContent=documento?.tipo==='preliminar'?'Consultar gabarito preliminar oficial':'Consultar o exame na fonte oficial';
+        link.textContent=documento?.tipo==='preliminar'?'Consultar gabarito preliminar oficial':documento?.tipo==='retificado'?'Consultar gabarito retificado oficial':'Consultar o exame na fonte oficial';
         status.textContent=numero+'º Exame — '+(documento?.descricao ||
           'Documentos históricos disponíveis na OAB/FGV. Correção automática ainda pendente de gabarito definitivo verificado.');
       }
