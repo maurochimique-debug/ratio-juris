@@ -1,4 +1,4 @@
-/* Gabaritos oficiais OAB FGV e correspondência por cor, com validação das posições. */
+/* Fonte oficial OAB/FGV; gabaritos e equivalências verificadas documentalmente. */
 window.RATIO_OAB_DATA = {
   "version": "2026-11-09",
   "metadata": {
@@ -8,7 +8,7 @@ window.RATIO_OAB_DATA = {
     "aviso": "O gabarito é histórico. Comentários sobre legislação e jurisprudência atuais exigem revisão individual.",
     "validacaoJuridicaIndividual": false,
     "ultimaIntegracao": "2026-11-12",
-    "escopoGabaritos": "36º–47º: gabaritos definitivos para quatro cadernos; 35º–10º catálogo histórico pendente de validação.",
+    "escopoGabaritos": "34º e 36º–47º: gabaritos definitivos por caderno; 35º e 33º–10º pendentes de importação de respostas verificadas.",
     "ultimaImportacao": "2026-11-10",
     "examesCorrigiveis": [
       47,
@@ -22,7 +22,8 @@ window.RATIO_OAB_DATA = {
       39,
       38,
       37,
-      36
+      36,
+      34
     ],
     "auditoriaAtual": {
       "data": "2026-11-10",
@@ -121,7 +122,7 @@ window.RATIO_OAB_DATA = {
     {
       "exame": 34,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=637",
-      "status": "pagina_historica_sem_importacao",
+      "status": "gabarito_definitivo_cadernos_integrados",
       "importado": false
     },
     {
@@ -5239,5 +5240,444 @@ window.RATIO_OAB_DATA = {
       ]
     ],
     "nota": "Transcrição das tabelas definitivas da OAB/FGV, quatro cores e correspondência por número, testadas contra todas as respostas dos cadernos."
+  },
+  "exam34": {
+    "exame": 34,
+    "dataProva": "2022-02-20",
+    "status": "GABARITOS_DEFINITIVOS_QUATRO_CADERNOS_CORRESPONDENCIA_VALIDADA",
+    "gabaritos": [
+      "BCABDACBDCADBADADCDBBDDBADCDCCABDBCABBBBBACACBDCCCBCBDAAABBAADCCDBCCCBCBADBDDAAD",
+      "BDACBBCACDAADDADBCDBBADDDBCDBCCABDBBCBBBAACACCCDBCABDAACBBCBDAACCBCDCABCDBBDADAD",
+      "ACADBCBBDCBAADDADDCBBDADBDBCDACCDBBBBBACBCACABDCCCDBABCAABAABCDDCCCBCCBDBBAADDDA",
+      "ABBADCCBDCADDADBADCBBBDADDCACDBCBDBBBBBACCAACDBCCCAAABDBCCDBBAACDCBCCBCBBADADDDA"
+    ],
+    "correspondencia": [
+      [
+        6,
+        5,
+        2
+      ],
+      [
+        7,
+        2,
+        7
+      ],
+      [
+        8,
+        3,
+        1
+      ],
+      [
+        5,
+        7,
+        8
+      ],
+      [
+        2,
+        4,
+        5
+      ],
+      [
+        3,
+        1,
+        4
+      ],
+      [
+        4,
+        6,
+        6
+      ],
+      [
+        1,
+        8,
+        3
+      ],
+      [
+        10,
+        9,
+        9
+      ],
+      [
+        9,
+        10,
+        10
+      ],
+      [
+        12,
+        16,
+        11
+      ],
+      [
+        14,
+        15,
+        13
+      ],
+      [
+        17,
+        11,
+        16
+      ],
+      [
+        15,
+        12,
+        17
+      ],
+      [
+        13,
+        14,
+        12
+      ],
+      [
+        11,
+        13,
+        14
+      ],
+      [
+        16,
+        17,
+        15
+      ],
+      [
+        18,
+        19,
+        19
+      ],
+      [
+        19,
+        18,
+        18
+      ],
+      [
+        21,
+        20,
+        21
+      ],
+      [
+        20,
+        21,
+        20
+      ],
+      [
+        23,
+        26,
+        25
+      ],
+      [
+        24,
+        24,
+        26
+      ],
+      [
+        26,
+        25,
+        22
+      ],
+      [
+        22,
+        23,
+        24
+      ],
+      [
+        25,
+        22,
+        23
+      ],
+      [
+        30,
+        31,
+        32
+      ],
+      [
+        28,
+        29,
+        30
+      ],
+      [
+        27,
+        28,
+        29
+      ],
+      [
+        31,
+        32,
+        27
+      ],
+      [
+        32,
+        30,
+        28
+      ],
+      [
+        29,
+        27,
+        31
+      ],
+      [
+        34,
+        33,
+        34
+      ],
+      [
+        33,
+        34,
+        33
+      ],
+      [
+        37,
+        40,
+        41
+      ],
+      [
+        41,
+        39,
+        40
+      ],
+      [
+        40,
+        37,
+        36
+      ],
+      [
+        36,
+        41,
+        39
+      ],
+      [
+        39,
+        36,
+        38
+      ],
+      [
+        35,
+        38,
+        37
+      ],
+      [
+        38,
+        35,
+        35
+      ],
+      [
+        42,
+        43,
+        43
+      ],
+      [
+        43,
+        42,
+        42
+      ],
+      [
+        44,
+        45,
+        44
+      ],
+      [
+        45,
+        44,
+        45
+      ],
+      [
+        49,
+        46,
+        47
+      ],
+      [
+        48,
+        47,
+        46
+      ],
+      [
+        46,
+        48,
+        50
+      ],
+      [
+        47,
+        50,
+        48
+      ],
+      [
+        50,
+        49,
+        49
+      ],
+      [
+        57,
+        54,
+        54
+      ],
+      [
+        56,
+        55,
+        57
+      ],
+      [
+        52,
+        52,
+        56
+      ],
+      [
+        53,
+        51,
+        55
+      ],
+      [
+        51,
+        56,
+        51
+      ],
+      [
+        55,
+        53,
+        52
+      ],
+      [
+        54,
+        57,
+        53
+      ],
+      [
+        60,
+        58,
+        60
+      ],
+      [
+        58,
+        61,
+        61
+      ],
+      [
+        62,
+        60,
+        63
+      ],
+      [
+        63,
+        59,
+        62
+      ],
+      [
+        61,
+        63,
+        59
+      ],
+      [
+        59,
+        62,
+        58
+      ],
+      [
+        65,
+        67,
+        66
+      ],
+      [
+        68,
+        64,
+        65
+      ],
+      [
+        66,
+        68,
+        67
+      ],
+      [
+        64,
+        66,
+        69
+      ],
+      [
+        67,
+        69,
+        68
+      ],
+      [
+        69,
+        65,
+        64
+      ],
+      [
+        75,
+        74,
+        73
+      ],
+      [
+        72,
+        70,
+        71
+      ],
+      [
+        74,
+        71,
+        72
+      ],
+      [
+        70,
+        75,
+        74
+      ],
+      [
+        73,
+        72,
+        75
+      ],
+      [
+        71,
+        73,
+        70
+      ],
+      [
+        80,
+        78,
+        79
+      ],
+      [
+        76,
+        79,
+        78
+      ],
+      [
+        79,
+        76,
+        80
+      ],
+      [
+        77,
+        80,
+        76
+      ],
+      [
+        78,
+        77,
+        77
+      ]
+    ],
+    "cadernos": [
+      {
+        "tipo": 1,
+        "cor": "Branca",
+        "pdf": "https://s.oab.org.br/arquivos/2022/02/64610b85-1721-477b-9078-21cb15f6740f.pdf"
+      },
+      {
+        "tipo": 2,
+        "cor": "Verde",
+        "pdf": "https://s.oab.org.br/arquivos/2022/02/580d27cc-f67c-4368-9e30-816c5ee5aa57.pdf"
+      },
+      {
+        "tipo": 3,
+        "cor": "Amarela",
+        "pdf": "https://s.oab.org.br/arquivos/2022/02/cb74c9b7-3a75-4bab-b24b-bfca5c5d06e2.pdf"
+      },
+      {
+        "tipo": 4,
+        "cor": "Azul",
+        "pdf": "https://s.oab.org.br/arquivos/2022/02/f89b8088-6452-4f43-957c-dd62eb3a620e.pdf"
+      }
+    ],
+    "gabaritoPDF": "https://s.oab.org.br/arquivos/2022/02/81b3cb2f-bf13-41ad-9a3f-096b9c98f6bc.pdf",
+    "fonteOficial": "https://examedeordem.oab.org.br/EditaisProvas?NumeroExame=13096",
+    "disciplinas": [],
+    "nota": "Documento oficial apresenta GABARITOS DEFINITIVOS; o nome histórico do arquivo na origem contém 'preliminares'. Validação das quatro sequências e 80 correspondências realizada."
   }
 };
