@@ -591,7 +591,16 @@
         <details id="acervo-vunesp" class="rounded-xl p-5 border border-purple-500 bg-slate-50 dark:bg-ratio-cardDark">
           <summary class="cursor-pointer min-h-[44px] flex items-center font-bold text-slate-900 dark:text-white">VUNESP — Magistratura TJSP</summary>
           <p class="text-sm mt-3 text-slate-700 dark:text-slate-300">189º Concurso de Ingresso na Magistratura de São Paulo — prova objetiva para juiz(a) substituto(a), com 100 questões.</p>
-          <a href="https://documento.vunesp.com.br/documento/stream/MjQwOTM0MQ%3D%3D" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-[44px] items-center mt-3 rounded-lg bg-purple-700 text-white px-4 py-2 font-bold text-sm">Ver prova oficial do 189º Concurso</a>
+          <button type="button" onclick="RatioMagistratura.abrir('prova')" class="inline-flex min-h-[44px] items-center mt-3 rounded-lg bg-purple-700 text-white px-4 py-2 font-bold text-sm">Ler todas as questões do 189º Concurso aqui</button>
+          <button type="button" onclick="RatioMagistratura.abrir('gabarito')" class="inline-flex min-h-[44px] items-center mt-3 ml-2 rounded-lg border border-purple-600 px-4 py-2 font-bold text-sm text-purple-800 dark:text-purple-200">Consultar gabarito definitivo aqui</button>
+          <div id="magistraturaVisualizador" class="hidden mt-3 rounded-lg border border-purple-500 p-3">
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-2">
+              <p id="magistraturaPdfStatus" class="text-sm font-semibold text-slate-900 dark:text-white" role="status" aria-live="polite"></p>
+              <button type="button" onclick="RatioMagistratura.fechar()" class="border rounded-lg px-3 py-2 font-bold text-purple-800 dark:text-purple-200">Fechar documento</button>
+            </div>
+            <iframe id="magistraturaPdfFrame" loading="lazy" class="w-full bg-white rounded-lg" style="height:70vh;min-height:420px" title="Prova de magistratura TJSP — leitor do documento completo"></iframe>
+            <p class="text-xs mt-2 text-slate-700 dark:text-slate-300">Se não conseguir visualizar as páginas no navegador, <a id="magistraturaPdfFonte" href="https://documento.vunesp.com.br/documento/stream/MjQwOTM0MQ%3D%3D" target="_blank" rel="noopener noreferrer" class="underline font-bold">abra o PDF na fonte oficial da VUNESP</a>.</p>
+          </div>
           <a href="https://www.vunesp.com.br/TJSP2102" target="_blank" rel="noopener noreferrer" class="block mt-3 underline font-bold text-purple-800 dark:text-purple-300">Consultar gabaritos, editais e resultados na VUNESP</a>
           <p class="text-sm mt-3 text-slate-700 dark:text-slate-300">191º Concurso — acervo oficial da banca:</p>
           <a href="https://www.vunesp.com.br/TJSP2402" target="_blank" rel="noopener noreferrer" class="block mt-2 underline font-bold text-purple-800 dark:text-purple-300">Provas e gabaritos do 191º Concurso TJSP</a>
@@ -2596,7 +2605,8 @@
       }
     });
   </script>
-  <script src="/leitor-mobile-pdf.js?v=20261113-2"></script>
+  <script src="/leitor-mobile-pdf.js?v=20261113-magistratura"></script>
+  <script src="/magistratura-leitor.js?v=20261113-1"></script>
   <script src="/leitor-pdf-oficial.js?v=20261113-mobile-stability"></script>
   <script src="/acessibilidade.js?v=20261113-01"></script>
   <script src="/responsividade.js?v=20261112-2309"></script>
