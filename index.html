@@ -364,6 +364,24 @@
               <div>
                 <h4 id="tituloVisualizadorIntegrado" class="font-bold text-slate-900 dark:text-white">PDF das questões cobradas — consulta opcional</h4>
                 <p id="rotuloVisualizadorIntegrado" class="text-xs text-slate-600 dark:text-slate-300 mt-1">Selecione um exame e tipo de caderno.</p>
+                <div class="mt-3 flex flex-wrap items-center gap-3" role="group" aria-label="Navegar pelo caderno oficial">
+                  <div class="flex items-center gap-1">
+                    <span class="text-xs font-bold text-slate-800 dark:text-white">Exame</span>
+                    <button type="button" onclick="navegarPdfOficial('exame',-1)" aria-label="Exame anterior" title="Exame anterior" class="min-w-[44px] min-h-[44px] rounded-lg border-2 border-purple-500 text-purple-900 dark:text-purple-100 font-bold">▼</button>
+                    <button type="button" onclick="navegarPdfOficial('exame',1)" aria-label="Exame seguinte" title="Exame seguinte" class="min-w-[44px] min-h-[44px] rounded-lg border-2 border-purple-500 text-purple-900 dark:text-purple-100 font-bold">▲</button>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <span class="text-xs font-bold text-slate-800 dark:text-white">Caderno</span>
+                    <button type="button" onclick="navegarPdfOficial('caderno',-1)" aria-label="Caderno anterior" title="Caderno anterior" class="min-w-[44px] min-h-[44px] rounded-lg border-2 border-purple-500 text-purple-900 dark:text-purple-100 font-bold">▼</button>
+                    <button type="button" onclick="navegarPdfOficial('caderno',1)" aria-label="Próximo caderno" title="Próximo caderno" class="min-w-[44px] min-h-[44px] rounded-lg border-2 border-purple-500 text-purple-900 dark:text-purple-100 font-bold">▲</button>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <span class="text-xs font-bold text-slate-800 dark:text-white">Questão</span>
+                    <button type="button" onclick="navegarPdfOficial('questao',-1)" aria-label="Questão anterior" title="Questão anterior" class="min-w-[44px] min-h-[44px] rounded-lg border-2 border-purple-500 text-purple-900 dark:text-purple-100 font-bold">▼</button>
+                    <button type="button" onclick="navegarPdfOficial('questao',1)" aria-label="Próxima questão" title="Próxima questão" class="min-w-[44px] min-h-[44px] rounded-lg border-2 border-purple-500 text-purple-900 dark:text-purple-100 font-bold">▲</button>
+                  </div>
+                </div>
+                <p id="navegacaoPdfOficialStatus" class="mt-2 text-xs font-semibold text-purple-900 dark:text-purple-200" aria-live="polite">Use as setas para trocar exame, caderno ou questão. A seleção também atualiza o simulador.</p>
               </div>
               <div class="flex flex-wrap gap-2">
                 <button type="button" onclick="abrirCadernoOabIntegrado()" class="px-3 py-2 rounded-lg bg-purple-700 text-white font-bold text-xs sm:text-sm">Exibir caderno FGV aqui</button>
@@ -1682,6 +1700,55 @@
       document.getElementById('feedbackQuestaoOficial').focus?.();
       return true;
     }
+    function navegarPdfOficial(campo,delta){
+      const exameSelect=document.getElementById('oabExamSelect');
+      const tipoSelect=document.getElementById('oabTipoSelect');
+      const status=document.getElementById('navegacaoPdfOficialStatus');
+      const sentido=Number(delta);
+      if(![-1,1].includes(sentido))return false;
+      if(campo==='questao'){
+        const atual=Number(document.getElementById('questaoOficialNumeroSelect')?.value)||1;
+        const proxima=atual+sentido;
+        if(proxima<1||proxima>80){if(status)status.textContent='Limite do caderno: questões de 1 a 80.';return false;}
+        const ok=window.irParaQuestaoOficial(proxima);
+        if(status)status.textContent='Questão '+proxima+'/80 • '+exameSelect.value+'º Exame • Caderno '+tipoSelect.value;
+        return ok;
+      }
+      const num=Number(exameSelect.value),tipo=Number(tipoSelect.value);
+      let novoExame=num,novoTipo=tipo;
+      if(campo==='caderno'){
+        let proximo=tipo+sentido;
+        const livros=documentosDoExameOAB(num)?.cadernos||[];
+        while(proximo>=1&&proximo<=4&&!livros[proximo-1]?.pdf)proximo+=sentido;
+        if(proximo<1||proximo>4){
+          if(status)status.textContent='Não há outro caderno oficial cadastrado nesta direção.';
+          return false;
+        }
+        novoTipo=proximo;
+      }else if(campo==='exame'){
+        const catalogo=fonteOAB().archive;
+        const candidatos=catalogo.map(x=>x.exame).filter(n=>sentido>0?n>num:n<num).sort((a,b)=>sentido>0?a-b:b-a);
+        novoExame=candidatos.find(n=>(documentosDoExameOAB(n)?.cadernos||[]).some(x=>!!x?.pdf));
+        if(!novoExame){if(status)status.textContent='Não há mais exames com cadernos cadastrados nesta direção.';return false;}
+        if(!documentosDoExameOAB(novoExame)?.cadernos?.[novoTipo-1]?.pdf){
+          novoTipo=(documentosDoExameOAB(novoExame).cadernos.find(x=>x?.pdf)?.tipo)||1;
+        }
+      }else return false;
+      const estavaAberto=!!document.getElementById('consultaPdfOpcional')?.open;
+      exameSelect.value=String(novoExame);
+      tipoSelect.value=String(novoTipo);
+      // Dispara o fluxo existente: gabarito, questão, fonte, links e PDF mudam juntos.
+      (campo==='exame'?exameSelect:tipoSelect).dispatchEvent(new Event('change',{bubbles:true}));
+      if(estavaAberto){
+        const exterior=document.getElementById('ajudaDocumentosProva');
+        const detalhes=document.getElementById('consultaPdfOpcional');
+        if(exterior)exterior.open=true;
+        if(detalhes){detalhes.open=true;alternarConsultaPdfOficial(detalhes);}
+      }
+      if(status)status.textContent=novoExame+'º Exame • Caderno '+novoTipo+' • documento e questões atualizados.';
+      return true;
+    }
+    window.navegarPdfOficial=navegarPdfOficial;
     function abrirCadernoOabIntegrado(){
       const detalhes=document.getElementById('consultaPdfOpcional');
       if(!detalhes)return false;
