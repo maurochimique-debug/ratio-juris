@@ -185,6 +185,10 @@ window.RATIO_OAB_DATA = {
       "gabaritoPreliminarPDF": "https://oab.fgv.br/arq/633/97164_GABARITOS%20PRELIMINARES_XXX_EXAME_DE_ORDEM.pdf",
       "fonteValidacao": "https://www.oab.org.br/noticia/57686/oab-anula-tres-questoes-do-xxx-exame-de-ordem",
       "anulacoesOficiaisTipo1": [20, 30, 57],
+      "anulacoesOficiaisPorTipo": {"1":[20,30,57],"2":[21,28,52],"3":[20,31,55],"4":[21,29,54]},
+      "correspondenciaDocumental": [[3,7,2],[4,3,6],[7,1,5],[8,4,1],[5,6,3],[2,8,7],[1,2,4],[6,5,8],[10,10,9],[9,9,10],[17,14,12],[16,13,11],[12,17,15],[15,11,16],[14,12,17],[11,16,13],[13,15,14],[18,19,19],[19,18,18],[21,20,21],[20,21,20],[26,25,23],[25,22,24],[22,24,26],[23,26,25],[24,23,22],[31,32,30],[32,27,31],[30,28,27],[28,31,29],[29,30,32],[27,29,28],[34,33,34],[33,34,33],[40,36,37],[35,38,39],[39,41,38],[37,39,36],[41,37,35],[38,40,41],[36,35,40],[43,42,43],[42,43,42],[45,45,44],[44,44,45],[50,47,48],[48,46,47],[49,49,50],[47,48,46],[46,50,49],[54,53,55],[56,51,57],[55,56,53],[51,57,56],[57,54,52],[53,52,51],[52,55,54],[60,63,62],[62,60,59],[63,61,63],[59,58,61],[61,62,58],[58,59,60],[64,64,68],[68,66,65],[69,68,69],[65,67,67],[66,69,64],[67,65,66],[72,74,71],[71,72,70],[75,70,73],[70,73,74],[74,71,75],[73,75,72],[80,78,80],[76,80,79],[79,76,77],[78,77,76],[77,79,78]],
+      "fonteCorrespondenciaDocumental": "https://oab.fgv.br/arq/633/97164_GABARITOS%20PRELIMINARES_XXX_EXAME_DE_ORDEM.pdf",
+      "statusCorrespondencia": "TABELA_OFICIAL_PRELIMINAR_SEM_CORRECAO_AUTOMATICA",
       "observacao": "Anulações das questões 20, 30 e 57 do caderno Tipo 1 confirmadas pela OAB em 29/10/2019. Gabarito preliminar disponível apenas para consulta; sem correção automática até confrontar a versão definitiva dos quatro cadernos.",
       "consultaDocumental": true
     },
