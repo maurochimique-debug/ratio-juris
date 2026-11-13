@@ -1381,7 +1381,7 @@
       const painel=document.getElementById('painelDocumentoOabNoApp');
       const frame=document.getElementById('iframeDocumentoOabNoApp');
       const btn=document.getElementById('btnFecharDocumentoNoApp');
-      if(frame)frame.removeAttribute('src');
+      if(frame){window.RatioMobilePdf?.close(frame);frame.removeAttribute('src');}
       if(painel)painel.classList.add('hidden');
       if(btn)btn.classList.add('hidden');
       return true;
@@ -1415,6 +1415,7 @@
       const fonte=document.getElementById('linkDocumentoOabFonte');
       if(fonte)fonte.href=original;
       if(frame.getAttribute('src')!==destino)frame.src=destino;
+      if(window.RatioMobilePdf?.isMobile())window.RatioMobilePdf.mount(frame,destino,original).catch(()=>{});
       frame.title=rotulo+' do '+num+'º Exame, Tipo '+tipo;
       status.textContent=rotulo+' — '+num+'º Exame, Tipo '+tipo+
         (documentoPendente?' (consulte as retificações: correção automática ainda não homologada).':'.');
@@ -1525,6 +1526,7 @@
         'Questão '+obterPosicaoOficial(num,tipo)+' de 80 — '+num+'º Exame';
       // Trocar de edição nunca deixa um PDF antigo visível como se fosse da nova.
       const quadro=document.getElementById('iframeProvaOficial');
+      window.RatioMobilePdf?.close(quadro);
       quadro.removeAttribute('src');
       quadro._ratioLivroAtual='';
       const gabaritoFrame=document.getElementById('iframeGabaritoOficial');
@@ -1814,22 +1816,28 @@
       const campoCaderno=document.getElementById('pdfCadernoSelect');
       if(!exame||!tipo||!campoExame||!campoCaderno)return;
       const db=fonteOAB();
-      campoExame.replaceChildren();
-      db.archive.forEach(item=>{
-        const option=document.createElement('option');
-        option.value=String(item.exame);option.textContent=item.exame+'º Exame de Ordem';
-        campoExame.appendChild(option);
-      });
+      const exames=db.archive.map(item=>[String(item.exame),item.exame+'º Exame de Ordem']);
+      if(campoExame.options.length!==exames.length||
+         exames.some(([id],i)=>campoExame.options[i]?.value!==id)){
+        campoExame.replaceChildren();
+        exames.forEach(([id,nome])=>{
+          const option=document.createElement('option');option.value=id;option.textContent=nome;
+          campoExame.appendChild(option);
+        });
+      }
       campoExame.value=exame.value;
-      campoCaderno.replaceChildren();
       const livros=documentosDoExameOAB(Number(exame.value))?.cadernos||[];
+      if(campoCaderno.options.length!==4){
+        campoCaderno.replaceChildren();
+        for(let i=1;i<=4;i++){
+          const option=document.createElement('option');option.value=String(i);
+          campoCaderno.appendChild(option);
+        }
+      }
       for(let i=1;i<=4;i++){
-        const option=document.createElement('option');
-        option.value=String(i);
-        const livro=livros[i-1];
+        const livro=livros[i-1],option=campoCaderno.options[i-1];
         option.textContent='Tipo '+i+' — '+(livro?.cor||['Branca','Verde','Amarela','Azul'][i-1]);
         option.disabled=!livro?.pdf;
-        campoCaderno.appendChild(option);
       }
       campoCaderno.value=tipo.value;
     }
@@ -1918,7 +1926,7 @@
       const exame=Number(document.getElementById('oabExamSelect').value);
       const tipo=tipoOABAtual();
       const config=documentosDoExameOAB(exame);
-      if(!detalhes.open){frame.removeAttribute('src');return;}
+      if(!detalhes.open){window.RatioMobilePdf?.close(frame);frame.removeAttribute('src');return;}
       if(!config?.cadernos?.[tipo-1]?.pdf){
         frame.removeAttribute('src');
         document.getElementById('statusPdfOabIntegrado').textContent='O caderno desta edição ainda não foi integrado. Consulte a página histórica oficial da FGV.';
@@ -1926,6 +1934,7 @@
       }
       const url='/api/oab-pdf?exame='+exame+'&tipo='+tipo+'&selecao='+encodeURIComponent(exame+'-'+tipo)+'#toolbar=1&navpanes=0';
       if(frame.getAttribute('src')!==url)frame.src=url;
+      if(window.RatioMobilePdf?.isMobile())window.RatioMobilePdf.mount(frame,url,config.cadernos[tipo-1].pdf).catch(()=>{});
       frame.title='Caderno oficial do '+exame+'º Exame, tipo '+tipo;
       const status=document.getElementById('statusPdfOabIntegrado');
       if(status)status.textContent='Caderno FGV/OAB '+exame+'º, tipo '+tipo+', solicitado ao visualizador interno. Se o PDF não aparecer neste navegador, use “Abrir fonte original”.';
@@ -2592,6 +2601,7 @@
       }
     });
   </script>
+  <script src="/leitor-mobile-pdf.js?v=20261113-2"></script>
   <script src="/leitor-pdf-oficial.js?v=20261112-2327"></script>
   <script src="/acessibilidade.js?v=20261113-01"></script>
   <script src="/responsividade.js?v=20261112-2309"></script>
