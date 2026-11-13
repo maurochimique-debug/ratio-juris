@@ -1936,6 +1936,20 @@
         aviso.textContent=caderno?
           'Consulta documental do '+exameSelecionado+'º Exame disponível. A correção eletrônica ainda não está homologada; escolha o caderno ou o gabarito oficial acima.':
           'Este exame aguarda a importação do caderno e do gabarito para consulta integrada. Consulte a fonte histórica oficial.';
+        // A leitura do caderno permanece funcional mesmo sem gabarito eletrônico.
+        // A identidade inclui exame, tipo e questão para não reutilizar texto antigo.
+        const identidadeDocumental=exameSelecionado+'-'+tipoSelecionado+'-'+numeroQuestao;
+        if(caderno?.pdf && painel._ratioAutoQuestao!==identidadeDocumental){
+          painel._ratioAutoQuestao=identidadeDocumental;
+          Promise.resolve().then(()=>{
+            const identidadeAgora=Number(document.getElementById('oabExamSelect')?.value)+'-'+
+              tipoOABAtual()+'-'+obterPosicaoOficial(exameSelecionado,tipoSelecionado);
+            if(identidadeAgora===identidadeDocumental && painel._ratioAutoQuestao===identidadeDocumental &&
+               window.RatioPdfAcessivel?.estudarQuestaoAtual){
+              Promise.resolve(window.RatioPdfAcessivel.estudarQuestaoAtual({foco:false})).catch(()=>{});
+            }
+          });
+        }
         return;
       }
       painel.querySelector('.ratio-study-layout').classList.remove('hidden');
@@ -2483,15 +2497,6 @@
       desenharFolha47();
       invalidarEstatisticaOAB();
       renderizarSimuladorOficial();
-    }
-    function moverQuestaoOficial(delta) {
-      const select=document.getElementById('questaoOficialNumeroSelect');
-      if(!select||select.options.length===0)return;
-      const atual=select.selectedIndex>=0?select.selectedIndex:0;
-      const proximo=Math.max(0,Math.min(select.options.length-1,atual+delta));
-      if(proximo===atual)return;
-      select.selectedIndex=proximo;
-      select.dispatchEvent(new Event('change',{bubbles:true}));
     }
     window.addEventListener('DOMContentLoaded',function(){
       iniciarArquivoOAB();
