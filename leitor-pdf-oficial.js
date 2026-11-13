@@ -29,11 +29,18 @@
    if(!book?.pdf)return false;
    if(link){link.href=book.pdf;link.classList.remove("hidden");}
    if(wrap&&frame){
-     wrap.classList.remove("hidden");
-     const url="/api/oab-pdf?exame="+encodeURIComponent(exame)+
-       "&tipo="+encodeURIComponent(tipo)+"&fallback="+Date.now()+"#toolbar=1&navpanes=0";
-     if(frame.getAttribute("src")!==url)frame.src=url;
-     frame.title="Caderno oficial do "+exame+"º Exame, Tipo "+tipo+" — consulta do enunciado";
+     // O navegador móvel já dispõe do leitor paginado principal. Não manter
+     // mais um PDF embutido para a mesma prova quando a extração falhar.
+     if(window.RatioMobilePdf?.isMobile()){
+       frame.removeAttribute("src");
+       wrap.classList.add("hidden");
+     }else{
+       wrap.classList.remove("hidden");
+       const url="/api/oab-pdf?exame="+encodeURIComponent(exame)+
+         "&tipo="+encodeURIComponent(tipo)+"#toolbar=1&navpanes=0";
+       if(frame.getAttribute("src")!==url)frame.src=url;
+       frame.title="Caderno oficial do "+exame+"º Exame, Tipo "+tipo+" — consulta do enunciado";
+     }
    }
    const preview=$("textoQuestaoDentroSimulador");
    if(preview){preview.textContent=mensagem;preview.setAttribute("data-extracao-validada","nao");}
