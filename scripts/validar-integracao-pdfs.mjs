@@ -51,6 +51,26 @@ for(const id of ["simulador-oficial","oabExamSelect","oabTipoSelect",
 if(html.includes('id="configSimuladoAleatorio"'))errors.push("Seção aleatória removida reapareceu");
 if(!html.includes("R$ 99")||!html.includes("R$ 370"))errors.push("Preços comerciais divergentes");
 if(!html.includes("pesquisarConjurGabinete"))errors.push("Pesquisa complementar ConJur ausente");
+if(!html.includes('id="leitorMobile"')&&!html.includes('/leitor-mobile-pdf.js'))
+ errors.push("Leitor paginado para celular ausente");
+if(html.includes('id="configSimuladoAleatorio"')||html.includes('Testar sininho'))
+ errors.push("Controle removido de sorteio ou teste de som reapareceu");
+if(html.includes("gabaritos oficiais auditados, sem comentários individuais"))
+ errors.push("Banner confuso de gabaritos reapareceu");
+if(html.includes("abrirAcervoBanca('fcc')")||html.includes("abrirAcervoBanca('cebraspe')"))
+ errors.push("Bancas fora do escopo de magistratura reapareceram");
+if(!html.includes('href="#acervo-vunesp"')||!html.includes('Magistratura TJSP'))
+ errors.push("Acervo de magistratura não acessível pela seleção inicial");
+if(!html.includes('id="motivoErroQuestao"'))
+ errors.push("Breve explicação sobre erro de questão indisponível");
+for(const name of ["btnQuestaoAnterior","btnQuestaoProxima","btnCorrigirSimulador",
+ "btnLerQuestao","btnPararQuestao","btnAcessibilidade","painelAcessibilidade"]){
+ if(!html.includes('id="'+name+'"'))errors.push("Controle móvel necessário ausente: "+name);
+}
+const ids={};
+for(const m of html.matchAll(/\\bid="([^"]+)"/g))ids[m[1]]=(ids[m[1]]||0)+1;
+for(const [id,count] of Object.entries(ids))if(count>1)errors.push("Identificador HTML duplicado: "+id);
+
 console.log(JSON.stringify({pdfsConferidos:confirmed,erros:errors,avisos:warnings,
  escopo:"vínculos de código; não testa conexão à fonte nem renderização no celular"},null,2));
 if(errors.length)process.exitCode=1;
