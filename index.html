@@ -2283,10 +2283,26 @@
     }
     function corrigirSimuladorOficial() {
       const ctx=obterExameParaSimulador();
-      if(!ctx)return false;
+      if(!ctx){
+        const aviso=document.getElementById('statusLocalizacaoQuestao');
+        if(aviso)aviso.textContent='Este exame ainda não possui gabarito definitivo homologado para correção eletrônica.';
+        return false;
+      }
       if(ctx.numero===47)corrigirFolha47();
       else corrigirFolha46();
       renderizarSimuladorOficial();
+      // Resultado resumido fica visível no próprio simulador, inclusive no celular
+      // com os cards da folha de respostas recolhidos.
+      const gabarito=ctx.exam.gabaritos[ctx.tipo-1];
+      const respostas=obterRespostasOficiais(ctx.numero,ctx.tipo);
+      const anuladas=[...gabarito].filter(x=>x==='*').length;
+      const acertos=respostas.filter((x,i)=>x&&gabarito[i]!=='*'&&x===gabarito[i]).length;
+      const status=document.getElementById('statusLocalizacaoQuestao');
+      if(status){
+        status.textContent='Prova corrigida: '+acertos+' acertos em '+(80-anuladas)+
+          ' questões válidas; '+anuladas+' anulação(ões). Toque em Exibir cards de respostas para consultar os detalhes.';
+        status.scrollIntoView({block:'nearest',behavior:'auto'});
+      }
       return true;
     }
     function reiniciarTreinoOficial(){
