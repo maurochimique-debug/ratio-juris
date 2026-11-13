@@ -1892,7 +1892,6 @@
           }
         }
         seletor.value=String(numeroQuestao);
-        sincronizarNavegadorEnunciado(numeroQuestao);
         const tituloSemChave=document.getElementById('questaoOficialTitulo');
         if(tituloSemChave)tituloSemChave.textContent='Questão '+numeroQuestao+' de 80 — '+exameSelecionado+'º Exame';
         const leituraSemChave=document.getElementById('textoQuestaoDentroSimulador');
@@ -1956,7 +1955,6 @@
         }
       }
       selector.value=String(pos);
-      sincronizarNavegadorEnunciado(pos);
       const idCarregamento=numero+'-'+tipo+'-'+pos;
       if(painel._ratioAutoQuestao!==idCarregamento){
         painel._ratioAutoQuestao=idCarregamento;
@@ -2058,51 +2056,6 @@
       proxima.textContent=pos===80?'Última questão':'Próxima questão';
       return {numero,tipo,pos,marcadas,anulada,avaliada};
     }
-    function sincronizarNavegadorEnunciado(numero){
-      const select=document.getElementById('questaoLeituraNumeroSelect');
-      if(!select)return;
-      if(select.options.length!==80){
-        select.replaceChildren();
-        for(let i=1;i<=80;i++){
-          const item=document.createElement('option');
-          item.value=String(i);item.textContent='Questão '+i+' de 80';
-          select.appendChild(item);
-        }
-      }
-      const n=Number(numero);
-      if(Number.isInteger(n)&&n>=1&&n<=80)select.value=String(n);
-      const anterior=document.getElementById('btnLeituraAnterior');
-      const proxima=document.getElementById('btnLeituraProxima');
-      if(anterior)anterior.disabled=n<=1;
-      if(proxima)proxima.disabled=n>=80;
-    }
-    function selecionarQuestaoNoEnunciado(valor){
-      const n=Number(valor);
-      if(!Number.isInteger(n)||n<1||n>80)return false;
-      const ok=window.irParaQuestaoOficial(n);
-      if(ok===false)return false;
-      sincronizarNavegadorEnunciado(n);
-      const info=document.getElementById('statusQuestaoLeitura');
-      if(info)info.textContent='Questão '+n+'/80 selecionada. Carregando o enunciado oficial.';
-      const card=document.getElementById('cardEnunciadoCompleto');
-      if(card)card.open=true;
-      return true;
-    }
-    function mudarQuestaoNoEnunciado(delta){
-      if(![-1,1].includes(Number(delta)))return false;
-      const ok=window.moverQuestaoOficial(Number(delta));
-      if(ok===false)return false;
-      const principal=document.getElementById('questaoOficialNumeroSelect');
-      const atual=Number(principal?.value);
-      sincronizarNavegadorEnunciado(atual);
-      const info=document.getElementById('statusQuestaoLeitura');
-      if(info)info.textContent='Questão '+atual+'/80 selecionada. Carregando o enunciado oficial.';
-      const card=document.getElementById('cardEnunciadoCompleto');
-      if(card)card.open=true;
-      return true;
-    }
-    window.selecionarQuestaoNoEnunciado=selecionarQuestaoNoEnunciado;
-    window.mudarQuestaoNoEnunciado=mudarQuestaoNoEnunciado;
     function irParaQuestaoOficial(numero) {
       const ctx=obterExameParaSimulador();
       const pos=Number(numero);
