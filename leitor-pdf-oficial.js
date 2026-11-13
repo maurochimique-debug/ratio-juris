@@ -25,7 +25,9 @@
       String($("oabTipoSelect")?.value)!==String(tipo))return false;
    const wrap=$("fallbackEnunciado"),frame=$("fallbackEnunciadoPdf");
    const link=$("questaoPdfLinkVisivel");
-   const book=window.RATIO_OAB_DATA?.["exam"+exame]?.cadernos?.[Number(tipo)-1];
+   const base=window.RATIO_OAB_DATA;
+   const book=base?.["exam"+exame]?.cadernos?.[Number(tipo)-1] ||
+     base?.archive?.find(item=>Number(item.exame)===Number(exame))?.cadernos?.[Number(tipo)-1];
    if(!book?.pdf)return false;
    if(link){link.href=book.pdf;link.classList.remove("hidden");}
    if(wrap&&frame){
