@@ -1413,8 +1413,10 @@
       const original=tipoDocumento==='caderno'?caderno.pdf:docs.gabaritoPDF;
       const fonte=document.getElementById('linkDocumentoOabFonte');
       if(fonte)fonte.href=original;
-      if(frame.getAttribute('src')!==destino)frame.src=destino;
-      if(window.RatioMobilePdf?.isMobile())window.RatioMobilePdf.mount(frame,destino,original).catch(()=>{});
+      if(window.RatioMobilePdf?.isMobile()){
+        frame.removeAttribute('src');
+        window.RatioMobilePdf.mount(frame,destino,original).catch(()=>{});
+      }else if(frame.getAttribute('src')!==destino)frame.src=destino;
       frame.title=rotulo+' do '+num+'º Exame, Tipo '+tipo;
       status.textContent=rotulo+' — '+num+'º Exame, Tipo '+tipo+
         (documentoPendente?' (consulte as retificações: correção automática ainda não homologada).':'.');
@@ -1932,8 +1934,10 @@
         return;
       }
       const url='/api/oab-pdf?exame='+exame+'&tipo='+tipo+'&selecao='+encodeURIComponent(exame+'-'+tipo)+'#toolbar=1&navpanes=0';
-      if(frame.getAttribute('src')!==url)frame.src=url;
-      if(window.RatioMobilePdf?.isMobile())window.RatioMobilePdf.mount(frame,url,config.cadernos[tipo-1].pdf).catch(()=>{});
+      if(window.RatioMobilePdf?.isMobile()){
+        frame.removeAttribute('src');
+        window.RatioMobilePdf.mount(frame,url,config.cadernos[tipo-1].pdf).catch(()=>{});
+      }else if(frame.getAttribute('src')!==url)frame.src=url;
       frame.title='Caderno oficial do '+exame+'º Exame, tipo '+tipo;
       const status=document.getElementById('statusPdfOabIntegrado');
       if(status)status.textContent='Caderno FGV/OAB '+exame+'º, tipo '+tipo+', solicitado ao visualizador interno. Se o PDF não aparecer neste navegador, use “Abrir fonte original”.';
@@ -2084,7 +2088,12 @@
         if(fallback)fallback.classList.remove('hidden');
         if(fallbackFrame){
           const url='/api/oab-pdf?exame='+numero+'&tipo='+tipo+'#toolbar=1&navpanes=0';
-          if(fallbackFrame.getAttribute('src')!==url)fallbackFrame.src=url;
+          // No celular o PDF principal possui leitor paginado próprio; carregar
+          // também um iframe oculto a cada questão congestiona o navegador.
+          if(window.RatioMobilePdf?.isMobile()){
+            fallbackFrame.removeAttribute('src');
+            if(fallback)fallback.classList.add('hidden');
+          }else if(fallbackFrame.getAttribute('src')!==url)fallbackFrame.src=url;
           fallbackFrame.title='Caderno oficial do '+numero+'º Exame, Tipo '+tipo;
         }
         const card=document.getElementById('cardEnunciadoCompleto');
@@ -2115,7 +2124,7 @@
         visualizador.removeAttribute('src');
       }
       if(document.getElementById('consultaPdfOpcional').open &&
-         !visualizador.getAttribute('src')){
+         !visualizador.getAttribute('src') && !window.RatioMobilePdf?.isMobile()){
         visualizador.src=interno+'#toolbar=1&navpanes=0';
       }
       document.getElementById('statusSimuladorOficial').textContent=
