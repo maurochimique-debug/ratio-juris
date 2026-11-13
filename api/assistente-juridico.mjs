@@ -3,21 +3,26 @@
 export default async function handler(req,res){
  res.setHeader("Cache-Control","no-store");
  res.setHeader("X-Content-Type-Options","nosniff");
- const required=["OPENAI_API_KEY","RATIO_AI_MODEL","RATIO_AI_SUPABASE_URL","RATIO_AI_SUPABASE_PUBLISHABLE_KEY","RATIO_AI_ALLOWED_USER_IDS"];
- const configured=process.env.RATIO_AI_ENABLED==="true"&&required.every(name=>!!process.env[name]);
+ const required=["OPENAI_API_KEY","RATIO_AI_MODEL","RATIO_AI_SUPABASE_URL","RATIO_AI_SUPABASE_PUBLISHABLE_KEY"];
+ const freeMode=process.env.RATIO_AI_FREE_ENABLED==="true";
+ const freeConfigured=freeMode&&!!process.env.RATIO_AI_REDIS_REST_URL&&!!process.env.RATIO_AI_REDIS_REST_TOKEN;
+ const pilotConfigured=!!process.env.RATIO_AI_ALLOWED_USER_IDS;
+ const configured=process.env.RATIO_AI_ENABLED==="true"&&required.every(name=>!!process.env[name])&&(freeConfigured||pilotConfigured);
  // O estado é público; nunca expor nomes/valores dos segredos configurados.
  if(req.method==="GET")return res.status(200).json({
   disponivel:configured,
   requerLogin:true,
-  mensagem:configured?"IA configurada: faça login com sua conta autorizada para perguntar.":"IA temporariamente indisponível. A configuração segura do servidor ainda não está concluída."
+  planoGratuito:freeConfigured&&configured,
+  limiteGratuitoDiario:freeConfigured?3:0,
+  mensagem:configured?(freeConfigured?"Tutor gratuito disponível mediante login, com até 3 perguntas por dia.":"IA configurada para o piloto autorizado."):"IA temporariamente indisponível. A configuração segura do servidor ainda não está concluída."
  });
  if(req.method!=="POST")return res.status(405).json({error:"Método não permitido."});
  const key=process.env.OPENAI_API_KEY;
  const model=process.env.RATIO_AI_MODEL;
  const authUrl=process.env.RATIO_AI_SUPABASE_URL;
  const anonKey=process.env.RATIO_AI_SUPABASE_PUBLISHABLE_KEY;
- const whitelist=process.env.RATIO_AI_ALLOWED_USER_IDS;
- if(process.env.RATIO_AI_ENABLED!=="true"||!key||!model||!authUrl||!anonKey||!whitelist){
+ const whitelist=process.env.RATIO_AI_ALLOWED_USER_IDS||"";
+ if(!configured){
   return res.status(503).json({error:"Assistente ainda não habilitado. Ative o acesso autenticado e configure a API com segurança."});
  }
  const authorization=String(req.headers.authorization||"");
@@ -34,7 +39,8 @@ export default async function handler(req,res){
   const user=await validation.json();
   if(!/^[0-9a-f-]{36}$/i.test(user.id||""))return res.status(401).json({error:"Usuário não reconhecido."});
   const allow=new Set(whitelist.split(",").map(x=>x.trim().toLowerCase()).filter(Boolean));
-  if(!allow.has(String(user.id).toLowerCase()))return res.status(403).json({error:"Assistente restrito ao piloto autorizado. Aguarde a liberação comercial."});
+  const pilot=allow.has(String(user.id).toLowerCase());
+  if(!pilot&&!freeConfigured)return res.status(403).json({error:"Assistente ainda não liberado para esta conta."});
   const body=typeof req.body==="string"?JSON.parse(req.body):req.body;
   const pergunta=String(body?.pergunta||"").trim();
   const c=body?.contexto||{};
@@ -43,6 +49,25 @@ export default async function handler(req,res){
   if(exame&&!/^\d{2}$/.test(exame))return res.status(400).json({error:"Exame inválido."});
   if(tipo&&!/^[1-4]$/.test(tipo))return res.status(400).json({error:"Caderno inválido."});
   if(questao&&(!/^\d{1,2}$/.test(questao)||Number(questao)>80||Number(questao)<1))return res.status(400).json({error:"Número de questão inválido."});
+  // Franquia gratuita por usuário autenticado, persistida em Redis REST.
+  // A autenticação e a contagem ocorrem no servidor; falhas suspendem o envio.
+  if(!pilot){
+    const endpoint=String(process.env.RATIO_AI_REDIS_REST_URL||"").replace(/\\/$/,"");
+    if(!/^https:\\/\\//.test(endpoint))return res.status(503).json({error:"Controle de franquia gratuito indisponível."});
+    const day=new Date().toISOString().slice(0,10);
+    const quotaKey="ratio:ai:free:"+day+":"+user.id.toLowerCase();
+    const redis=await fetch(endpoint+"/pipeline",{
+      method:"POST",
+      headers:{Authorization:"Bearer "+process.env.RATIO_AI_REDIS_REST_TOKEN,"Content-Type":"application/json"},
+      body:JSON.stringify([["INCR",quotaKey],["EXPIRE",quotaKey,172800]]),
+      signal:AbortSignal.timeout(5500)
+    });
+    if(!redis.ok)return res.status(503).json({error:"Controle de franquia gratuito temporariamente indisponível."});
+    const results=await redis.json();
+    const count=Number(results?.[0]?.result);
+    if(!Number.isInteger(count)||count<1)return res.status(503).json({error:"Não foi possível validar a franquia de IA."});
+    if(count>3)return res.status(429).json({error:"Você utilizou as 3 perguntas gratuitas de hoje. Sua franquia é renovada diariamente (UTC)."});
+  }
   const text=String(c.texto||"").slice(0,4500);
   const hist=Array.isArray(body?.historico)?body.historico.slice(-4).map(x=>({
     pergunta:String(x?.pergunta||"").slice(0,300),
