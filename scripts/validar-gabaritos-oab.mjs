@@ -60,6 +60,31 @@ for(let n=47;n>=10;n--){
    }
  }
 }
+// Verifica correspondências documentais sem tratá-las como gabaritos corrigíveis.
+for(const entry of db.archive||[]){
+ const mapa=entry.correspondenciaDocumental;
+ if(!mapa)continue;
+ const numero=entry.exame;
+ if(db["exam"+numero]?.gabaritos)continue;
+ if(!Array.isArray(mapa)||mapa.length!==80){
+   adicionar(numero,"correspondência documental incompleta");
+   continue;
+ }
+ for(let tipo=2;tipo<=4;tipo++){
+   const coluna=mapa.map(linha=>linha?.[tipo-2]);
+   if(coluna.some(n=>!Number.isInteger(n)||n<1||n>80)||new Set(coluna).size!==80)
+     adicionar(numero,`correspondência documental Tipo ${tipo} não é permutação 1–80`);
+ }
+ const anuladas=entry.anulacoesOficiaisTipo1||[];
+ const porTipo=entry.anulacoesOficiaisPorTipo||{};
+ for(let tipo=1;tipo<=4;tipo++){
+   const esperado=tipo===1?anuladas:anuladas.map(n=>mapa[n-1]?.[tipo-2]);
+   const armazenado=porTipo[String(tipo)]||[];
+   if(esperado.join(",")!==armazenado.join(","))
+     adicionar(numero,`anulações Tipo ${tipo} não coincidem com a tabela documental`);
+ }
+ avisos.push(`${numero}º: correspondência documental conferida estruturalmente; gabarito definitivo não integrado`);
+}
 console.log(JSON.stringify({
  escopo:"validação estrutural, não documental",
  examesIntegrados:integrados,
