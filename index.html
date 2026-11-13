@@ -103,7 +103,7 @@
       <!-- Menu de Navegação com Cards de Acessibilidade na Aba Superior -->
       <nav class="hidden lg:flex items-center gap-6 text-sm font-semibold text-slate-700 dark:text-slate-300">
         <a href="#oab-arquivo" class="hover:text-ratio-purple transition">OAB</a>
-        <a href="#bancas-oficiais" class="hover:text-ratio-purple transition">Bancas</a>
+        <a href="#bancas-oficiais" class="hover:text-ratio-purple transition">Magistratura</a>
         <a href="#oab-arquivo" class="hover:text-ratio-purple transition">Simulador Livre</a>
         <a href="#gabinete" class="hover:text-ratio-purple transition">Modo Gabinete</a>
         <a href="#planos" class="hover:text-ratio-purple transition text-ratio-amber font-bold">Planos & Preços</a>
@@ -129,7 +129,7 @@
     <nav id="menuMobile" class="ratio-nav-mobile hidden lg:hidden border-t border-slate-200 dark:border-ratio-borderDark bg-white dark:bg-[#12161A] px-3 pb-3 pt-2 shadow-lg" aria-label="Navegação principal no celular e tablet" hidden>
       <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-1 text-slate-900 dark:text-slate-100">
         <a href="#oab-arquivo" onclick="RatioResponsive.closeMenu()">OAB — Simulador Livre</a>
-        <a href="#bancas-oficiais" onclick="RatioResponsive.closeMenu()">Outras bancas</a>
+        <a href="#bancas-oficiais" onclick="RatioResponsive.closeMenu()">Magistratura</a>
         <a href="#gabinete" onclick="RatioResponsive.closeMenu()">Modo Gabinete e legislação</a>
         <a href="#planos" onclick="RatioResponsive.closeMenu()">Planos e preços</a>
         <a href="#painelAcessibilidade" onclick="RatioResponsive.closeMenu();RatioA11y.toggle();return false;">Abrir recursos de acessibilidade</a>
@@ -553,10 +553,6 @@
           <details id="painelCardsHistoricos" class="rounded-xl border border-purple-400/60 bg-white dark:bg-ratio-cardDark p-3 sm:p-4">
             <summary class="cursor-pointer font-bold text-slate-900 dark:text-white min-h-[44px] flex items-center">Exibir ou ocultar cards de respostas deste exame</summary>
             <div class="mt-4">
-          <div class="p-4 mb-5 rounded-xl border border-amber-500/40 bg-amber-50 dark:bg-amber-950/30">
-            <p class="font-bold text-sm text-amber-900 dark:text-amber-300">14º a 29º e 31º ao 46º Exames — gabaritos oficiais auditados, sem comentários individuais</p>
-            <p class="text-xs sm:text-sm text-amber-950 dark:text-slate-200 mt-2">Leia o PDF do caderno oficial selecionado e marque suas respostas. O resultado usa o gabarito definitivo da edição correspondente; enunciados integrais continuam na fonte da OAB/FGV.</p>
-          </div>
           <div class="flex flex-wrap items-center gap-3 mb-4">
             <button type="button" onclick="corrigirFolha46()" class="px-5 py-3 rounded-lg bg-emerald-700 text-white font-bold text-sm">Corrigir prova selecionada</button>
             <button type="button" onclick="limparFolha46()" class="px-5 py-3 rounded-lg border border-slate-400 text-slate-900 dark:text-white font-bold text-sm">Limpar respostas deste caderno</button>
@@ -575,13 +571,11 @@
   <section id="selecaoBancaJuridica" class="py-6 bg-slate-50 dark:bg-[#0E1216] border-b border-slate-300 dark:border-ratio-borderDark" aria-label="Escolher banca examinadora">
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
       <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-3">Escolha a banca examinadora</h2>
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <a href="#oab-arquivo" class="min-h-[76px] rounded-xl border-2 border-purple-600 bg-purple-50 dark:bg-purple-950/40 p-4 flex flex-col justify-center items-center text-purple-900 dark:text-purple-200 font-extrabold"><span class="text-xl">OAB / FGV</span><span class="text-xs font-medium mt-1">Simulador de Ordem</span></a>
-        <button type="button" onclick="abrirAcervoBanca('cebraspe')" class="rounded-xl min-h-[76px] border-2 border-slate-400 p-3 bg-white dark:bg-ratio-cardDark font-extrabold text-slate-900 dark:text-white">CEBRASPE</button>
-        <button type="button" onclick="abrirAcervoBanca('vunesp')" class="rounded-xl min-h-[76px] border-2 border-slate-400 p-3 bg-white dark:bg-ratio-cardDark font-extrabold text-slate-900 dark:text-white">VUNESP</button>
-        <button type="button" onclick="abrirAcervoBanca('fcc')" class="rounded-xl min-h-[76px] border-2 border-slate-400 p-3 bg-white dark:bg-ratio-cardDark font-extrabold text-slate-900 dark:text-white">FCC</button>
+        <a href="#acervo-vunesp" onclick="document.getElementById('acervo-vunesp').open=true" class="min-h-[76px] rounded-xl border-2 border-slate-400 p-3 bg-white dark:bg-ratio-cardDark flex flex-col justify-center items-center font-extrabold text-slate-900 dark:text-white"><span class="text-xl">Magistratura</span><span class="text-xs font-medium mt-1">TJSP / VUNESP — provas oficiais</span></a>
       </div>
-      <p class="text-xs mt-3 text-slate-600 dark:text-slate-300">OAB / FGV são apresentados juntos porque a FGV organiza o Exame de Ordem. Para as demais bancas, a consulta a provas anteriores é documental enquanto a correção integrada aguarda validação.</p>
+      <p class="text-xs mt-3 text-slate-600 dark:text-slate-300">Escolha o Simulador da OAB ou consulte provas anteriores de magistratura na fonte oficial.</p>
     </div>
   </section>
   <section id="bancas-oficiais" class="py-12 border-b border-slate-200 dark:border-ratio-borderDark bg-white dark:bg-[#0E1216]">
@@ -609,7 +603,6 @@
           </div>
         </details>
       </div>
-      <p class="mt-4 text-xs text-slate-600 dark:text-slate-400">CEBRASPE e FCC ficam fora desta seção até que sejam identificadas provas oficiais especificamente de magistratura e seus respectivos gabaritos.</p>
     </div>
   </section>
 
@@ -1104,33 +1097,6 @@
       }
       document.getElementById('resultadoDescricao').appendChild(detalhesLinks);
       carregarTextoArtigoOficial(lei,numero);
-      return true;
-    }
-    const urlsPdfBancas=Object.freeze({
-      cebraspe:'/api/prova-banca?banca=cebraspe',
-      vunesp:'https://documento.vunesp.com.br/documento/stream/NzMwNzExNQ%3D%3D'
-    });
-    function alternarProvaBanca(painel,banca){
-      if(!painel?.open){
-        const frame=document.getElementById('pdf-banca-'+banca);
-        if(frame)frame.removeAttribute('src');
-      }
-    }
-    function alternarPdfBanca(detalhes,banca){
-      const frame=document.getElementById('pdf-banca-'+banca);
-      if(!frame||!urlsPdfBancas[banca])return;
-      if(detalhes.open)frame.src=urlsPdfBancas[banca];
-      else frame.removeAttribute('src');
-    }
-    function abrirAcervoBanca(banca){
-      if(!['cebraspe','vunesp','fcc'].includes(banca))return false;
-      const pane=document.getElementById('acervo-'+banca);
-      if(!pane)return false;
-      pane.open=true;
-      const status=document.getElementById('statusBancaSelecionada');
-      if(status)status.textContent=banca.toUpperCase()+' selecionada. O card foi expandido. '+(banca==='fcc'?'Abra a prova TJ-CE 2026 para acessar as questões e o gabarito na página de arquivos.':'Use “Exibir ou ocultar o caderno” para consultar o PDF e o link da banca se necessário.')+' A correção integrada ainda está em preparação.';
-      pane.scrollIntoView({block:'start',behavior:'auto'});
-      pane.querySelector('summary')?.focus();
       return true;
     }
     // Abre pesquisas oficiais para qualquer número informado, sem alegar
