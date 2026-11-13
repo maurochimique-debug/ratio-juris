@@ -12,20 +12,35 @@
    frame?.removeAttribute("src");
    $("magistraturaVisualizador")?.classList.add("hidden");
  }
+ let atual="prova";
+ function alternativo(){
+   const doc=documentos[atual],frame=$("magistraturaPdfFrame");
+   if(!doc||!frame)return false;
+   window.RatioMobilePdf?.close(frame);
+   // Visualização alternativa de documento público; requer conexão com Google.
+   const url="https://docs.google.com/gview?embedded=1&url="+encodeURIComponent(doc.original);
+   frame.hidden=false;frame.classList.remove("hidden");frame.src=url;
+   $("magistraturaPdfStatus").textContent=doc.titulo+
+     " — visualizador alternativo. Deslize para consultar todas as páginas. Se não funcionar, abra o PDF original.";
+   return true;
+ }
  function abrir(tipo){
    const doc=documentos[tipo],panel=$("magistraturaVisualizador"),frame=$("magistraturaPdfFrame");
    if(!doc||!panel||!frame)return false;
-   fechar();
+   fechar();atual=tipo;
    panel.classList.remove("hidden");
    $("magistraturaPdfFonte").href=doc.original;
    $("magistraturaPdfStatus").textContent=doc.titulo+".";
    frame.title=doc.titulo;
-   if(window.RatioMobilePdf?.isMobile())window.RatioMobilePdf.mount(frame,doc.url,doc.original,doc.start).catch(()=>{
-     $("magistraturaPdfStatus").textContent="Leitor interno indisponível. Utilize o documento da VUNESP.";
-   });
-   else frame.src=doc.url+"#page="+doc.start+"&toolbar=1&navpanes=0";
+   if(window.RatioMobilePdf?.isMobile()){
+     // O host da VUNESP bloqueia algumas requisições de servidores na nuvem;
+     // nesse caso usar visualizador independente, sem alterar as respostas.
+     alternativo();
+   }else{
+     frame.src=doc.original+"#page="+doc.start+"&toolbar=1&navpanes=0";
+   }
    panel.scrollIntoView({behavior:"auto",block:"nearest"});
    return true;
  }
- window.RatioMagistratura={abrir,fechar};
+ window.RatioMagistratura={abrir,fechar,alternativo};
 })();
