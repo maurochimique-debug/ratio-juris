@@ -21,7 +21,19 @@
   const p=panel(),b=btn();if(!p||!b)return;
   p.hidden=!open;
   b.setAttribute("aria-expanded",String(open));
-  if(open){$("rjAiQuestion")?.focus();}else b.focus();
+  if(open){$("rjAiQuestion")?.focus();checkAvailability();}else b.focus();
+ }
+ async function checkAvailability(){
+  try{
+    const result=await fetch("/api/assistente-juridico",{method:"GET",cache:"no-store"});
+    if(!result.ok)return;
+    const data=await result.json();
+    if(!data.disponivel){
+      notice("Assistente de IA ainda não configurado. O texto da sua pergunta será preservado; não há resposta automática disponível.");
+    }else{
+      notice("IA configurada. Para obter resposta, entre com sua conta autorizada.");
+    }
+  }catch(_){notice("Não foi possível verificar o serviço de IA neste momento.");}
  }
  function context(){
   const exame=$("oabExamSelect")?.value||"";
@@ -52,7 +64,7 @@
   $("rjAiSend").disabled=true;
   notice("Consultando o assistente...");
   append("aluno",question);
-  input.value="";
+  // A dúvida só é retirada do campo após uma resposta efetiva do servidor.
   try{
    const token=await window.RatioJurisAuth?.getAccessToken?.();
    const headers={"Content-Type":"application/json"};
@@ -64,16 +76,17 @@
    let data={};try{data=await resp.json()}catch(_){}
    if(!resp.ok){
     const explanation=resp.status===503?
-      "A interface está pronta, mas a conexão segura com a IA ainda não foi ativada. Continue consultando os PDFs oficiais e o Modo Gabinete; não haverá resposta artificial.":
+      "A IA está desativada no servidor. Configure o acesso seguro na Vercel antes de testar; a pergunta foi preservada no campo.":
       resp.status===429?"O limite de consultas foi atingido. Tente novamente mais tarde.":
-      resp.status===401?"Para utilizar o assistente, será necessário entrar com sua conta quando o login estiver habilitado.":
-      resp.status===403?"A função está reservada ao piloto autorizado antes da abertura comercial.":
+      resp.status===401?"É necessário conectar o login autenticado do Ratio Juris e entrar na conta para usar a IA.":
+      resp.status===403?"Seu usuário ainda não foi autorizado a utilizar a IA. A pergunta permanece no campo para uma nova tentativa.":
       "Não foi possível consultar a IA agora. Utilize os documentos oficiais da prova.";
     append("assistente",explanation);notice(data.error||"Consulta indisponível.");return;
    }
    const answer=String(data.resposta||"").slice(0,8500);
    if(!answer){append("assistente","O serviço não retornou uma explicação verificável.");return;}
    append("assistente",answer);
+   input.value="";
    history.push({pergunta:question,resposta:answer.slice(0,1000)});
    if(history.length>6)history.shift();
    notice("Explicação educacional — confira o texto legal vigente nas fontes oficiais.");
