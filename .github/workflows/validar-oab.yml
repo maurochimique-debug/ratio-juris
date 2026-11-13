@@ -1,0 +1,28 @@
+name: Validar gabaritos oficiais OAB
+on:
+  push:
+    paths:
+      - "oab-data.js"
+      - "scripts/validar-gabaritos-oab.mjs"
+      - "scripts/teste-gabaritos-oficiais-39-44.mjs"
+      - ".github/workflows/validar-oab.yml"
+  pull_request:
+    paths:
+      - "oab-data.js"
+      - "scripts/validar-gabaritos-oab.mjs"
+      - "scripts/teste-gabaritos-oficiais-39-44.mjs"
+permissions:
+  contents: read
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Conferir estrutura e correspondências
+        run: node scripts/validar-gabaritos-oab.mjs
+      - name: Comparar gabaritos definitivos publicados de 39 e 44
+        run: node scripts/teste-gabaritos-oficiais-39-44.mjs
