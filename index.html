@@ -1440,7 +1440,15 @@
           correspondencia.findIndex(item=>Array.isArray(item)&&Number(item[anterior.tipo-2])===antiga)+1;
         if(canonica>=1&&canonica<=80){
           const mapped=tipo===1?canonica:Number(correspondencia[canonica-1]?.[tipo-2]);
-          if(Number.isInteger(mapped)&&mapped>=1&&mapped<=80){nova=mapped;preservada=true;}
+          if(Number.isInteger(mapped)&&mapped>=1&&mapped<=80){
+            // Não transfere automaticamente uma questão se o gabarito original
+            // e o caderno de destino discordarem sobre sua anulação.
+            const original=prova?.gabaritos?.[anterior.tipo-1]?.[antiga-1];
+            const destino=prova?.gabaritos?.[tipo-1]?.[mapped-1];
+            const anulacaoConsistente=!prova?.gabaritos||
+              ((original==='*')===(destino==='*'));
+            if(anulacaoConsistente){nova=mapped;preservada=true;}
+          }
         }
       }
       gravarArmazenamento(chavePosicaoOficial(numero,tipo),String(nova));
