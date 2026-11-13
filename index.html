@@ -1908,8 +1908,21 @@
         if(tituloSemChave)tituloSemChave.textContent='Questão '+numeroQuestao+' de 80 — '+exameSelecionado+'º Exame';
         const leituraSemChave=document.getElementById('textoQuestaoDentroSimulador');
         if(leituraSemChave){
-          leituraSemChave.textContent='Questão '+numeroQuestao+' selecionada. Use “Ler enunciado da questão aqui” para localizar o texto no PDF oficial, quando disponível.';
-          leituraSemChave.removeAttribute('data-extracao-validada');
+          const chaveQuestao=exameSelecionado+'-'+tipoSelecionado+'-'+numeroQuestao;
+          if(leituraSemChave._ratioQuestaoAnterior!==chaveQuestao){
+            leituraSemChave.textContent='Questão '+numeroQuestao+' selecionada. Localizando o texto no PDF oficial, quando disponível.';
+            leituraSemChave.removeAttribute('data-extracao-validada');
+            leituraSemChave._ratioQuestaoAnterior=chaveQuestao;
+            const fallback=document.getElementById('fallbackEnunciado');
+            const frame=document.getElementById('fallbackEnunciadoPdf');
+            if(fallback)fallback.classList.add('hidden');
+            if(frame)frame.removeAttribute('src');
+            const botoes=document.getElementById('alternativasQuestaoOficial')?.querySelectorAll('button');
+            if(botoes)Array.from(botoes).forEach((botao,i)=>{
+              botao.textContent='ABCD'[i];
+              botao.setAttribute('aria-label','Responder alternativa '+'ABCD'[i]);
+            });
+          }
         }
         const anterior=document.getElementById('btnQuestaoAnterior');
         const proxima=document.getElementById('btnQuestaoProxima');
