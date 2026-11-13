@@ -1058,7 +1058,7 @@
       try{
         const resposta=await fetch('/api/artigo-oficial?lei='+encodeURIComponent(lei)+
           '&artigo='+encodeURIComponent(numero),{cache:'no-store'});
-        const json=await resposta.json();
+        const json=await resposta.json().catch(()=>({}));
         if(token!==consultaArtigoOficialSeq||!detalhes.isConnected)return;
         if(!resposta.ok||typeof json.conteudo!=='string'||!json.conteudo.trim()){
           area.textContent='A leitura automática desta fonte falhou. A norma oficial continua disponível nos links abaixo. Não apresentamos texto jurídico não verificado.';
@@ -1099,7 +1099,15 @@
         detalhes.appendChild(observacao);
       }catch(_){
         if(token!==consultaArtigoOficialSeq||!detalhes.isConnected)return;
-        area.textContent='A fonte legislativa não respondeu nesta conexão. Use os links oficiais acima para acessar a norma.';
+        area.textContent='A leitura interna não respondeu nesta conexão. A lei original permanece acessível para conferência.';
+        const origem=fontesLegaisPlanalto[lei]?.url;
+        if(origem){
+          const link=document.createElement('a');
+          link.href=origem;link.target='_blank';link.rel='noopener noreferrer';
+          link.className='block mt-3 font-bold underline text-purple-200';
+          link.textContent='Abrir legislação oficial e localizar o artigo '+numero;
+          detalhes.appendChild(link);
+        }
       }
     }
     function pesquisarConjurGabinete(){
