@@ -4,6 +4,10 @@ on:
     paths:
       - "oab-data.js"
       - "scripts/validar-gabaritos-oab.mjs"
+      - "scripts/validar-integracao-pdfs.mjs"
+      - "api/oab-pdf.mjs"
+      - "api/oab-gabarito.mjs"
+      - "index.html"
       - "scripts/teste-gabaritos-oficiais-39-44.mjs"
       - ".github/workflows/validar-oab.yml"
   pull_request:
@@ -26,3 +30,5 @@ jobs:
         run: node scripts/validar-gabaritos-oab.mjs
       - name: Comparar gabaritos definitivos publicados de 39 e 44
         run: node scripts/teste-gabaritos-oficiais-39-44.mjs
+      - name: Conferir PDFs oficiais, controles e preços
+        run: node scripts/validar-integracao-pdfs.mjs
