@@ -13,6 +13,7 @@ const db=JSON.parse(match[1]);
 const erros=[];
 const avisos=[];
 let comparacoes=0;
+let diferencasDeLetra=0;
 let integrados=0;
 const adicionar=(exam,mensagem)=>erros.push(`${exam}º: ${mensagem}`);
 for(let n=47;n>=10;n--){
@@ -47,8 +48,14 @@ for(let n=47;n>=10;n--){
    }
    for(let q=0;q<80;q++){
      const base=exame.gabaritos[0][q],destino=exame.gabaritos[tipo-1][col[q]-1];
-     if(base!==destino && base!=="*" && destino!=="*")
-       adicionar(n,`Tipo ${tipo}, questão ${q+1}: divergência com questão correspondente ${col[q]}`);
+     if(base!==destino && base!=="*" && destino!=="*"){
+       diferencasDeLetra++;
+       // A numeração equivalente não garante a mesma letra: a banca pode
+       // permutar também as alternativas. Sem fonte de correspondência
+       // documental, uma divergência continua sendo erro a investigar.
+       if(!exame.fonteCorrespondencia)
+         adicionar(n,`Tipo ${tipo}, questão ${q+1}: letras diferentes na correspondência sem fonte documental`);
+     }
      comparacoes++;
    }
  }
@@ -57,6 +64,7 @@ console.log(JSON.stringify({
  escopo:"validação estrutural, não documental",
  examesIntegrados:integrados,
  comparacoes,
+ diferencasDeLetra,
  erros,
  avisos
 },null,2));
