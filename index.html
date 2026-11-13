@@ -599,7 +599,11 @@
               <button type="button" onclick="RatioMagistratura.fechar()" class="border rounded-lg px-3 py-2 font-bold text-purple-800 dark:text-purple-200">Fechar documento</button>
             </div>
             <iframe id="magistraturaPdfFrame" loading="lazy" class="w-full bg-white rounded-lg" style="height:70vh;min-height:420px" title="Prova de magistratura TJSP — leitor do documento completo"></iframe>
-            <p class="text-xs mt-2 text-slate-700 dark:text-slate-300">Se não conseguir visualizar as páginas no navegador, <a id="magistraturaPdfFonte" href="https://documento.vunesp.com.br/documento/stream/MjQwOTM0MQ%3D%3D" target="_blank" rel="noopener noreferrer" class="underline font-bold">abra o PDF na fonte oficial da VUNESP</a>.</p>
+            <div class="flex flex-wrap items-center gap-3 mt-3">
+              <button type="button" onclick="RatioMagistratura.alternativo()" class="min-h-[44px] rounded-lg border border-purple-600 px-3 py-2 font-bold text-purple-800 dark:text-purple-200">Usar visualizador alternativo de páginas</button>
+              <a id="magistraturaPdfFonte" href="https://documento.vunesp.com.br/documento/stream/MjQwOTM0MQ%3D%3D" target="_blank" rel="noopener noreferrer" class="min-h-[44px] inline-flex items-center underline font-bold text-purple-800 dark:text-purple-200">Abrir PDF integral na fonte oficial</a>
+            </div>
+            <p class="text-xs mt-2 text-slate-700 dark:text-slate-300">O caderno contém 100 questões. Se a visualização móvel ficar apenas na capa, utilize o leitor alternativo ou abra o PDF no aplicativo de documentos do celular.</p>
           </div>
           <a href="https://www.vunesp.com.br/TJSP2102" target="_blank" rel="noopener noreferrer" class="block mt-3 underline font-bold text-purple-800 dark:text-purple-300">Consultar gabaritos, editais e resultados na VUNESP</a>
           <p class="text-sm mt-3 text-slate-700 dark:text-slate-300">191º Concurso — acervo oficial da banca:</p>
@@ -2606,7 +2610,7 @@
     });
   </script>
   <script src="/leitor-mobile-pdf.js?v=20261113-magistratura"></script>
-  <script src="/magistratura-leitor.js?v=20261113-1"></script>
+  <script src="/magistratura-leitor.js?v=20261113-2"></script>
   <script src="/leitor-pdf-oficial.js?v=20261113-mobile-stability"></script>
   <script src="/acessibilidade.js?v=20261113-01"></script>
   <script src="/responsividade.js?v=20261112-2309"></script>
