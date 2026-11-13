@@ -48,6 +48,9 @@ for(let n=47;n>=10;n--){
    }
    for(let q=0;q<80;q++){
      const base=exame.gabaritos[0][q],destino=exame.gabaritos[tipo-1][col[q]-1];
+     if((base==="*")!==(destino==="*")){
+       avisos.push(`${n}º: conferir anulação do Tipo 1 questão ${q+1} e Tipo ${tipo} questão ${col[q]} na documentação oficial`);
+     }
      if(base!==destino && base!=="*" && destino!=="*"){
        diferencasDeLetra++;
        // A numeração equivalente não garante a mesma letra: a banca pode
