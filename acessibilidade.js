@@ -154,7 +154,11 @@
       .map(x=>x.textContent?.trim()).filter(Boolean);
     if(!title||!question.trim() || !($("textoQuestaoDentroSimulador")?.getAttribute("data-extracao-validada")==="sim") ||
        /preparando|carregando|não foi possível|consulte o pdf|localizando/i.test(question.slice(0,170))){
-      announce("O enunciado ainda não está disponível para leitura. Consulte o PDF original.");
+      // Em dispositivos móveis a extração do PDF pode demorar ou falhar.
+      // A ação deve sempre dar retorno audível, sem inventar a pergunta.
+      const aviso="O enunciado oficial ainda não está disponível em texto. Use o leitor do caderno original para consultar a questão. A leitura por voz será possível quando o texto for extraído.";
+      announce(aviso);
+      if(support())return voiceText(aviso);
       return false;
     }
     // O texto extraído do PDF já contém o enunciado e, quando disponível, as alternativas.
