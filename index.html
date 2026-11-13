@@ -310,13 +310,14 @@
           <a id="oabCadernoPdf" href="https://oab.fgv.br/" target="_blank" rel="noopener noreferrer" class="inline-flex px-4 py-2 rounded-lg border border-purple-600 text-ratio-purple dark:text-purple-300 font-semibold text-sm">Abrir caderno oficial</a>
           <div id="blocoGabaritoOpcional" class="p-2 rounded-lg border border-purple-600 text-sm font-semibold text-purple-800 dark:text-purple-300">
             <a id="oabGabaritoPdf" href="https://oab.fgv.br/" target="_blank" rel="noopener noreferrer" class="inline-flex mt-2 px-4 py-2 rounded-lg border border-purple-600 text-ratio-purple dark:text-purple-300 underline font-semibold text-sm">Abrir gabarito oficial na fonte</a>
-            <details id="detalhesGabaritoIntegrado" class="mt-3 rounded-lg border border-purple-500 p-3" ontoggle="alternarGabaritoIntegrado(this)">
-              <summary class="cursor-pointer min-h-[44px] flex items-center font-bold">Exibir ou ocultar gabarito definitivo dentro do aplicativo</summary>
-              <iframe id="iframeGabaritoOficial" loading="lazy" title="Gabarito definitivo oficial da OAB FGV" class="ratio-pdf-iframe mt-2 bg-white"></iframe>
-              <p id="statusGabaritoOficial" class="mt-2 text-xs text-slate-700 dark:text-slate-200" role="status">Gabarito oficial disponível para consulta.</p>
+            <!-- O PDF do gabarito é consultado somente na fonte oficial, sem leitor duplicado.
+                 Controles legados ocultos para preservar a compatibilidade com a lógica existente. -->
+            <details id="detalhesGabaritoIntegrado" class="hidden" hidden>
+              <iframe id="iframeGabaritoOficial" title="Visualizador desativado" loading="lazy"></iframe>
+              <p id="statusGabaritoOficial" hidden></p>
             </details>
           </div>
-          <a id="oabRetificacaoPdf" href="https://www.oab.org.br/" target="_blank" rel="noopener noreferrer" class="hidden inline-flex px-4 py-2 rounded-lg border-2 border-amber-500 text-amber-900 dark:text-amber-300 font-bold text-sm">Anulação posterior — comunicado OAB</a>
+          <a id="oabRetificacaoPdf" href="https://www.oab.org.br/" target="_blank" rel="noopener noreferrer" class="hidden" hidden aria-hidden="true" tabindex="-1">Comunicado histórico indisponível neste painel</a>
           </div>
         </details>
         <details id="conferenciaLegislacaoOpcional" class="mb-6 p-4 rounded-xl border border-amber-500/40 bg-amber-50 dark:bg-amber-900/10">
@@ -356,6 +357,10 @@
               <button type="button" onclick="encerrarSimuladoAleatorio()" class="px-5 py-3 rounded-xl border-2 border-purple-600 text-purple-800 dark:text-purple-200 font-bold min-h-[44px]">Voltar à prova completa</button>
             </div>
             <p id="statusSimuladoAleatorio" class="mt-3 text-sm text-purple-900 dark:text-purple-200 font-semibold" role="status" aria-live="polite">Modo livre: escolha uma das 80 questões na lista abaixo.</p>
+            <div id="aleatorioNavegacao" class="hidden mt-3" role="group" aria-label="Questões sorteadas para estudar">
+              <p class="text-sm font-bold text-slate-900 dark:text-white mb-2">Questões do seu simulado — toque para responder</p>
+              <div id="aleatorioCards" class="grid grid-cols-3 sm:grid-cols-5 gap-2"></div>
+            </div>
           </details>
           <div class="mt-5 flex flex-wrap items-center gap-3">
             <label for="questaoOficialNumeroSelect" class="text-sm font-semibold text-slate-900 dark:text-white">Ir para a questão</label>
@@ -1391,20 +1396,16 @@
     };
     function abrirGabaritoOabIntegrado(){
       const exame=Number(document.getElementById('oabExamSelect').value);
-      if(!documentosDoExameOAB(exame)?.gabaritoPDF){
+      const url=documentosDoExameOAB(exame)?.gabaritoPDF;
+      if(!url){
         document.getElementById('statusLocalizacaoQuestao').textContent=
-          'O gabarito deste exame ainda não foi integrado. Consulte a página histórica da FGV.';
+          'Gabarito ainda não disponível neste acervo. Consulte a fonte oficial da OAB/FGV.';
         return false;
       }
-      const outer=document.getElementById('blocoGabaritoOpcional');
-      const parent=outer?.parentElement?.closest('details');
-      if(parent)parent.open=true;
-      const painel=document.getElementById('detalhesGabaritoIntegrado');
-      painel.open=true;
-      alternarGabaritoIntegrado(painel);
-      painel.scrollIntoView({block:'start',behavior:'auto'});
-      painel.querySelector('summary')?.focus();
-      return true;
+      // Mantém apenas o link para a fonte: sem visualizador redundante.
+      const link=document.getElementById('oabGabaritoPdf');
+      if(link){link.href=url;link.click();return true;}
+      return false;
     }
     function alternarGabaritoIntegrado(detalhes){
       const quadro=document.getElementById('iframeGabaritoOficial');
@@ -1545,8 +1546,11 @@
       if(temGabarito)document.getElementById('oabGabaritoPdf').href=documentos.gabaritoPDF;
       const retificacao=available&&exam.comunicadoAnulacaoPosterior;
       const retificacaoLink=document.getElementById('oabRetificacaoPdf');
-      retificacaoLink.classList.toggle('hidden',!retificacao);
-      if(retificacao)retificacaoLink.href=exam.comunicadoAnulacaoPosterior;
+      if(retificacaoLink){
+        retificacaoLink.classList.add('hidden');
+        retificacaoLink.hidden=true;
+        if(retificacao)retificacaoLink.href=exam.comunicadoAnulacaoPosterior;
+      }
       if(available){
         const caderno=exam.cadernos[tipo-1];
         document.getElementById('oabCadernoPdf').href=caderno.pdf;
