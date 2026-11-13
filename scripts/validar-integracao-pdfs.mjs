@@ -68,7 +68,7 @@ for(const name of ["btnQuestaoAnterior","btnQuestaoProxima","btnCorrigirSimulado
  if(!html.includes('id="'+name+'"'))errors.push("Controle móvel necessário ausente: "+name);
 }
 const ids={};
-for(const m of html.matchAll(/\\bid="([^"]+)"/g))ids[m[1]]=(ids[m[1]]||0)+1;
+for(const m of html.matchAll(/\bid="([^"]+)"/g))ids[m[1]]=(ids[m[1]]||0)+1;
 for(const [id,count] of Object.entries(ids))if(count>1)errors.push("Identificador HTML duplicado: "+id);
 
 console.log(JSON.stringify({pdfsConferidos:confirmed,erros:errors,avisos:warnings,
