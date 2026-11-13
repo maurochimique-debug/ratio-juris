@@ -1429,7 +1429,8 @@
       ultimaSelecaoExameCaderno={numero,tipo};
       if(!anterior||anterior.numero!==numero||anterior.tipo===tipo)return;
       const prova=fonteOAB()['exam'+numero];
-      const correspondencia=prova?.correspondencia;
+      const correspondencia=prova?.correspondencia||
+        fonteOAB().archive.find(item=>item.exame===numero)?.correspondenciaDocumental;
       const antiga=obterPosicaoOficial(numero,anterior.tipo);
       let nova=1;
       let preservada=false;
