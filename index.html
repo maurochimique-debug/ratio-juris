@@ -826,6 +826,18 @@
     <div id="rjAiMessages" class="rj-ai-messages" role="log" aria-live="polite" aria-relevant="additions text">
       <div class="rj-ai-message rj-ai-assistant"><strong>Assistente Jurídico:</strong><p class="mt-1">Qual parte da questão você não entendeu? Posso ajudar a interpretar conceitos, comparar alternativas ou orientar a conferência dos artigos.</p></div>
     </div>
+    <div id="rjAuthSection" hidden class="px-4 py-3 border-t border-slate-200 bg-slate-50 text-slate-900">
+      <div id="rjAuthLogin">
+        <p class="text-sm font-bold mb-2">Acesso ao piloto de IA</p>
+        <label for="rjAuthEmail" class="block text-xs font-semibold mb-1">E-mail</label>
+        <input id="rjAuthEmail" type="email" autocomplete="username" inputmode="email" class="w-full mb-2 rounded-lg border border-slate-400 p-3 text-base bg-white text-slate-900" />
+        <label for="rjAuthPassword" class="block text-xs font-semibold mb-1">Senha</label>
+        <input id="rjAuthPassword" type="password" autocomplete="current-password" class="w-full mb-2 rounded-lg border border-slate-400 p-3 text-base bg-white text-slate-900" />
+        <button type="button" id="rjAuthSubmit" class="rounded-lg bg-purple-800 text-white px-4 py-3 font-semibold min-h-[44px]">Entrar na conta autorizada</button>
+      </div>
+      <button type="button" id="rjAuthLogout" hidden class="rounded-lg border border-purple-700 px-4 py-3 font-semibold min-h-[44px]">Sair da IA</button>
+      <p id="rjAuthStatus" class="mt-2 text-xs text-slate-700" role="status" aria-live="polite">O login será exibido somente quando estiver configurado.</p>
+    </div>
     <div class="px-4 pb-4 pt-2 border-t border-slate-200">
       <button id="rjAiExplain" type="button" class="w-full rounded-lg border border-purple-700 px-3 py-2 text-purple-900 font-bold">Usar a questão selecionada</button>
       <label for="rjAiQuestion" class="block text-sm font-bold text-slate-900 mt-3 mb-1">Escreva sua dúvida</label>
@@ -2455,6 +2467,7 @@
   <script src="/acessibilidade.js?v=20261113-01"></script>
   <script src="/simulado-aleatorio.js?v=20261112-2309"></script>
   <script src="/responsividade.js?v=20261112-2309"></script>
-  <script src="/assistente-juridico.js?v=20261113-ai-status"></script>
+  <script src="/ratio-auth.js?v=20261113-pilot-auth"></script>
+  <script src="/assistente-juridico.js?v=20261113-pilot-auth"></script>
 </body>
 </html>
