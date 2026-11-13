@@ -52,8 +52,8 @@ export default async function handler(req,res){
   // Franquia gratuita por usuário autenticado, persistida em Redis REST.
   // A autenticação e a contagem ocorrem no servidor; falhas suspendem o envio.
   if(!pilot){
-    const endpoint=String(process.env.RATIO_AI_REDIS_REST_URL||"").replace(/\\/$/,"");
-    if(!/^https:\\/\\//.test(endpoint))return res.status(503).json({error:"Controle de franquia gratuito indisponível."});
+    const endpoint=String(process.env.RATIO_AI_REDIS_REST_URL||"").replace(/\/$/,"");
+    if(!/^https:\/\//.test(endpoint))return res.status(503).json({error:"Controle de franquia gratuito indisponível."});
     const day=new Date().toISOString().slice(0,10);
     const quotaKey="ratio:ai:free:"+day+":"+user.id.toLowerCase();
     const redis=await fetch(endpoint+"/pipeline",{
