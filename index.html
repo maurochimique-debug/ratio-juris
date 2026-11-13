@@ -1366,7 +1366,8 @@
           {tipo:3,cor:'Amarela',pdf:'https://s.oab.org.br/arquivos/2019/10/55ead6d1-3bfc-41d6-bfdf-4e86944f8298.pdf'},
           {tipo:4,cor:'Azul',pdf:'https://s.oab.org.br/arquivos/2019/10/1f5cee04-b406-4d89-96ff-e7d6630fdf77.pdf'}
         ],
-        status:'cadernos_oficiais_verificados_gabarito_definitivo_pendente',
+        gabaritoPDF:'https://s.oab.org.br/arquivos/2019/10/244695e0-d919-4f6d-8aa0-98a3baa100af.pdf',
+        status:'GABARITO_PRELIMINAR_COM_ANULACOES_DEFINITIVO_PENDENTE',
         fonteOficial:'https://examedeordem.oab.org.br/EditaisProvas?NumeroExame=11563'
       },
       38:{
@@ -1409,9 +1410,12 @@
       if(quadro.getAttribute('src')!==url)quadro.src=url;
       quadro.title='Gabarito documental do '+exame+'º Exame da OAB';
       const statusFonte=String(documentos.status||'');
-      document.getElementById('statusGabaritoOficial').textContent=(/PRELIMINAR|RETIFICADO|conciliad/i.test(statusFonte)?
-        'Documento histórico do '+exame+'º Exame (confira anulações e eventuais retificações).':
-        'Gabarito oficial do '+exame+'º Exame.')+' Se o PDF não aparecer, abra o arquivo na fonte original.';
+      const semCorrecao=!Array.isArray(fonteOAB()['exam'+exame]?.gabaritos);
+      document.getElementById('statusGabaritoOficial').textContent=semCorrecao?
+        'Documento histórico para consulta, ainda não homologado para correção automática. Confira a versão definitiva e as anulações na fonte oficial.':
+        (/PRELIMINAR|RETIFICADO|conciliad/i.test(statusFonte)?
+          'Documento histórico do '+exame+'º Exame (confira anulações e eventuais retificações).':
+          'Gabarito oficial do '+exame+'º Exame.')+' Se o PDF não aparecer, abra o arquivo na fonte original.';
     }
     let ultimaSelecaoExameCaderno=null;
     function ajustarQuestaoAoTrocarCaderno(numero,tipo){
@@ -1456,7 +1460,9 @@
       if(btnGabarito){
         btnGabarito.disabled=!temGabarito;
         btnGabarito.setAttribute('aria-disabled',String(!temGabarito));
-        btnGabarito.title=temGabarito?'Abrir gabarito definitivo no próprio RATIO JURIS':'Gabarito ainda não integrado';
+        btnGabarito.title=temGabarito?
+          (available?'Abrir gabarito oficial no próprio RATIO JURIS':'Consultar gabarito histórico sem correção automática'):
+          'Gabarito ainda não integrado';
       }
       const tipo=tipoOABAtual();
       sincronizarSeletoresPdf();
