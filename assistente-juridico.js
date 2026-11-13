@@ -4,9 +4,6 @@
  const $=id=>document.getElementById(id);
  let open=false;
  let busy=false;
- let serviceReady=false;
- const hasAuth=()=>typeof window.RatioJurisAuth?.getAccessToken==="function";
- const maySend=()=>serviceReady&&hasAuth()&&window.RatioJurisAuth.isSignedIn?.()===true;
  const history=[];
  const btn=()=> $("rjAiToggle");
  const panel=()=> $("rjAiPanel");
@@ -29,24 +26,14 @@
  async function checkAvailability(){
   try{
     const result=await fetch("/api/assistente-juridico",{method:"GET",cache:"no-store"});
-    if(!result.ok)throw new Error("Falha de disponibilidade");
+    if(!result.ok)return;
     const data=await result.json();
-    serviceReady=data.disponivel===true;
-    const sendButton=$("rjAiSend");
-    if(sendButton)sendButton.disabled=!maySend()||busy;
-    if(!serviceReady){
-      notice("IA ainda não habilitada no servidor. Você pode escrever sua dúvida, mas o envio ficará indisponível até a configuração segura.");
-    }else if(!hasAuth()){
-      notice("O servidor de IA está configurado, mas o login do RatioJuris ainda não está integrado. O envio ficará bloqueado até essa etapa.");
+    if(!data.disponivel){
+      notice("Assistente de IA ainda não configurado. O texto da sua pergunta será preservado; não há resposta automática disponível.");
     }else{
-      notice("Serviço disponível. Entre em sua conta autorizada para enviar perguntas.");
+      notice("IA configurada. Para obter resposta, entre com sua conta autorizada.");
     }
-  }catch(_){
-    serviceReady=false;
-    const sendButton=$("rjAiSend");
-    if(sendButton)sendButton.disabled=true;
-    notice("Não foi possível verificar a IA. O envio está suspenso para evitar uma falsa confirmação.");
-  }
+  }catch(_){notice("Não foi possível verificar o serviço de IA neste momento.");}
  }
  function context(){
   const exame=$("oabExamSelect")?.value||"";
@@ -72,24 +59,16 @@
   if(busy)return;
   const input=$("rjAiQuestion"),question=String(input?.value||"").trim();
   if(question.length<4||question.length>1500){notice("Escreva uma dúvida entre 4 e 1.500 caracteres.");return;}
-  if(!serviceReady){notice("IA ainda indisponível. Sua pergunta permanece no campo.");return;}
-  if(!hasAuth()){notice("Login da IA ainda não integrado ao aplicativo. Sua pergunta foi preservada.");return;}
-  if(window.RatioJurisAuth.isSignedIn?.()!==true){
-    notice("Faça login na conta piloto autorizada para utilizar a IA. A pergunta foi preservada.");
-    return;
-  }
   const c=context();
   busy=true;
   $("rjAiSend").disabled=true;
   notice("Consultando o assistente...");
-  // Só registra a pergunta na conversa quando o servidor devolve uma resposta.
+  append("aluno",question);
+  // A dúvida só é retirada do campo após uma resposta efetiva do servidor.
   try{
-   const token=await window.RatioJurisAuth.getAccessToken();
-   if(typeof token!=="string"||!token){
-     notice("Entre em uma conta autorizada antes de perguntar. Seu texto foi preservado.");
-     return;
-   }
-   const headers={"Content-Type":"application/json",Authorization:"Bearer "+token};
+   const token=await window.RatioJurisAuth?.getAccessToken?.();
+   const headers={"Content-Type":"application/json"};
+   if(typeof token==="string"&&token)headers.Authorization="Bearer "+token;
    const resp=await fetch("/api/assistente-juridico",{
      method:"POST",headers,cache:"no-store",
      body:JSON.stringify({pergunta:question,contexto:c,historico:history.slice(-4)})
@@ -106,7 +85,6 @@
    }
    const answer=String(data.resposta||"").slice(0,8500);
    if(!answer){append("assistente","O serviço não retornou uma explicação verificável.");return;}
-   append("aluno",question);
    append("assistente",answer);
    input.value="";
    history.push({pergunta:question,resposta:answer.slice(0,1000)});
@@ -115,10 +93,9 @@
   }catch(_){
    append("assistente","Sem conexão com o serviço de IA. O estudo de questões e a consulta de legislação continuam disponíveis.");
    notice("Falha de rede. Nenhuma resposta foi inventada.");
-  }finally{busy=false;$("rjAiSend").disabled=!maySend();}
+  }finally{busy=false;$("rjAiSend").disabled=false;}
  }
  document.addEventListener("DOMContentLoaded",()=>{
-  const sendButton=$("rjAiSend");if(sendButton)sendButton.disabled=true;
   btn()?.addEventListener("click",()=>toggle());
   $("rjAiClose")?.addEventListener("click",()=>toggle(false));
   $("rjAiExplain")?.addEventListener("click",explainCurrent);
@@ -126,15 +103,6 @@
   $("rjAiQuestion")?.addEventListener("keydown",e=>{
    if(e.key==="Enter"&&(e.ctrlKey||e.metaKey)){e.preventDefault();send();}
    if(e.key==="Escape")toggle(false);
-  });
-  document.addEventListener("ratiojuris-auth-change",()=>{
-    const sendButton=$("rjAiSend");
-    if(sendButton)sendButton.disabled=busy||!maySend();
-    if(open&&serviceReady){
-      notice(hasAuth()&&window.RatioJurisAuth.isSignedIn?.()?
-        "Sessão conectada. Você pode enviar sua dúvida ao tutor.":
-        "Entre na conta piloto autorizada antes de enviar perguntas.");
-    }
   });
   document.addEventListener("keydown",e=>{if(e.key==="Escape"&&open)toggle(false);});
  });
