@@ -1932,6 +1932,20 @@
         aviso.textContent=caderno?
           'Consulta documental do '+exameSelecionado+'º Exame disponível. A correção eletrônica ainda não está homologada; escolha o caderno ou o gabarito oficial acima.':
           'Este exame aguarda a importação do caderno e do gabarito para consulta integrada. Consulte a fonte histórica oficial.';
+        // Mantém o layout original e tenta carregar a questão real somente se houver PDF.
+        const identificador=exameSelecionado+'-'+tipoSelecionado+'-'+numeroQuestao;
+        if(caderno?.pdf && painel._ratioAutoQuestao!==identificador){
+          painel._ratioAutoQuestao=identificador;
+          Promise.resolve().then(()=>{
+            if(painel._ratioAutoQuestao!==identificador ||
+               Number(document.getElementById('oabExamSelect')?.value)!==exameSelecionado ||
+               tipoOABAtual()!==tipoSelecionado ||
+               obterPosicaoOficial(exameSelecionado,tipoSelecionado)!==numeroQuestao)return;
+            if(window.RatioPdfAcessivel?.estudarQuestaoAtual){
+              Promise.resolve(window.RatioPdfAcessivel.estudarQuestaoAtual({foco:false})).catch(()=>{});
+            }
+          });
+        }
         return;
       }
       painel.querySelector('.ratio-study-layout').classList.remove('hidden');
