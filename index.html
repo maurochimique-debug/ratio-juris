@@ -734,9 +734,9 @@
           </div>
         </div>
         <div class="border-t border-slate-700 mt-6 pt-5">
-          <h3 class="text-white font-bold text-lg mb-3">Jurisprudência — STF e STJ</h3>
+          <h3 class="text-white font-bold text-lg mb-3">Jurisprudência — STF, STJ e Consultor Jurídico</h3>
           <p class="text-xs text-slate-300 mb-3">A consulta pelo número é feita no aplicativo. Abrir os portais dos tribunais é opcional e pode exigir consentimento de cookies, conforme as regras desses sites.</p>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
             <div class="rounded-xl border border-purple-500 p-4 bg-slate-950">
               <h4 class="text-white font-extrabold">STF — Supremo Tribunal Federal</h4>
               <p class="text-xs text-slate-300 my-2">Súmulas, temas e julgados. Pesquise o número ou a classe no tribunal.</p>
@@ -746,6 +746,11 @@
               <h4 class="text-white font-extrabold">STJ — Superior Tribunal de Justiça</h4>
               <p class="text-xs text-slate-300 my-2">Súmulas e acórdãos. Pesquise o número ou termo no tribunal.</p>
               <a href="https://processo.stj.jus.br/SCON/" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-[44px] items-center rounded-lg bg-purple-700 text-white px-4 py-2 font-bold text-sm">Abrir jurisprudência STJ</a>
+            </div>
+            <div class="rounded-xl border border-purple-500 p-4 bg-slate-950">
+              <h4 class="text-white font-extrabold">ConJur — Consultor Jurídico</h4>
+              <p class="text-xs text-slate-300 my-2">Pesquisa complementar de notícias, decisões e análises jurídicas; confira os julgados nos tribunais.</p>
+              <button type="button" onclick="pesquisarConjurGabinete()" class="inline-flex min-h-[44px] items-center rounded-lg bg-purple-700 text-white px-4 py-2 font-bold text-sm">Pesquisar na ConJur</button>
             </div>
           </div>
           <label for="gabineteSearchInput" class="block text-white text-sm font-semibold mb-2">Busca por referência ou jurisprudência</label>
@@ -791,8 +796,9 @@
             <span class="text-xs font-mono text-ratio-purple uppercase font-bold">Proposta anual</span>
             <h3 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-1">Plano Anual</h3>
             <div class="mt-3 mb-5">
-              <span class="text-4xl sm:text-5xl font-black text-slate-900 dark:text-white">R$ 340</span>
-              <span class="text-xs sm:text-sm text-amber-600 dark:text-ratio-amber font-bold">à vista</span>
+              <span class="text-4xl sm:text-5xl font-black text-slate-900 dark:text-white">R$ 370</span>
+              <span class="text-xs sm:text-sm text-amber-600 dark:text-ratio-amber font-bold">/ ano</span>
+              <p class="mt-2 text-sm font-bold text-purple-800 dark:text-purple-200">Parcelamento previsto em até 12 vezes, sujeito à disponibilidade do meio de pagamento.</p>
             </div>
             <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed mb-6">Proposta em elaboração. Contratação e liberação de acesso ainda não estão habilitadas.</p>
           </div>
@@ -1081,6 +1087,20 @@
         area.textContent='A fonte legislativa não respondeu nesta conexão. Use os links oficiais acima para acessar a norma.';
       }
     }
+    function pesquisarConjurGabinete(){
+      const termo=String(document.getElementById('gabineteSearchInput')?.value||'').trim();
+      if(!termo){
+        document.getElementById('gabineteSearchInput')?.focus();
+        mostrarResultadoGabinete('Busca complementar na ConJur',
+          'Digite uma palavra-chave, tema, número de súmula ou referência no campo de jurisprudência.',[],null);
+        return false;
+      }
+      // Usa busca pública com filtro de domínio; não faz extração ou incorporação de conteúdo.
+      const url='https://www.google.com/search?q='+encodeURIComponent('site:conjur.com.br '+termo.slice(0,160));
+      window.open(url,'_blank','noopener,noreferrer');
+      return true;
+    }
+    window.pesquisarConjurGabinete=pesquisarConjurGabinete;
     function pesquisarArtigoPlanalto(abrirDiretamente=false){
       const lei=document.getElementById('gabineteLeiSelect').value;
       const numero=normalizarNumeroArtigo(document.getElementById('gabineteArtigoInput').value);
