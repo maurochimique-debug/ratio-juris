@@ -1499,7 +1499,8 @@
       if(!available){
         document.getElementById('tituloArquivoHistorico').textContent=num+'º Exame — consulta documental';
         document.getElementById('descricaoArquivoHistorico').textContent=
-          'Este exame está catalogado, mas o banco ainda não possui enunciados, alternativas e gabaritos finais auditados para correção integrada. Consulte voluntariamente a fonte documental.';
+          'Este exame está catalogado, mas o banco ainda não possui enunciados, alternativas e gabaritos finais auditados para correção integrada. Consulte voluntariamente a fonte documental.'+
+          (entry.observacao?' '+entry.observacao:'');
         document.getElementById('linkArquivoHistorico').href=
           entry.fgvUrl || 'https://www.oab.org.br/servicos/examedeordem';
       }
