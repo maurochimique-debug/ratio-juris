@@ -180,8 +180,13 @@ window.RATIO_OAB_DATA = {
     {
       "exame": 30,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=633",
-      "status": "pagina_historica_sem_importacao",
-      "importado": false
+      "status": "gabarito_preliminar_disponivel_anulacoes_oficiais_conferidas_definitivo_pendente",
+      "importado": false,
+      "gabaritoPreliminarPDF": "https://oab.fgv.br/arq/633/97164_GABARITOS%20PRELIMINARES_XXX_EXAME_DE_ORDEM.pdf",
+      "fonteValidacao": "https://www.oab.org.br/noticia/57686/oab-anula-tres-questoes-do-xxx-exame-de-ordem",
+      "anulacoesOficiaisTipo1": [20, 30, 57],
+      "observacao": "Anulações das questões 20, 30 e 57 do caderno Tipo 1 confirmadas pela OAB em 29/10/2019. Gabarito preliminar disponível apenas para consulta; sem correção automática até confrontar a versão definitiva dos quatro cadernos.",
+      "consultaDocumental": true
     },
     {
       "exame": 29,
