@@ -25,9 +25,7 @@
       String($("oabTipoSelect")?.value)!==String(tipo))return false;
    const wrap=$("fallbackEnunciado"),frame=$("fallbackEnunciadoPdf");
    const link=$("questaoPdfLinkVisivel");
-   const base=window.RATIO_OAB_DATA;
-   const book=base?.["exam"+exame]?.cadernos?.[Number(tipo)-1] ||
-     base?.archive?.find(item=>Number(item.exame)===Number(exame))?.cadernos?.[Number(tipo)-1];
+   const book=window.RatioDocumentosOAB?.(exame)?.cadernos?.[Number(tipo)-1];
    if(!book?.pdf)return false;
    if(link){link.href=book.pdf;link.classList.remove("hidden");}
    if(wrap&&frame){
@@ -125,8 +123,7 @@
    if(!/^\d{2}$/.test(exame||"")||! /^[1-4]$/.test(tipo||"")){
      avisar("Selecione primeiro um exame e o tipo de caderno.");return false;
    }
-   const allowed=window.RATIO_OAB_DATA?.["exam"+exame];
-   const book=allowed?.cadernos?.[Number(tipo)-1] || (exame==="38"?{pdf:$("oabCadernoPdf")?.href}:null);
+   const book=window.RatioDocumentosOAB?.(exame)?.cadernos?.[Number(tipo)-1];
    if(!book?.pdf||!/^https:\/\/(?:s\.oab\.org\.br\/arquivos\/|oab\.fgv\.br\/arq\/)/.test(book.pdf)){
      avisar("Esta edição ainda não possui PDF oficial verificado no acervo.");return false;
    }
