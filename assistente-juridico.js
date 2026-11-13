@@ -74,6 +74,10 @@
   if(question.length<4||question.length>1500){notice("Escreva uma dúvida entre 4 e 1.500 caracteres.");return;}
   if(!serviceReady){notice("IA ainda indisponível. Sua pergunta permanece no campo.");return;}
   if(!hasAuth()){notice("Login da IA ainda não integrado ao aplicativo. Sua pergunta foi preservada.");return;}
+  if(window.RatioJurisAuth.isSignedIn?.()!==true){
+    notice("Faça login na conta piloto autorizada para utilizar a IA. A pergunta foi preservada.");
+    return;
+  }
   const c=context();
   busy=true;
   $("rjAiSend").disabled=true;
@@ -122,6 +126,15 @@
   $("rjAiQuestion")?.addEventListener("keydown",e=>{
    if(e.key==="Enter"&&(e.ctrlKey||e.metaKey)){e.preventDefault();send();}
    if(e.key==="Escape")toggle(false);
+  });
+  document.addEventListener("ratiojuris-auth-change",()=>{
+    const sendButton=$("rjAiSend");
+    if(sendButton)sendButton.disabled=busy||!maySend();
+    if(open&&serviceReady){
+      notice(hasAuth()&&window.RatioJurisAuth.isSignedIn?.()?
+        "Sessão conectada. Você pode enviar sua dúvida ao tutor.":
+        "Entre na conta piloto autorizada antes de enviar perguntas.");
+    }
   });
   document.addEventListener("keydown",e=>{if(e.key==="Escape"&&open)toggle(false);});
  });
