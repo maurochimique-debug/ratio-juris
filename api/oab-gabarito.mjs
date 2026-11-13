@@ -1,6 +1,10 @@
 import {Readable} from "node:stream";
 /* RATIO JURIS: gabaritos definitivos oficiais por exame, proxy fechado. */
 const SOURCES=Object.freeze({
+ "10":"https://s.oab.org.br/arquivos/2019/10/24c2df34-12d1-4c78-a0dc-23f899f7a01f.pdf",
+ "11":"https://s.oab.org.br/arquivos/2019/10/bf6ea3db-67dc-4e41-bf55-57ec819aef83.pdf",
+ "12":"https://s.oab.org.br/arquivos/2019/10/53f425fb-0a39-4c8f-a0b2-dce17bface02.pdf",
+ "13":"https://s.oab.org.br/arquivos/2019/10/001fe1bb-b295-4d5e-a87f-7908dca206b0.pdf",
  "14":"https://s.oab.org.br/arquivos/2019/10/f8b8e86f-75e3-4c8c-a1d4-52c2ffa1eb06.pdf",
  "15":"https://s.oab.org.br/arquivos/2019/10/1a6ff511-ffe3-43e4-a3ec-a7d7dd06dd72.pdf",
  "16":"https://oab.fgv.br/arq/615/17042015171107_GABARITOS%20DEFINITIVOS_XVI_EXAME_DE_ORDEM.pdf",
