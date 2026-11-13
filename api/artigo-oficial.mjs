@@ -113,8 +113,12 @@ for(const candidate of candidates){
   const html=/iso-8859-1|windows-1252/i.test(charset)||utf8.includes("�")?
     new TextDecoder("windows-1252").decode(bytes):utf8;
   if(!/<(?:html|body)/i.test(html)){failures.push("html");continue;}
-  const conteudo=extract(toText(html),artigo);
+  let conteudo=extract(toText(html),artigo);
   if(!conteudo){failures.push("artigo não localizado");continue;}
+  // Em leis alteradoras, remover apenas a marca editorial de nova redação
+  // que fica depois do dispositivo transcrito, preservando caput e parágrafos.
+  if(lei==="clt"&&artigo==="878"&&candidate.includes("/17728053/"))
+    conteudo=conteudo.replace(/\s*[”"]\s*\(NR\)\s*[“"]?\s*$/,"").trim();
   res.status(200).json({
     lei,artigo,source:response.url,conteudo,
     aviso:"Transcrição automática de fonte legislativa oficial. Confira redação vigente, notas e alterações na fonte."
