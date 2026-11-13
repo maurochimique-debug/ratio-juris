@@ -55,11 +55,18 @@ window.RATIO_OAB_DATA = {
       "aviso": "A contagem descreve chaves e cadernos cadastrados. Não comprova que o texto extraído, PDF ou letras estejam integralmente conferidos em todos os dispositivos."
     },
     "documentosPendentes": [
-      13,
-      12,
+      10,
       11,
-      10
-    ]
+      12,
+      13
+    ],
+    "documentosDisponiveisSemCorrecao": [
+      10,
+      11,
+      12,
+      13
+    ],
+    "observacaoExamesHistoricos": "10º a 13º: PDFs de gabaritos oficiais disponíveis para consulta documental; sem respostas importadas para correção automática. 10º foi mantido integralmente após recursos. 11º-13º exigem conciliação definitiva."
   },
   "bancas": [
     "FGV",
@@ -275,29 +282,40 @@ window.RATIO_OAB_DATA = {
     {
       "exame": 13,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=421",
-      "status": "caderno_tipo_1_e_gabarito_preliminar_documentados_sem_validacao_definitiva",
-      "importado": false
+      "status": "gabarito_preliminar_para_consulta_sem_conciliacao_definitiva",
+      "importado": false,
+      "gabaritoPDF": "https://s.oab.org.br/arquivos/2019/10/001fe1bb-b295-4d5e-a87f-7908dca206b0.pdf",
+      "fonteValidacao": "https://www.oab.org.br/noticia/27033/xiii-exame-da-ordem-confira-o-resultado-final-da-1-fase",
+      "consultaDocumental": true
     },
     {
       "exame": 12,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=382",
-      "status": "gabarito_preliminar_oficial_documentado_sem_validacao_definitiva",
+      "status": "gabarito_preliminar_para_consulta_sem_conciliacao_definitiva",
       "importado": false,
       "gabaritoPreliminarPDF": "https://s.oab.org.br/arquivos/2019/10/53f425fb-0a39-4c8f-a0b2-dce17bface02.pdf",
-      "referenciaStatus": "Tabela de correspondência oficial de 80 questões publicada em 15/12/2013; ainda não confrontada com gabarito definitivo de 17/01/2014."
+      "referenciaStatus": "Tabela de correspondência oficial de 80 questões publicada em 15/12/2013; ainda não confrontada com gabarito definitivo de 17/01/2014.",
+      "gabaritoPDF": "https://s.oab.org.br/arquivos/2019/10/53f425fb-0a39-4c8f-a0b2-dce17bface02.pdf",
+      "fonteValidacao": "https://www.oab.org.br/noticia/26583/oab-divulga-resultado-definitivo-da-1-fase-do-xii-exame",
+      "consultaDocumental": true
     },
     {
       "exame": 11,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=336",
-      "status": "pagina_historica_documental_sem_gabarito_validado",
-      "importado": false
+      "status": "gabarito_preliminar_para_consulta_sem_conciliacao_definitiva",
+      "importado": false,
+      "gabaritoPDF": "https://s.oab.org.br/arquivos/2019/10/bf6ea3db-67dc-4e41-bf55-57ec819aef83.pdf",
+      "consultaDocumental": true
     },
     {
       "exame": 10,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=303",
-      "status": "pagina_historica_documental_sem_gabarito_validado",
+      "status": "gabarito_publicado_28_04_2013_mantido_integralmente_sem_anulacao",
       "importado": false,
-      "referenciaStatus": "OAB registra comunicado de manutenção integral do gabarito publicado em 28/04/2013; documento com letras ainda não validado neste banco."
+      "referenciaStatus": "OAB registra comunicado de manutenção integral do gabarito publicado em 28/04/2013; documento com letras ainda não validado neste banco.",
+      "gabaritoPDF": "https://s.oab.org.br/arquivos/2019/10/24c2df34-12d1-4c78-a0dc-23f899f7a01f.pdf",
+      "fonteValidacao": "https://www.oab.org.br/noticia/25691/oab-divulga-resultado-final-da-1-fase-54-de-aprovacao-no-x-exame",
+      "consultaDocumental": true
     }
   ],
   "exam47": {
