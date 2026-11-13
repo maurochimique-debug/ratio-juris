@@ -5,6 +5,8 @@
  let open=false;
  let busy=false;
  let serviceReady=false;
+ const hasAuth=()=>typeof window.RatioJurisAuth?.getAccessToken==="function";
+ const maySend=()=>serviceReady&&hasAuth();
  const history=[];
  const btn=()=> $("rjAiToggle");
  const panel=()=> $("rjAiPanel");
@@ -31,11 +33,13 @@
     const data=await result.json();
     serviceReady=data.disponivel===true;
     const sendButton=$("rjAiSend");
-    if(sendButton)sendButton.disabled=!serviceReady||busy;
+    if(sendButton)sendButton.disabled=!maySend()||busy;
     if(!serviceReady){
       notice("IA ainda não habilitada no servidor. Você pode escrever sua dúvida, mas o envio ficará indisponível até a configuração segura.");
+    }else if(!hasAuth()){
+      notice("O servidor de IA está configurado, mas o login do RatioJuris ainda não está integrado. O envio ficará bloqueado até essa etapa.");
     }else{
-      notice("Serviço disponível. Para enviar, é necessário login autenticado e autorização no piloto.");
+      notice("Serviço disponível. Entre em sua conta autorizada para enviar perguntas.");
     }
   }catch(_){
     serviceReady=false;
@@ -69,15 +73,19 @@
   const input=$("rjAiQuestion"),question=String(input?.value||"").trim();
   if(question.length<4||question.length>1500){notice("Escreva uma dúvida entre 4 e 1.500 caracteres.");return;}
   if(!serviceReady){notice("IA ainda indisponível. Sua pergunta permanece no campo.");return;}
+  if(!hasAuth()){notice("Login da IA ainda não integrado ao aplicativo. Sua pergunta foi preservada.");return;}
   const c=context();
   busy=true;
   $("rjAiSend").disabled=true;
   notice("Consultando o assistente...");
   // Só registra a pergunta na conversa quando o servidor devolve uma resposta.
   try{
-   const token=await window.RatioJurisAuth?.getAccessToken?.();
-   const headers={"Content-Type":"application/json"};
-   if(typeof token==="string"&&token)headers.Authorization="Bearer "+token;
+   const token=await window.RatioJurisAuth.getAccessToken();
+   if(typeof token!=="string"||!token){
+     notice("Entre em uma conta autorizada antes de perguntar. Seu texto foi preservado.");
+     return;
+   }
+   const headers={"Content-Type":"application/json",Authorization:"Bearer "+token};
    const resp=await fetch("/api/assistente-juridico",{
      method:"POST",headers,cache:"no-store",
      body:JSON.stringify({pergunta:question,contexto:c,historico:history.slice(-4)})
@@ -103,7 +111,7 @@
   }catch(_){
    append("assistente","Sem conexão com o serviço de IA. O estudo de questões e a consulta de legislação continuam disponíveis.");
    notice("Falha de rede. Nenhuma resposta foi inventada.");
-  }finally{busy=false;$("rjAiSend").disabled=!serviceReady;}
+  }finally{busy=false;$("rjAiSend").disabled=!maySend();}
  }
  document.addEventListener("DOMContentLoaded",()=>{
   const sendButton=$("rjAiSend");if(sendButton)sendButton.disabled=true;
