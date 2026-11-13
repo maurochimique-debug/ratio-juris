@@ -3865,7 +3865,9 @@ window.RATIO_OAB_DATA = {
       "DCADBAADDDABCBACB*CAABCADCCDACADADBCBDCDCDBBBC*AABDDBDCDDAABBBAC*CDACBABDBBACCBA",
       "ADBAADDCDDCABCBA*BACABACADCCDDCADACBDCDCDBBBBCB*AACDDDBDBDAABBAAC*CDBCBABDBAACCB"
     ],
-    "correspondencia": null,
+    "correspondencia": [[4,3,5],[1,4,6],[2,1,7],[3,2,8],[8,7,1],[5,8,2],[6,5,3],[7,6,4],[10,10,9],[9,9,10],[16,15,14],[11,16,15],[12,11,16],[13,12,11],[14,13,12],[15,14,13],[18,17,18],[17,18,17],[20,20,19],[19,19,20],[21,22,22],[22,21,21],[24,23,24],[23,24,23],[29,28,27],[25,29,28],[26,25,29],[27,26,25],[28,27,26],[34,33,32],[30,34,33],[31,30,34],[32,31,30],[33,32,31],[36,35,36],[35,36,35],[38,39,40],[39,40,41],[40,41,42],[41,42,37],[42,37,38],[37,38,39],[44,44,43],[43,43,44],[45,46,46],[46,45,45],[50,49,48],[47,50,49],[48,47,50],[49,48,47],[56,55,53],[51,56,54],[52,51,55],[53,52,56],[54,53,51],[55,54,52],[62,61,60],[57,62,61],[58,57,62],[59,58,57],[60,59,58],[61,60,59],[68,67,66],[63,68,67],[64,63,68],[65,64,63],[66,65,64],[67,66,65],[70,69,70],[69,70,69],[75,74,73],[71,75,74],[72,71,75],[73,72,71],[74,73,72],[80,79,78],[76,80,79],[77,76,80],[78,77,76],[79,78,77]],
+    "fonteCorrespondencia": "https://s.oab.org.br/arquivos/2023/12/a664be30-2748-463b-b7a8-f4911a0ca0b8.pdf",
+    "notaCorrespondencia": "Tabela oficial do gabarito definitivo, página 2. A equivalência numérica não pressupõe letras idênticas nos quatro tipos, pois as alternativas podem ser ordenadas diferentemente.",
     "cadernos": [
       {
         "tipo": 1,
