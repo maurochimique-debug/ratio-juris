@@ -152,7 +152,7 @@
     const question=$("textoQuestaoDentroSimulador")?.textContent||"";
     const options=Array.from($("alternativasQuestaoOficial")?.querySelectorAll("button")||[])
       .map(x=>x.textContent?.trim()).filter(Boolean);
-    if(!title||!question.trim() || !($("textoQuestaoDentroSimulador")?.dataset.extracaoValidada==="true") ||
+    if(!title||!question.trim() || !($("textoQuestaoDentroSimulador")?.getAttribute("data-extracao-validada")==="sim") ||
        /preparando|carregando|não foi possível|consulte o pdf|localizando/i.test(question.slice(0,170))){
       announce("O enunciado ainda não está disponível para leitura. Consulte o PDF original.");
       return false;
