@@ -21,10 +21,10 @@
   }
   frame.hidden=false;frame.classList.remove("hidden");
  }
- async function mount(frame,url,originalUrl){
+ async function mount(frame,url,originalUrl,startPage=1){
   if(!frame||!mobile())return false;
   close(frame);
-  if(!/^\/api\/(?:oab-pdf|oab-gabarito)\?/.test(url))return false;
+  if(!/^\/api\/(?:oab-pdf|oab-gabarito|magistratura-pdf)\?/.test(url))return false;
   const state={alive:true,id:++serial,page:1,total:0,task:null,document:null};
   instances.set(frame,state);
   frame.hidden=true;frame.classList.add("hidden");
@@ -77,7 +77,7 @@
    state.document=await state.task.promise;
    if(!state.alive)return false;
    state.total=state.document.numPages;
-   await show(1);
+   await show(Math.min(Math.max(1,Number(startPage)||1),state.total));
    return true;
   }catch(_){
    if(state.alive){
