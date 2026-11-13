@@ -318,6 +318,19 @@
             </details>
           </div>
           <a id="oabRetificacaoPdf" href="https://www.oab.org.br/" target="_blank" rel="noopener noreferrer" class="hidden" hidden aria-hidden="true" tabindex="-1">Comunicado histórico indisponível neste painel</a>
+          <div class="w-full mt-2" role="group" aria-label="Consulta de documentos dentro do aplicativo">
+            <div class="flex flex-wrap gap-2">
+              <button type="button" id="btnVerCadernoNoApp" onclick="abrirDocumentoOabNoApp('caderno')" class="min-h-[44px] px-4 py-2 rounded-lg bg-purple-700 text-white text-sm font-bold">Ver caderno aqui</button>
+              <button type="button" id="btnVerGabaritoNoApp" onclick="abrirDocumentoOabNoApp('gabarito')" class="min-h-[44px] px-4 py-2 rounded-lg border-2 border-purple-600 text-purple-800 dark:text-purple-200 text-sm font-bold">Ver gabarito aqui</button>
+              <button type="button" id="btnFecharDocumentoNoApp" onclick="fecharDocumentoOabNoApp()" class="hidden min-h-[44px] px-4 py-2 rounded-lg border border-slate-400 text-slate-800 dark:text-white text-sm font-bold">Fechar documento</button>
+            </div>
+            <div id="painelDocumentoOabNoApp" class="hidden mt-3">
+              <p id="statusDocumentoOabNoApp" class="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-2" role="status" aria-live="polite"></p>
+              <iframe id="iframeDocumentoOabNoApp" loading="lazy" class="ratio-pdf-iframe bg-white rounded-lg" title="Documento oficial da OAB" referrerpolicy="no-referrer"></iframe>
+              <p class="mt-2 text-xs text-slate-600 dark:text-slate-300">Caso o navegador não consiga exibir este PDF, use o link da fonte oficial acima.</p>
+            </div>
+          </div>
+
           </div>
         </details>
         <details id="conferenciaLegislacaoOpcional" class="mb-6 p-4 rounded-xl border border-amber-500/40 bg-amber-50 dark:bg-amber-900/10">
@@ -1375,6 +1388,52 @@
       if(!Number.isInteger(n)||n<10||n>47)return null;
       return documentosDoExameOAB(n);
     };
+    // Um único visualizador opcional: alterna caderno e gabarito sem abrir nova aba.
+    function fecharDocumentoOabNoApp(){
+      const painel=document.getElementById('painelDocumentoOabNoApp');
+      const frame=document.getElementById('iframeDocumentoOabNoApp');
+      const btn=document.getElementById('btnFecharDocumentoNoApp');
+      if(frame)frame.removeAttribute('src');
+      if(painel)painel.classList.add('hidden');
+      if(btn)btn.classList.add('hidden');
+      return true;
+    }
+    function abrirDocumentoOabNoApp(tipoDocumento){
+      if(!['caderno','gabarito'].includes(tipoDocumento))return false;
+      const num=Number(document.getElementById('oabExamSelect')?.value);
+      const tipo=tipoOABAtual();
+      const docs=documentosDoExameOAB(num);
+      const caderno=docs?.cadernos?.[tipo-1];
+      const habilitado=tipoDocumento==='gabarito'?Boolean(docs?.gabaritoPDF):Boolean(caderno?.pdf);
+      const painel=document.getElementById('painelDocumentoOabNoApp');
+      const frame=document.getElementById('iframeDocumentoOabNoApp');
+      const status=document.getElementById('statusDocumentoOabNoApp');
+      if(!painel||!frame||!status)return false;
+      if(!habilitado){
+        fecharDocumentoOabNoApp();
+        const aviso=document.getElementById('statusLocalizacaoQuestao');
+        if(aviso)aviso.textContent=tipoDocumento==='gabarito'?
+          'Este exame ainda não tem gabarito em PDF disponível no acervo. Consulte a fonte oficial.':
+          'Este tipo de caderno ainda não tem PDF cadastrado. Consulte a fonte oficial.';
+        return false;
+      }
+      const documentoPendente=tipoDocumento==='gabarito' &&
+        (!Array.isArray(fonteOAB()['exam'+num]?.gabaritos) ||
+        /preliminar|pendente/i.test(String(docs?.status||'')));
+      const destino='/api/'+(tipoDocumento==='caderno'?'oab-pdf':'oab-gabarito')+
+        '?exame='+num+'&tipo='+tipo+'#toolbar=1&navpanes=0';
+      const rotulo=tipoDocumento==='caderno'?'Caderno oficial':'Gabarito histórico';
+      if(frame.getAttribute('src')!==destino)frame.src=destino;
+      frame.title=rotulo+' do '+num+'º Exame, Tipo '+tipo;
+      status.textContent=rotulo+' — '+num+'º Exame, Tipo '+tipo+
+        (documentoPendente?' (consulte as retificações: correção automática ainda não homologada).':'.');
+      painel.classList.remove('hidden');
+      document.getElementById('btnFecharDocumentoNoApp')?.classList.remove('hidden');
+      painel.scrollIntoView({block:'nearest',behavior:'auto'});
+      return true;
+    }
+    window.abrirDocumentoOabNoApp=abrirDocumentoOabNoApp;
+    window.fecharDocumentoOabNoApp=fecharDocumentoOabNoApp;
     function abrirGabaritoOabIntegrado(){
       const exame=Number(document.getElementById('oabExamSelect').value);
       const url=documentosDoExameOAB(exame)?.gabaritoPDF;
@@ -1462,6 +1521,11 @@
           'Gabarito ainda não integrado';
       }
       const tipo=tipoOABAtual();
+      fecharDocumentoOabNoApp();
+      const botaoCaderno=document.getElementById('btnVerCadernoNoApp');
+      const botaoGabarito=document.getElementById('btnVerGabaritoNoApp');
+      if(botaoCaderno)botaoCaderno.disabled=!documentos?.cadernos?.[tipo-1]?.pdf;
+      if(botaoGabarito)botaoGabarito.disabled=!temGabarito;
       sincronizarSeletoresPdf();
       gravarArmazenamento('ratio_ultimo_exame',String(num));
       gravarArmazenamento('ratio_ultimo_caderno',String(tipo));
