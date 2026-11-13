@@ -63,12 +63,23 @@ function extract(text,num){
   for(const match of matches){
     const at=match.index+(match[1]?.length||0);
     const next=boundaries.find(x=>x.index>at+20);
-    const passage=text.slice(at,next?.index??Math.min(text.length,at+100000)).trim();
-    if(passage.length>=30&&passage.length<=100000&&/^Art(?:igo)?\.?\s*\d/i.test(passage)){
+    const passage=text.slice(at,next?.index??Math.min(text.length,at+12000)).trim();
+    // Artigos curtos também são válidos; não descartar redação oficial com menos de 30 caracteres.
+    if(passage.length>=12&&passage.length<=100000&&/^Art(?:igo)?\.?\s*\d/i.test(passage)){
       return passage;
     }
   }
-  return null;
+  // Fontes legislativas distintas às vezes compactam artigos em uma única linha.
+  // Segunda tentativa com limite estrito e marcador de artigo seguinte.
+  const compact=text.replace(/\s+/g," ").trim();
+  const inline=new RegExp("\\b"+head.replace("(?=\\s|$)","(?=\\s|$)"),"gi");
+  const result=inline.exec(compact);
+  if(!result)return null;
+  const nextArticle=/(?:\s{1,})Art(?:igo)?\.?\s*\d{1,4}(?:\s*[-–]\s*[A-Z])?\s*[º°o]?\s*[.:-–—]?(?=\s|$)/gi;
+  nextArticle.lastIndex=result.index+result[0].length;
+  const next=nextArticle.exec(compact);
+  const excerpt=compact.slice(result.index,Math.min(next?.index??compact.length,result.index+12000)).trim();
+  return excerpt.length>=12?excerpt:null;
 }
 export default async function handler(req,res){
 res.setHeader("Cache-Control","no-store");
