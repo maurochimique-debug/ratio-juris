@@ -359,11 +359,7 @@
           </details>
           <div class="mt-5 flex flex-wrap items-center gap-3">
             <label for="questaoOficialNumeroSelect" class="text-sm font-semibold text-slate-900 dark:text-white">Ir para a questão</label>
-            <div class="flex items-center gap-2 flex-wrap" role="group" aria-label="Navegação entre questões do exame">
-              <button type="button" aria-label="Questão anterior" title="Questão anterior" onclick="moverQuestaoOficial(-1)" class="min-w-[44px] min-h-[44px] px-3 rounded-lg border-2 border-purple-500 text-purple-800 dark:text-white font-bold" >◀</button>
-              <select id="questaoOficialNumeroSelect" onchange="irParaQuestaoOficial(this.value)" aria-label="Escolher uma das 80 questões da prova oficial" class="px-3 py-2 rounded-lg border-2 border-purple-500 bg-white dark:bg-[#12161A] text-slate-900 dark:text-white"></select>
-              <button type="button" aria-label="Próxima questão" title="Próxima questão" onclick="moverQuestaoOficial(1)" class="min-w-[44px] min-h-[44px] px-3 rounded-lg border-2 border-purple-500 text-purple-800 dark:text-white font-bold" >▶</button>
-            </div>
+            <select id="questaoOficialNumeroSelect" onchange="irParaQuestaoOficial(this.value)" aria-label="Escolher uma das 80 questões da prova oficial" class="px-3 py-2 rounded-lg border-2 border-purple-500 bg-white dark:bg-[#12161A] text-slate-900 dark:text-white"></select>
           </div>
           <p id="statusLocalizacaoQuestao" class="mt-3 text-sm text-purple-900 dark:text-purple-200 font-semibold" role="status" aria-live="polite">Selecione uma questão para localizar o enunciado no documento original.</p>
           <div class="ratio-study-layout mt-5">
@@ -384,7 +380,13 @@
                     <select id="pdfCadernoSelect" onchange="selecionarPdfOficial('caderno',this.value)" class="mt-1 block w-full min-h-[44px] rounded-lg border-2 border-purple-500 p-2 bg-white dark:bg-[#12161A] text-slate-900 dark:text-white"></select>
                   </label>
                 </div>
-                <p id="navegacaoPdfOficialStatus" class="mt-2 text-xs font-semibold text-purple-900 dark:text-purple-200" aria-live="polite">Os seletores do PDF acompanham o exame e o caderno selecionados no simulador.</p>
+                <div class="mt-2 flex flex-wrap gap-2" role="group" aria-label="Troca rápida dos exames e cadernos">
+                  <button type="button" onclick="navegarPdfOficial('exame',-1)" aria-label="Exame anterior" class="min-h-[44px] px-3 border border-purple-500 rounded-lg font-semibold text-purple-900 dark:text-white">Exame ▼</button>
+                  <button type="button" onclick="navegarPdfOficial('exame',1)" aria-label="Exame seguinte" class="min-h-[44px] px-3 border border-purple-500 rounded-lg font-semibold text-purple-900 dark:text-white">Exame ▲</button>
+                  <button type="button" onclick="navegarPdfOficial('caderno',-1)" aria-label="Caderno anterior" class="min-h-[44px] px-3 border border-purple-500 rounded-lg font-semibold text-purple-900 dark:text-white">Caderno ▼</button>
+                  <button type="button" onclick="navegarPdfOficial('caderno',1)" aria-label="Caderno seguinte" class="min-h-[44px] px-3 border border-purple-500 rounded-lg font-semibold text-purple-900 dark:text-white">Caderno ▲</button>
+                </div>
+                <p id="navegacaoPdfOficialStatus" class="mt-2 text-xs font-semibold text-purple-900 dark:text-purple-200" aria-live="polite">Selecione exame e caderno. O PDF ao lado acompanha o simulador.</p>
               </div>
               <div class="flex flex-wrap gap-2">
                 <button type="button" onclick="abrirCadernoOabIntegrado()" class="px-3 py-2 rounded-lg bg-purple-700 text-white font-bold text-xs sm:text-sm">Exibir caderno FGV aqui</button>
@@ -394,7 +396,7 @@
               </div>
               <div class="min-w-0">
             <details id="consultaPdfOpcional" class="px-3 pb-3" ontoggle="alternarConsultaPdfOficial(this)">
-              <summary class="cursor-pointer py-3 font-semibold text-purple-800 dark:text-purple-300">Visualizar o PDF oficial</summary>
+              <summary class="cursor-pointer py-3 font-semibold text-purple-800 dark:text-purple-300">Exibir ou ocultar caderno oficial FGV/OAB dentro do aplicativo</summary>
               <iframe id="iframeProvaOficial" title="Caderno oficial FGV/OAB integrado" class="ratio-pdf-iframe bg-white" loading="lazy" referrerpolicy="no-referrer" aria-label="Caderno FGV OAB consultado dentro do aplicativo"></iframe>
               <p id="statusPdfOabIntegrado" class="mt-2 text-xs text-slate-700 dark:text-slate-300" role="status" aria-live="polite">O caderno abre dentro desta área ao expandir o painel. Se o leitor do dispositivo não suportar PDF incorporado, utilize o link da fonte original.</p>
             </details>
@@ -415,8 +417,17 @@
               <button type="button" onclick="RatioPdfAcessivel.estudarQuestaoAtual({foco:false})" class="btn-touch rounded-lg bg-purple-700 text-white px-4 py-3 font-bold">Ler enunciado da questão aqui</button>
               <a id="questaoPdfLinkVisivel" href="https://oab.fgv.br/" target="_blank" rel="noopener noreferrer" class="btn-touch rounded-lg border-2 border-purple-500 text-purple-800 dark:text-purple-200 px-4 py-3 font-bold underline">Abrir prova oficial</a>
             </div>
+            <div id="navegadorEnunciadoOficial" class="mt-3 rounded-xl border-2 border-purple-400 dark:border-purple-600 bg-purple-50 dark:bg-purple-950/30 p-3" role="group" aria-label="Navegação entre questões do caderno oficial">
+              <label for="questaoLeituraNumeroSelect" class="block text-sm font-bold text-slate-900 dark:text-white mb-2">Trocar questão do enunciado (1 a 80)</label>
+              <div class="grid grid-cols-[minmax(0,1fr)_auto_auto] gap-2 items-center">
+                <select id="questaoLeituraNumeroSelect" onchange="return selecionarQuestaoNoEnunciado(this.value)" aria-label="Selecionar a questão para leitura" class="w-full min-w-0 min-h-[48px] px-3 py-2 rounded-lg border-2 border-purple-500 bg-white dark:bg-[#12161A] text-slate-900 dark:text-white"></select>
+                <button id="btnLeituraAnterior" type="button" onclick="return mudarQuestaoNoEnunciado(-1)" aria-label="Ler questão anterior" title="Questão anterior" class="btn-touch min-w-[48px] min-h-[48px] rounded-lg border-2 border-purple-600 text-purple-900 dark:text-purple-100 font-bold text-lg">▼</button>
+                <button id="btnLeituraProxima" type="button" onclick="return mudarQuestaoNoEnunciado(1)" aria-label="Ler próxima questão" title="Próxima questão" class="btn-touch min-w-[48px] min-h-[48px] rounded-lg bg-purple-700 text-white font-bold text-lg">▲</button>
+              </div>
+              <p id="statusQuestaoLeitura" class="mt-2 text-xs font-semibold text-purple-900 dark:text-purple-200" role="status" aria-live="polite">Escolha o número ou use as setas para mudar a pergunta.</p>
+            </div>
             <details id="cardEnunciadoCompleto" open class="mt-3 p-4 rounded-lg border border-purple-300 dark:border-purple-700 bg-white dark:bg-[#111827]">
-              <summary class="cursor-pointer min-h-[44px] flex items-center text-sm font-bold text-purple-800 dark:text-purple-300">Enunciado completo e alternativas</summary>
+              <summary class="cursor-pointer min-h-[44px] flex items-center text-sm font-bold text-purple-800 dark:text-purple-300">Exibir ou ocultar enunciado completo e alternativas</summary>
               <div id="textoQuestaoDentroSimulador" role="region" aria-label="Enunciado e alternativas originais extraídos do PDF" tabindex="0" class="mt-3 text-base text-slate-900 dark:text-white whitespace-pre-wrap leading-relaxed">Carregando enunciado completo e alternativas do documento oficial. Se a extração falhar, consulte o PDF opcional.</div>
               <div id="fallbackEnunciado" class="hidden mt-4" role="region" aria-label="Visualizador alternativo da prova oficial">
                 <p class="font-semibold text-amber-800 dark:text-amber-200">Caderno oficial selecionado. Leia a questão correspondente ao número exibido acima e responda com A, B, C ou D. Quando a extração do enunciado for concluída, esta visualização será recolhida automaticamente.</p>
@@ -825,18 +836,6 @@
     <p class="px-4 pt-3 text-xs text-slate-700">Apoio educacional. A IA pode errar e não substitui o gabarito da banca nem a consulta à legislação vigente. A ativação depende de acesso autenticado e configuração segura do serviço.</p>
     <div id="rjAiMessages" class="rj-ai-messages" role="log" aria-live="polite" aria-relevant="additions text">
       <div class="rj-ai-message rj-ai-assistant"><strong>Assistente Jurídico:</strong><p class="mt-1">Qual parte da questão você não entendeu? Posso ajudar a interpretar conceitos, comparar alternativas ou orientar a conferência dos artigos.</p></div>
-    </div>
-    <div id="rjAuthSection" hidden class="px-4 py-3 border-t border-slate-200 bg-slate-50 text-slate-900">
-      <div id="rjAuthLogin">
-        <p class="text-sm font-bold mb-2">Acesso ao piloto de IA</p>
-        <label for="rjAuthEmail" class="block text-xs font-semibold mb-1">E-mail</label>
-        <input id="rjAuthEmail" type="email" autocomplete="username" inputmode="email" class="w-full mb-2 rounded-lg border border-slate-400 p-3 text-base bg-white text-slate-900" />
-        <label for="rjAuthPassword" class="block text-xs font-semibold mb-1">Senha</label>
-        <input id="rjAuthPassword" type="password" autocomplete="current-password" class="w-full mb-2 rounded-lg border border-slate-400 p-3 text-base bg-white text-slate-900" />
-        <button type="button" id="rjAuthSubmit" class="rounded-lg bg-purple-800 text-white px-4 py-3 font-semibold min-h-[44px]">Entrar na conta autorizada</button>
-      </div>
-      <button type="button" id="rjAuthLogout" hidden class="rounded-lg border border-purple-700 px-4 py-3 font-semibold min-h-[44px]">Sair da IA</button>
-      <p id="rjAuthStatus" class="mt-2 text-xs text-slate-700" role="status" aria-live="polite">O login será exibido somente quando estiver configurado.</p>
     </div>
     <div class="px-4 pb-4 pt-2 border-t border-slate-200">
       <button id="rjAiExplain" type="button" class="w-full rounded-lg border border-purple-700 px-3 py-2 text-purple-900 font-bold">Usar a questão selecionada</button>
@@ -1904,6 +1903,7 @@
           }
         }
         seletor.value=String(numeroQuestao);
+        sincronizarNavegadorEnunciado(numeroQuestao);
         const tituloSemChave=document.getElementById('questaoOficialTitulo');
         if(tituloSemChave)tituloSemChave.textContent='Questão '+numeroQuestao+' de 80 — '+exameSelecionado+'º Exame';
         const leituraSemChave=document.getElementById('textoQuestaoDentroSimulador');
@@ -1932,20 +1932,6 @@
         aviso.textContent=caderno?
           'Consulta documental do '+exameSelecionado+'º Exame disponível. A correção eletrônica ainda não está homologada; escolha o caderno ou o gabarito oficial acima.':
           'Este exame aguarda a importação do caderno e do gabarito para consulta integrada. Consulte a fonte histórica oficial.';
-        // A leitura do caderno permanece funcional mesmo sem gabarito eletrônico.
-        // A identidade inclui exame, tipo e questão para não reutilizar texto antigo.
-        const identidadeDocumental=exameSelecionado+'-'+tipoSelecionado+'-'+numeroQuestao;
-        if(caderno?.pdf && painel._ratioAutoQuestao!==identidadeDocumental){
-          painel._ratioAutoQuestao=identidadeDocumental;
-          Promise.resolve().then(()=>{
-            const identidadeAgora=Number(document.getElementById('oabExamSelect')?.value)+'-'+
-              tipoOABAtual()+'-'+obterPosicaoOficial(exameSelecionado,tipoSelecionado);
-            if(identidadeAgora===identidadeDocumental && painel._ratioAutoQuestao===identidadeDocumental &&
-               window.RatioPdfAcessivel?.estudarQuestaoAtual){
-              Promise.resolve(window.RatioPdfAcessivel.estudarQuestaoAtual({foco:false})).catch(()=>{});
-            }
-          });
-        }
         return;
       }
       painel.querySelector('.ratio-study-layout').classList.remove('hidden');
@@ -1967,6 +1953,7 @@
         }
       }
       selector.value=String(pos);
+      sincronizarNavegadorEnunciado(pos);
       const idCarregamento=numero+'-'+tipo+'-'+pos;
       if(painel._ratioAutoQuestao!==idCarregamento){
         painel._ratioAutoQuestao=idCarregamento;
@@ -1991,10 +1978,13 @@
       if(textoQuestao._ratioQuestaoAnterior!==chaveAtual){
         const fallback=document.getElementById('fallbackEnunciado');
         const fallbackFrame=document.getElementById('fallbackEnunciadoPdf');
-        // Evita PDFs duplicados e pesados enquanto a extração do texto está em andamento.
-        // O leitor acessível abre o documento original aqui apenas se a extração falhar.
-        if(fallback)fallback.classList.add('hidden');
-        if(fallbackFrame)fallbackFrame.removeAttribute('src');
+        // Disponibiliza o PDF real de imediato, mesmo que PDF.js falhe.
+        if(fallback)fallback.classList.remove('hidden');
+        if(fallbackFrame){
+          const url='/api/oab-pdf?exame='+numero+'&tipo='+tipo+'#toolbar=1&navpanes=0';
+          if(fallbackFrame.getAttribute('src')!==url)fallbackFrame.src=url;
+          fallbackFrame.title='Caderno oficial do '+numero+'º Exame, Tipo '+tipo;
+        }
         const card=document.getElementById('cardEnunciadoCompleto');
         if(card)card.open=true;
         textoQuestao._ratioQuestaoAnterior=chaveAtual;
@@ -2068,6 +2058,51 @@
       proxima.textContent=pos===80?'Última questão':'Próxima questão';
       return {numero,tipo,pos,marcadas,anulada,avaliada};
     }
+    function sincronizarNavegadorEnunciado(numero){
+      const select=document.getElementById('questaoLeituraNumeroSelect');
+      if(!select)return;
+      if(select.options.length!==80){
+        select.replaceChildren();
+        for(let i=1;i<=80;i++){
+          const item=document.createElement('option');
+          item.value=String(i);item.textContent='Questão '+i+' de 80';
+          select.appendChild(item);
+        }
+      }
+      const n=Number(numero);
+      if(Number.isInteger(n)&&n>=1&&n<=80)select.value=String(n);
+      const anterior=document.getElementById('btnLeituraAnterior');
+      const proxima=document.getElementById('btnLeituraProxima');
+      if(anterior)anterior.disabled=n<=1;
+      if(proxima)proxima.disabled=n>=80;
+    }
+    function selecionarQuestaoNoEnunciado(valor){
+      const n=Number(valor);
+      if(!Number.isInteger(n)||n<1||n>80)return false;
+      const ok=window.irParaQuestaoOficial(n);
+      if(ok===false)return false;
+      sincronizarNavegadorEnunciado(n);
+      const info=document.getElementById('statusQuestaoLeitura');
+      if(info)info.textContent='Questão '+n+'/80 selecionada. Carregando o enunciado oficial.';
+      const card=document.getElementById('cardEnunciadoCompleto');
+      if(card)card.open=true;
+      return true;
+    }
+    function mudarQuestaoNoEnunciado(delta){
+      if(![-1,1].includes(Number(delta)))return false;
+      const ok=window.moverQuestaoOficial(Number(delta));
+      if(ok===false)return false;
+      const principal=document.getElementById('questaoOficialNumeroSelect');
+      const atual=Number(principal?.value);
+      sincronizarNavegadorEnunciado(atual);
+      const info=document.getElementById('statusQuestaoLeitura');
+      if(info)info.textContent='Questão '+atual+'/80 selecionada. Carregando o enunciado oficial.';
+      const card=document.getElementById('cardEnunciadoCompleto');
+      if(card)card.open=true;
+      return true;
+    }
+    window.selecionarQuestaoNoEnunciado=selecionarQuestaoNoEnunciado;
+    window.mudarQuestaoNoEnunciado=mudarQuestaoNoEnunciado;
     function irParaQuestaoOficial(numero) {
       const ctx=obterExameParaSimulador();
       const pos=Number(numero);
@@ -2467,7 +2502,6 @@
   <script src="/acessibilidade.js?v=20261113-01"></script>
   <script src="/simulado-aleatorio.js?v=20261112-2309"></script>
   <script src="/responsividade.js?v=20261112-2309"></script>
-  <script src="/ratio-auth.js?v=20261113-pilot-auth"></script>
-  <script src="/assistente-juridico.js?v=20261113-pilot-auth"></script>
+  <script src="/assistente-juridico.js?v=20261113-ai-status"></script>
 </body>
 </html>
