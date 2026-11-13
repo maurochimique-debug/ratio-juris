@@ -93,7 +93,8 @@ if(!Object.hasOwn(FONTES,lei)||!/^[1-9]\d{0,3}(?:-[A-Z])?$/.test(artigo)){
  res.status(400).json({error:"Lei ou artigo inválido"});return;
 }
 const source=FONTES[lei];
-const candidates=[source,...(FONTES_ALTERNATIVAS[lei]||[])];
+const candidates=[source,...(FONTES_ALTERNATIVAS[lei]||[]),
+ ...(lei==="clt"&&artigo==="878"?["https://legis.senado.leg.br/norma/17728053/publicacao/17728664"]:[])];
 const failures=[];
 for(const candidate of candidates){
  try{
