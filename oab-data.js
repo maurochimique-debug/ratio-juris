@@ -3,12 +3,12 @@ window.RATIO_OAB_DATA = {
   "version": "2026-11-09",
   "metadata": {
     "fonte": "Conselho Federal da OAB / FGV",
-    "gabarito": "definitivo",
+    "gabarito": "gabaritos_historicos_por_exame_com_documentos_definitivos_ou_preliminares_conciliados",
     "dataProva": "2026-09-06",
     "aviso": "O gabarito é histórico. Comentários sobre legislação e jurisprudência atuais exigem revisão individual.",
     "validacaoJuridicaIndividual": false,
     "ultimaIntegracao": "2026-11-12",
-    "escopoGabaritos": "33 exames integrados 47º a 14º, exceto 30º pendente; XIV mantido após recursos sem anulações.",
+    "escopoGabaritos": "33 exames com gabaritos integrados (47º a 14º, exceto 30º); 13º a 10º pendentes de validação de gabaritos definitivos.",
     "ultimaImportacao": "2026-11-10",
     "examesCorrigiveis": [
       47,
@@ -46,13 +46,20 @@ window.RATIO_OAB_DATA = {
       14
     ],
     "auditoriaAtual": {
-      "data": "2026-11-10",
-      "totalQuestoesDistintas": 720,
-      "totalExamesCorrigiveis": 9,
+      "data": "2026-11-12",
+      "totalQuestoesDistintas": 2640,
+      "totalExamesCorrigiveis": 33,
       "totalExamesCatalogados": 38,
       "gabaritosPorExame": 4,
-      "status": "GABARITOS_OAB_FGV_39_A_47_COM_CORRECAO_INDEPENDENTE_POR_TIPO"
-    }
+      "status": "AUDITORIA_ESTRUTURAL_33_EXAMES_4_CADERNOS_80_QUESTOES_SEM_HOMOLOGACAO_DOCUMENTAL_COMPLETA",
+      "aviso": "A contagem descreve chaves e cadernos cadastrados. Não comprova que o texto extraído, PDF ou letras estejam integralmente conferidos em todos os dispositivos."
+    },
+    "documentosPendentes": [
+      13,
+      12,
+      11,
+      10
+    ]
   },
   "bancas": [
     "FGV",
@@ -179,115 +186,118 @@ window.RATIO_OAB_DATA = {
       "exame": 28,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=631",
       "status": "gabarito_retificado_com_anulacao_conciliada",
-      "importado": false
+      "importado": true
     },
     {
       "exame": 27,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=630",
       "status": "preliminar_retificado_conciliado_com_anulacao_definitiva",
-      "importado": false
+      "importado": true
     },
     {
       "exame": 26,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=629",
       "status": "gabarito_atualizado_confirmado_sem_anulacoes",
-      "importado": false
+      "importado": true
     },
     {
       "exame": 25,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=628",
       "status": "gabarito_mantido_sem_anulacoes",
-      "importado": false
+      "importado": true
     },
     {
       "exame": 24,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=627",
       "status": "preliminar_com_anulacao_final_conciliada",
-      "importado": false
+      "importado": true
     },
     {
       "exame": 23,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=626",
       "status": "gabarito_mantido_sem_anulacoes",
-      "importado": false
+      "importado": true
     },
     {
       "exame": 22,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=625",
       "status": "gabarito_integralmente_mantido_sem_anulacoes",
-      "importado": false
+      "importado": true
     },
     {
       "exame": 21,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=624",
       "status": "preliminar_conciliado_com_duas_anulacoes_confirmadas",
-      "importado": false
+      "importado": true
     },
     {
       "exame": 20,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=621",
       "status": "gabarito_geral_mantido_sem_anulacoes",
-      "importado": false
+      "importado": true
     },
     {
       "exame": 19,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=620",
       "status": "gabarito_atualizado_mantido_sem_anulacoes",
-      "importado": false
+      "importado": true
     },
     {
       "exame": 18,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=617",
       "status": "preliminar_mantido_sem_anulacoes",
-      "importado": false
+      "importado": true
     },
     {
       "exame": 17,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=616",
       "status": "gabarito_definitivo_2_anulacoes",
-      "importado": false
+      "importado": true
     },
     {
       "exame": 16,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=615",
       "status": "gabarito_definitivo_integrado",
-      "importado": false
+      "importado": true
     },
     {
       "exame": 15,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=513",
       "status": "gabarito_definitivo_com_2_anulacoes",
-      "importado": false
+      "importado": true
     },
     {
       "exame": 14,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=461",
       "status": "preliminar_mantido_integralmente_0_anulacoes",
-      "importado": false
+      "importado": true
     },
     {
       "exame": 13,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=421",
-      "status": "pagina_historica_sem_importacao",
+      "status": "caderno_tipo_1_e_gabarito_preliminar_documentados_sem_validacao_definitiva",
       "importado": false
     },
     {
       "exame": 12,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=382",
-      "status": "pagina_historica_sem_importacao",
-      "importado": false
+      "status": "gabarito_preliminar_oficial_documentado_sem_validacao_definitiva",
+      "importado": false,
+      "gabaritoPreliminarPDF": "https://s.oab.org.br/arquivos/2019/10/53f425fb-0a39-4c8f-a0b2-dce17bface02.pdf",
+      "referenciaStatus": "Tabela de correspondência oficial de 80 questões publicada em 15/12/2013; ainda não confrontada com gabarito definitivo de 17/01/2014."
     },
     {
       "exame": 11,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=336",
-      "status": "pagina_historica_sem_importacao",
+      "status": "pagina_historica_documental_sem_gabarito_validado",
       "importado": false
     },
     {
       "exame": 10,
       "fgvUrl": "https://oab.fgv.br/home.aspx?key=303",
-      "status": "pagina_historica_sem_importacao",
-      "importado": false
+      "status": "pagina_historica_documental_sem_gabarito_validado",
+      "importado": false,
+      "referenciaStatus": "OAB registra comunicado de manutenção integral do gabarito publicado em 28/04/2013; documento com letras ainda não validado neste banco."
     }
   ],
   "exam47": {
