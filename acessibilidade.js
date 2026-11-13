@@ -104,14 +104,19 @@
       const partes=segmentosDeVoz(value);
       const speed=rate();
       const voices=typeof engine.getVoices==="function"?engine.getVoices():[];
-      const preferred=voices.find(x=>x.lang?.toLowerCase()==="pt-br") ||
-        voices.find(x=>x.lang?.toLowerCase().startsWith("pt"));
+      const candidates=voices.filter(x=>/^pt(?:-|$)/i.test(x.lang||""));
+      const chosen=$("a11yVoiceSelect")?.value||"";
+      const preferred=voices.find(x=>x.voiceURI===chosen) ||
+        candidates.slice().sort((a,b)=>{
+          const score=x=>(/^pt-br$/i.test(x.lang)?100:0)+(!x.localService?35:0)+(/natural|neural|online|premium|enhanced|google|microsoft/i.test(x.name)?25:0);
+          return score(b)-score(a);
+        })[0];
       let index=0;
       const falarProximo=()=>{
         if(token!==voiceGeneration)return;
         if(index>=partes.length){setVoiceState(false);announce("Leitura por voz concluída.");return;}
         const fala=new window.SpeechSynthesisUtterance(partes[index++]);
-        fala.lang="pt-BR";fala.rate=speed;
+        fala.lang=preferred?.lang||"pt-BR";fala.rate=speed;fala.pitch=1;fala.volume=1;
         if(preferred)fala.voice=preferred;
         fala.onstart=()=>{if(token===voiceGeneration&&index===1)announce("Leitura por voz iniciada.");};
         fala.onend=()=>{if(token===voiceGeneration)falarProximo();};
@@ -147,14 +152,14 @@
     const question=$("textoQuestaoDentroSimulador")?.textContent||"";
     const options=Array.from($("alternativasQuestaoOficial")?.querySelectorAll("button")||[])
       .map(x=>x.textContent?.trim()).filter(Boolean);
-    if(!title||question.includes("Preparando o texto oficial")||
-       question.includes("Não foi possível identificar")){
+    if(!title||!question.trim() || !($("textoQuestaoDentroSimulador")?.dataset.extracaoValidada==="true") ||
+       /preparando|carregando|não foi possível|consulte o pdf|localizando/i.test(question.slice(0,170))){
       announce("O enunciado ainda não está disponível para leitura. Consulte o PDF original.");
       return false;
     }
-    return voiceText([title,question,
-      ...options.map((v,i)=>"Alternativa "+("ABCD"[i])+". "+v.replace(/^[A-D]\s*[—-]\s*/,""))]
-      .filter(Boolean).join(". "));
+    // O texto extraído do PDF já contém o enunciado e, quando disponível, as alternativas.
+    // Botões A/B/C/D são controles de resposta, não enunciados a inventar.
+    return voiceText([title,question].filter(Boolean).join(". "));
   }
   function readExamStatus(){
     const examNumber=$("oabExamSelect")?.value||"";
@@ -197,11 +202,31 @@
     area.focus();
     announce("Mensagem limpa.");
   }
+  function preencherVozes(){
+    const select=$("a11yVoiceSelect");
+    if(!select||!support())return;
+    const lista=synth().getVoices().filter(v=>/^pt(?:-|$)/i.test(v.lang||""));
+    const anterior=select.value||load("voice","");
+    select.replaceChildren();
+    const automatica=document.createElement("option");
+    automatica.value="";automatica.textContent="Automática — priorizar voz natural";
+    select.appendChild(automatica);
+    lista.forEach(v=>{
+      const item=document.createElement("option");
+      item.value=v.voiceURI;
+      item.textContent=v.name+" ("+v.lang+")"+(v.localService?" — dispositivo":" — rede");
+      select.appendChild(item);
+    });
+    select.value=lista.some(v=>v.voiceURI===anterior)?anterior:"";
+  }
   function init(){
     const scale=Number(load("textscale","100"));
     setTextScale(scale);
     setContrast(load("contrast","0")==="1");
     // Não iniciar áudio automaticamente: evita conflitos com leitores de tela.
+    preencherVozes();
+    if(support())synth().addEventListener?.("voiceschanged",preencherVozes);
+    $("a11yVoiceSelect")?.addEventListener("change",e=>save("voice",e.target.value));
     const voiceStatus=$("a11yVoiceAvailability");
     if(voiceStatus)voiceStatus.textContent=support() ?
       "Leitura em voz alta disponível pelo navegador. A qualidade da voz depende do dispositivo.":
