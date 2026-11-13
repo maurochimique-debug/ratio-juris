@@ -3,6 +3,14 @@
 export default async function handler(req,res){
  res.setHeader("Cache-Control","no-store");
  res.setHeader("X-Content-Type-Options","nosniff");
+ const required=["OPENAI_API_KEY","RATIO_AI_MODEL","RATIO_AI_SUPABASE_URL","RATIO_AI_SUPABASE_PUBLISHABLE_KEY","RATIO_AI_ALLOWED_USER_IDS"];
+ const configured=process.env.RATIO_AI_ENABLED==="true"&&required.every(name=>!!process.env[name]);
+ // O estado é público; nunca expor nomes/valores dos segredos configurados.
+ if(req.method==="GET")return res.status(200).json({
+  disponivel:configured,
+  requerLogin:true,
+  mensagem:configured?"IA configurada: faça login com sua conta autorizada para perguntar.":"IA temporariamente indisponível. A configuração segura do servidor ainda não está concluída."
+ });
  if(req.method!=="POST")return res.status(405).json({error:"Método não permitido."});
  const key=process.env.OPENAI_API_KEY;
  const model=process.env.RATIO_AI_MODEL;
