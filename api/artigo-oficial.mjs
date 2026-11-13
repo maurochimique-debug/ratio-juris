@@ -27,7 +27,7 @@ previdencia:"https://www.planalto.gov.br/ccivil_03/leis/l8213cons.htm"
 });
 const FONTES_ALTERNATIVAS=Object.freeze({
   cc:["https://www2.camara.leg.br/legin/fed/lei/2002/lei-10406-10-janeiro-2002-432893-normaatualizada-pl.html","https://legis.senado.leg.br/norma/552282/publicacao/34620807"],
-  cpp:["https://www2.camara.leg.br/legin/fed/declei/1940-1949/decreto-lei-3689-3-outubro-1941-322206-normaatualizada-pe.html"],
+  cpp:["https://legis.senado.leg.br/norma/528776/publicacao/34620736","https://www2.camara.leg.br/legin/fed/declei/1940-1949/decreto-lei-3689-3-outubro-1941-322206-normaatualizada-pe.html"],
   oab:["https://www2.camara.leg.br/legin/fed/lei/1994/lei-8906-4-julho-1994-349751-normaatualizada-pl.html","https://legis.senado.leg.br/norma/550782/publicacao/34619591"],
   cf:["https://legis.senado.leg.br/norma/579494/publicacao/16434817"],
   cpc:["https://www2.camara.leg.br/legin/fed/lei/2015/lei-13105-16-marco-2015-780273-normaatualizada-pl.html","https://legis.senado.leg.br/norma/584917/publicacao/34619046"],
