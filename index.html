@@ -1383,6 +1383,12 @@
     function documentosDoExameOAB(numero){
       return fonteOAB()['exam'+numero]||arquivosDocumentaisOAB[numero]||null;
     }
+    // Consulta somente de leitura para o leitor oficial, sem alterar a interface.
+    window.RatioDocumentosOAB=function(numero){
+      const n=Number(numero);
+      if(!Number.isInteger(n)||n<10||n>47)return null;
+      return documentosDoExameOAB(n);
+    };
     function abrirGabaritoOabIntegrado(){
       const exame=Number(document.getElementById('oabExamSelect').value);
       if(!documentosDoExameOAB(exame)?.gabaritoPDF){
