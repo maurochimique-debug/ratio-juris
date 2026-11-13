@@ -4,6 +4,7 @@
  const $=id=>document.getElementById(id);
  let open=false;
  let busy=false;
+ let serviceReady=false;
  const history=[];
  const btn=()=> $("rjAiToggle");
  const panel=()=> $("rjAiPanel");
@@ -26,14 +27,22 @@
  async function checkAvailability(){
   try{
     const result=await fetch("/api/assistente-juridico",{method:"GET",cache:"no-store"});
-    if(!result.ok)return;
+    if(!result.ok)throw new Error("Falha de disponibilidade");
     const data=await result.json();
-    if(!data.disponivel){
-      notice("Assistente de IA ainda não configurado. O texto da sua pergunta será preservado; não há resposta automática disponível.");
+    serviceReady=data.disponivel===true;
+    const sendButton=$("rjAiSend");
+    if(sendButton)sendButton.disabled=!serviceReady||busy;
+    if(!serviceReady){
+      notice("IA ainda não habilitada no servidor. Você pode escrever sua dúvida, mas o envio ficará indisponível até a configuração segura.");
     }else{
-      notice("IA configurada. Para obter resposta, entre com sua conta autorizada.");
+      notice("Serviço disponível. Para enviar, é necessário login autenticado e autorização no piloto.");
     }
-  }catch(_){notice("Não foi possível verificar o serviço de IA neste momento.");}
+  }catch(_){
+    serviceReady=false;
+    const sendButton=$("rjAiSend");
+    if(sendButton)sendButton.disabled=true;
+    notice("Não foi possível verificar a IA. O envio está suspenso para evitar uma falsa confirmação.");
+  }
  }
  function context(){
   const exame=$("oabExamSelect")?.value||"";
@@ -59,12 +68,12 @@
   if(busy)return;
   const input=$("rjAiQuestion"),question=String(input?.value||"").trim();
   if(question.length<4||question.length>1500){notice("Escreva uma dúvida entre 4 e 1.500 caracteres.");return;}
+  if(!serviceReady){notice("IA ainda indisponível. Sua pergunta permanece no campo.");return;}
   const c=context();
   busy=true;
   $("rjAiSend").disabled=true;
   notice("Consultando o assistente...");
-  append("aluno",question);
-  // A dúvida só é retirada do campo após uma resposta efetiva do servidor.
+  // Só registra a pergunta na conversa quando o servidor devolve uma resposta.
   try{
    const token=await window.RatioJurisAuth?.getAccessToken?.();
    const headers={"Content-Type":"application/json"};
@@ -85,6 +94,7 @@
    }
    const answer=String(data.resposta||"").slice(0,8500);
    if(!answer){append("assistente","O serviço não retornou uma explicação verificável.");return;}
+   append("aluno",question);
    append("assistente",answer);
    input.value="";
    history.push({pergunta:question,resposta:answer.slice(0,1000)});
@@ -93,9 +103,10 @@
   }catch(_){
    append("assistente","Sem conexão com o serviço de IA. O estudo de questões e a consulta de legislação continuam disponíveis.");
    notice("Falha de rede. Nenhuma resposta foi inventada.");
-  }finally{busy=false;$("rjAiSend").disabled=false;}
+  }finally{busy=false;$("rjAiSend").disabled=!serviceReady;}
  }
  document.addEventListener("DOMContentLoaded",()=>{
+  const sendButton=$("rjAiSend");if(sendButton)sendButton.disabled=true;
   btn()?.addEventListener("click",()=>toggle());
   $("rjAiClose")?.addEventListener("click",()=>toggle(false));
   $("rjAiExplain")?.addEventListener("click",explainCurrent);
