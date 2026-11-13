@@ -1248,8 +1248,11 @@
       const numero=Number(select.value);
       const dados=fonteOAB();
       const exame=dados['exam'+numero];
-      const cadastrado=exame?.gabaritoPDF;
       const arquivo=dados.archive.find(x=>x.exame===numero);
+      const documental=arquivosDocumentaisOAB[numero];
+      const cadastrado=exame?.gabaritoPDF||documental?.gabaritoPDF||arquivo?.gabaritoPDF;
+      const correcaoIntegrada=Array.isArray(exame?.gabaritos)&&exame.gabaritos.length===4;
+      const validacaoPendente=!correcaoIntegrada;
       const avisos={
         37:'https://examedeordem.oab.org.br/EditaisProvas?NumeroExame=14340',
         36:'https://oab.fgv.br/NovoSec.aspx?codSec=5136&key=L7X80yWJsR4%3D',
@@ -1269,11 +1272,16 @@
 
       };
       if(cadastrado && /^https:\/\/(?:s\.oab\.org\.br\/arquivos\/|oab\.fgv\.br\/arq\/)/.test(cadastrado)){
-        const pdfPreliminar=[21,24,27,28,29].includes(numero);
+        const pdfPreliminar=[21,24,27,28,29].includes(numero)||
+          /preliminar/i.test(String(documental?.status||arquivo?.status||''));
         link.href=cadastrado;
-        link.textContent=pdfPreliminar?'Abrir gabarito retificado e conferir anulações':'Abrir gabarito definitivo em PDF';
-        status.textContent=pdfPreliminar?
-          numero+'º Exame — respostas de tabela preliminar/retificada conciliadas com comunicado de anulação. Não confundir a fonte com gabarito definitivo independente.':
+        link.textContent=validacaoPendente?
+          'Consultar gabarito histórico (validação pendente)':
+          pdfPreliminar?'Abrir gabarito retificado e conferir anulações':'Abrir gabarito oficial em PDF';
+        status.textContent=validacaoPendente?
+          numero+'º Exame — documento histórico disponível para consulta. Gabarito definitivo por caderno ainda não homologado para correção automática.':
+          pdfPreliminar?
+          numero+'º Exame — respostas de tabela preliminar/retificada conciliadas com comunicado de anulação. Confira as retificações oficiais.':
           numero+'º Exame — gabarito por caderno integrado ao RATIO JURIS. A legislação da época pode estar desatualizada.';
       }else{
         const documento=gabaritosDocumentais[numero];
