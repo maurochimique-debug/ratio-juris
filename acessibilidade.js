@@ -73,7 +73,7 @@
   function setVoiceState(active){
     voiceActive=!!active;
     const start=$("btnLerQuestao"),end=$("btnPararQuestao");
-    if(start){start.setAttribute("aria-pressed",voiceActive?"true":"false");start.textContent=voiceActive?"Reiniciar leitura":"Iniciar leitura";}
+    if(start){start.setAttribute("aria-pressed",voiceActive?"true":"false");start.textContent=voiceActive?"Reiniciar leitura":"Ouvir pergunta e alternativas";}
     if(end)end.disabled=!voiceActive;
   }
   function segmentosDeVoz(texto,limite=190){
