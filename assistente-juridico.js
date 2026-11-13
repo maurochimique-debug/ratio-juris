@@ -6,7 +6,7 @@
  let busy=false;
  let serviceReady=false;
  const hasAuth=()=>typeof window.RatioJurisAuth?.getAccessToken==="function";
- const maySend=()=>serviceReady&&hasAuth();
+ const maySend=()=>serviceReady&&hasAuth()&&window.RatioJurisAuth.isSignedIn?.()===true;
  const history=[];
  const btn=()=> $("rjAiToggle");
  const panel=()=> $("rjAiPanel");
