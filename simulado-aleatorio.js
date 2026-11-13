@@ -52,10 +52,23 @@
   // Evita reaproveitar respostas de uma prova completa anterior sem o consentimento do aluno.
   status("Simulado com "+qtd+" questões sorteadas do "+exame+"º Exame, caderno Tipo "+tipo+".");
   original.irParaQuestaoOficial(questoes[0]);
+  // Os cards da prova integral não são o navegador do sorteio; não os misturar.
+  $("painelCards47")?.removeAttribute("open");
+  $("painelCardsHistoricos")?.removeAttribute("open");
+  const card=$("cardEnunciadoCompleto");if(card)card.open=true;
   atualizar();
+  $("aleatorioNavegacao")?.scrollIntoView({block:"nearest",behavior:"auto"});
   return true;
  }
- function encerrar(){sessao=null;status("Modo livre: escolha qualquer uma das 80 questões.");original.renderizarSimuladorOficial();window.atualizarEstatisticaProva?.();return true;}
+ function encerrar(){
+  sessao=null;status("Modo livre: escolha qualquer uma das 80 questões.");
+  const botao=$("btnCorrigirSimulador");if(botao)botao.textContent="Corrigir minha prova";
+  const individual=$("btnConferirQuestaoOficial");if(individual)individual.classList.remove("hidden");
+  original.renderizarSimuladorOficial();
+  atualizar();
+  window.atualizarEstatisticaProva?.();
+  return true;
+ }
  function atualizarEstatisticaSorteio(s){
   const gabarito=window.RATIO_OAB_DATA["exam"+s.exame].gabaritos[s.tipo-1];
   const total=s.questoes.length;
@@ -69,7 +82,44 @@
   if($("estatisticaMensagem"))$("estatisticaMensagem").textContent="Resultado parcial: "+acertos+"/"+(total-anuladas)+" acertos válidos; "+anuladas+" NULA(S), excluídas da pontuação. Estatísticas independentes da prova completa.";
  }
  function atualizar(){
-  const s=estado();if(!s)return;
+  const s=estado();
+  const painel=$("aleatorioNavegacao"),cards=$("aleatorioCards");
+  const seletor=$("questaoOficialNumeroSelect");
+  if(!s){
+   if(painel)painel.classList.add("hidden");
+   if(cards)cards.replaceChildren();
+   if(seletor){seletor.disabled=false;seletor.setAttribute("aria-label","Escolher uma das 80 questões da prova oficial");}
+   for(const id of ["oabFolhaBloco","oab46Bloco"]){
+    const bloco=$(id);if(bloco)bloco.removeAttribute("data-aleatorio-em-curso");
+   }
+   return;
+  }
+  if(painel)painel.classList.remove("hidden");
+  if(seletor){
+   seletor.value=String(s.questoes[s.index]);
+   seletor.disabled=true;
+   seletor.setAttribute("aria-label","Navegue pelas questões sorteadas usando os cards abaixo");
+  }
+  if(cards){
+   cards.replaceChildren();
+   s.questoes.forEach((n,idx)=>{
+     const b=document.createElement("button");
+     b.type="button";
+     const atual=idx===s.index,respondida=Boolean(s.respostas[n]);
+     b.textContent="Q"+n+(respondida?" ✓":"");
+     b.className="btn-touch min-h-[48px] rounded-lg border-2 font-bold text-sm "+
+       (atual?"border-purple-900 bg-purple-700 text-white":
+         respondida?"border-emerald-600 bg-emerald-50 text-emerald-900 dark:bg-emerald-950 dark:text-emerald-100":
+           "border-purple-400 bg-white text-purple-900 dark:bg-[#12161A] dark:text-purple-200");
+     b.setAttribute("aria-label","Questão "+n+"; "+(atual?"atual; ":"")+(respondida?"respondida":"não respondida"));
+     b.setAttribute("aria-current",atual?"step":"false");
+     b.addEventListener("click",()=>{
+       window.irParaQuestaoOficial(n);
+       $("questaoOficialTitulo")?.scrollIntoView({block:"start",behavior:"auto"});
+     });
+     cards.appendChild(b);
+   });
+  }
   atualizarEstatisticaSorteio(s);
   const pos=s.questoes[s.index];
   const label=$("statusSimuladorOficial");
@@ -98,7 +148,7 @@
   const fullCheck=$("btnConferirQuestaoOficial");if(fullCheck)fullCheck.classList.add("hidden");
   const correct=$("btnCorrigirSimulador");if(correct)correct.textContent="Corrigir questões sorteadas";
   const select=$("questaoOficialNumeroSelect");
-  if(select)select.setAttribute("aria-label","Questão oficial atual. Durante o sorteio, utilize as setas de navegação.");
+  if(select)select.setAttribute("aria-label","Questão sorteada atual. Use os cards clicáveis do simulado aleatório.");
  }
  function corrigir(){
   const s=estado();if(!s)return false;
@@ -148,7 +198,11 @@
   window.renderizarSimuladorOficial=function(){const result=original.renderizarSimuladorOficial();atualizar();return result;};
   window.atualizarArquivoOAB=function(){
    if(sessao&&(Number($("oabExamSelect")?.value)!==sessao.exame||Number($("oabTipoSelect")?.value)!==sessao.tipo))sessao=null;
-   const result=original.atualizarArquivoOAB();if(!estado()){const btn=$("btnCorrigirSimulador");if(btn)btn.textContent="Corrigir minha prova";window.atualizarEstatisticaProva?.();}
+   const result=original.atualizarArquivoOAB();if(!estado()){
+     const btn=$("btnCorrigirSimulador");if(btn)btn.textContent="Corrigir minha prova";
+     const individual=$("btnConferirQuestaoOficial");if(individual)individual.classList.remove("hidden");
+     window.atualizarEstatisticaProva?.();
+   }
    atualizar();return result;
   };
   window.iniciarSimuladoAleatorio=iniciar;
