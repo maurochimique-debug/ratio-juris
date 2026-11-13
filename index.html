@@ -938,7 +938,9 @@
       pane.classList.remove('hidden');
       target.replaceChildren();
       pane.scrollIntoView({block:'nearest',behavior:'auto'});
-      const p=document.createElement('p');p.textContent=descricao;target.appendChild(p);
+      if(descricao){
+        const p=document.createElement('p');p.textContent=descricao;target.appendChild(p);
+      }
       if(Array.isArray(links)&&links.length&&/jurisprudência|súmula|precedente|processo/i.test(titulo)){
         const d=document.createElement('details');
         d.className='rounded-lg border border-purple-500 p-3 mt-3';
@@ -1014,7 +1016,11 @@
           }
           return;
         }
-        area.textContent=json.conteudo+'\n\n'+(json.aviso||'Confira a redação vigente na fonte oficial.');
+        area.textContent=json.conteudo;
+      const notaTexto=document.createElement('p');
+      notaTexto.className='mt-3 text-xs text-slate-300';
+      notaTexto.textContent=json.aviso||'Confira a redação vigente na fonte oficial.';
+      detalhes.appendChild(notaTexto);
         detalhes.open=true;
         const origem=fontesLegaisPlanalto[lei]?.url;
         const fontes=document.createElement('div');
@@ -1077,12 +1083,8 @@
       const alternativas={cc:'https://www2.camara.leg.br/legin/fed/lei/2002/lei-10406-10-janeiro-2002-432893-normaatualizada-pl.html',oab:'https://www2.camara.leg.br/legin/fed/lei/1994/lei-8906-4-julho-1994-349751-normaatualizada-pl.html',ctn:'https://legis.senado.leg.br/norma/547034/publicacao/34620375'};
       // A consulta é interna por padrão. Nenhum portal de terceiros abre
       // automaticamente e, por isso, não se apresenta o banner de cookies deles.
-      mostrarResultadoGabinete(
-        fonte.nome+' — '+artigo,
-        'Consulta interna de legislação. O texto será exibido abaixo caso a fonte legislativa oficial possa ser verificada.',
-        [],
-        'A leitura interna não utiliza cookies dos portais oficiais. A confirmação externa é opcional.'
-      );
+      mostrarResultadoGabinete(fonte.nome+' — '+artigo,'',[],null);
+      carregarTextoArtigoOficial(lei,numero);
       const detalhesLinks=document.createElement('details');
       detalhesLinks.className='mt-3 rounded-lg border border-slate-600 p-3';
       const sum=document.createElement('summary');
@@ -1090,13 +1092,12 @@
       sum.textContent='Exibir ou ocultar links das fontes oficiais (podem solicitar cookies)';
       detalhesLinks.appendChild(sum);
       for(const item of [{nome:'Abrir a lei no Planalto',url:linkBase},{nome:'Tentar destacar '+artigo,url},
-        ...(alternativas[lei]?[{nome:'Texto na Câmara dos Deputados',url:alternativas[lei]}]:[])]){
+        ...(alternativas[lei]?[{nome:'Consultar legislação em fonte oficial alternativa',url:alternativas[lei]}]:[])]){
         const link=document.createElement('a');link.href=item.url;link.target='_blank';link.rel='noopener noreferrer';
         link.className='inline-flex mt-3 mr-3 rounded-lg border border-purple-500 px-3 py-2 underline text-purple-200';
         link.textContent=item.nome;detalhesLinks.appendChild(link);
       }
       document.getElementById('resultadoDescricao').appendChild(detalhesLinks);
-      carregarTextoArtigoOficial(lei,numero);
       return true;
     }
     // Abre pesquisas oficiais para qualquer número informado, sem alegar
