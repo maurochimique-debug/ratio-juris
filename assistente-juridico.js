@@ -4,6 +4,8 @@
  const $=id=>document.getElementById(id);
  let open=false;
  let busy=false;
+ let serviceReady=false;
+ const hasLogin=()=>window.RatioJurisAuth?.isSignedIn?.()===true;
  const history=[];
  const btn=()=> $("rjAiToggle");
  const panel=()=> $("rjAiPanel");
@@ -26,14 +28,19 @@
  async function checkAvailability(){
   try{
     const result=await fetch("/api/assistente-juridico",{method:"GET",cache:"no-store"});
-    if(!result.ok)return;
+    if(!result.ok)throw Error("Serviço não responde");
     const data=await result.json();
-    if(!data.disponivel){
-      notice("Assistente de IA ainda não configurado. O texto da sua pergunta será preservado; não há resposta automática disponível.");
-    }else{
-      notice("IA configurada. Para obter resposta, entre com sua conta autorizada.");
-    }
-  }catch(_){notice("Não foi possível verificar o serviço de IA neste momento.");}
+    serviceReady=data.disponivel===true;
+    const send=$("rjAiSend");
+    if(send)send.disabled=busy||!serviceReady||!hasLogin();
+    if(!serviceReady)notice("IA gratuita ainda não ativada no servidor. O envio permanece indisponível; sua pergunta será preservada.");
+    else if(!hasLogin())notice("A IA gratuita está disponível. Entre ou crie sua conta para usar até 3 perguntas por dia.");
+    else notice("Conta conectada. Você pode enviar sua dúvida.");
+  }catch(_){
+    serviceReady=false;
+    const send=$("rjAiSend");if(send)send.disabled=true;
+    notice("IA indisponível nesta conexão; sua pergunta será preservada.");
+  }
  }
  function context(){
   const exame=$("oabExamSelect")?.value||"";
@@ -59,16 +66,18 @@
   if(busy)return;
   const input=$("rjAiQuestion"),question=String(input?.value||"").trim();
   if(question.length<4||question.length>1500){notice("Escreva uma dúvida entre 4 e 1.500 caracteres.");return;}
+  if(!serviceReady||!hasLogin()){
+    notice("A IA requer serviço configurado e login válido. Sua pergunta foi preservada.");return;
+  }
   const c=context();
   busy=true;
   $("rjAiSend").disabled=true;
   notice("Consultando o assistente...");
-  append("aluno",question);
-  // A dúvida só é retirada do campo após uma resposta efetiva do servidor.
+  // Só adiciona a pergunta ao histórico quando a IA retorna uma resposta.
   try{
-   const token=await window.RatioJurisAuth?.getAccessToken?.();
-   const headers={"Content-Type":"application/json"};
-   if(typeof token==="string"&&token)headers.Authorization="Bearer "+token;
+   const token=await window.RatioJurisAuth.getAccessToken();
+   if(typeof token!=="string"||!token){notice("Sessão expirada. Entre novamente. A pergunta foi preservada.");return;}
+   const headers={"Content-Type":"application/json",Authorization:"Bearer "+token};
    const resp=await fetch("/api/assistente-juridico",{
      method:"POST",headers,cache:"no-store",
      body:JSON.stringify({pergunta:question,contexto:c,historico:history.slice(-4)})
@@ -85,6 +94,7 @@
    }
    const answer=String(data.resposta||"").slice(0,8500);
    if(!answer){append("assistente","O serviço não retornou uma explicação verificável.");return;}
+   append("aluno",question);
    append("assistente",answer);
    input.value="";
    history.push({pergunta:question,resposta:answer.slice(0,1000)});
@@ -93,9 +103,11 @@
   }catch(_){
    append("assistente","Sem conexão com o serviço de IA. O estudo de questões e a consulta de legislação continuam disponíveis.");
    notice("Falha de rede. Nenhuma resposta foi inventada.");
-  }finally{busy=false;$("rjAiSend").disabled=false;}
+  }finally{busy=false;$("rjAiSend").disabled=!serviceReady||!hasLogin();}
  }
  document.addEventListener("DOMContentLoaded",()=>{
+  const send=$("rjAiSend");if(send)send.disabled=true;
+  document.addEventListener("ratiojuris-auth-change",()=>{if(open)checkAvailability();});
   btn()?.addEventListener("click",()=>toggle());
   $("rjAiClose")?.addEventListener("click",()=>toggle(false));
   $("rjAiExplain")?.addEventListener("click",explainCurrent);
