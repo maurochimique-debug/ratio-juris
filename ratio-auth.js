@@ -48,11 +48,32 @@
    }catch(_){token="";expiry=0;sync();status("Não foi possível entrar. Verifique suas credenciais e autorização.");}
    finally{busy=false;if(button())button().disabled=false;}
  }
+ async function signup(){
+   if(!config||busy)return;
+   const email=String($("rjAuthEmail")?.value||"").trim();
+   const password=String($("rjAuthPassword")?.value||"");
+   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||password.length<8){
+     status("Informe e-mail válido e senha com pelo menos oito caracteres.");return;
+   }
+   busy=true;
+   const button=$("rjAuthSignUp");if(button)button.disabled=true;
+   try{
+     const response=await fetch(config.url+"/auth/v1/signup",{
+       method:"POST",headers:{"Content-Type":"application/json",apikey:config.publishableKey},
+       body:JSON.stringify({email,password}),cache:"no-store"
+     });
+     if(!response.ok)throw Error("Não autorizado");
+     status("Cadastro solicitado. Confira seu e-mail para confirmar a conta, se exigido pelo serviço, e depois entre.");
+     if($("rjAuthPassword"))$("rjAuthPassword").value="";
+   }catch(_){status("Não foi possível criar a conta. Confira o e-mail e as regras de cadastro.");}
+   finally{busy=false;if(button)button.disabled=false;}
+ }
  function logout(){token="";expiry=0;sync();status("Sessão encerrada neste navegador.");}
  window.RatioJurisAuth={getAccessToken:async()=>{sync();return token||null;},isSignedIn:()=>!!token&&Date.now()<expiry};
  document.addEventListener("DOMContentLoaded",()=>{
    init();sync();
    button()?.addEventListener("click",login);
+   $("rjAuthSignUp")?.addEventListener("click",signup);
    $("rjAuthLogout")?.addEventListener("click",logout);
    $("rjAuthPassword")?.addEventListener("keydown",e=>{if(e.key==="Enter")login();});
  });
