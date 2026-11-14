@@ -46,7 +46,11 @@ const FONTES_ALTERNATIVAS=Object.freeze({
   cdc:["https://legis.senado.leg.br/norma/549954/publicacao/34619932"],
   eca:["https://legis.senado.leg.br/norma/549945/publicacao/15713055"],
   cp:["https://legis.senado.leg.br/norma/527942/publicacao/39870011"],
-  l9784:["https://www2.camara.leg.br/legin/fed/lei/1999/lei-9784-29-janeiro-1999-322239-normaatualizada-pl.html"]
+  l9784:["https://www2.camara.leg.br/legin/fed/lei/1999/lei-9784-29-janeiro-1999-322239-normaatualizada-pl.html"],
+  l14133:["https://www2.camara.leg.br/legin/fed/lei/2021/lei-14133-1-abril-2021-791222-normaatualizada-pl.html"],
+  lgpd:["https://www2.camara.leg.br/legin/fed/lei/2018/lei-13709-14-agosto-2018-787077-normaatualizada-pl.html"],
+  lbi:["https://www2.camara.leg.br/legin/fed/lei/2015/lei-13146-6-julho-2015-781174-normaatualizada-pl.html"],
+  lai:["https://www2.camara.leg.br/legin/fed/lei/2011/lei-12527-18-novembro-2011-611802-normaatualizada-pl.html"]
 });
 function entities(s){
 return s.replace(/&#x([0-9a-f]+);/gi,(_,h)=>String.fromCodePoint(parseInt(h,16)))
