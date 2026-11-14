@@ -58,7 +58,7 @@ export default async function handler(req,res){
   if(type&&!/pdf|octet-stream/i.test(type))return res.status(502).end("A fonte não retornou PDF.");
   res.status(upstream.status);
   res.setHeader("Content-Type","application/pdf");
-  res.setHeader("Content-Disposition",'inline; filename="oab-${exame}-gabarito.pdf"');
+  res.setHeader("Content-Disposition",(String(req.query.download||"")==="1"?"attachment":"inline")+'; filename="oab-${exame}-gabarito.pdf"');
   for(const name of ["content-length","content-range","accept-ranges","etag","last-modified"]){
    const value=upstream.headers.get(name);if(value)res.setHeader(name,value);
   }
