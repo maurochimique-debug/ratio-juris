@@ -1024,7 +1024,9 @@
         const json=await resposta.json().catch(()=>({}));
         if(token!==consultaArtigoOficialSeq||!detalhes.isConnected)return;
         if(!resposta.ok||typeof json.conteudo!=='string'||!json.conteudo.trim()){
-          area.textContent='Não foi possível exibir este artigo nesta conexão. Confira o texto na fonte legislativa oficial indicada abaixo.';
+          area.textContent=json.codigo==='ARTIGO_INEXISTENTE'
+            ? 'Artigo não encontrado na legislação escolhida. '+(json.aviso||'Confirme o número e a lei selecionada.')
+            : 'Não foi possível recuperar o texto verificado desta fonte nesta conexão. Consulte a versão oficial abaixo.';
           const link=document.createElement('a');
           link.href=fontesLegaisPlanalto[lei]?.url||json.source;
           link.target='_blank';link.rel='noopener noreferrer';
@@ -2683,7 +2685,7 @@
   </script>
   <script src="/leitor-mobile-pdf.js?v=20261114-stj-questions"></script>
   <script src="/stj-leitor.js?v=20261114-tecnico"></script>
-  <script src="/leitor-pdf-oficial.js?v=20261113-mobile-stability"></script>
+  <script src="/leitor-pdf-oficial.js?v=20261114-question-fallback"></script>
   <script src="/acessibilidade.js?v=20261113-01"></script>
   <script src="/responsividade.js?v=20261112-2309"></script>
   <script src="/ratio-auth.js?v=20261113-free"></script>
