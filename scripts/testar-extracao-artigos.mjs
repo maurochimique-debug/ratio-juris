@@ -10,6 +10,7 @@ const cases=[
  ['CF, art. 5º', 'Art. 4º A República rege-se nas relações internacionais.\nArt. 5º Todos são iguais perante a lei, sem distinção de qualquer natureza.\nArt. 6º São direitos sociais.', '5', 'Art. 5º'],
  ['Lei com Artigo escrito por extenso', 'Artigo 20. Nas esferas administrativa, controladora e judicial, não se decidirá com base em valores jurídicos abstratos.\nArtigo 21. A decisão que decretar a invalidação de ato.', '20', 'Artigo 20.'],
  ['Documento com linhas HTML extraídas', 'Art.\n780. A juntada foi registrada.\nArt. 781. Seguinte.', '780', 'Art. 780.'],
+ ['Índice remissivo não substitui texto do artigo', 'Art. 780. Consulte a página 260.\nArt. 781. Página seguinte.\nArt. 780. O dispositivo efetivamente determina uma regra processual e seu conteúdo completo deve ser utilizado.\nArt. 781. Regra seguinte.', '780', 'Art. 780. O dispositivo efetivamente'],
  ['Artigo inexistente', 'Art. 70. Texto existente no diploma.\nArt. 71. Texto inexistente no exemplo.', '77', null],
  ['Evitar captura do art. 7801 para 780', 'Art. 7801. Texto de outro dispositivo distinto.\nArt. 7802. Outra referência.', '780', null],
  ['Evitar art. 28 para 28-A', 'Art. 28. Texto do artigo sem sufixo.\nArt. 29. Outro artigo.', '28-A', null]
