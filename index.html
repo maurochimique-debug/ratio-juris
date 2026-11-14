@@ -1014,6 +1014,15 @@
       painel.classList.remove('hidden');
       detalhes.open=true;
       const valido=texto.dataset.artigoCarregado==='sim';
+      const status=document.getElementById('statusDestaqueArtigo');
+      if(!valido){
+        detalhes.dataset.destacarQuandoCarregar='sim';
+        if(status)status.textContent='Destaque solicitado. Aguardando a recuperação do texto oficial deste artigo.';
+        detalhes.scrollIntoView({block:'center',behavior:'auto'});
+        return false;
+      }
+      detalhes.dataset.destacarQuandoCarregar='';
+      if(status)status.textContent='Artigo destacado em dourado dentro do RATIO JURIS.';
       detalhes.style.borderColor=valido?'#fbbf24':'#a855f7';
       detalhes.style.boxShadow=valido?'0 0 0 2px rgba(251,191,36,.45)':'none';
       texto.style.backgroundColor=valido?'rgba(251,191,36,.14)':'transparent';
@@ -1084,6 +1093,7 @@
         }
         area.textContent=json.conteudo;
         area.dataset.artigoCarregado='sim';
+        if(detalhes.dataset.destacarQuandoCarregar==='sim')destacarArtigoNoRatioJuris();
       const notaTexto=document.createElement('p');
       notaTexto.className='mt-3 text-xs text-slate-300';
       notaTexto.textContent=json.aviso||'Confira a redação vigente na fonte oficial.';
@@ -1186,11 +1196,14 @@
       botaoDestaque.className='inline-flex min-h-[44px] mt-3 mr-3 items-center rounded-lg border border-amber-400 px-3 py-2 font-bold text-amber-200';
       botaoDestaque.textContent='Destacar '+artigo+' aqui no RATIO JURIS';
       botaoDestaque.onclick=destacarArtigoNoRatioJuris;
-      detalhesLinks.appendChild(botaoDestaque);
+      const resultadoAtual=document.getElementById('resultadoDescricao');
+      resultadoAtual.appendChild(botaoDestaque);
       const statusDestaque=document.createElement('p');
       statusDestaque.id='statusDestaqueArtigo';
+      statusDestaque.setAttribute('role','status');
+      statusDestaque.setAttribute('aria-live','polite');
       statusDestaque.className='mt-2 text-xs text-slate-300';
-      detalhesLinks.appendChild(statusDestaque);
+      resultadoAtual.appendChild(statusDestaque);
       for(const item of [{nome:'Abrir a lei no Planalto',url:linkBase},
         ...(alternativas[lei]?[{nome:'Consultar legislação em fonte oficial alternativa',url:alternativas[lei]}]:[])]){
         const link=document.createElement('a');link.href=item.url;link.target='_blank';link.rel='noopener noreferrer';
