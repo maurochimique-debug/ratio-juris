@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "exame": "47",
+  "banca": "FGV/OAB",
+  "natureza": "documentos oficiais cadastrados no projeto",
+  "estado": "staging_sem_homologacao_textual",
+  "fonte_gabarito": "https://s.oab.org.br/arquivos/2026/09/572dc8e2-78a0-4e37-b6de-20709e2c59ab.pdf",
+  "cadernos": [
+    {
+      "tipo": 1,
+      "cor": "Branca",
+      "pdf_oficial": "https://s.oab.org.br/arquivos/2026/09/7d502f11-d906-4378-bd43-27e0c854b981.pdf",
+      "qtde_questoes_esperada": 80,
+      "gabarito_posicoes_80": "ABDCCDBBDCCADCCADACBACACBBABDCBCCDCDCADADADBAD*CADBBCDBDBBDAACBDDCBBBDADBADABDCA",
+      "enunciados_importados": 0,
+      "alternativas_importadas": 0,
+      "hash_pdf": null,
+      "conferencia_visual": false
+    },
+    {
+      "tipo": 2,
+      "cor": "Verde",
+      "pdf_oficial": "https://s.oab.org.br/arquivos/2026/09/b33cc8dc-3730-41d4-8acc-7651d67ec6e7.pdf",
+      "qtde_questoes_esperada": 80,
+      "gabarito_posicoes_80": "BDBDBCACDCCDACACADBCCACADBBABDCBCCDCADACADBDDAD*CADBBCDBAACBBDBBDDCBDBDADBAAABDC",
+      "enunciados_importados": 0,
+      "alternativas_importadas": 0,
+      "hash_pdf": null,
+      "conferencia_visual": false
+    },
+    {
+      "tipo": 3,
+      "cor": "Amarela",
+      "pdf_oficial": "https://s.oab.org.br/arquivos/2026/09/4602e8f9-828b-4ae7-a1cc-7a87c0f9f5f7.pdf",
+      "qtde_questoes_esperada": 80,
+      "gabarito_posicoes_80": "BDDBACBCCDDCACACDABCCAACBDBBACDCBCDCDCAAADDBDAAD*CBDBBCDACBBDABBBDDCBDBADADCAABD",
+      "enunciados_importados": 0,
+      "alternativas_importadas": 0,
+      "hash_pdf": null,
+      "conferencia_visual": false
+    },
+    {
+      "tipo": 4,
+      "cor": "Azul",
+      "pdf_oficial": "https://s.oab.org.br/arquivos/2026/09/fc8c5341-bad3-49a5-918e-3b99e63c286b.pdf",
+      "qtde_questoes_esperada": 80,
+      "gabarito_posicoes_80": "BBBDCDCACDACCADCADCBACCAABDBBCCDCBCDDAADCABDADCAD*DBDBBCCBBDAACBBBDDDBADADBDCAAB",
+      "enunciados_importados": 0,
+      "alternativas_importadas": 0,
+      "hash_pdf": null,
+      "conferencia_visual": false
+    }
+  ],
+  "observacao": "Metadados e chaves existentes reutilizados; nenhum enunciado foi criado. Conferir hash PDF, correções/anulações e alternativas antes da publicação."
+}
