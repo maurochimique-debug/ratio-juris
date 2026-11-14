@@ -5,7 +5,11 @@ const SOURCES=Object.freeze({
  "basicos":"https://cdn.cebraspe.org.br/concursos/STJ_18/arquivos/MATRIZ_385_STJCB1__PAG_3.PDF",
  "especificos":"https://cdn.cebraspe.org.br/concursos/STJ_18/arquivos/MATRIZ_385_STJ007__PAG_4.PDF",
  "gabarito-basicos":"https://cdn.cebraspe.org.br/concursos/STJ_18/arquivos/GAB_DEFINITIVO_385_STJCB1.PDF",
- "gabarito-especificos":"https://cdn.cebraspe.org.br/concursos/STJ_18/arquivos/GAB_DEFINITIVO_385_STJ007.PDF"
+ "gabarito-especificos":"https://cdn.cebraspe.org.br/concursos/STJ_18/arquivos/GAB_DEFINITIVO_385_STJ007.PDF",
+ "tecnico-basicos":"https://cdn.cebraspe.org.br/concursos/STJ_18/arquivos/MATRIZ_385_STJCB4__PAG_3.PDF",
+ "tecnico-especificos":"https://cdn.cebraspe.org.br/concursos/STJ_18/arquivos/MATRIZ_385_STJ009__PAG_3.PDF",
+ "tecnico-gabarito-basicos":"https://cdn.cebraspe.org.br/concursos/STJ_18/arquivos/GAB_DEFINITIVO_385_STJCB4.PDF",
+ "tecnico-gabarito-especificos":"https://cdn.cebraspe.org.br/concursos/STJ_18/arquivos/GAB_DEFINITIVO_385_STJ009.PDF"
 });
 export default async function handler(req,res){
  res.setHeader("Cache-Control","no-store");
