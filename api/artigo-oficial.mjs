@@ -32,6 +32,11 @@ const ARTIGOS_CONFERIDOS=Object.freeze({
   conteudo:"Art. 780. Os documentos juntos aos autos poderão ser desentranhados somente depois de findo o processo, ficando traslado.",
   source:"https://www2.camara.leg.br/legin/fed/declei/1940-1949/decreto-lei-5452-1-maio-1943-415500-normaatualizada-pe.pdf",
   verificado_em:"2026-11-14"
+ },
+ "l9784:11":{
+  conteudo:"Art. 11. A competência é irrenunciável e se exerce pelos órgãos administrativos a que foi atribuída como própria, salvo os casos de delegação e avocação legalmente admitidos.",
+  source:"https://www2.camara.leg.br/legin/fed/lei/1999/lei-9784-29-janeiro-1999-322239-normaatualizada-pl.html",
+  verificado_em:"2026-11-14"
  }
 });
 const FONTES_ALTERNATIVAS=Object.freeze({
@@ -46,7 +51,7 @@ const FONTES_ALTERNATIVAS=Object.freeze({
   cdc:["https://legis.senado.leg.br/norma/549954/publicacao/34619932"],
   eca:["https://legis.senado.leg.br/norma/549945/publicacao/15713055"],
   cp:["https://legis.senado.leg.br/norma/527942/publicacao/39870011"],
-  l9784:["https://www2.camara.leg.br/legin/fed/lei/1999/lei-9784-29-janeiro-1999-322239-normaatualizada-pl.html"],
+  l9784:["https://www2.camara.leg.br/legin/fed/lei/1999/lei-9784-29-janeiro-1999-322239-normaatualizada-pl.html","https://www2.camara.leg.br/legin/fed/lei/1999/lei-9784-29-janeiro-1999-322239-publicacaooriginal-1-pl.html"],
   l14133:["https://www2.camara.leg.br/legin/fed/lei/2021/lei-14133-1-abril-2021-791222-normaatualizada-pl.html"],
   lgpd:["https://www2.camara.leg.br/legin/fed/lei/2018/lei-13709-14-agosto-2018-787077-normaatualizada-pl.html"],
   lbi:["https://www2.camara.leg.br/legin/fed/lei/2015/lei-13146-6-julho-2015-781174-normaatualizada-pl.html"],
@@ -112,6 +117,7 @@ function extract(text,num){
 }
 export {extract};
 export default async function handler(req,res){
+// As fontes públicas podem bloquear consultas repetidas; manter cache curto de sucesso.
 res.setHeader("Cache-Control","no-store");
 res.setHeader("X-Content-Type-Options","nosniff");
 if(req.method!=="GET"){res.status(405).json({error:"Método não permitido"});return;}
@@ -157,7 +163,10 @@ const resultados=await Promise.allSettled(candidates.map(async(candidate)=>{
     aviso:"Transcrição automática de fonte legislativa oficial. Confira redação vigente, notas e alterações na fonte."};
 }));
 const encontrado=resultados.find(item=>item.status==="fulfilled");
-if(encontrado){res.status(200).json(encontrado.value);return;}
+if(encontrado){
+  res.setHeader("Cache-Control","public, s-maxage=3600, stale-while-revalidate=86400");
+  res.status(200).json(encontrado.value);return;
+}
 const trechoConferido=ARTIGOS_CONFERIDOS[lei+":"+artigo];
 if(trechoConferido){
   res.status(200).json({
