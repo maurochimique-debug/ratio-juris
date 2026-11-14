@@ -33,7 +33,10 @@ const FONTES_ALTERNATIVAS=Object.freeze({
   cpc:["https://www2.camara.leg.br/legin/fed/lei/2015/lei-13105-16-marco-2015-780273-normaatualizada-pl.html","https://legis.senado.leg.br/norma/584917/publicacao/34619046"],
   lindb:["https://legis.senado.leg.br/norma/529744/publicacao/34620738"],
   clt:["https://www2.camara.leg.br/legin/fed/declei/1940-1949/decreto-lei-5452-1-maio-1943-415500-normaatualizada-pe.html"],
-  ctn:["https://www2.camara.leg.br/legin/fed/lei/1960-1969/lei-5172-25-outubro-1966-358971-normaatualizada-pl.html","https://legis.senado.leg.br/norma/547034/publicacao/34620375"]
+  ctn:["https://www2.camara.leg.br/legin/fed/lei/1960-1969/lei-5172-25-outubro-1966-358971-normaatualizada-pl.html","https://legis.senado.leg.br/norma/547034/publicacao/34620375"],
+  cdc:["https://legis.senado.leg.br/norma/549954/publicacao/34619932"],
+  eca:["https://legis.senado.leg.br/norma/549945/publicacao/15713055"],
+  cp:["https://legis.senado.leg.br/norma/527942/publicacao/39870011"]
 });
 function entities(s){
 return s.replace(/&#x([0-9a-f]+);/gi,(_,h)=>String.fromCodePoint(parseInt(h,16)))
