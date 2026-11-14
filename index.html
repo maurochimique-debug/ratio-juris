@@ -291,12 +291,12 @@
           <p id="avisoExameHistorico" class="mt-2 text-sm font-semibold" aria-live="polite">Cada prova será identificada com sua edição e a necessidade de revisão legislativa individual.</p>
         </aside>
         <details id="consultaGabaritosHistoricos" class="mb-5 rounded-xl border border-purple-500 p-4 bg-white dark:bg-ratio-cardDark">
-          <summary class="cursor-pointer min-h-[44px] text-base font-bold text-purple-800 dark:text-purple-200">Arquivo histórico — 47º ao 10º Exame</summary>
-          <p class="mt-3 text-sm text-slate-700 dark:text-slate-200">Escolha o exame. Quando o PDF definitivo estiver integrado, ele abre diretamente. Nos demais exames, consulte o portal oficial para localizar a publicação correspondente. As respostas antigas não serão inventadas.</p>
+          <summary class="cursor-pointer min-h-[44px] text-base font-bold text-purple-800 dark:text-purple-200">Cadernos oficiais da OAB — 47º ao 10º Exame</summary>
+          <p class="mt-3 text-sm text-slate-700 dark:text-slate-200">Escolha o exame para consultar o caderno oficial de questões. Quando disponível, o PDF corresponde ao tipo de caderno selecionado no simulador. O gabarito permanece na seção própria abaixo.</p>
           <div class="flex flex-col sm:flex-row gap-3 mt-4 items-stretch sm:items-end">
             <div class="flex-1">
               <label for="gabaritoHistoricoSelect" class="block font-bold mb-2 text-slate-800 dark:text-white">Número do exame</label>
-              <select id="gabaritoHistoricoSelect" onchange="atualizarConsultaGabaritoHistorico()" class="w-full rounded-xl border-2 border-purple-500 p-3 bg-white dark:bg-slate-900 text-slate-900 dark:text-white" aria-label="Selecionar edição histórica dos gabaritos da OAB"></select>
+              <select id="gabaritoHistoricoSelect" onchange="atualizarConsultaGabaritoHistorico()" class="w-full rounded-xl border-2 border-purple-500 p-3 bg-white dark:bg-slate-900 text-slate-900 dark:text-white" aria-label="Selecionar edição histórica dos cadernos da OAB"></select>
             </div>
             <a id="gabaritoHistoricoLink" href="https://www.oab.org.br/servicos/examedeordem" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center min-h-[48px] rounded-lg bg-purple-700 px-5 py-3 text-white font-bold underline">Consultar documento oficial</a>
           </div>
@@ -1188,52 +1188,24 @@
       const status=document.getElementById('gabaritoHistoricoStatus');
       if(!select||!link||!status)return;
       const numero=Number(select.value);
-      const dados=fonteOAB();
-      const exame=dados['exam'+numero];
-      const arquivo=dados.archive.find(x=>x.exame===numero);
-      const documental=arquivosDocumentaisOAB[numero];
-      const cadastrado=exame?.gabaritoPDF||documental?.gabaritoPDF||arquivo?.gabaritoPDF;
-      const correcaoIntegrada=Array.isArray(exame?.gabaritos)&&exame.gabaritos.length===4;
-      const validacaoPendente=!correcaoIntegrada;
-      const avisos={
-        37:'https://examedeordem.oab.org.br/EditaisProvas?NumeroExame=14340',
-        36:'https://oab.fgv.br/NovoSec.aspx?codSec=5136&key=L7X80yWJsR4%3D',
-        35:'https://examedeordem.oab.org.br/EditaisProvas?NumeroExame=13415'
-      };
-      const gabaritosDocumentais={
-        27:{
-          url:'https://s.oab.org.br/arquivos/2019/10/2f041f29-9c43-4409-9c32-171428a67b3a.pdf',
-          tipo:'preliminar',
-          descricao:'Gabarito preliminar retificado da XXVII OAB, de 18/11/2018. Comunicado de 18/12/2018 anulou a questão 41 do Tipo 1 e correspondentes 39, 40 e 39 nos Tipos 2, 3 e 4. Falta importar e auditar as quatro sequências antes da correção automática.'
-        },
-        30:{
-          url:'https://s.oab.org.br/arquivos/2019/10/244695e0-d919-4f6d-8aa0-98a3baa100af.pdf',
-          tipo:'preliminar',
-          descricao:'Gabarito PRELIMINAR oficial da prova de 20/10/2019. A OAB confirmou posteriormente as anulações das questões 20, 30 e 57 (Tipo 1), inclusive as equivalentes nas outras cores. Este documento não substitui a versão definitiva após recursos.'
-        },
-
-      };
-      if(cadastrado && /^https:\/\/(?:s\.oab\.org\.br\/arquivos\/|oab\.fgv\.br\/arq\/)/.test(cadastrado)){
-        const pdfPreliminar=[21,24,27,28,29].includes(numero)||
-          /preliminar/i.test(String(documental?.status||arquivo?.status||''));
-        link.href=cadastrado;
-        link.textContent=validacaoPendente?
-          'Consultar gabarito histórico (validação pendente)':
-          pdfPreliminar?'Abrir gabarito retificado e conferir anulações':'Abrir gabarito oficial em PDF';
-        status.textContent=validacaoPendente?
-          numero+'º Exame — documento histórico disponível para consulta. Gabarito definitivo por caderno ainda não homologado para correção automática.':
-          pdfPreliminar?
-          numero+'º Exame — respostas de tabela preliminar/retificada conciliadas com comunicado de anulação. Confira as retificações oficiais.':
-          numero+'º Exame — gabarito por caderno integrado ao RATIO JURIS. A legislação da época pode estar desatualizada.';
+      const tipo=typeof tipoOABAtual==='function'?tipoOABAtual():1;
+      const documentos=documentosDoExameOAB(numero);
+      const caderno=documentos?.cadernos?.[tipo-1];
+      const arquivo=fonteOAB().archive?.find(x=>x.exame===numero);
+      const url=caderno?.pdf;
+      if(typeof url==='string'&&/^https:\/\//.test(url)){
+        link.href=url;
+        link.textContent='Abrir caderno oficial de questões (Tipo '+tipo+')';
+        status.textContent=numero+'º Exame — caderno Tipo '+tipo+
+          ' disponível. O gabarito deve ser consultado separadamente.';
       }else{
-        const documento=gabaritosDocumentais[numero];
-        link.href=documento?.url || avisos[numero] || arquivo?.fgvUrl || 'https://www.oab.org.br/servicos/examedeordem';
-        link.textContent=documento?.tipo==='preliminar'?'Consultar gabarito preliminar oficial':documento?.tipo==='retificado'?'Consultar gabarito retificado oficial':'Consultar o exame na fonte oficial';
-        status.textContent=numero+'º Exame — '+(documento?.descricao ||
-          'Documentos históricos disponíveis na OAB/FGV. Correção automática ainda pendente de gabarito definitivo verificado.');
+        link.href=arquivo?.fgvUrl||'https://www.oab.org.br/servicos/examedeordem';
+        link.textContent='Localizar caderno na fonte oficial';
+        status.textContent=numero+'º Exame — PDF do caderno Tipo '+tipo+
+          ' ainda não cadastrado nesta consulta. A fonte oficial permite localizar a prova; nenhum enunciado será inventado.';
       }
     }
-    function iniciarConsultaGabaritosHistoricos(){
+        function iniciarConsultaGabaritosHistoricos(){
       const sel=document.getElementById('gabaritoHistoricoSelect');
       if(!sel)return;
       sel.replaceChildren();
