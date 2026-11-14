@@ -5,8 +5,26 @@
 (function(){
  "use strict";
  const instances=new WeakMap();
- const LIB="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs";
- const WORKER="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
+ const PROVIDERS=[
+  ["https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs",
+   "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs"],
+  ["https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.min.mjs",
+   "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.worker.min.mjs"]
+ ];
+ let resolvedLibrary=null;
+ async function loadPdfLibrary(){
+  if(resolvedLibrary)return resolvedLibrary;
+  let lastError;
+  for(const [url,worker] of PROVIDERS){
+   try{
+    const lib=await import(url);
+    lib.GlobalWorkerOptions.workerSrc=worker;
+    resolvedLibrary=lib;
+    return lib;
+   }catch(error){lastError=error;}
+  }
+  throw lastError||new Error("Leitor PDF indisponível");
+ }
  const mobile=()=>window.matchMedia?.("(max-width: 800px)")?.matches===true;
  let serial=0;
  function close(frame){
@@ -70,9 +88,8 @@
   }
   prev.addEventListener("click",()=>show(state.page-1));next.addEventListener("click",()=>show(state.page+1));
   try{
-   const mod=await import(LIB);
+   const mod=await loadPdfLibrary();
    if(!state.alive)return false;
-   mod.GlobalWorkerOptions.workerSrc=WORKER;
    state.task=mod.getDocument({url:url.split("#")[0],disableRange:true,disableStream:true,useSystemFonts:true,disableFontFace:true});
    state.document=await state.task.promise;
    if(!state.alive)return false;
