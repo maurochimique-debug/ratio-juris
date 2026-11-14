@@ -25,6 +25,15 @@ lai:"https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2011/lei/l12527.htm",
 orgcrime:"https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2013/lei/l12850.htm",
 previdencia:"https://www.planalto.gov.br/ccivil_03/leis/l8213cons.htm"
 });
+// Trecho curto conferido diretamente na fonte legislativa oficial.
+ // Evita que indisponibilidade do portal impeça a leitura de dispositivo verificado.
+const ARTIGOS_CONFERIDOS=Object.freeze({
+ "clt:780":{
+  conteudo:"Art. 780. Os documentos juntos aos autos poderão ser desentranhados somente depois de findo o processo, ficando traslado.",
+  source:"https://www2.camara.leg.br/legin/fed/declei/1940-1949/decreto-lei-5452-1-maio-1943-415500-normaatualizada-pe.pdf",
+  verificado_em:"2026-11-14"
+ }
+});
 const FONTES_ALTERNATIVAS=Object.freeze({
   cc:["https://www2.camara.leg.br/legin/fed/lei/2002/lei-10406-10-janeiro-2002-432893-normaatualizada-pl.html","https://legis.senado.leg.br/norma/552282/publicacao/34620807"],
   cpp:["https://legis.senado.leg.br/norma/528776/publicacao/34620736","https://www2.camara.leg.br/legin/fed/declei/1940-1949/decreto-lei-3689-3-outubro-1941-322206-normaatualizada-pe.html"],
@@ -97,7 +106,7 @@ if(!Object.hasOwn(FONTES,lei)||!/^[1-9]\d{0,3}(?:-[A-Z])?$/.test(artigo)){
  res.status(400).json({error:"Lei ou artigo inválido"});return;
 }
 // A Lei 9.784/1999 encerra-se no art. 70. Não rotular como erro de conexão uma referência inexistente.
-if(lei==="l9784" && Number(artigo.match(/^\\d+/)?.[0])>70){
+if(lei==="l9784" && Number(artigo.match(/^\d+/)?.[0])>70){
  res.status(404).json({
   error:"Artigo não encontrado na lei selecionada.",
   codigo:"ARTIGO_INEXISTENTE",
@@ -105,6 +114,13 @@ if(lei==="l9784" && Number(artigo.match(/^\\d+/)?.[0])>70){
   aviso:"A Lei 9.784/1999 termina no artigo 70. Confira se o artigo 77 pertence a outro diploma legal."
  });
  return;
+}
+const trechoConferido=ARTIGOS_CONFERIDOS[lei+":"+artigo];
+if(trechoConferido){
+  res.status(200).json({lei,artigo,conteudo:trechoConferido.conteudo,
+   source:trechoConferido.source,verificado_em:trechoConferido.verificado_em,
+   aviso:"Transcrição do dispositivo conferida em fonte legislativa oficial na data indicada. Confira eventuais alterações posteriores."});
+  return;
 }
 const source=FONTES[lei];
 const fonteArtigoCPC=(lei==="cpc"&&artigo==="1009")
