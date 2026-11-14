@@ -36,7 +36,8 @@ const FONTES_ALTERNATIVAS=Object.freeze({
   ctn:["https://www2.camara.leg.br/legin/fed/lei/1960-1969/lei-5172-25-outubro-1966-358971-normaatualizada-pl.html","https://legis.senado.leg.br/norma/547034/publicacao/34620375"],
   cdc:["https://legis.senado.leg.br/norma/549954/publicacao/34619932"],
   eca:["https://legis.senado.leg.br/norma/549945/publicacao/15713055"],
-  cp:["https://legis.senado.leg.br/norma/527942/publicacao/39870011"]
+  cp:["https://legis.senado.leg.br/norma/527942/publicacao/39870011"],
+  l9784:["https://www2.camara.leg.br/legin/fed/lei/1999/lei-9784-29-janeiro-1999-322239-normaatualizada-pl.html"]
 });
 function entities(s){
 return s.replace(/&#x([0-9a-f]+);/gi,(_,h)=>String.fromCodePoint(parseInt(h,16)))
@@ -94,6 +95,16 @@ const lei=String(req.query.lei||"");
 const artigo=String(req.query.artigo||"").toUpperCase();
 if(!Object.hasOwn(FONTES,lei)||!/^[1-9]\d{0,3}(?:-[A-Z])?$/.test(artigo)){
  res.status(400).json({error:"Lei ou artigo inválido"});return;
+}
+// A Lei 9.784/1999 encerra-se no art. 70. Não rotular como erro de conexão uma referência inexistente.
+if(lei==="l9784" && Number(artigo.match(/^\\d+/)?.[0])>70){
+ res.status(404).json({
+  error:"Artigo não encontrado na lei selecionada.",
+  codigo:"ARTIGO_INEXISTENTE",
+  source:FONTES.l9784,
+  aviso:"A Lei 9.784/1999 termina no artigo 70. Confira se o artigo 77 pertence a outro diploma legal."
+ });
+ return;
 }
 const source=FONTES[lei];
 const candidates=[source,...(FONTES_ALTERNATIVAS[lei]||[]),
