@@ -4,8 +4,26 @@
 (function(){
  "use strict";
  const $=id=>document.getElementById(id);
- const PDF_LIB="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs";
- const PDF_WORKER="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
+ const PDF_PROVIDERS=[
+   ["https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs",
+    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs"],
+   ["https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.min.mjs",
+    "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.worker.min.mjs"]
+ ];
+ let pdfjsCarregado=null;
+ async function obterPdfJs(){
+   if(pdfjsCarregado)return pdfjsCarregado;
+   let erro;
+   for(const [modulo,worker] of PDF_PROVIDERS){
+     try{
+       const pdfjs=await import(modulo);
+       pdfjs.GlobalWorkerOptions.workerSrc=worker;
+       pdfjsCarregado=pdfjs;
+       return pdfjs;
+     }catch(e){erro=e;}
+   }
+   throw erro||new Error("Biblioteca PDF indisponível");
+ }
  let documento=null;
  let cache=new Map();
  let cacheQuestoes=new Map();
@@ -81,8 +99,7 @@
    const versao=versaoSelecao;
    try {
      avisar("Preparando o PDF no navegador. Nenhum arquivo será enviado ao servidor.");
-     const pdfjs=await import(PDF_LIB);
-     pdfjs.GlobalWorkerOptions.workerSrc=PDF_WORKER;
+     const pdfjs=await obterPdfJs();
      const bytes=new Uint8Array(await file.arrayBuffer());
      const loadingTask=pdfjs.getDocument({data:bytes,useSystemFonts:true,disableFontFace:true});
      const parsed=await loadingTask.promise;
@@ -142,8 +159,7 @@
    let parsed;
    try {
      avisar("Abrindo a prova original dentro do RatioJuris. Não é necessário baixar ou enviar arquivo.");
-     const pdfjs=await import(PDF_LIB);
-     pdfjs.GlobalWorkerOptions.workerSrc=PDF_WORKER;
+     const pdfjs=await obterPdfJs();
      const url="/api/oab-pdf?exame="+exame+"&tipo="+tipo;
      const task=pdfjs.getDocument({url,disableRange:true,disableStream:true,useSystemFonts:true,disableFontFace:true});
      parsed=await task.promise;
@@ -271,7 +287,10 @@
      const formal=/^(?:QUEST[AÃ]O|QUESTAO)\s*(?:N[º°.]?\s*)?0*(\d{1,2})(?:\s*[.):-–—]\s*|\s+|$)/i.exec(value);
      if(formal)return {numero:Number(formal[1]),formal:true};
      const standalone=/^0*(\d{1,2})\s*[.):-]?\s*$/.exec(value);
-     return standalone?{numero:Number(standalone[1]),formal:false}:null;
+     if(standalone)return {numero:Number(standalone[1]),formal:false};
+     // Algumas provas incluem enunciado na mesma linha do número.
+     const numbered=/^0*(\d{1,2})\s*[.):-]\s+\S.{15,}$/.exec(value);
+     return numbered?{numero:Number(numbered[1]),formal:false}:null;
    };
    let start=-1;
    for(let index=0;index<lines.length;index++){
