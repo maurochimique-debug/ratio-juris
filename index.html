@@ -292,14 +292,24 @@
         </aside>
         <details id="consultaGabaritosHistoricos" class="mb-5 rounded-xl border border-purple-500 p-4 bg-white dark:bg-ratio-cardDark">
           <summary class="cursor-pointer min-h-[44px] text-base font-bold text-purple-800 dark:text-purple-200">Cadernos oficiais da OAB — 47º ao 10º Exame</summary>
-          <p class="mt-3 text-sm text-slate-700 dark:text-slate-200">Escolha o exame para consultar o caderno oficial de questões. Quando disponível, o PDF corresponde ao tipo de caderno selecionado no simulador. O gabarito permanece na seção própria abaixo.</p>
+          <p class="mt-3 text-sm text-slate-700 dark:text-slate-200">Escolha o exame para consultar o caderno oficial de questões. Quando disponível, o PDF corresponde ao tipo de caderno selecionado no simulador. O caderno abre aqui no aplicativo. O gabarito permanece na seção própria abaixo.</p>
           <div class="flex flex-col sm:flex-row gap-3 mt-4 items-stretch sm:items-end">
             <div class="flex-1">
               <label for="gabaritoHistoricoSelect" class="block font-bold mb-2 text-slate-800 dark:text-white">Número do exame</label>
               <select id="gabaritoHistoricoSelect" onchange="atualizarConsultaGabaritoHistorico()" class="w-full rounded-xl border-2 border-purple-500 p-3 bg-white dark:bg-slate-900 text-slate-900 dark:text-white" aria-label="Selecionar edição histórica dos cadernos da OAB"></select>
             </div>
-            <a id="gabaritoHistoricoLink" href="https://www.oab.org.br/servicos/examedeordem" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center min-h-[48px] rounded-lg bg-purple-700 px-5 py-3 text-white font-bold underline">Consultar documento oficial</a>
+            <a id="gabaritoHistoricoLink" href="https://www.oab.org.br/servicos/examedeordem" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center min-h-[48px] rounded-lg bg-purple-700 px-5 py-3 text-white font-bold underline">Baixar caderno PDF</a>
           </div>
+          <label class="block text-sm font-bold text-slate-800 dark:text-white" for="historicoTipoCaderno">Tipo de caderno
+              <select id="historicoTipoCaderno" onchange="atualizarConsultaGabaritoHistorico()" class="mt-1 w-full rounded-lg border-2 border-purple-500 p-3 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+                <option value="1">Tipo 1 — Branca</option><option value="2">Tipo 2 — Verde</option><option value="3">Tipo 3 — Amarela</option><option value="4">Tipo 4 — Azul</option>
+              </select>
+            </label>
+            <button type="button" id="historicoAbrirDentro" onclick="abrirCadernoHistoricoNoApp()" class="min-h-[48px] rounded-lg bg-purple-700 px-5 py-3 text-white font-bold">Abrir caderno no aplicativo</button>
+            <div id="historicoPainelPdf" class="hidden mt-3">
+              <button type="button" onclick="fecharCadernoHistoricoNoApp()" class="rounded-lg border px-4 py-2 mb-2 font-bold">Fechar caderno</button>
+              <iframe id="historicoIframePdf" title="Caderno oficial da OAB no RATIO JURIS" loading="lazy" class="ratio-pdf-iframe w-full bg-white rounded-lg"></iframe>
+            </div>
           <p id="gabaritoHistoricoStatus" class="mt-3 text-sm font-semibold text-slate-700 dark:text-slate-200" role="status" aria-live="polite"></p>
         </details>
 
@@ -1182,30 +1192,59 @@
       const n=Number(document.getElementById('oabTipoSelect').value);
       return Number.isInteger(n)&&n>=1&&n<=4?n:1;
     }
+    function fecharCadernoHistoricoNoApp(){
+      const frame=document.getElementById('historicoIframePdf');
+      if(frame){window.RatioMobilePdf?.close(frame);frame.removeAttribute('src');}
+      document.getElementById('historicoPainelPdf')?.classList.add('hidden');
+    }
+    function abrirCadernoHistoricoNoApp(){
+      const select=document.getElementById('gabaritoHistoricoSelect');
+      const tipo=Number(document.getElementById('historicoTipoCaderno')?.value||1);
+      const numero=Number(select?.value);
+      const pdf=documentosDoExameOAB(numero)?.cadernos?.[tipo-1]?.pdf;
+      if(!pdf){atualizarConsultaGabaritoHistorico();return false;}
+      const destino='/api/oab-pdf?exame='+numero+'&tipo='+tipo+'#toolbar=1&navpanes=0';
+      const frame=document.getElementById('historicoIframePdf');
+      if(!frame)return false;
+      const painel=document.getElementById('historicoPainelPdf');
+      painel?.classList.remove('hidden');
+      if(window.RatioMobilePdf?.isMobile()){
+        frame.removeAttribute('src');
+        window.RatioMobilePdf.mount(frame,destino,pdf,3).catch(()=>{});
+      }else if(frame.getAttribute('src')!==destino)frame.src=destino;
+      painel?.scrollIntoView({block:'nearest',behavior:'auto'});
+      return true;
+    }
     function atualizarConsultaGabaritoHistorico(){
       const select=document.getElementById('gabaritoHistoricoSelect');
       const link=document.getElementById('gabaritoHistoricoLink');
       const status=document.getElementById('gabaritoHistoricoStatus');
+      const button=document.getElementById('historicoAbrirDentro');
       if(!select||!link||!status)return;
+      fecharCadernoHistoricoNoApp();
       const numero=Number(select.value);
-      const tipo=typeof tipoOABAtual==='function'?tipoOABAtual():1;
+      const tipo=Number(document.getElementById('historicoTipoCaderno')?.value||1);
       const documentos=documentosDoExameOAB(numero);
       const caderno=documentos?.cadernos?.[tipo-1];
       const arquivo=fonteOAB().archive?.find(x=>x.exame===numero);
       const url=caderno?.pdf;
       if(typeof url==='string'&&/^https:\/\//.test(url)){
         link.href=url;
-        link.textContent='Abrir caderno oficial de questões (Tipo '+tipo+')';
-        status.textContent=numero+'º Exame — caderno Tipo '+tipo+
-          ' disponível. O gabarito deve ser consultado separadamente.';
+        link.textContent='Baixar caderno oficial PDF (Tipo '+tipo+')';
+        link.setAttribute('download','');
+        button.disabled=false;
+        button.classList.remove('opacity-50');
+        status.textContent=numero+'º Exame — Tipo '+tipo+' disponível. Abra as questões aqui ou baixe o arquivo original. O gabarito é separado.';
       }else{
         link.href=arquivo?.fgvUrl||'https://www.oab.org.br/servicos/examedeordem';
+        link.removeAttribute('download');
         link.textContent='Localizar caderno na fonte oficial';
-        status.textContent=numero+'º Exame — PDF do caderno Tipo '+tipo+
-          ' ainda não cadastrado nesta consulta. A fonte oficial permite localizar a prova; nenhum enunciado será inventado.';
+        button.disabled=true;
+        button.classList.add('opacity-50');
+        status.textContent=numero+'º Exame — caderno Tipo '+tipo+' sem PDF validado neste acervo. Consulte a fonte oficial.';
       }
     }
-        function iniciarConsultaGabaritosHistoricos(){
+    function iniciarConsultaGabaritosHistoricos(){
       const sel=document.getElementById('gabaritoHistoricoSelect');
       if(!sel)return;
       sel.replaceChildren();
@@ -1216,6 +1255,8 @@
         sel.appendChild(option);
       }
       sel.value='47';
+      const tipo=document.getElementById('historicoTipoCaderno');
+      if(tipo)tipo.value=String(typeof tipoOABAtual==='function'?tipoOABAtual():1);
       atualizarConsultaGabaritoHistorico();
     }
     function iniciarArquivoOAB() {
