@@ -306,8 +306,8 @@
         <details class="mb-6 rounded-xl border border-slate-300 dark:border-slate-600 p-3">
           <summary class="cursor-pointer min-h-[44px] flex items-center font-bold text-purple-800 dark:text-purple-300">Ver prova e gabarito deste exame (opcional)</summary>
           <div class="flex flex-wrap gap-3 mt-3">
-          <a id="oabPaginaOficial" href="https://oab.fgv.br/" target="_blank" rel="noopener noreferrer" class="inline-flex px-4 py-2 rounded-lg bg-purple-700 text-white font-semibold text-sm">Consultar fonte oficial (opcional)</a>
-          <a id="oabCadernoPdf" href="https://oab.fgv.br/" onclick="return !abrirDocumentoOabNoApp('caderno')" target="_blank" rel="noopener noreferrer" class="inline-flex px-4 py-2 rounded-lg border border-purple-600 text-ratio-purple dark:text-purple-300 font-semibold text-sm">Abrir caderno oficial</a>
+          <a id="oabPaginaOficial" href="https://oab.fgv.br/" target="_blank" rel="noopener noreferrer" class="inline-flex px-4 py-2 rounded-lg border border-slate-500 text-slate-700 dark:text-slate-300 font-semibold text-xs">Site da FGV — editais e comunicados (não é o caderno)</a>
+          <a id="oabCadernoPdf" href="https://oab.fgv.br/" onclick="return !abrirDocumentoOabNoApp('caderno')" target="_blank" rel="noopener noreferrer" class="inline-flex px-4 py-2 rounded-lg bg-purple-700 text-white font-bold text-sm">Ler enunciados e perguntas do caderno oficial aqui</a>
           <div id="blocoGabaritoOpcional" class="p-2 rounded-lg border border-purple-600 text-sm font-semibold text-purple-800 dark:text-purple-300">
             <a id="oabGabaritoPdf" href="https://oab.fgv.br/" onclick="return !abrirDocumentoOabNoApp('gabarito')" target="_blank" rel="noopener noreferrer" class="inline-flex mt-2 px-4 py-2 rounded-lg border border-purple-600 text-ratio-purple dark:text-purple-300 underline font-semibold text-sm">Abrir gabarito oficial na fonte</a>
             <!-- O PDF do gabarito é consultado somente na fonte oficial, sem leitor duplicado.
@@ -1388,7 +1388,7 @@
       if(fonte)fonte.href=original;
       if(window.RatioMobilePdf?.isMobile()){
         frame.removeAttribute('src');
-        window.RatioMobilePdf.mount(frame,destino,original).catch(()=>{});
+        window.RatioMobilePdf.mount(frame,destino,original,tipoDocumento==='caderno'?3:1).catch(()=>{});
       }else if(frame.getAttribute('src')!==destino)frame.src=destino;
       frame.title=rotulo+' do '+num+'º Exame, Tipo '+tipo;
       status.textContent=rotulo+' — '+num+'º Exame, Tipo '+tipo+
@@ -1909,7 +1909,7 @@
       const url='/api/oab-pdf?exame='+exame+'&tipo='+tipo+'&selecao='+encodeURIComponent(exame+'-'+tipo)+'#toolbar=1&navpanes=0';
       if(window.RatioMobilePdf?.isMobile()){
         frame.removeAttribute('src');
-        window.RatioMobilePdf.mount(frame,url,config.cadernos[tipo-1].pdf).catch(()=>{});
+        window.RatioMobilePdf.mount(frame,url,config.cadernos[tipo-1].pdf,3).catch(()=>{});
       }else if(frame.getAttribute('src')!==url)frame.src=url;
       frame.title='Caderno oficial do '+exame+'º Exame, tipo '+tipo;
       const status=document.getElementById('statusPdfOabIntegrado');
@@ -2602,7 +2602,7 @@
       }
     });
   </script>
-  <script src="/leitor-mobile-pdf.js?v=20261114-stj"></script>
+  <script src="/leitor-mobile-pdf.js?v=20261114-stj-questions"></script>
   <script src="/stj-leitor.js?v=20261114-1"></script>
   <script src="/leitor-pdf-oficial.js?v=20261113-mobile-stability"></script>
   <script src="/acessibilidade.js?v=20261113-01"></script>
