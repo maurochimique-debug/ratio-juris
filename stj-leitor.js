@@ -7,7 +7,11 @@
   "basicos":{label:"STJ 2018 — Conhecimentos básicos, cargos 7 e 8 (itens 1–40)",url:"https://cdn.cebraspe.org.br/concursos/STJ_18/arquivos/MATRIZ_385_STJCB1__PAG_3.PDF"},
   "especificos":{label:"STJ 2018 — Conhecimentos específicos, cargo 7 — Direito (itens 41–120)",url:"https://cdn.cebraspe.org.br/concursos/STJ_18/arquivos/MATRIZ_385_STJ007__PAG_4.PDF"},
   "gabarito-basicos":{label:"STJ 2018 — Gabarito definitivo, conhecimentos básicos",url:"https://cdn.cebraspe.org.br/concursos/STJ_18/arquivos/GAB_DEFINITIVO_385_STJCB1.PDF"},
-  "gabarito-especificos":{label:"STJ 2018 — Gabarito definitivo, conhecimentos específicos cargo 7",url:"https://cdn.cebraspe.org.br/concursos/STJ_18/arquivos/GAB_DEFINITIVO_385_STJ007.PDF"}
+  "gabarito-especificos":{label:"STJ 2018 — Gabarito definitivo, conhecimentos específicos cargo 7",url:"https://cdn.cebraspe.org.br/concursos/STJ_18/arquivos/GAB_DEFINITIVO_385_STJ007.PDF"},
+  "tecnico-basicos":{label:"STJ 2018 — Técnico Judiciário, cargo 9: conhecimentos básicos",url:"https://cdn.cebraspe.org.br/concursos/STJ_18/arquivos/MATRIZ_385_STJCB4__PAG_3.PDF"},
+  "tecnico-especificos":{label:"STJ 2018 — Técnico Judiciário, cargo 9: conhecimentos específicos",url:"https://cdn.cebraspe.org.br/concursos/STJ_18/arquivos/MATRIZ_385_STJ009__PAG_3.PDF"},
+  "tecnico-gabarito-basicos":{label:"STJ 2018 — Técnico Judiciário, cargo 9: gabarito definitivo básico",url:"https://cdn.cebraspe.org.br/concursos/STJ_18/arquivos/GAB_DEFINITIVO_385_STJCB4.PDF"},
+  "tecnico-gabarito-especificos":{label:"STJ 2018 — Técnico Judiciário, cargo 9: gabarito definitivo específico",url:"https://cdn.cebraspe.org.br/concursos/STJ_18/arquivos/GAB_DEFINITIVO_385_STJ009.PDF"}
  });
  function fechar(){
   const frame=$("stjPdfFrame"),panel=$("stjVisualizador");
