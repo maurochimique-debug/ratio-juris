@@ -1,4 +1,20 @@
 import {Readable} from "node:stream";
+import {readFileSync} from "node:fs";
+const URL_OFICIAL=/^https:\/\/(?:s\.oab\.org\.br\/arquivos\/|oab\.fgv\.br\/arq\/).+\.pdf(?:\?.*)?$/i;
+function futuroHomologado(numero){
+  // Somente arquivos previamente registrados e revisados no GitHub.
+  try{
+    const catalogo=JSON.parse(readFileSync(new URL("../data/oab-futuras-edicoes.json",import.meta.url),"utf8"));
+    const item=catalogo.exames?.find(e=>String(e.numero)===String(numero));
+    if(!item||item.status!=="publicado"||!/^\d{4}-\d{2}-\d{2}$/.test(item.verificado_em||""))return null;
+    if(!Array.isArray(item.cadernos)||item.cadernos.length!==4||
+       !item.cadernos.every((b,i)=>b.tipo===i+1&&URL_OFICIAL.test(b.pdf)))return null;
+    if(!URL_OFICIAL.test(item.gabaritoPDF||"")||
+       !["preliminar","definitivo","retificado"].includes(item.natureza_gabarito))return null;
+    return item;
+  }catch(_){return null;}
+}
+
 /* Proxy de transmissão temporária de PDFs oficiais OAB/FGV, sem armazenar ou editar cadernos.
  * Lista fechada de fontes de provas já verificadas no repositório. Não é um proxy público aberto.
  * Os enunciados continuam originários de s.oab.org.br.
@@ -212,8 +228,9 @@ export default async function handler(req,res){
  res.setHeader("X-Content-Type-Options","nosniff");
  if(!["GET","HEAD"].includes(req.method))return res.status(405).end("Método não permitido.");
  const exame=String(req.query.exame||""),tipo=String(req.query.tipo||"");
-  if(!/^\d{2}$/.test(exame)||!/^[1-4]$/.test(tipo))return res.status(400).end("Exame ou caderno inválido.");
- const original=SOURCES[exame]?.[Number(tipo)-1];
+  if(!/^\d{2,3}$/.test(exame)||!/^[1-4]$/.test(tipo))return res.status(400).end("Exame ou caderno inválido.");
+ const original=SOURCES[exame]?.[Number(tipo)-1]||
+   futuroHomologado(exame)?.cadernos?.[Number(tipo)-1]?.pdf;
  if(!original)return res.status(404).end("Documento oficial não cadastrado.");
  const range=typeof req.headers.range==="string"?req.headers.range:"";
  if(range&&!/^bytes=\d*-\d*$/.test(range))return res.status(416).end("Intervalo inválido.");
