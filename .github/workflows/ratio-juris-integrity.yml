@@ -1,0 +1,49 @@
+name: RATIO JURIS — verificações de integridade
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  integrity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Baixar código
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Instalar Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22'
+      - name: Verificar sintaxe
+        run: |
+          node --check leitor-pdf-oficial.js
+          node --check leitor-mobile-pdf.js
+          node --check ratio-auth.js
+          node --check api/artigo-oficial.mjs
+          node --check api/oab-pdf.mjs
+          node --check api/oab-gabarito.mjs
+          node --check server/subscription-policy.mjs
+      - name: Auditar PDFs e componentes oficiais
+        run: node scripts/validar-integracao-pdfs.mjs
+      - name: Auditar metadados de provas
+        run: node scripts/auditar-banco-oab.mjs
+      - name: Testar política de assinatura
+        run: node scripts/testar-politica-assinaturas.mjs
+      - name: Verificar marca e integridade da página
+        run: |
+          node --input-type=module <<'NODE'
+          import {readFileSync,existsSync} from 'node:fs';
+          import assert from 'node:assert/strict';
+          const html=readFileSync('index.html','utf8');
+          assert.match(html,/id="simulador-oficial"/);
+          assert.match(html,/id="gabineteLeiSelect"/);
+          assert.match(html,/id="alternativasQuestaoOficial"/);
+          assert.match(html,/alt="Emblema do RATIO JURIS"/);
+          assert.ok(existsSync('assets/ratio-juris-mark.svg'));
+          console.log('PASS: componentes e identidade visual presentes');
+          NODE
