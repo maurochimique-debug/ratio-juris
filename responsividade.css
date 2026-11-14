@@ -212,3 +212,48 @@ body,#appBody{overflow-x:clip}
   }
   #alternativasQuestaoOficial button{min-height:60px}
 }
+
+/* Leitura jurídica acessível: priorizar palavras completas e alternativas longas. */
+#simulador-oficial #textoQuestaoDentroSimulador{
+  font-family:"Plus Jakarta Sans",system-ui,sans-serif;
+  font-size:1rem;
+  line-height:1.65;
+  letter-spacing:normal;
+  word-spacing:normal;
+  text-align:left;
+  white-space:pre-wrap;
+  overflow-wrap:break-word;
+  word-break:normal;
+  hyphens:none;
+}
+#simulador-oficial #alternativasQuestaoOficial{
+  grid-template-columns:minmax(0,1fr)!important;
+  gap:.75rem;
+}
+#simulador-oficial #alternativasQuestaoOficial button{
+  font-family:"Plus Jakarta Sans",system-ui,sans-serif;
+  font-size:1rem!important;
+  line-height:1.55;
+  letter-spacing:normal;
+  word-spacing:normal;
+  text-align:left!important;
+  text-wrap:wrap;
+  font-weight:600!important;
+  white-space:normal;
+  overflow-wrap:break-word;
+  word-break:normal;
+  hyphens:none;
+  padding:14px 16px!important;
+  min-height:56px;
+}
+@media(max-width:767px){
+  #simulador-oficial #textoQuestaoDentroSimulador{
+    font-size:1rem!important;
+    line-height:1.7;
+    max-height:none!important;
+    overflow-y:visible!important;
+  }
+  #simulador-oficial #alternativasQuestaoOficial{
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+}
