@@ -76,14 +76,15 @@ function extract(text,num){
     suffix:(m[2]||"").toUpperCase()
   }));
   const selected=matches.filter(m=>m.number===Number(requested[1])&&m.suffix===(requested[2]||""));
-  for(const current of selected){
+  const trechos=selected.map(current=>{
     const following=matches.find(m=>m.at>current.at);
     const end=Math.min(following?.at??normalized.length,current.at+12000);
-    const excerpt=normalized.slice(current.at,end).trim();
-    // Rejeita índice remissivo e cabeçalhos vazios, sem completar conteúdo por IA.
-    if(excerpt.length>=22 && /\S.{12,}/s.test(excerpt.slice(current.end-current.at)))
-      return excerpt;
-  }
+    return {text:normalized.slice(current.at,end).trim(),body:normalized.slice(current.end,end).trim()};
+  }).filter(c=>c.text.length>=22&&c.body.length>=13);
+  // Pode haver um índice de artigos antes do texto integral. Preferir a
+  // ocorrência com conteúdo substancial, preservando o número exato.
+  trechos.sort((a,b)=>b.body.length-a.body.length);
+  if(trechos.length)return trechos[0].text;
   // Fontes com HTML que não preserva linhas: manter o mesmo critério de número exato.
   const flat=normalized.replace(/\s+/g," ").trim();
   const inline=/\bArt(?:igo)?\.?\s*(\d{1,2}\.\d{3}|\d{1,4})(?:\s*[-–]\s*([A-Z]))?(?:\s*[º°o])?\s*[.:\-–—]?(?=\s|$)/gi;
