@@ -1,0 +1,19 @@
+{
+  "name": "RATIO JURIS",
+  "short_name": "Ratio Juris",
+  "description": "Estudo jurídico com questões oficiais e consulta legislativa.",
+  "lang": "pt-BR",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#14091e",
+  "theme_color": "#6b21a8",
+  "icons": [
+    {
+      "src": "/assets/ratio-juris-mark.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
