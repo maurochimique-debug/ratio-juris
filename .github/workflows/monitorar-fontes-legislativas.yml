@@ -1,0 +1,33 @@
+name: Monitorar fontes legislativas
+on:
+  schedule:
+    - cron: '17 12 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  fontes-legislativas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22'
+      - name: Auditar consulta de 24 diplomas
+        id: audit
+        continue-on-error: true
+        run: node scripts/auditar-fontes-legislativas.mjs
+      - name: Arquivar relatório
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: saude-leitor-legislativo
+          path: artifacts/saude-leitor-legislativo.json
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Sinalizar falhas da auditoria
+        if: steps.audit.outcome != 'success'
+        run: exit 1
