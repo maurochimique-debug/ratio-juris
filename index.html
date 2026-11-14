@@ -597,7 +597,7 @@
         <div class="rounded-xl p-5 border-2 border-purple-600 bg-purple-50 dark:bg-ratio-cardDark">
           <h3 class="font-bold text-slate-900 dark:text-white">OAB — Exames de Ordem</h3>
           <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">Simulado oficial independente, com cadernos e gabaritos já cadastrados.</p>
-          <a href="#oab-arquivo" class="inline-block mt-3 underline font-bold text-purple-800 dark:text-purple-300">Abrir exames OAB</a>
+          <a href="#consultaGabaritosHistoricos" onclick="return abrirExamesOabDoCard()" class="inline-flex min-h-[44px] items-center mt-3 underline font-bold text-purple-800 dark:text-purple-300">Abrir exames OAB</a>
         </div>
         <details id="acervo-stj" open class="rounded-xl p-5 border border-purple-500 bg-slate-50 dark:bg-ratio-cardDark">
           <summary class="cursor-pointer min-h-[44px] flex items-center font-bold text-slate-900 dark:text-white">STJ — Provas jurídicas oficiais (Cebraspe)</summary>
@@ -1335,6 +1335,32 @@
         status.textContent=numero+'º Exame — caderno Tipo '+tipo+' sem PDF validado neste acervo. Consulte a fonte oficial.';
       }
     }
+    function abrirExamesOabDoCard(){
+      const section=document.getElementById('consultaGabaritosHistoricos');
+      const selection=document.getElementById('gabaritoHistoricoSelect');
+      const typeSelection=document.getElementById('historicoTipoCaderno');
+      const exam=document.getElementById('oabExamSelect');
+      const selectedType=Number(document.getElementById('oabTipoSelect')?.value||1);
+      if(!section||!selection||!typeSelection||!exam)return true;
+      // Abrir e sincronizar o seletor do caderno que já existe no aplicativo.
+      const numero=Number(exam.value);
+      const available=documentosDoExameOAB(numero)?.cadernos||[];
+      const option=available[selectedType-1]?.pdf?selectedType:
+        Number(available.find(book=>book?.pdf)?.tipo||0);
+      selection.value=String(numero);
+      if(option)typeSelection.value=String(option);
+      section.open=true;
+      atualizarConsultaGabaritoHistorico();
+      if(option){
+        abrirCadernoHistoricoNoApp();
+      }else{
+        const status=document.getElementById('gabaritoHistoricoStatus');
+        if(status)status.textContent='O caderno oficial deste exame ainda não foi integrado. Consulte a fonte oficial disponível no link acima.';
+      }
+      section.scrollIntoView({block:'start',behavior:'auto'});
+      return false;
+    }
+    window.abrirExamesOabDoCard=abrirExamesOabDoCard;
     function iniciarConsultaGabaritosHistoricos(){
       const sel=document.getElementById('gabaritoHistoricoSelect');
       if(!sel)return;
