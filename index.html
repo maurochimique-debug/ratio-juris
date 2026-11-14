@@ -648,6 +648,28 @@
           <i class="fa-solid fa-scale-balanced text-ratio-purple mr-2" aria-hidden="true"></i> Modo Gabinete — Artigo por artigo
         </h2>
         <p class="text-sm text-slate-300 mb-6">Escolha a lei e o número do artigo para ler o texto diretamente no RATIO JURIS, com indicação da fonte legislativa oficial. A abertura de sites externos é opcional e pode apresentar avisos de cookies próprios desses portais.</p>
+        <details id="cardTemasEntendimentoJuridico" class="mb-6 rounded-xl border border-purple-500 bg-slate-950 p-4 sm:p-5">
+          <summary class="cursor-pointer min-h-[44px] flex items-center text-base font-bold text-purple-200">Temas legislativos e entendimentos jurídicos — estudo orientado</summary>
+          <p class="mt-3 text-sm leading-relaxed text-slate-200">Explore temas relevantes para concursos e OAB. Selecione um tema para consultar seu dispositivo legal no próprio RATIO JURIS. Interpretação judicial e vigência devem ser verificadas nas fontes oficiais; os textos abaixo são orientações de estudo, não respostas automáticas a casos concretos.</p>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
+            <div class="rounded-lg border border-slate-600 bg-slate-900 p-3">
+              <h3 class="font-bold text-white">Precedentes judiciais</h3>
+              <p class="mt-2 text-sm text-slate-300">CPC, art. 927 — estudo das decisões e enunciados que juízes e tribunais devem observar.</p>
+              <button type="button" onclick="abrirTemaLegislativo('cpc','927')" class="mt-3 min-h-[44px] w-full rounded-lg bg-purple-700 px-3 py-2 text-white font-bold text-sm">Consultar art. 927</button>
+            </div>
+            <div class="rounded-lg border border-slate-600 bg-slate-900 p-3">
+              <h3 class="font-bold text-white">Lei no tempo</h3>
+              <p class="mt-2 text-sm text-slate-300">LINDB, art. 6º — efeitos da lei em vigor, ato jurídico perfeito, direito adquirido e coisa julgada.</p>
+              <button type="button" onclick="abrirTemaLegislativo('lindb','6')" class="mt-3 min-h-[44px] w-full rounded-lg bg-purple-700 px-3 py-2 text-white font-bold text-sm">Consultar art. 6º</button>
+            </div>
+            <div class="rounded-lg border border-slate-600 bg-slate-900 p-3">
+              <h3 class="font-bold text-white">Direitos fundamentais</h3>
+              <p class="mt-2 text-sm text-slate-300">Constituição Federal, art. 5º — direitos e garantias fundamentais e seus desdobramentos.</p>
+              <button type="button" onclick="abrirTemaLegislativo('cf','5')" class="mt-3 min-h-[44px] w-full rounded-lg bg-purple-700 px-3 py-2 text-white font-bold text-sm">Consultar art. 5º</button>
+            </div>
+          </div>
+          <p class="mt-3 text-xs text-slate-400">Para pesquisar jurisprudência relacionada, utilize a seção STF/STJ do Modo Gabinete e confira a atualidade e a pertinência dos precedentes.</p>
+        </details>
         <div class="grid grid-cols-1 sm:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] gap-3">
           <div>
             <label for="gabineteLeiSelect" class="block text-white text-sm font-semibold mb-2">Qual legislação?</label>
@@ -1069,6 +1091,15 @@
       return true;
     }
     window.pesquisarConjurGabinete=pesquisarConjurGabinete;
+    function abrirTemaLegislativo(lei,numero){
+      const campoLei=document.getElementById('gabineteLeiSelect');
+      const campoNumero=document.getElementById('gabineteArtigoInput');
+      if(!campoLei||!campoNumero)return false;
+      campoLei.value=lei;
+      campoNumero.value=numero;
+      return window.pesquisarArtigoPlanalto(false);
+    }
+    window.abrirTemaLegislativo=abrirTemaLegislativo;
     function pesquisarArtigoPlanalto(abrirDiretamente=false){
       const campoLei=document.getElementById('gabineteLeiSelect');
       const campoArtigo=document.getElementById('gabineteArtigoInput');
