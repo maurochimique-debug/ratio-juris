@@ -2224,13 +2224,17 @@
     }
     function moverQuestaoOficial(delta) {
       if(![-1,1].includes(delta))return false;
-      const exame=Number(document.getElementById('oabExamSelect').value);
+      const exame=Number(document.getElementById('oabExamSelect')?.value);
       const tipo=tipoOABAtual();
-      const escolhido=Number(document.getElementById('questaoOficialNumeroSelect').value);
-      const atual=Number.isInteger(escolhido)&&escolhido>=1&&escolhido<=80?
-        escolhido:obterPosicaoOficial(exame,tipo);
-      const proxima=atual+delta;
-      if(proxima<1||proxima>80)return false;
+      const atual=obterPosicaoOficial(exame,tipo);
+      const proxima=Math.max(1,Math.min(80,atual+delta));
+      if(proxima===atual)return false;
+      const anterior=document.getElementById('btnQuestaoAnterior');
+      const seguinte=document.getElementById('btnQuestaoProxima');
+      if(anterior)anterior.disabled=proxima===1;
+      if(seguinte)seguinte.disabled=proxima===80;
+      const seletor=document.getElementById('questaoOficialNumeroSelect');
+      if(seletor)seletor.value=String(proxima);
       return irParaQuestaoOficial(proxima);
     }
     let audioContextoAcerto=null;
@@ -2252,7 +2256,7 @@
           const volume=audio.createGain();
           oscilador.type='sine';oscilador.frequency.value=freq;
           volume.gain.setValueAtTime(.0001,agora+i*.1);
-          volume.gain.exponentialRampToValueAtTime(.055,agora+i*.1+.025);
+          volume.gain.exponentialRampToValueAtTime(.075,agora+i*.1+.025);
           volume.gain.exponentialRampToValueAtTime(.0001,agora+i*.1+.18);
           oscilador.connect(volume).connect(audio.destination);
           oscilador.start(agora+i*.1);oscilador.stop(agora+i*.1+.19);
