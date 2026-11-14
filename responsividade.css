@@ -51,7 +51,7 @@
  /* O simulador ocupa a largura util da tela, sem margens internas duplas. */
  html,body,#appBody{max-width:100%;min-width:0}
  #oab-arquivo{width:100%;padding-top:1.5rem!important;padding-bottom:2rem!important}
- #oab-arquivo>.max-w-6xl{width:100%;max-width:none!important;padding-inline:8px!important}
+ #oab-arquivo>.max-w-6xl{width:100%;max-width:none!important;padding-inline:5px!important}
  #oab-arquivo>.max-w-6xl>.rounded-2xl{padding:10px!important;border-radius:12px}
  #simulador-oficial{width:100%;padding:10px!important;margin-inline:0!important;box-shadow:none}
  #simulador-oficial>.ratio-study-layout{gap:.5rem}
@@ -190,7 +190,7 @@ body,#appBody{overflow-x:clip}
   .ratio-study-actions button{padding:12px 6px!important;font-size:.88rem!important}
 }
 @media(min-width:360px) and (max-width:767px){
-  #oab-arquivo>.max-w-6xl>.rounded-2xl{padding:12px!important}
+  #oab-arquivo>.max-w-6xl>.rounded-2xl{padding:10px!important}
   .ratio-study-actions{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
   .ratio-study-actions button{font-size:1rem!important}
   #oabExamSelect,#oabTipoSelect{font-size:16px}
