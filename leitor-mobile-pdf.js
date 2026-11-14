@@ -24,7 +24,7 @@
  async function mount(frame,url,originalUrl,startPage=1){
   if(!frame||!mobile())return false;
   close(frame);
-  if(!/^\/api\/(?:oab-pdf|oab-gabarito|magistratura-pdf)\?/.test(url))return false;
+  if(!/^\/api\/(?:oab-pdf|oab-gabarito|magistratura-pdf|stj-provas)\?/.test(url))return false;
   const state={alive:true,id:++serial,page:1,total:0,task:null,document:null};
   instances.set(frame,state);
   frame.hidden=true;frame.classList.add("hidden");
