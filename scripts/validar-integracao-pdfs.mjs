@@ -59,8 +59,14 @@ if(html.includes("gabaritos oficiais auditados, sem comentários individuais"))
  errors.push("Banner confuso de gabaritos reapareceu");
 if(html.includes("abrirAcervoBanca('fcc')")||html.includes("abrirAcervoBanca('cebraspe')"))
  errors.push("Bancas fora do escopo de magistratura reapareceram");
-if(!html.includes('href="#acervo-vunesp"')||!html.includes('Magistratura TJSP'))
- errors.push("Acervo de magistratura não acessível pela seleção inicial");
+if(!html.includes('href="#acervo-stj"')||!html.includes('STJ — Provas jurídicas oficiais'))
+ errors.push("Acervo jurídico STJ não acessível pela seleção inicial");
+if(html.includes('id="acervo-vunesp"')||html.includes('id="magistraturaVisualizador"'))
+ errors.push("Visualizador antigo da VUNESP reapareceu");
+if(!html.includes('Ler enunciados e perguntas do caderno oficial aqui'))
+ errors.push("Ação direta de ler enunciados OAB ausente");
+if(!html.includes('stj-leitor.js'))
+ errors.push("Visualizador oficial STJ não integrado");
 if(!html.includes('id="motivoErroQuestao"'))
  errors.push("Breve explicação sobre erro de questão indisponível");
 for(const name of ["btnQuestaoAnterior","btnQuestaoProxima","btnCorrigirSimulador",
