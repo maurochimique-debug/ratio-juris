@@ -29,18 +29,19 @@
    if(!book?.pdf)return false;
    if(link){link.href=book.pdf;link.classList.remove("hidden");}
    if(wrap&&frame){
-     // O navegador móvel já dispõe do leitor paginado principal. Não manter
-     // mais um PDF embutido para a mesma prova quando a extração falhar.
+     // Manter a prova visível também no Android quando a extração textual falhar.
+     // Nunca esconder o único fallback do enunciado no dispositivo móvel.
+     wrap.classList.remove("hidden");
+     const url="/api/oab-pdf?exame="+encodeURIComponent(exame)+
+       "&tipo="+encodeURIComponent(tipo)+"#toolbar=1&navpanes=0";
      if(window.RatioMobilePdf?.isMobile()){
        frame.removeAttribute("src");
-       wrap.classList.add("hidden");
-     }else{
-       wrap.classList.remove("hidden");
-       const url="/api/oab-pdf?exame="+encodeURIComponent(exame)+
-         "&tipo="+encodeURIComponent(tipo)+"#toolbar=1&navpanes=0";
-       if(frame.getAttribute("src")!==url)frame.src=url;
-       frame.title="Caderno oficial do "+exame+"º Exame, Tipo "+tipo+" — consulta do enunciado";
-     }
+       Promise.resolve(window.RatioMobilePdf.mount(frame,url,book.pdf,3)).catch(()=>{
+         const status=$("statusLocalizacaoQuestao");
+         if(status)status.textContent="O leitor integrado não abriu. Use o botão Abrir prova oficial para consultar o PDF.";
+       });
+     }else if(frame.getAttribute("src")!==url)frame.src=url;
+     frame.title="Caderno oficial do "+exame+"º Exame, Tipo "+tipo+" — consulta do enunciado";
    }
    const preview=$("textoQuestaoDentroSimulador");
    if(preview){preview.textContent=mensagem;preview.setAttribute("data-extracao-validada","nao");}
