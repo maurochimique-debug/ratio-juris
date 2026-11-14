@@ -680,11 +680,11 @@
           </div>
           <div>
             <label for="gabineteArtigoInput" class="block text-white text-sm font-semibold mb-2">Número do artigo</label>
-            <input type="text" id="gabineteArtigoInput" inputmode="text" maxlength="12" autocomplete="off" placeholder="Ex.: 366, 20, 28-A" class="w-full rounded-xl bg-slate-950 border-2 border-slate-600 text-white p-3 text-sm" aria-label="Número do artigo, exemplo 366 ou 28-A" onkeydown="if(event.key==='Enter'){pesquisarArtigoPlanalto(false);}"/>
+            <input type="text" id="gabineteArtigoInput" inputmode="text" maxlength="12" autocomplete="off" placeholder="Ex.: 366, 20, 28-A" class="w-full rounded-xl bg-slate-950 border-2 border-slate-600 text-white p-3 text-sm" aria-label="Número do artigo, exemplo 366 ou 28-A" onkeydown="if(event.key==='Enter'){event.preventDefault();window.pesquisarArtigoPlanalto(false);}"/>
           </div>
         </div>
         <div class="flex flex-wrap gap-3 mt-4 items-center">
-          <button type="button" onclick="pesquisarArtigoPlanalto(false)" class="btn-touch bg-ratio-purpleDeep hover:bg-purple-700 text-white px-5 py-3 rounded-xl text-sm font-bold">Exibir artigo aqui no RATIO JURIS</button>
+          <button type="button" id="btnExibirArtigoRatio" onclick="return window.pesquisarArtigoPlanalto(false)" class="btn-touch relative z-10 min-h-[52px] touch-manipulation bg-ratio-purpleDeep hover:bg-purple-700 text-white px-5 py-3 rounded-xl text-sm font-bold">Exibir artigo aqui no RATIO JURIS</button>
           <span class="text-xs text-slate-300">Exemplo: Código Civil, art. 366; LINDB, art. 20</span>
         </div>
         <div id="resultadoBuscaContainer" class="mt-5 hidden" aria-live="polite" aria-atomic="false">
@@ -1070,8 +1070,13 @@
     }
     window.pesquisarConjurGabinete=pesquisarConjurGabinete;
     function pesquisarArtigoPlanalto(abrirDiretamente=false){
-      const lei=document.getElementById('gabineteLeiSelect').value;
-      const numero=normalizarNumeroArtigo(document.getElementById('gabineteArtigoInput').value);
+      const campoLei=document.getElementById('gabineteLeiSelect');
+      const campoArtigo=document.getElementById('gabineteArtigoInput');
+      if(!campoLei||!campoArtigo)return false;
+      const lei=campoLei.value;
+      const numero=normalizarNumeroArtigo(campoArtigo.value);
+      // No Android, remover o foco do teclado permite revelar o painel de resposta.
+      if(document.activeElement===campoArtigo)campoArtigo.blur();
       if(!fontesLegaisPlanalto[lei]||!numero){
         mostrarResultadoGabinete('Artigo inválido','Selecione a legislação e informe um número válido (ex.: 366, 20 ou 28-A).',[],null);
         return false;
@@ -1084,7 +1089,15 @@
       // A consulta é interna por padrão. Nenhum portal de terceiros abre
       // automaticamente e, por isso, não se apresenta o banner de cookies deles.
       mostrarResultadoGabinete(fonte.nome+' — '+artigo,'',[],null);
-      carregarTextoArtigoOficial(lei,numero);
+      Promise.resolve(carregarTextoArtigoOficial(lei,numero)).catch(()=>{
+        const area=document.getElementById('resultadoDescricao');
+        if(area){
+          const aviso=document.createElement('p');
+          aviso.className='mt-3 text-amber-200';
+          aviso.textContent='Falha ao consultar esta fonte. Utilize os links legislativos oficiais disponíveis abaixo.';
+          area.appendChild(aviso);
+        }
+      });
       const detalhesLinks=document.createElement('details');
       detalhesLinks.className='mt-3 rounded-lg border border-slate-600 p-3';
       const sum=document.createElement('summary');
@@ -1098,8 +1111,14 @@
         link.textContent=item.nome;detalhesLinks.appendChild(link);
       }
       document.getElementById('resultadoDescricao').appendChild(detalhesLinks);
+      const painel=document.getElementById('resultadoBuscaContainer');
+      if(painel){
+        painel.classList.remove('hidden');
+        requestAnimationFrame(()=>painel.scrollIntoView({block:'start',behavior:'auto'}));
+      }
       return true;
     }
+    window.pesquisarArtigoPlanalto=pesquisarArtigoPlanalto;
     // Abre pesquisas oficiais para qualquer número informado, sem alegar
     // a existência de decisão, processo ou súmula não verificada.
     function buscarNumeroJurisprudencial(entrada){
