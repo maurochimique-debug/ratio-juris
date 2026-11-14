@@ -103,7 +103,7 @@
       <!-- Menu de Navegação com Cards de Acessibilidade na Aba Superior -->
       <nav class="hidden lg:flex items-center gap-6 text-sm font-semibold text-slate-700 dark:text-slate-300">
         <a href="#oab-arquivo" class="hover:text-ratio-purple transition">OAB</a>
-        <a href="#bancas-oficiais" class="hover:text-ratio-purple transition">Magistratura</a>
+        <a href="#bancas-oficiais" class="hover:text-ratio-purple transition">Concursos jurídicos</a>
         <a href="#oab-arquivo" class="hover:text-ratio-purple transition">Simulador Livre</a>
         <a href="#gabinete" class="hover:text-ratio-purple transition">Modo Gabinete</a>
         <a href="#planos" class="hover:text-ratio-purple transition text-ratio-amber font-bold">Planos & Preços</a>
@@ -129,7 +129,7 @@
     <nav id="menuMobile" class="ratio-nav-mobile hidden lg:hidden border-t border-slate-200 dark:border-ratio-borderDark bg-white dark:bg-[#12161A] px-3 pb-3 pt-2 shadow-lg" aria-label="Navegação principal no celular e tablet" hidden>
       <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-1 text-slate-900 dark:text-slate-100">
         <a href="#oab-arquivo" onclick="RatioResponsive.closeMenu()">OAB — Simulador Livre</a>
-        <a href="#bancas-oficiais" onclick="RatioResponsive.closeMenu()">Magistratura</a>
+        <a href="#bancas-oficiais" onclick="RatioResponsive.closeMenu()">Concursos jurídicos</a>
         <a href="#gabinete" onclick="RatioResponsive.closeMenu()">Modo Gabinete e legislação</a>
         <a href="#planos" onclick="RatioResponsive.closeMenu()">Planos e preços</a>
         <a href="#painelAcessibilidade" onclick="RatioResponsive.closeMenu();RatioA11y.toggle();return false;">Abrir recursos de acessibilidade</a>
@@ -573,47 +573,40 @@
       <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-3">Escolha a banca examinadora</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <a href="#oab-arquivo" class="min-h-[76px] rounded-xl border-2 border-purple-600 bg-purple-50 dark:bg-purple-950/40 p-4 flex flex-col justify-center items-center text-purple-900 dark:text-purple-200 font-extrabold"><span class="text-xl">OAB / FGV</span><span class="text-xs font-medium mt-1">Simulador de Ordem</span></a>
-        <a href="#acervo-vunesp" onclick="document.getElementById('acervo-vunesp').open=true" class="min-h-[76px] rounded-xl border-2 border-slate-400 p-3 bg-white dark:bg-ratio-cardDark flex flex-col justify-center items-center font-extrabold text-slate-900 dark:text-white"><span class="text-xl">Magistratura</span><span class="text-xs font-medium mt-1">TJSP / VUNESP — provas oficiais</span></a>
+        <a href="#acervo-stj" onclick="document.getElementById('acervo-stj').open=true" class="min-h-[76px] rounded-xl border-2 border-slate-400 p-3 bg-white dark:bg-ratio-cardDark flex flex-col justify-center items-center font-extrabold text-slate-900 dark:text-white"><span class="text-xl">STJ / Cebraspe</span><span class="text-xs font-medium mt-1">Analista Judiciário — provas oficiais</span></a>
       </div>
-      <p class="text-xs mt-3 text-slate-600 dark:text-slate-300">Escolha o Simulador da OAB ou consulte provas anteriores de magistratura na fonte oficial.</p>
+      <p class="text-xs mt-3 text-slate-600 dark:text-slate-300">Escolha o Simulador da OAB ou consulte provas jurídicas de concursos oficiais do STJ.</p>
     </div>
   </section>
   <section id="bancas-oficiais" class="py-12 border-b border-slate-200 dark:border-ratio-borderDark bg-white dark:bg-[#0E1216]">
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
-      <h2 class="text-xl font-black text-slate-900 dark:text-white">Provas anteriores de magistratura</h2>
-      <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">Somente concursos para juiz(a) substituto(a) com acervo oficial identificado. Os cadernos e os gabaritos devem ser conferidos no portal da banca antes de qualquer correção automatizada.</p>
+      <h2 class="text-xl font-black text-slate-900 dark:text-white">Provas anteriores de concursos jurídicos</h2>
+      <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">Provas jurídicas identificadas em fonte oficial, com os respectivos cadernos e gabaritos disponíveis para consulta documental.</p>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
         <div class="rounded-xl p-5 border-2 border-purple-600 bg-purple-50 dark:bg-ratio-cardDark">
           <h3 class="font-bold text-slate-900 dark:text-white">OAB — Exames de Ordem</h3>
           <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">Simulado oficial independente, com cadernos e gabaritos já cadastrados.</p>
           <a href="#oab-arquivo" class="inline-block mt-3 underline font-bold text-purple-800 dark:text-purple-300">Abrir exames OAB</a>
         </div>
-        <details id="acervo-vunesp" class="rounded-xl p-5 border border-purple-500 bg-slate-50 dark:bg-ratio-cardDark">
-          <summary class="cursor-pointer min-h-[44px] flex items-center font-bold text-slate-900 dark:text-white">VUNESP — Magistratura TJSP</summary>
-          <p class="text-sm mt-3 text-slate-700 dark:text-slate-300">189º Concurso de Ingresso na Magistratura de São Paulo — prova objetiva para juiz(a) substituto(a), com 100 questões.</p>
-          <button type="button" onclick="RatioMagistratura.abrir('prova')" class="inline-flex min-h-[44px] items-center mt-3 rounded-lg bg-purple-700 text-white px-4 py-2 font-bold text-sm">Ler todas as questões do 189º Concurso aqui</button>
-          <button type="button" onclick="RatioMagistratura.abrir('gabarito')" class="inline-flex min-h-[44px] items-center mt-3 ml-2 rounded-lg border border-purple-600 px-4 py-2 font-bold text-sm text-purple-800 dark:text-purple-200">Consultar gabarito definitivo aqui</button>
-          <div id="magistraturaVisualizador" class="hidden mt-3 rounded-lg border border-purple-500 p-3">
-            <div class="flex flex-wrap items-center justify-between gap-3 mb-2">
-              <p id="magistraturaPdfStatus" class="text-sm font-semibold text-slate-900 dark:text-white" role="status" aria-live="polite"></p>
-              <button type="button" onclick="RatioMagistratura.fechar()" class="border rounded-lg px-3 py-2 font-bold text-purple-800 dark:text-purple-200">Fechar documento</button>
-            </div>
-            <iframe id="magistraturaPdfFrame" loading="lazy" class="w-full bg-white rounded-lg" style="height:70vh;min-height:420px" title="Prova de magistratura TJSP — leitor do documento completo"></iframe>
-            <div class="flex flex-wrap items-center gap-3 mt-3">
-              <button type="button" onclick="RatioMagistratura.alternativo()" class="min-h-[44px] rounded-lg border border-purple-600 px-3 py-2 font-bold text-purple-800 dark:text-purple-200">Usar visualizador alternativo de páginas</button>
-              <a id="magistraturaPdfFonte" href="https://documento.vunesp.com.br/documento/stream/MjQwOTM0MQ%3D%3D" target="_blank" rel="noopener noreferrer" class="min-h-[44px] inline-flex items-center underline font-bold text-purple-800 dark:text-purple-200">Abrir PDF integral na fonte oficial</a>
-            </div>
-            <p class="text-xs mt-2 text-slate-700 dark:text-slate-300">O caderno contém 100 questões. Se a visualização móvel ficar apenas na capa, utilize o leitor alternativo ou abra o PDF no aplicativo de documentos do celular.</p>
+        <details id="acervo-stj" class="rounded-xl p-5 border border-purple-500 bg-slate-50 dark:bg-ratio-cardDark">
+          <summary class="cursor-pointer min-h-[44px] flex items-center font-bold text-slate-900 dark:text-white">STJ — Provas jurídicas oficiais (Cebraspe)</summary>
+          <p class="text-sm mt-3 text-slate-700 dark:text-slate-300">Concurso STJ 2018, cargo 7: Analista Judiciário — Área Judiciária. Provas objetivas oficiais de conhecimentos básicos e específicos, com gabaritos definitivos. Não é prova de ingresso na magistratura.</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4">
+            <button type="button" onclick="RatioSTJ.abrir('especificos')" class="min-h-[44px] rounded-lg bg-purple-700 text-white px-4 py-3 font-bold text-sm">Ler questões jurídicas — itens 41 a 120</button>
+            <button type="button" onclick="RatioSTJ.abrir('basicos')" class="min-h-[44px] rounded-lg bg-purple-700 text-white px-4 py-3 font-bold text-sm">Ler conhecimentos básicos — itens 1 a 40</button>
+            <button type="button" onclick="RatioSTJ.abrir('gabarito-especificos')" class="min-h-[44px] rounded-lg border border-purple-600 px-4 py-3 font-bold text-sm text-purple-800 dark:text-purple-200">Gabarito definitivo — específicos</button>
+            <button type="button" onclick="RatioSTJ.abrir('gabarito-basicos')" class="min-h-[44px] rounded-lg border border-purple-600 px-4 py-3 font-bold text-sm text-purple-800 dark:text-purple-200">Gabarito definitivo — básicos</button>
           </div>
-          <a href="https://www.vunesp.com.br/TJSP2102" target="_blank" rel="noopener noreferrer" class="block mt-3 underline font-bold text-purple-800 dark:text-purple-300">Consultar gabaritos, editais e resultados na VUNESP</a>
-          <p class="text-sm mt-3 text-slate-700 dark:text-slate-300">191º Concurso — acervo oficial da banca:</p>
-          <a href="https://www.vunesp.com.br/TJSP2402" target="_blank" rel="noopener noreferrer" class="block mt-2 underline font-bold text-purple-800 dark:text-purple-300">Provas e gabaritos do 191º Concurso TJSP</a>
-          <p class="text-xs mt-3 text-slate-600 dark:text-slate-300">Consulta documental; sem respostas inventadas nem atribuição automática de nota até validar a prova e seu respectivo gabarito.</p>
-          <div class="mt-3 flex gap-4 text-sm flex-wrap">
-            <a href="https://portal.stf.jus.br/jurisprudencia/" target="_blank" rel="noopener noreferrer" class="underline text-purple-800 dark:text-purple-300">Jurisprudência STF</a>
-            <a href="https://processo.stj.jus.br/SCON/" target="_blank" rel="noopener noreferrer" class="underline text-purple-800 dark:text-purple-300">Jurisprudência STJ</a>
-            <a href="#gabinete" class="underline text-purple-800 dark:text-purple-300">Pesquisar legislação no RatioJuris</a>
+          <div id="stjVisualizador" class="hidden mt-4 rounded-lg border border-purple-500 p-3">
+            <div class="flex flex-wrap gap-2 items-center justify-between">
+              <p id="stjPdfStatus" role="status" aria-live="polite" class="text-sm font-bold text-slate-900 dark:text-white"></p>
+              <button type="button" onclick="RatioSTJ.fechar()" class="min-h-[44px] px-3 py-2 border border-purple-500 rounded-lg text-purple-800 dark:text-purple-200 font-bold">Fechar documento</button>
+            </div>
+            <iframe id="stjPdfFrame" title="Prova oficial STJ 2018" loading="lazy" class="w-full mt-3 bg-white rounded-lg" style="height:70vh;min-height:420px"></iframe>
+            <a id="stjPdfFonte" href="https://cdn.cebraspe.org.br/concursos/STJ_18/arquivos/MATRIZ_385_STJ007__PAG_4.PDF" target="_blank" rel="noopener noreferrer" class="inline-flex mt-3 min-h-[44px] items-center underline text-purple-800 dark:text-purple-200 font-bold">Abrir documento original do Cebraspe</a>
           </div>
+          <p class="mt-3 text-xs text-slate-600 dark:text-slate-300">Conteúdo histórico: legislação e jurisprudência devem ser conferidas quanto à vigência. A correção automática destas provas ainda não está habilitada.</p>
+          <a href="https://cdn.cebraspe.org.br/concursos/STJ_18/" target="_blank" rel="noopener noreferrer" class="block mt-3 underline font-bold text-purple-800 dark:text-purple-300">Consultar todos os documentos na banca oficial</a>
         </details>
       </div>
     </div>
@@ -2609,8 +2602,8 @@
       }
     });
   </script>
-  <script src="/leitor-mobile-pdf.js?v=20261113-magistratura"></script>
-  <script src="/magistratura-leitor.js?v=20261113-2"></script>
+  <script src="/leitor-mobile-pdf.js?v=20261114-stj"></script>
+  <script src="/stj-leitor.js?v=20261114-1"></script>
   <script src="/leitor-pdf-oficial.js?v=20261113-mobile-stability"></script>
   <script src="/acessibilidade.js?v=20261113-01"></script>
   <script src="/responsividade.js?v=20261112-2309"></script>
