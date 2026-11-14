@@ -292,11 +292,16 @@
      const numbered=/^0*(\d{1,2})\s*[.):-]\s+\S.{15,}$/.exec(value);
      return numbered?{numero:Number(numbered[1]),formal:false}:null;
    };
-   let start=-1;
+   // Priorizar cabeçalhos explícitos. Números de página e itens de alternativas
+   // frequentemente aparecem sozinhos nas provas e não são números de questão.
+   const candidatos=[];
    for(let index=0;index<lines.length;index++){
      const m=marcador(lines[index]);
-     if(m?.numero===n){start=index;break;}
+     if(m?.numero===n)candidatos.push({index,formal:m.formal});
    }
+   const preferido=candidatos.find(c=>c.formal)||
+     candidatos.find(c=>lines.slice(c.index+1,c.index+12).some(l=>/\b[A-D]\s*[).]\s+\S/.test(l)));
+   const start=preferido?.index??-1;
    if(start<0)return null;
    let end=lines.length;
    for(let k=start+1;k<lines.length;k++){
@@ -384,7 +389,8 @@
        let excerpt=extrairTrechoQuestao(full,n);
        // Questões que começam no fim da página podem continuar na próxima.
        // Só mesclar quando o marcador da questão está na página atual.
-       if(excerpt && pageNo<documento.numPages && excerpt.length<180){
+       if(excerpt && pageNo<documento.numPages &&
+          (excerpt.length<180 || !/\bD\s*[).]\s+/.test(excerpt))){
          const next=await textoPagina(pageNo+1);
          const combined=extrairTrechoQuestao(full+"\n"+next,n);
          if(combined&&combined.length>excerpt.length)excerpt=combined;
