@@ -98,37 +98,33 @@ if(!Object.hasOwn(FONTES,lei)||!/^[1-9]\d{0,3}(?:-[A-Z])?$/.test(artigo)){
 const source=FONTES[lei];
 const candidates=[source,...(FONTES_ALTERNATIVAS[lei]||[]),
  ...(lei==="clt"&&artigo==="878"?["https://legis.senado.leg.br/norma/17728053/publicacao/17728664"]:[])];
-const failures=[];
-for(const candidate of candidates){
- try{
-  const response=await fetch(candidate,{headers:{"Accept":"text/html"},signal:AbortSignal.timeout(9500),redirect:"follow"});
-  if(!response.ok){failures.push(response.status);continue;}
+// Consulta em paralelo às fontes oficiais para evitar que uma origem lenta
+// consuma todo o limite de execução e impeça as demais tentativas.
+const resultados=await Promise.allSettled(candidates.map(async(candidate)=>{
+  const response=await fetch(candidate,{headers:{"Accept":"text/html"},signal:AbortSignal.timeout(6500),redirect:"follow"});
+  if(!response.ok)throw Error("HTTP "+response.status);
   const host=new URL(response.url).hostname;
-  if(!["www.planalto.gov.br","planalto.gov.br","www2.camara.leg.br","legis.senado.leg.br"].includes(host)){
-    failures.push("redirecionamento");continue;
-  }
-  if(Number(response.headers.get("content-length")||"0")>6000000){failures.push("tamanho");continue;}
+  if(!["www.planalto.gov.br","planalto.gov.br","www2.camara.leg.br","legis.senado.leg.br"].includes(host))
+    throw Error("Redirecionamento inesperado");
+  if(Number(response.headers.get("content-length")||"0")>6000000)throw Error("Documento excessivo");
   const bytes=await response.arrayBuffer();
-  if(bytes.byteLength>6000000){failures.push("tamanho");continue;}
+  if(bytes.byteLength>6000000)throw Error("Documento excessivo");
   const header=response.headers.get("content-type")||"";
-  const charset=/charset\s*=\s*["']?([\w-]+)/i.exec(header)?.[1]||"";
+  const charset=/charset\\s*=\\s*["']?([\\w-]+)/i.exec(header)?.[1]||"";
   const utf8=new TextDecoder("utf-8").decode(bytes);
   const html=/iso-8859-1|windows-1252/i.test(charset)||utf8.includes("�")?
     new TextDecoder("windows-1252").decode(bytes):utf8;
-  if(!/<(?:html|body)/i.test(html)){failures.push("html");continue;}
+  if(!/<(?:html|body)/i.test(html))throw Error("Resposta não HTML");
   let conteudo=extract(toText(html),artigo);
-  if(!conteudo){failures.push("artigo não localizado");continue;}
-  // Em leis alteradoras, remover apenas a marca editorial de nova redação
-  // que fica depois do dispositivo transcrito, preservando caput e parágrafos.
+  if(!conteudo)throw Error("Artigo não localizado");
   if(lei==="clt"&&artigo==="878"&&candidate.includes("/17728053/"))
-    conteudo=conteudo.replace(/\s*[”"]\s*\(NR\)\s*[“"]?\s*$/,"").trim();
-  res.status(200).json({
-    lei,artigo,source:response.url,conteudo,
-    aviso:"Transcrição automática de fonte legislativa oficial. Confira redação vigente, notas e alterações na fonte."
-  });
-  return;
- }catch(_){failures.push("fonte indisponível");}
-}
+    conteudo=conteudo.replace(/\\s*[”"]\\s*\\(NR\\)\\s*[“"]?\\s*$/,"").trim();
+  return {lei,artigo,source:response.url,conteudo,
+    aviso:"Transcrição automática de fonte legislativa oficial. Confira redação vigente, notas e alterações na fonte."};
+}));
+const encontrado=resultados.find(item=>item.status==="fulfilled");
+if(encontrado){res.status(200).json(encontrado.value);return;}
+const failures=resultados.map(item=>item.status==="rejected"?String(item.reason?.message||"Fonte indisponível"):"sem resultado");
 res.status(502).json({
   error:"Não foi possível recuperar com segurança o artigo solicitado.",
   source,alternativa:FONTES_ALTERNATIVAS[lei]?.[0]||null,
