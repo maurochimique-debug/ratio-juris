@@ -1223,6 +1223,44 @@
       ],null);
       return false;
     }
+    const futurasEdicoesOAB=Object.create(null);
+    async function carregarFuturasEdicoesOAB(){
+      // Falha da atualização jamais bloqueia provas já disponíveis.
+      try{
+        const response=await fetch('/data/oab-futuras-edicoes.json',{cache:'no-store',signal:AbortSignal.timeout(6000)});
+        if(!response.ok)return false;
+        const registry=await response.json();
+        if(registry.versao!==1||!Array.isArray(registry.exames))return false;
+        const db=window.RATIO_OAB_DATA;
+        const origem=/^https:\/\/(?:s\.oab\.org\.br\/arquivos\/|oab\.fgv\.br\/arq\/).+\.pdf(?:\?.*)?$/i;
+        const cores=['Branca','Verde','Amarela','Azul'];
+        for(const item of registry.exames){
+          const n=Number(item.numero);
+          if(!Number.isInteger(n)||n<=47||n>999||item.status!=='publicado'||
+             typeof item.verificado_em!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(item.verificado_em))continue;
+          const books=item.cadernos;
+          if(!Array.isArray(books)||books.length!==4||
+             !books.every((b,i)=>b?.tipo===i+1&&b.cor===cores[i]&&origem.test(b.pdf)))continue;
+          if(!origem.test(item.gabaritoPDF||'')||
+             !['preliminar','definitivo','retificado'].includes(item.natureza_gabarito))continue;
+          if(typeof item.fonteOficial!=='string'||!/^https:\/\/(?:oab\.fgv\.br|examedeordem\.oab\.org\.br|conhecimento\.fgv\.br)\//.test(item.fonteOficial))continue;
+          futurasEdicoesOAB[n]={
+            cadernos:books.map(b=>({tipo:b.tipo,cor:b.cor,pdf:b.pdf})),
+            gabaritoPDF:item.gabaritoPDF,
+            status:'DOCUMENTOS_OFICIAIS_'+item.natureza_gabarito.toUpperCase(),
+            fonteOficial:item.fonteOficial,
+            aviso:'Documentos oficiais disponíveis para consulta. Correção automática apenas após importação e validação das 80 respostas por caderno.'
+          };
+          if(!db.archive.some(e=>e.exame===n))
+            db.archive.push({exame:n,fgvUrl:item.fonteOficial,status:'documentos_verificados_sem_correcao_automatica',importado:false});
+        }
+        db.archive.sort((a,b)=>b.exame-a.exame);
+        return true;
+      }catch(error){
+        console.warn('Catálogo de novas edições indisponível; mantendo acervo local.');
+        return false;
+      }
+    }
     function fonteOAB() {
       const dados=window.RATIO_OAB_DATA;
       if(!dados||!dados.exam47||!Array.isArray(dados.archive))throw new Error('Base oficial OAB ausente');
@@ -1301,13 +1339,14 @@
       const sel=document.getElementById('gabaritoHistoricoSelect');
       if(!sel)return;
       sel.replaceChildren();
-      for(let numero=47;numero>=10;numero--){
+      for(const entry of fonteOAB().archive){
+        const numero=entry.exame;
         const option=document.createElement('option');
         option.value=String(numero);
         option.textContent=numero+'º Exame de Ordem';
         sel.appendChild(option);
       }
-      sel.value='47';
+      sel.value=String(document.getElementById('oabExamSelect')?.value||fonteOAB().archive[0]?.exame||47);
       const tipo=document.getElementById('historicoTipoCaderno');
       if(tipo)tipo.value=String(typeof tipoOABAtual==='function'?tipoOABAtual():1);
       atualizarConsultaGabaritoHistorico();
@@ -1322,8 +1361,9 @@
         op.textContent=entry.exame+'º Exame de Ordem Unificado';
         sel.appendChild(op);
       });
-      const ultimoExame=lerArmazenamento('ratio_ultimo_exame','47');
-      sel.value=dados.archive.some(x=>String(x.exame)===ultimoExame)?ultimoExame:'47';
+      const preferido=String(dados.archive[0]?.exame||47);
+      const ultimoExame=lerArmazenamento('ratio_ultimo_exame',preferido);
+      sel.value=dados.archive.some(x=>String(x.exame)===ultimoExame)?ultimoExame:preferido;
       const ultimoTipo=lerArmazenamento('ratio_ultimo_caderno','1');
       document.getElementById('oabTipoSelect').value=/^[1-4]$/.test(ultimoTipo)?ultimoTipo:'1';
       atualizarArquivoOAB();
@@ -1389,12 +1429,12 @@
       }
     });
     function documentosDoExameOAB(numero){
-      return fonteOAB()['exam'+numero]||arquivosDocumentaisOAB[numero]||null;
+      return fonteOAB()['exam'+numero]||arquivosDocumentaisOAB[numero]||futurasEdicoesOAB[numero]||null;
     }
     // Consulta somente de leitura para o leitor oficial, sem alterar a interface.
     window.RatioDocumentosOAB=function(numero){
       const n=Number(numero);
-      if(!Number.isInteger(n)||n<10||n>47)return null;
+      if(!Number.isInteger(n)||n<10||n>999)return null;
       return documentosDoExameOAB(n);
     };
     // Um único visualizador opcional: alterna caderno e gabarito sem abrir nova aba.
@@ -2665,7 +2705,8 @@
       invalidarEstatisticaOAB();
       renderizarSimuladorOficial();
     }
-    window.addEventListener('DOMContentLoaded',function(){
+    window.addEventListener('DOMContentLoaded',async function(){
+      await carregarFuturasEdicoesOAB();
       iniciarArquivoOAB();
       // Uma única fonte de verdade: valor atual dos seletores, nunca texto antigo do PDF.
       const examSelect=document.getElementById('oabExamSelect');
