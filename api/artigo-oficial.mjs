@@ -107,7 +107,12 @@ if(lei==="l9784" && Number(artigo.match(/^\\d+/)?.[0])>70){
  return;
 }
 const source=FONTES[lei];
-const candidates=[source,...(FONTES_ALTERNATIVAS[lei]||[]),
+const fonteArtigoCPC=(lei==="cpc"&&artigo==="1009")
+ ? "https://normas.leg.br/?urn=urn%3Alex%3Abr%3Afederal%3Alei%3A2015-03-16%3B13105%21art1009"
+ : null;
+const candidates=[...(fonteArtigoCPC?[fonteArtigoCPC]:[]),
+ ...((lei==="cpc"?(FONTES_ALTERNATIVAS[lei]||[]):[source,...(FONTES_ALTERNATIVAS[lei]||[])])),
+ ...(lei==="cpc"?[source]:[]),
  ...(lei==="clt"&&artigo==="878"?["https://legis.senado.leg.br/norma/17728053/publicacao/17728664"]:[])];
 // Consulta em paralelo às fontes oficiais para evitar que uma origem lenta
 // consuma todo o limite de execução e impeça as demais tentativas.
@@ -115,7 +120,7 @@ const resultados=await Promise.allSettled(candidates.map(async(candidate)=>{
   const response=await fetch(candidate,{headers:{"Accept":"text/html"},signal:AbortSignal.timeout(6500),redirect:"follow"});
   if(!response.ok)throw Error("HTTP "+response.status);
   const host=new URL(response.url).hostname;
-  if(!["www.planalto.gov.br","planalto.gov.br","www2.camara.leg.br","legis.senado.leg.br"].includes(host))
+  if(!["www.planalto.gov.br","planalto.gov.br","www2.camara.leg.br","legis.senado.leg.br","normas.leg.br"].includes(host))
     throw Error("Redirecionamento inesperado");
   if(Number(response.headers.get("content-length")||"0")>6000000)throw Error("Documento excessivo");
   const bytes=await response.arrayBuffer();
