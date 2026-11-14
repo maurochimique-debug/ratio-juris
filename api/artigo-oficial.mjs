@@ -62,39 +62,40 @@ return entities(html.replace(/<!--[\s\S]*?-->/g,"")
 .replace(/<br\b[^>]*>/gi,"\n").replace(/<[^>]+>/g," "))
 .replace(/\r/g,"").replace(/[ \t]+/g," ").replace(/ *\n */g,"\n").replace(/\n{3,}/g,"\n\n");
 }
+// Extrator compartilhado: não depende de um número específico de artigo.
+// A numeração é comparada de modo exato, incluindo "1.009" e "1009" e sufixos.
 function extract(text,num){
-  // A redação oficial pode representar "Art. 5º" como "Art. 5 o",
-  // usar hífen, ponto, sobrescrito HTML ou espaço de largura variável.
-  const parts=/^(\d{1,4})(?:-([A-Z]))?$/.exec(num);
-  if(!parts)return null;
-  const digits=parts[1];
-  const quantity=digits.length>3?digits.slice(0,-3)+"\\.?"+digits.slice(-3):digits;
-  const suffix=parts[2]?"\\s*[-–]\\s*"+parts[2]:"";
-  const head="Art(?:igo)?\\.?\\s*"+quantity+suffix+"(?:(?:\\s*[º°o])?\\s*[.:-–—]?)(?=\\s|$)";
-  const start=new RegExp("(^|\\n)\\s*"+head,"gim");
-  const anyArticle=/(^|\n)\s*Art(?:igo)?\.?\s*(?:\d{1,2}\.\d{3}|\d{1,4})(?:\s*[-–]\s*[A-Z])?(?:\s*[º°o])?\s*[.:-–—]?(?=\s|$)/gim;
-  const matches=[...text.matchAll(start)];
-  const boundaries=[...text.matchAll(anyArticle)];
-  for(const match of matches){
-    const at=match.index+(match[1]?.length||0);
-    const next=boundaries.find(x=>x.index>at+20);
-    const passage=text.slice(at,next?.index??Math.min(text.length,at+12000)).trim();
-    // Artigos curtos também são válidos; não descartar redação oficial com menos de 30 caracteres.
-    if(passage.length>=12&&passage.length<=100000&&/^Art(?:igo)?\.?\s*\d/i.test(passage)){
-      return passage;
-    }
+  const requested=/^([1-9]\d{0,3})(?:-([A-Z]))?$/.exec(String(num||""));
+  if(!requested)return null;
+  const normalized=String(text||"").replace(/\u00a0/g," ").replace(/\r/g,"");
+  const marker=/^[ \t]*Art(?:igo)?\.?[ \t]*(\d{1,2}\.\d{3}|\d{1,4})(?:[ \t]*[-–][ \t]*([A-Z]))?(?:[ \t]*[º°o])?[ \t]*[.:\-–—]?(?=[ \t\n]|$)/gim;
+  const matches=[...normalized.matchAll(marker)].map(m=>({
+    at:m.index,
+    end:m.index+m[0].length,
+    number:Number(m[1].replace(".","")),
+    suffix:(m[2]||"").toUpperCase()
+  }));
+  const selected=matches.filter(m=>m.number===Number(requested[1])&&m.suffix===(requested[2]||""));
+  for(const current of selected){
+    const following=matches.find(m=>m.at>current.at);
+    const end=Math.min(following?.at??normalized.length,current.at+12000);
+    const excerpt=normalized.slice(current.at,end).trim();
+    // Rejeita índice remissivo e cabeçalhos vazios, sem completar conteúdo por IA.
+    if(excerpt.length>=22 && /\S.{12,}/s.test(excerpt.slice(current.end-current.at)))
+      return excerpt;
   }
-  // Fontes legislativas distintas às vezes compactam artigos em uma única linha.
-  // Segunda tentativa com limite estrito e marcador de artigo seguinte.
-  const compact=text.replace(/\s+/g," ").trim();
-  const inline=new RegExp("\\b"+head.replace("(?=\\s|$)","(?=\\s|$)"),"gi");
-  const result=inline.exec(compact);
-  if(!result)return null;
-  const nextArticle=/(?:\s{1,})Art(?:igo)?\.?\s*\d{1,4}(?:\s*[-–]\s*[A-Z])?\s*[º°o]?\s*[.:-–—]?(?=\s|$)/gi;
-  nextArticle.lastIndex=result.index+result[0].length;
-  const next=nextArticle.exec(compact);
-  const excerpt=compact.slice(result.index,Math.min(next?.index??compact.length,result.index+12000)).trim();
-  return excerpt.length>=12?excerpt:null;
+  // Fontes com HTML que não preserva linhas: manter o mesmo critério de número exato.
+  const flat=normalized.replace(/\s+/g," ").trim();
+  const inline=/\bArt(?:igo)?\.?\s*(\d{1,2}\.\d{3}|\d{1,4})(?:\s*[-–]\s*([A-Z]))?(?:\s*[º°o])?\s*[.:\-–—]?(?=\s|$)/gi;
+  const candidates=[...flat.matchAll(inline)];
+  for(const match of candidates){
+    if(Number(match[1].replace(".",""))!==Number(requested[1]) ||
+       (match[2]||"").toUpperCase()!==(requested[2]||""))continue;
+    const next=candidates.find(m=>m.index>match.index);
+    const excerpt=flat.slice(match.index,Math.min(next?.index??flat.length,match.index+12000)).trim();
+    if(excerpt.length>=22)return excerpt;
+  }
+  return null;
 }
 export default async function handler(req,res){
 res.setHeader("Cache-Control","no-store");
@@ -115,34 +116,21 @@ if(lei==="l9784" && Number(artigo.match(/^\d+/)?.[0])>70){
  });
  return;
 }
-const trechoConferido=ARTIGOS_CONFERIDOS[lei+":"+artigo];
-if(trechoConferido){
-  res.status(200).json({lei,artigo,conteudo:trechoConferido.conteudo,
-   source:trechoConferido.source,verificado_em:trechoConferido.verificado_em,
-   aviso:"Transcrição do dispositivo conferida em fonte legislativa oficial na data indicada. Confira eventuais alterações posteriores."});
-  return;
-}
 const source=FONTES[lei];
-const fonteArtigoCPC=(lei==="cpc"&&artigo==="1009")
- ? "https://normas.leg.br/?urn=urn%3Alex%3Abr%3Afederal%3Alei%3A2015-03-16%3B13105%21art1009"
- : null;
-const candidates=[...(fonteArtigoCPC?[fonteArtigoCPC]:[]),
- ...((lei==="cpc"?(FONTES_ALTERNATIVAS[lei]||[]):[source,...(FONTES_ALTERNATIVAS[lei]||[])])),
- ...(lei==="cpc"?[source]:[]),
- ...(lei==="clt"&&artigo==="878"?["https://legis.senado.leg.br/norma/17728053/publicacao/17728664"]:[])];
+const candidates=[source,...(FONTES_ALTERNATIVAS[lei]||[])];
 // Consulta em paralelo às fontes oficiais para evitar que uma origem lenta
 // consuma todo o limite de execução e impeça as demais tentativas.
 const resultados=await Promise.allSettled(candidates.map(async(candidate)=>{
-  const response=await fetch(candidate,{headers:{"Accept":"text/html"},signal:AbortSignal.timeout(6500),redirect:"follow"});
+  const response=await fetch(candidate,{headers:{"Accept":"text/html"},signal:AbortSignal.timeout(8500),redirect:"follow"});
   if(!response.ok)throw Error("HTTP "+response.status);
   const host=new URL(response.url).hostname;
   if(!["www.planalto.gov.br","planalto.gov.br","www2.camara.leg.br","legis.senado.leg.br","normas.leg.br"].includes(host))
     throw Error("Redirecionamento inesperado");
-  if(Number(response.headers.get("content-length")||"0")>6000000)throw Error("Documento excessivo");
+  if(Number(response.headers.get("content-length")||"0")>8500000)throw Error("Documento excessivo");
   const bytes=await response.arrayBuffer();
-  if(bytes.byteLength>6000000)throw Error("Documento excessivo");
+  if(bytes.byteLength>8500000)throw Error("Documento excessivo");
   const header=response.headers.get("content-type")||"";
-  const charset=/charset\\s*=\\s*["']?([\\w-]+)/i.exec(header)?.[1]||"";
+  const charset=/charset\s*=\s*["']?([\w-]+)/i.exec(header)?.[1]||"";
   const utf8=new TextDecoder("utf-8").decode(bytes);
   const html=/iso-8859-1|windows-1252/i.test(charset)||utf8.includes("�")?
     new TextDecoder("windows-1252").decode(bytes):utf8;
@@ -156,9 +144,19 @@ const resultados=await Promise.allSettled(candidates.map(async(candidate)=>{
 }));
 const encontrado=resultados.find(item=>item.status==="fulfilled");
 if(encontrado){res.status(200).json(encontrado.value);return;}
+const trechoConferido=ARTIGOS_CONFERIDOS[lei+":"+artigo];
+if(trechoConferido){
+  res.status(200).json({
+    lei,artigo,conteudo:trechoConferido.conteudo,source:trechoConferido.source,
+    verificado_em:trechoConferido.verificado_em,
+    aviso:"Transcrição conferida em fonte oficial na data indicada. A consulta ao texto atualizado não respondeu; verifique eventuais alterações."
+  });
+  return;
+}
 const failures=resultados.map(item=>item.status==="rejected"?String(item.reason?.message||"Fonte indisponível"):"sem resultado");
 res.status(502).json({
-  error:"Não foi possível recuperar com segurança o artigo solicitado.",
+  codigo:"FONTE_NAO_RECUPERADA",
+  error:"Não foi possível recuperar e conferir automaticamente o texto deste artigo.",
   source,alternativa:FONTES_ALTERNATIVAS[lei]?.[0]||null,
   aviso:"Use os links oficiais para consultar o texto completo. Nenhum conteúdo jurídico foi inventado.",
   motivos:failures
