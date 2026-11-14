@@ -1,4 +1,20 @@
 import {Readable} from "node:stream";
+import {readFileSync} from "node:fs";
+const URL_OFICIAL=/^https:\/\/(?:s\.oab\.org\.br\/arquivos\/|oab\.fgv\.br\/arq\/).+\.pdf(?:\?.*)?$/i;
+function futuroHomologado(numero){
+  // Somente arquivos previamente registrados e revisados no GitHub.
+  try{
+    const catalogo=JSON.parse(readFileSync(new URL("../data/oab-futuras-edicoes.json",import.meta.url),"utf8"));
+    const item=catalogo.exames?.find(e=>String(e.numero)===String(numero));
+    if(!item||item.status!=="publicado"||!/^\d{4}-\d{2}-\d{2}$/.test(item.verificado_em||""))return null;
+    if(!Array.isArray(item.cadernos)||item.cadernos.length!==4||
+       !item.cadernos.every((b,i)=>b.tipo===i+1&&URL_OFICIAL.test(b.pdf)))return null;
+    if(!URL_OFICIAL.test(item.gabaritoPDF||"")||
+       !["preliminar","definitivo","retificado"].includes(item.natureza_gabarito))return null;
+    return item;
+  }catch(_){return null;}
+}
+
 /* RATIO JURIS: gabaritos definitivos oficiais por exame, proxy fechado. */
 const SOURCES=Object.freeze({
  "10":"https://s.oab.org.br/arquivos/2019/10/24c2df34-12d1-4c78-a0dc-23f899f7a01f.pdf",
@@ -45,8 +61,8 @@ export default async function handler(req,res){
  res.setHeader("Cache-Control","no-store");
  res.setHeader("X-Content-Type-Options","nosniff");
  if(!["GET","HEAD"].includes(req.method))return res.status(405).end("Método não permitido.");
- const exame=String(req.query.exame||"");if(!/^\d{2}$/.test(exame))return res.status(400).end("Exame inválido.");
- const original=SOURCES[exame];
+ const exame=String(req.query.exame||"");if(!/^\d{2,3}$/.test(exame))return res.status(400).end("Exame inválido.");
+ const original=SOURCES[exame]||futuroHomologado(exame)?.gabaritoPDF;
  if(!original)return res.status(404).end("Documento oficial não cadastrado.");
  const range=typeof req.headers.range==="string"?req.headers.range:"";
  if(range&&!/^bytes=\d*-\d*$/.test(range))return res.status(416).end("Intervalo inválido.");
