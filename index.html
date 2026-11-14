@@ -1003,6 +1003,28 @@
         }
       }
     }
+    function destacarArtigoNoRatioJuris(){
+      const painel=document.getElementById('resultadoBuscaContainer');
+      const detalhes=painel?.querySelector('#artigoOficialSelecionado');
+      const texto=detalhes?.querySelector('#artigoOficialConteudo');
+      if(!painel||!detalhes||!texto)return false;
+      painel.classList.remove('hidden');
+      detalhes.open=true;
+      const valido=texto.dataset.artigoCarregado==='sim';
+      detalhes.style.borderColor=valido?'#fbbf24':'#a855f7';
+      detalhes.style.boxShadow=valido?'0 0 0 2px rgba(251,191,36,.45)':'none';
+      texto.style.backgroundColor=valido?'rgba(251,191,36,.14)':'transparent';
+      texto.style.borderRadius='8px';
+      texto.style.padding='12px';
+      texto.style.outline=valido?'2px solid rgba(251,191,36,.55)':'none';
+      texto.scrollIntoView({block:'center',behavior:'auto'});
+      if(!valido){
+        const status=document.getElementById('statusDestaqueArtigo');
+        if(status)status.textContent='O texto oficial ainda não foi recuperado. Utilize as fontes legislativas abaixo.';
+      }
+      return valido;
+    }
+    window.destacarArtigoNoRatioJuris=destacarArtigoNoRatioJuris;
     let consultaArtigoOficialSeq=0;
     async function carregarTextoArtigoOficial(lei,numero){
       const token=++consultaArtigoOficialSeq;
@@ -1010,11 +1032,14 @@
       const detalhes=document.createElement('details');
       detalhes.open=true;
       detalhes.className='mt-4 rounded-xl border border-purple-500 p-4 bg-slate-900';
+      detalhes.id='artigoOficialSelecionado';
       const sum=document.createElement('summary');
       sum.className='cursor-pointer font-bold text-purple-200';
       sum.textContent='Exibir ou ocultar texto do artigo selecionado';
       const area=document.createElement('div');
       area.className='mt-3 text-sm leading-relaxed whitespace-pre-line break-words text-white max-h-[28rem] overflow-y-auto';
+      area.id='artigoOficialConteudo';
+      area.dataset.artigoCarregado='nao';
       area.textContent='Consultando o artigo na fonte legislativa oficial...';
       detalhes.append(sum,area);
       target.appendChild(detalhes);
@@ -1041,6 +1066,7 @@
           return;
         }
         area.textContent=json.conteudo;
+        area.dataset.artigoCarregado='sim';
       const notaTexto=document.createElement('p');
       notaTexto.className='mt-3 text-xs text-slate-300';
       notaTexto.textContent=json.aviso||'Confira a redação vigente na fonte oficial.';
@@ -1137,7 +1163,17 @@
       sum.className='cursor-pointer text-purple-200 font-bold';
       sum.textContent='Exibir ou ocultar links das fontes oficiais (podem solicitar cookies)';
       detalhesLinks.appendChild(sum);
-      for(const item of [{nome:'Abrir a lei no Planalto',url:linkBase},{nome:'Tentar destacar '+artigo,url},
+      const botaoDestaque=document.createElement('button');
+      botaoDestaque.type='button';
+      botaoDestaque.className='inline-flex min-h-[44px] mt-3 mr-3 items-center rounded-lg border border-amber-400 px-3 py-2 font-bold text-amber-200';
+      botaoDestaque.textContent='Destacar '+artigo+' aqui no RATIO JURIS';
+      botaoDestaque.onclick=destacarArtigoNoRatioJuris;
+      detalhesLinks.appendChild(botaoDestaque);
+      const statusDestaque=document.createElement('p');
+      statusDestaque.id='statusDestaqueArtigo';
+      statusDestaque.className='mt-2 text-xs text-slate-300';
+      detalhesLinks.appendChild(statusDestaque);
+      for(const item of [{nome:'Abrir a lei no Planalto',url:linkBase},
         ...(alternativas[lei]?[{nome:'Consultar legislação em fonte oficial alternativa',url:alternativas[lei]}]:[])]){
         const link=document.createElement('a');link.href=item.url;link.target='_blank';link.rel='noopener noreferrer';
         link.className='inline-flex mt-3 mr-3 rounded-lg border border-purple-500 px-3 py-2 underline text-purple-200';
