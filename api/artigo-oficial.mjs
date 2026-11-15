@@ -26,7 +26,10 @@ lai:"https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2011/lei/l12527.htm",
 orgcrime:"https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2013/lei/l12850.htm",
 previdencia:"https://www.planalto.gov.br/ccivil_03/leis/l8213cons.htm",
 migracao:"https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2017/lei/l13445.htm",
-cadh:"https://www.planalto.gov.br/ccivil_03/decreto/d0678.htm"
+cadh:"https://www.planalto.gov.br/ccivil_03/decreto/d0678.htm",
+crimesambientais:"https://www.planalto.gov.br/ccivil_03/leis/l9605.htm",
+pnma:"https://www.planalto.gov.br/ccivil_03/leis/l6938.htm",
+florestal:"https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2012/lei/l12651.htm"
 });
 // Trecho curto conferido diretamente na fonte legislativa oficial.
  // Evita que indisponibilidade do portal impeça a leitura de dispositivo verificado.
@@ -96,7 +99,10 @@ const FONTES_ALTERNATIVAS=Object.freeze({
   eleitoral:["https://www2.camara.leg.br/legin/fed/lei/1997/lei-9504-30-setembro-1997-365408-normaatualizada-pl.html"],
   lrf:["https://www2.camara.leg.br/legin/fed/leicom/2000/leicomplementar-101-4-maio-2000-351480-normaatualizada-pl.html"],
   migracao:["https://www2.camara.leg.br/legin/fed/lei/2017/lei-13445-24-maio-2017-784925-publicacaooriginal-152812-pl.html"],
-  cadh:["https://www2.camara.leg.br/legin/fed/decret/1992/decreto-678-6-novembro-1992-449028-publicacaooriginal-1-pe.html"]
+  cadh:["https://www2.camara.leg.br/legin/fed/decret/1992/decreto-678-6-novembro-1992-449028-publicacaooriginal-1-pe.html"],
+  crimesambientais:["https://www2.camara.leg.br/legin/fed/lei/1998/lei-9605-12-fevereiro-1998-365397-normaatualizada-pl.html"],
+  pnma:["https://www2.camara.leg.br/legin/fed/lei/1980-1987/lei-6938-31-agosto-1981-366135-normaatualizada-pl.html"],
+  florestal:["https://www2.camara.leg.br/legin/fed/lei/2012/lei-12651-25-maio-2012-613076-normaatualizada-pl.html"]
 });
 function entities(s){
 return s.replace(/&#x([0-9a-f]+);/gi,(_,h)=>String.fromCodePoint(parseInt(h,16)))
@@ -181,7 +187,7 @@ if(trechoConferido){
 }
 const source=FONTES[lei];
 // Priorizar a Câmara na CLT: o Planalto pode exigir captcha no acesso automatizado.
-const candidates=lei==="clt"||lei==="migracao"||lei==="cadh"?
+const candidates=["crimesambientais","pnma","florestal","clt","migracao","cadh"].includes(lei)?
  [...(FONTES_ALTERNATIVAS[lei]||[]),source]:
  lei==="ced"?[source]:
  [source,...(FONTES_ALTERNATIVAS[lei]||[])];
