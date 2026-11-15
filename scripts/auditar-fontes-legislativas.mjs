@@ -5,7 +5,7 @@ const api=readFileSync(new URL('../api/artigo-oficial.mjs',import.meta.url),'utf
 const definitions=api.match(/const FONTES=Object\.freeze\(\{([\s\S]*?)\}\);/)?.[1];
 if(!definitions)throw Error('Mapa de diplomas não encontrado');
 const laws=[...definitions.matchAll(/^\s*([a-z][a-z0-9]*):"https:\/\//gm)].map(m=>m[1]);
-if(laws.length!==24)throw Error('Quantidade inesperada de diplomas: '+laws.length);
+if(laws.length!==25)throw Error('Quantidade inesperada de diplomas: '+laws.length);
 const origin=(process.env.RATIO_JURIS_BASE_URL||'https://ratiojuris.vercel.app').replace(/\/$/,'');
 if(!/^https:\/\/[a-z0-9.-]+$/i.test(origin))throw Error('Origem inválida');
 const checks=[];
