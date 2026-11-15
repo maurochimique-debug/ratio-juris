@@ -5,18 +5,20 @@ const api=readFileSync(new URL('../api/artigo-oficial.mjs',import.meta.url),'utf
 const definitions=api.match(/const FONTES=Object\.freeze\(\{([\s\S]*?)\}\);/)?.[1];
 if(!definitions)throw Error('Mapa de diplomas não encontrado');
 const laws=[...definitions.matchAll(/^\s*([a-z][a-z0-9]*):"https:\/\//gm)].map(m=>m[1]);
-if(laws.length!==27)throw Error('Quantidade inesperada de diplomas: '+laws.length);
+if(laws.length!==30)throw Error('Quantidade inesperada de diplomas: '+laws.length);
 const origin=(process.env.RATIO_JURIS_BASE_URL||'https://ratiojuris.vercel.app').replace(/\/$/,'');
 if(!/^https:\/\/[a-z0-9.-]+$/i.test(origin))throw Error('Origem inválida');
 const checks=[];
 async function check(law){
  const start=Date.now();
  try{
-  const response=await fetch(origin+'/api/artigo-oficial?lei='+encodeURIComponent(law)+'&artigo=1',{
+  // Artigo 1º da Lei 9.605 é vetado; utilizar artigo substantivo para a auditoria.
+  const artigo=law==='crimesambientais'?'2':'1';
+  const response=await fetch(origin+'/api/artigo-oficial?lei='+encodeURIComponent(law)+'&artigo='+artigo,{
    signal:AbortSignal.timeout(22000),headers:{Accept:'application/json'}});
   const json=await response.json().catch(()=>null);
-  const valid=response.ok&&json?.lei===law&&json?.artigo==='1'&&
-    typeof json.conteudo==='string'&&/^Art(?:igo)?\.?\s*1(?:[º°o])?(?=[\s.:\-–—])/i.test(json.conteudo)&&
+  const valid=response.ok&&json?.lei===law&&json?.artigo===artigo&&
+    typeof json.conteudo==='string'&&new RegExp('^Art(?:igo)?\\.?\\s*'+artigo+'(?:[º°o])?(?=[\\s.:\\-–—])','i').test(json.conteudo)&&
     typeof json.source==='string'&&/^https:\/\//.test(json.source);
   return {lei:law,ok:Boolean(valid),http:response.status,ms:Date.now()-start,
     origem:valid?new URL(json.source).hostname:null,
