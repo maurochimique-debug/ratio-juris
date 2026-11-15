@@ -299,12 +299,12 @@
           <div class="flex flex-col sm:flex-row gap-3 mt-4 items-stretch sm:items-end">
             <div class="flex-1">
               <label for="gabaritoHistoricoSelect" class="block font-bold mb-2 text-slate-800 dark:text-white">Número do exame</label>
-              <select id="gabaritoHistoricoSelect" onchange="atualizarConsultaGabaritoHistorico()" class="w-full rounded-xl border-2 border-purple-500 p-3 bg-white dark:bg-slate-900 text-slate-900 dark:text-white" aria-label="Selecionar edição histórica dos cadernos da OAB"></select>
+              <select id="gabaritoHistoricoSelect" onchange="selecionarCadernoHistorico()" class="w-full rounded-xl border-2 border-purple-500 p-3 bg-white dark:bg-slate-900 text-slate-900 dark:text-white" aria-label="Selecionar edição histórica dos cadernos da OAB"></select>
             </div>
             <a id="gabaritoHistoricoLink" href="https://www.oab.org.br/servicos/examedeordem" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center min-h-[48px] rounded-lg bg-purple-700 px-5 py-3 text-white font-bold underline">Baixar caderno PDF</a>
           </div>
           <label class="block text-sm font-bold text-slate-800 dark:text-white" for="historicoTipoCaderno">Tipo de caderno
-              <select id="historicoTipoCaderno" onchange="atualizarConsultaGabaritoHistorico()" class="mt-1 w-full rounded-lg border-2 border-purple-500 p-3 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+              <select id="historicoTipoCaderno" onchange="selecionarCadernoHistorico()" class="mt-1 w-full rounded-lg border-2 border-purple-500 p-3 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
                 <option value="1">Tipo 1 — Branca</option><option value="2">Tipo 2 — Verde</option><option value="3">Tipo 3 — Amarela</option><option value="4">Tipo 4 — Azul</option>
               </select>
             </label>
@@ -1380,10 +1380,47 @@
       if(frame){window.RatioMobilePdf?.close(frame);frame.removeAttribute('src');}
       document.getElementById('historicoPainelPdf')?.classList.add('hidden');
     }
+    // Seleções do catálogo histórico e do Simulador Livre devem representar
+    // o mesmo exame e caderno; nunca exibir PDF 42º com questão do 46º.
+    function sincronizarHistoricoComSimulador(){
+      const historico=document.getElementById('gabaritoHistoricoSelect');
+      const tipoHistorico=document.getElementById('historicoTipoCaderno');
+      const exame=document.getElementById('oabExamSelect');
+      const tipo=document.getElementById('oabTipoSelect');
+      if(!historico||!tipoHistorico||!exame||!tipo)return false;
+      const numero=String(historico.value),numeroTipo=String(tipoHistorico.value);
+      if(!/^\\d{2,3}$/.test(numero)||!/^[1-4]$/.test(numeroTipo))return false;
+      if(exame.value===numero&&tipo.value===numeroTipo)return true;
+      exame.value=numero;
+      tipo.value=numeroTipo;
+      atualizarArquivoOAB();
+      // atualizarArquivoOAB sincroniza o número; restaurar o tipo histórico.
+      tipoHistorico.value=numeroTipo;
+      return exame.value===numero&&tipo.value===numeroTipo;
+    }
+    function selecionarCadernoHistorico(){
+      if(!sincronizarHistoricoComSimulador()){
+        atualizarConsultaGabaritoHistorico();
+        return false;
+      }
+      atualizarConsultaGabaritoHistorico();
+      const numero=document.getElementById('gabaritoHistoricoSelect')?.value;
+      const tipo=document.getElementById('historicoTipoCaderno')?.value;
+      const status=document.getElementById('gabaritoHistoricoStatus');
+      if(status)status.textContent='Seleção sincronizada: '+numero+'º Exame, Tipo '+tipo+
+        '. O Simulador Livre e o PDF histórico agora usam o mesmo caderno. Toque em Abrir caderno no aplicativo.';
+      return true;
+    }
+    window.selecionarCadernoHistorico=selecionarCadernoHistorico;
     function abrirCadernoHistoricoNoApp(){
       const select=document.getElementById('gabaritoHistoricoSelect');
       const tipo=Number(document.getElementById('historicoTipoCaderno')?.value||1);
       const numero=Number(select?.value);
+      if(!sincronizarHistoricoComSimulador()){
+        const status=document.getElementById('gabaritoHistoricoStatus');
+        if(status)status.textContent='Não foi possível sincronizar o exame selecionado. Verifique a edição e o tipo de caderno.';
+        return false;
+      }
       const pdf=documentosDoExameOAB(numero)?.cadernos?.[tipo-1]?.pdf;
       if(!pdf){atualizarConsultaGabaritoHistorico();return false;}
       const destino='/api/oab-pdf?exame='+numero+'&tipo='+tipo+'#toolbar=1&navpanes=0';
@@ -1392,7 +1429,8 @@
       const painel=document.getElementById('historicoPainelPdf');
       painel?.classList.remove('hidden');
       const status=document.getElementById('gabaritoHistoricoStatus');
-      if(status)status.textContent='Abrindo caderno '+numero+'º, Tipo '+tipo+' dentro do aplicativo...';
+      if(status)status.textContent='Abrindo caderno '+numero+'º, Tipo '+tipo+
+        ' dentro do aplicativo. Simulador Livre sincronizado com esta edição.';
       // Link permanente visível, inclusive se o Android bloquear PDF.js.
       let fonte=document.getElementById('historicoCadernoLinkFonte');
       if(!fonte){
@@ -1407,9 +1445,13 @@
       if(window.RatioMobilePdf?.isMobile()){
         frame.removeAttribute('src');
         Promise.resolve(window.RatioMobilePdf.mount(frame,destino,pdf,3)).then(ok=>{
-          if(status&&painel&&!painel.classList.contains('hidden'))
-            status.textContent=ok?'Caderno oficial disponível no leitor interno. Navegue pelas páginas abaixo.':
-              'O leitor interno não abriu o PDF neste navegador. Tente o visualizador nativo ou o link oficial acima.';
+          if(status&&painel&&!painel.classList.contains('hidden') &&
+             Number(select?.value)===numero &&
+             Number(document.getElementById('historicoTipoCaderno')?.value)===tipo)
+            status.textContent=ok?'Caderno '+numero+'º Exame, Tipo '+tipo+
+              ' disponível no leitor interno, sincronizado com o Simulador Livre.':
+              'Caderno '+numero+'º Exame, Tipo '+tipo+
+              ': o leitor interno não abriu o PDF neste navegador. Use o visualizador nativo ou o link oficial acima.';
         }).catch(()=>{
           if(status)status.textContent='Falha ao abrir o PDF no leitor interno. Utilize o link oficial acima.';
         });
