@@ -1083,14 +1083,27 @@
             : 'Não foi possível recuperar o texto verificado desta fonte nesta conexão. Consulte a versão oficial abaixo.';
           const link=document.createElement('a');
           link.href=fontesLegaisPlanalto[lei]?.url||json.source;
-          link.target='_blank';link.rel='noopener noreferrer';
+          // Navegação direta por toque: evita bloqueio de novas janelas no Android.
+          link.rel='noopener noreferrer';
           link.className='block mt-3 font-bold underline text-purple-200';
           link.textContent='Consultar o artigo '+numero+' na fonte oficial';
           detalhes.appendChild(link);
           if(typeof json.alternativa==='string'&&/^https:\/\//.test(json.alternativa)){
-            const alt=document.createElement('a');alt.href=json.alternativa;alt.target='_blank';alt.rel='noopener noreferrer';
-            alt.className='block mt-3 font-bold underline text-purple-200';
-            alt.textContent='Abrir fonte legislativa alternativa';detalhes.appendChild(alt);
+            const alt=document.createElement('a');
+            alt.href=json.alternativa;
+            alt.rel='noopener noreferrer';
+            alt.className='block mt-3 min-h-[44px] font-bold underline text-purple-200';
+            alt.textContent='Abrir texto atualizado na fonte legislativa alternativa (Câmara ou Senado)';
+            detalhes.appendChild(alt);
+          }
+          // O PDF oficial da Câmara é uma segunda alternativa para CLT no Android.
+          if(lei==='clt'){
+            const pdf=document.createElement('a');
+            pdf.href='https://www2.camara.leg.br/legin/fed/declei/1940-1949/decreto-lei-5452-1-maio-1943-415500-normaatualizada-pe.pdf';
+            pdf.rel='noopener noreferrer';
+            pdf.className='block mt-3 min-h-[44px] font-bold underline text-purple-200';
+            pdf.textContent='Abrir CLT atualizada em PDF — Câmara dos Deputados';
+            detalhes.appendChild(pdf);
           }
           return;
         }
@@ -1182,7 +1195,7 @@
       const fonte=fontesLegaisPlanalto[lei];
       const url=construirUrlArtigoPlanalto(lei,numero);
       const linkBase=fonte.url;
-      const alternativas={cc:'https://www2.camara.leg.br/legin/fed/lei/2002/lei-10406-10-janeiro-2002-432893-normaatualizada-pl.html',oab:'https://www2.camara.leg.br/legin/fed/lei/1994/lei-8906-4-julho-1994-349751-normaatualizada-pl.html',ctn:'https://legis.senado.leg.br/norma/547034/publicacao/34620375'};
+      const alternativas={clt:'https://www2.camara.leg.br/legin/fed/declei/1940-1949/decreto-lei-5452-1-maio-1943-415500-normaatualizada-pe.html',cc:'https://www2.camara.leg.br/legin/fed/lei/2002/lei-10406-10-janeiro-2002-432893-normaatualizada-pl.html',oab:'https://www2.camara.leg.br/legin/fed/lei/1994/lei-8906-4-julho-1994-349751-normaatualizada-pl.html',ctn:'https://legis.senado.leg.br/norma/547034/publicacao/34620375'};
       // A consulta é interna por padrão. Nenhum portal de terceiros abre
       // automaticamente e, por isso, não se apresenta o banner de cookies deles.
       mostrarResultadoGabinete(fonte.nome+' — '+artigo,'',[],null);
@@ -1216,7 +1229,7 @@
       resultadoAtual.appendChild(statusDestaque);
       for(const item of [{nome:'Abrir a lei no Planalto',url:linkBase},
         ...(alternativas[lei]?[{nome:'Consultar legislação em fonte oficial alternativa',url:alternativas[lei]}]:[])]){
-        const link=document.createElement('a');link.href=item.url;link.target='_blank';link.rel='noopener noreferrer';
+        const link=document.createElement('a');link.href=item.url;link.rel='noopener noreferrer';
         link.className='inline-flex mt-3 mr-3 rounded-lg border border-purple-500 px-3 py-2 underline text-purple-200';
         link.textContent=item.nome;detalhesLinks.appendChild(link);
       }
