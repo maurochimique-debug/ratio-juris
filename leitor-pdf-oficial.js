@@ -333,6 +333,27 @@
    }
    return null;
  }
+ // Reflui quebras tipográficas do PDF para leitura contínua no celular.
+ // Apenas troca separadores de linhas por espaços; não modifica palavras,
+ // letras, gabaritos ou a extração bruta utilizada para identificar questões.
+ function formatarEnunciadoParaTela(texto){
+   const linhas=String(texto||"").replace(/\r/g,"").split("\n");
+   const saida=[];
+   const novaSecao=/^(?:QUEST[AÃ]O|QUESTAO)\s*(?:N[º°.]?\s*)?\d{1,2}\b|^[A-D]\s*[).]\s+|^\d{1,2}\s*[).:-]\s+|^(?:§\s*\d|Par[aá]grafo\s+[úu]nico|Art(?:igo)?\.\s*\d)/i;
+   for(const original of linhas){
+     const atual=original.trim();
+     if(!atual){if(saida.length&&saida[saida.length-1]!=="")saida.push("");continue;}
+     const ultima=saida.length?saida[saida.length-1]:"";
+     if(!ultima||novaSecao.test(atual)||/[.!?;:]$/.test(ultima)&&/^[A-ZÁÀÂÃÉÊÍÓÔÕÚÇ][a-zà-ÿ]/.test(atual)){
+       saida.push(atual);
+       continue;
+     }
+     // Respeitar hifenização original de quebra de página, sem supor uma palavra.
+     const separador=/[-‐‑]$/.test(ultima)?"":" ";
+     saida[saida.length-1]=ultima+separador+atual;
+   }
+   return saida.join("\n").replace(/\n{3,}/g,"\n\n").trim();
+ }
  function renderizarTextoQuestao(numero,pagina,trecho,opcoes={}){
    const n=Number(numero);
    const chaveDocumento=$("oabExamSelect")?.value+"-"+$("oabTipoSelect")?.value;
@@ -349,7 +370,7 @@
      // O card recolhivel preserva integralmente o enunciado e as alternativas
      // do documento original; os botões abaixo servem apenas para responder.
      const separado=separarAlternativasOficiais(trecho);
-     preview.textContent=trecho;
+     preview.textContent=formatarEnunciadoParaTela(trecho);
      preview.setAttribute("data-extracao-validada",separado?"sim":"nao");
      const card=$("cardEnunciadoCompleto");if(card)card.open=true;
      const official=$("questaoOficialPdf");if(official)official.classList.add("hidden");
