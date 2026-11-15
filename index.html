@@ -1389,7 +1389,7 @@
       const tipo=document.getElementById('oabTipoSelect');
       if(!historico||!tipoHistorico||!exame||!tipo)return false;
       const numero=String(historico.value),numeroTipo=String(tipoHistorico.value);
-      if(!/^\\d{2,3}$/.test(numero)||!/^[1-4]$/.test(numeroTipo))return false;
+      if(!/^\d{2,3}$/.test(numero)||!/^[1-4]$/.test(numeroTipo))return false;
       if(exame.value===numero&&tipo.value===numeroTipo)return true;
       exame.value=numero;
       tipo.value=numeroTipo;
