@@ -208,9 +208,12 @@ const resultados=await Promise.allSettled(candidates.map(async(candidate)=>{
   // A Convenção Americana é anexo ao Decreto 678/1992: buscar os artigos
   // a partir de "PARTE I", evitando confundir com artigos do decreto introdutório.
   const marcoCADH=textoFonte.toUpperCase().indexOf("PARTE I");
+  // A Convenção é o ANEXO do Decreto 678/1992. Se o anexo
+  // não estiver disponível, NÃO retornar por engano o art. 1º do Decreto.
+  if(lei==="cadh" && marcoCADH<0)throw Error("Anexo da Convenção ausente da fonte");
   const textoNorma=lei==="ced"?
     textoFonte.slice(Math.max(0,textoFonte.toUpperCase().indexOf("ANEXO ÚNICO DA RESOLUÇÃO"))):
-    lei==="cadh" && marcoCADH>=0?textoFonte.slice(marcoCADH):textoFonte;
+    lei==="cadh"?textoFonte.slice(marcoCADH):textoFonte;
   let conteudo=extract(textoNorma,artigo);
   if(!conteudo)throw Error("Artigo não localizado");
   if(lei==="clt"&&artigo==="878"&&candidate.includes("/17728053/"))
