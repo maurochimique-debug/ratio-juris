@@ -4,6 +4,7 @@ on:
     paths:
       - 'api/artigo-oficial.mjs'
       - 'scripts/testar-extracao-artigos.mjs'
+      - 'scripts/testar-contingencia-legislacao.mjs'
       - '.github/workflows/validar-leitor-legislativo.yml'
   workflow_dispatch:
 permissions:
@@ -23,3 +24,5 @@ jobs:
         run: node --check api/artigo-oficial.mjs
       - name: Testar identificação exata de artigos
         run: node scripts/testar-extracao-artigos.mjs
+      - name: Testar artigos de contingência sem rede
+        run: node scripts/testar-contingencia-legislacao.mjs
