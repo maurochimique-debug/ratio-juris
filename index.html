@@ -1937,12 +1937,25 @@
             observacoes:'A garantia não se aplica às causas relacionadas aos crimes previstos na Lei nº 11.343/2006 e deve observar o parágrafo único do art. 243 da Constituição. A exceção não foi indicada no enunciado desta questão.',
             fonteLegal:'https://www2.camara.leg.br/legin/fed/lei/1994/lei-8906-4-julho-1994-349751-normaatualizada-pl.html',
             fonteCaderno:'https://s.oab.org.br/arquivos/2025/04/a7b60f68-32b5-44a8-9fea-41d9c4f2ccbc.pdf',
-            revisaoLegislacao:'15/11/2026'
+            revisaoLegislacao:'15/11/2026',
+            leiCodigo:'oab',
+            artigoNumero:'24-A'
           }
         : (numero===47?comentarioOAB47(tipo,numeroQuestao):null);
       if(!comentario||comentario.natureza==='REGISTRO_DE_ANULACAO'){
         ref.textContent='Gabarito oficial: alternativa '+letraCorreta+'.';
-        explanation.textContent='O gabarito definitivo aponta a alternativa '+letraCorreta+'. Ainda não há fundamentação jurídica individual validada para esta questão. Não atribuímos artigos ou precedentes sem conferência documental.';
+        explanation.textContent='Por que revisar? A alternativa '+alternativa+' diverge do gabarito definitivo ('+letraCorreta+'). Para explicar juridicamente essa diferença, é preciso confrontar o enunciado e as quatro alternativas com a legislação aplicável. O artigo específico desta questão ainda não foi conferido; nenhum fundamento será atribuído por suposição.';
+        const revisar=document.createElement('button');
+        revisar.type='button';
+        revisar.className='inline-flex min-h-[44px] items-center rounded-lg border border-amber-700 px-3 py-2 text-sm font-bold text-amber-950 dark:text-amber-200';
+        revisar.textContent='Pesquisar legislação no Modo Gabinete';
+        revisar.onclick=()=>{
+          const gabinete=document.getElementById('gabinete');
+          if(!gabinete)return;
+          gabinete.scrollIntoView({block:'start',behavior:'auto'});
+          document.getElementById('gabineteLeiSelect')?.focus();
+        };
+        source.appendChild(revisar);
         const prova=contexto.exam?.cadernos?.[tipo-1]?.pdf;
         if(typeof prova==='string'&&/^https:\/\/s\.oab\.org\.br\//.test(prova)){
           const link=document.createElement('a');link.href=prova;link.target='_blank';link.rel='noopener noreferrer';
@@ -1957,8 +1970,23 @@
         'Fundamentação doutrinária: ':'Artigo e legislação: ')+
         (comentario.dispositivo||'Dispositivo não especificado')+
         (comentario.lei?' — '+comentario.lei:'');
-      explanation.textContent='Resposta correta: '+letraCorreta+'. '+comentario.fundamentacao;
-      if(motivo)motivo.textContent='Você escolheu '+alternativa+'; a banca assinalou '+letraCorreta+'. Fundamento cadastrado: '+String(comentario.fundamentacao||'').slice(0,320);
+      explanation.textContent='Explicação jurídica: '+comentario.fundamentacao;
+      // Link ao artigo dentro do app somente quando diploma e numeração
+      // foram verificados especificamente para esta questão e seu caderno.
+      if(comentario.leiCodigo && comentario.artigoNumero &&
+         Object.hasOwn(fontesLegaisPlanalto,comentario.leiCodigo) &&
+         normalizarNumeroArtigo(comentario.artigoNumero)){
+        const artigoBtn=document.createElement('button');
+        artigoBtn.type='button';
+        artigoBtn.className='inline-flex min-h-[44px] items-center rounded-lg border-2 border-amber-700 px-3 py-2 text-sm font-bold text-amber-950 dark:text-amber-200';
+        artigoBtn.textContent='Ler '+comentario.dispositivo+' na legislação do RATIO JURIS';
+        artigoBtn.onclick=()=>{
+          document.getElementById('gabinete')?.scrollIntoView({block:'start',behavior:'auto'});
+          abrirTemaLegislativo(comentario.leiCodigo,comentario.artigoNumero);
+        };
+        source.appendChild(artigoBtn);
+      }
+      if(motivo)motivo.textContent='Você marcou '+alternativa+'; o gabarito indica '+letraCorreta+'. Estude a regra jurídica indicada acima e confira, no caderno, por que a alternativa escolhida não atende ao enunciado.';
       if(comentario.observacoes)observation.textContent='Ponto de atenção: '+comentario.observacoes;
       const legalLink=comentario.natureza==='DOUTRINARIA'?
         (comentario.fonteDoutrinaria||comentario.fonteCaderno):
