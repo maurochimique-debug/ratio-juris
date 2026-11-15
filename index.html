@@ -702,6 +702,8 @@
               <option value="lai">Lei de Acesso à Informação — Lei 12.527/2011</option>
               <option value="orgcrime">Organizações Criminosas — Lei 12.850/2013</option>
               <option value="previdencia">Lei de Benefícios Previdenciários — Lei 8.213/1991</option>
+              <option value="migracao">Lei de Migração — Lei 13.445/2017</option>
+              <option value="cadh">Direitos Humanos — Convenção Americana (Decreto 678/1992)</option>
             </select>
           </div>
           <div>
@@ -916,7 +918,9 @@
       hediondos:{nome:"Lei dos Crimes Hediondos — Lei 8.072/1990",url:"https://www.planalto.gov.br/ccivil_03/leis/l8072compilada.htm"},
       lai:{nome:"Lei de Acesso à Informação — Lei 12.527/2011",url:"https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2011/lei/l12527.htm"},
       orgcrime:{nome:"Organizações Criminosas — Lei 12.850/2013",url:"https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2013/lei/l12850.htm"},
-      previdencia:{nome:"Lei de Benefícios Previdenciários — Lei 8.213/1991",url:"https://www.planalto.gov.br/ccivil_03/leis/l8213cons.htm"}
+      previdencia:{nome:"Lei de Benefícios Previdenciários — Lei 8.213/1991",url:"https://www.planalto.gov.br/ccivil_03/leis/l8213cons.htm"},
+      migracao:{nome:"Lei de Migração — Lei 13.445/2017",url:"https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2017/lei/l13445.htm"},
+      cadh:{nome:"Convenção Americana sobre Direitos Humanos — Decreto 678/1992",url:"https://www.planalto.gov.br/ccivil_03/decreto/d0678.htm"}
     });
     const referenciasJurisprudenciais=[
       {termos:['473 stf','sumula 473','súmula 473'],titulo:'Súmula 473 do STF — autotutela administrativa',descricao:'Entendimento sumulado sobre anulação e revogação de atos da Administração.',url:'https://portal.stf.jus.br/jurisprudencia/'},
@@ -1197,7 +1201,7 @@
       const fonte=fontesLegaisPlanalto[lei];
       const url=construirUrlArtigoPlanalto(lei,numero);
       const linkBase=fonte.url;
-      const alternativas={ced:'https://www.oab.org.br/leisnormas/legislacao/resolucoes/02-2015',je:'https://www2.camara.leg.br/legin/fed/lei/1995/lei-9099-26-setembro-1995-348608-normaatualizada-pl.html',clt:'https://www2.camara.leg.br/legin/fed/declei/1940-1949/decreto-lei-5452-1-maio-1943-415500-normaatualizada-pe.html',cc:'https://www2.camara.leg.br/legin/fed/lei/2002/lei-10406-10-janeiro-2002-432893-normaatualizada-pl.html',oab:'https://www2.camara.leg.br/legin/fed/lei/1994/lei-8906-4-julho-1994-349751-normaatualizada-pl.html',ctn:'https://legis.senado.leg.br/norma/547034/publicacao/34620375'};
+      const alternativas={migracao:'https://www2.camara.leg.br/legin/fed/lei/2017/lei-13445-24-maio-2017-784925-publicacaooriginal-152812-pl.html',cadh:'https://www2.camara.leg.br/legin/fed/decret/1992/decreto-678-6-novembro-1992-449028-publicacaooriginal-1-pe.html',ced:'https://www.oab.org.br/leisnormas/legislacao/resolucoes/02-2015',je:'https://www2.camara.leg.br/legin/fed/lei/1995/lei-9099-26-setembro-1995-348608-normaatualizada-pl.html',clt:'https://www2.camara.leg.br/legin/fed/declei/1940-1949/decreto-lei-5452-1-maio-1943-415500-normaatualizada-pe.html',cc:'https://www2.camara.leg.br/legin/fed/lei/2002/lei-10406-10-janeiro-2002-432893-normaatualizada-pl.html',oab:'https://www2.camara.leg.br/legin/fed/lei/1994/lei-8906-4-julho-1994-349751-normaatualizada-pl.html',ctn:'https://legis.senado.leg.br/norma/547034/publicacao/34620375'};
       // A consulta é interna por padrão. Nenhum portal de terceiros abre
       // automaticamente e, por isso, não se apresenta o banner de cookies deles.
       mostrarResultadoGabinete(fonte.nome+' — '+artigo,'',[],null);
