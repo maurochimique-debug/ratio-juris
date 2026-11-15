@@ -153,6 +153,16 @@ if(lei==="l9784" && Number(artigo.match(/^\d+/)?.[0])>70){
  });
  return;
 }
+const trechoConferido=ARTIGOS_CONFERIDOS[lei+":"+artigo];
+if(trechoConferido){
+  res.setHeader("Cache-Control","public, s-maxage=600");
+  res.status(200).json({
+    lei,artigo,conteudo:trechoConferido.conteudo,source:trechoConferido.source,
+    verificado_em:trechoConferido.verificado_em,
+    aviso:"Transcrição do artigo conferida em fonte oficial na data indicada. Consulte a fonte para eventuais alterações posteriores."
+  });
+  return;
+}
 const source=FONTES[lei];
 // Priorizar a Câmara na CLT: o Planalto pode exigir captcha no acesso automatizado.
 const candidates=lei==="clt"?[...(FONTES_ALTERNATIVAS[lei]||[]),source]:
@@ -188,15 +198,7 @@ if(encontrado){
   res.setHeader("Cache-Control","public, s-maxage=3600, stale-while-revalidate=86400");
   res.status(200).json(encontrado.value);return;
 }
-const trechoConferido=ARTIGOS_CONFERIDOS[lei+":"+artigo];
-if(trechoConferido){
-  res.status(200).json({
-    lei,artigo,conteudo:trechoConferido.conteudo,source:trechoConferido.source,
-    verificado_em:trechoConferido.verificado_em,
-    aviso:"Transcrição conferida em fonte oficial na data indicada. A consulta ao texto atualizado não respondeu; verifique eventuais alterações."
-  });
-  return;
-}
+
 const failures=resultados.map(item=>item.status==="rejected"?String(item.reason?.message||"Fonte indisponível"):"sem resultado");
 res.status(502).json({
   codigo:"FONTE_NAO_RECUPERADA",
