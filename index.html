@@ -735,7 +735,10 @@
             <div class="rounded-xl border border-purple-500 p-4 bg-slate-950">
               <h4 class="text-white font-extrabold">ConJur — Consultor Jurídico</h4>
               <p class="text-xs text-slate-300 my-2">Pesquisa complementar de notícias, decisões e análises jurídicas; confira os julgados nos tribunais.</p>
-              <button type="button" onclick="pesquisarConjurGabinete()" class="inline-flex min-h-[44px] items-center rounded-lg bg-purple-700 text-white px-4 py-2 font-bold text-sm">Pesquisar na ConJur</button>
+              <div class="flex flex-wrap gap-2">
+                <a href="https://www.conjur.com.br/" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-[44px] items-center rounded-lg bg-purple-700 text-white px-4 py-2 font-bold text-sm">Abrir ConJur</a>
+                <button type="button" onclick="pesquisarConjurGabinete()" class="inline-flex min-h-[44px] items-center rounded-lg border border-purple-400 text-purple-100 px-4 py-2 font-bold text-sm">Pesquisar assunto</button>
+              </div>
             </div>
           </div>
           <p class="text-sm text-purple-200 font-bold mb-2">Busca rápida de jurisprudência: STF, STJ ou ConJur</p>
@@ -1133,17 +1136,24 @@
       }
     }
     function pesquisarConjurGabinete(){
-      const termo=String(document.getElementById('gabineteSearchInput')?.value||'').trim();
+      const campo=document.getElementById('gabineteSearchInput');
+      const termo=String(campo?.value||'').trim();
       if(!termo){
-        document.getElementById('gabineteSearchInput')?.focus();
-        mostrarResultadoGabinete('Busca complementar na ConJur',
-          'Digite uma palavra-chave, tema, número de súmula ou referência no campo de jurisprudência.',[],null);
+        // Sem assunto digitado, disponibilizar o portal direto, sem pop-up.
+        mostrarResultadoGabinete('ConJur — Consultor Jurídico',
+          'Abra o portal diretamente ou informe um assunto na busca de jurisprudência para localizar publicações.',
+          [{nome:'Abrir portal ConJur',url:'https://www.conjur.com.br/'}],null);
         return false;
       }
-      // Usa busca pública com filtro de domínio; não faz extração ou incorporação de conteúdo.
+      // Android e navegadores integrados podem bloquear window.open().
+      // O resultado é exibido como link explícito: o usuário decide quando abrir.
       const url='https://www.google.com/search?q='+encodeURIComponent('site:conjur.com.br '+termo.slice(0,160));
-      window.open(url,'_blank','noopener,noreferrer');
-      return true;
+      mostrarResultadoGabinete('ConJur — pesquisa complementar',
+        'Assunto: '+termo.slice(0,160)+'. Toque no link abaixo para pesquisar publicações da ConJur.',
+        [{nome:'Consultar resultados da ConJur',url},
+         {nome:'Abrir portal ConJur',url:'https://www.conjur.com.br/'}],
+        'As publicações são análises jornalísticas e não substituem a consulta a decisões oficiais do STF ou STJ.');
+      return false;
     }
     window.pesquisarConjurGabinete=pesquisarConjurGabinete;
     function abrirTemaLegislativo(lei,numero){
