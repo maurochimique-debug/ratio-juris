@@ -28,6 +28,11 @@ previdencia:"https://www.planalto.gov.br/ccivil_03/leis/l8213cons.htm"
 // Trecho curto conferido diretamente na fonte legislativa oficial.
  // Evita que indisponibilidade do portal impeça a leitura de dispositivo verificado.
 const ARTIGOS_CONFERIDOS=Object.freeze({
+ "clt:240":{
+  conteudo:"Art. 240. Nos casos de urgência ou de acidente, capazes de afetar a segurança ou regularidade do serviço, poderá a duração do trabalho ser excepcionalmente elevada a qualquer número de horas, incumbindo à Estrada zelar pela incolumidade dos seus empregados e pela possibilidade de revezamento de turmas, assegurado ao pessoal um repouso correspondente e comunicando a ocorrência ao Ministério do Trabalho, Indústria e Comércio, dentro de 10 (dez) dias da sua verificação.\n\nParágrafo único. Nos casos previstos neste artigo, a recusa, sem causa justificada, por parte de qualquer empregado, à execução de serviço extraordinário será considerada falta grave.",
+  source:"https://www2.camara.leg.br/legin/fed/declei/1940-1949/decreto-lei-5452-1-maio-1943-415500-normaatualizada-pe.html",
+  verificado_em:"2026-11-15"
+ },
  "clt:780":{
   conteudo:"Art. 780. Os documentos juntos aos autos poderão ser desentranhados somente depois de findo o processo, ficando traslado.",
   source:"https://www2.camara.leg.br/legin/fed/declei/1940-1949/decreto-lei-5452-1-maio-1943-415500-normaatualizada-pe.pdf",
@@ -46,7 +51,7 @@ const FONTES_ALTERNATIVAS=Object.freeze({
   cf:["https://legis.senado.leg.br/norma/579494/publicacao/16434817"],
   cpc:["https://www2.camara.leg.br/legin/fed/lei/2015/lei-13105-16-marco-2015-780273-normaatualizada-pl.html","https://legis.senado.leg.br/norma/584917/publicacao/34619046"],
   lindb:["https://legis.senado.leg.br/norma/529744/publicacao/34620738"],
-  clt:["https://www2.camara.leg.br/legin/fed/declei/1940-1949/decreto-lei-5452-1-maio-1943-415500-normaatualizada-pe.html"],
+  clt:["https://www2.camara.leg.br/legin/fed/declei/1940-1949/decreto-lei-5452-1-maio-1943-415500-normaatualizada-pe.html","https://www.presidencia.gov.br/ccivil_03/decreto-lei/del5452.htm"],
   ctn:["https://www2.camara.leg.br/legin/fed/lei/1960-1969/lei-5172-25-outubro-1966-358971-normaatualizada-pl.html","https://legis.senado.leg.br/norma/547034/publicacao/34620375"],
   cdc:["https://legis.senado.leg.br/norma/549954/publicacao/34619932"],
   eca:["https://legis.senado.leg.br/norma/549945/publicacao/15713055"],
@@ -137,14 +142,16 @@ if(lei==="l9784" && Number(artigo.match(/^\d+/)?.[0])>70){
  return;
 }
 const source=FONTES[lei];
-const candidates=[source,...(FONTES_ALTERNATIVAS[lei]||[])];
+// Priorizar a Câmara na CLT: o Planalto pode exigir captcha no acesso automatizado.
+const candidates=lei==="clt"?[...(FONTES_ALTERNATIVAS[lei]||[]),source]:
+ [source,...(FONTES_ALTERNATIVAS[lei]||[])];
 // Consulta em paralelo às fontes oficiais para evitar que uma origem lenta
 // consuma todo o limite de execução e impeça as demais tentativas.
 const resultados=await Promise.allSettled(candidates.map(async(candidate)=>{
   const response=await fetch(candidate,{headers:{"Accept":"text/html"},signal:AbortSignal.timeout(8500),redirect:"follow"});
   if(!response.ok)throw Error("HTTP "+response.status);
   const host=new URL(response.url).hostname;
-  if(!["www.planalto.gov.br","planalto.gov.br","www2.camara.leg.br","legis.senado.leg.br","normas.leg.br"].includes(host))
+  if(!["www.planalto.gov.br","planalto.gov.br","www2.camara.leg.br","legis.senado.leg.br","normas.leg.br","www.presidencia.gov.br","presidencia.gov.br"].includes(host))
     throw Error("Redirecionamento inesperado");
   if(Number(response.headers.get("content-length")||"0")>8500000)throw Error("Documento excessivo");
   const bytes=await response.arrayBuffer();
