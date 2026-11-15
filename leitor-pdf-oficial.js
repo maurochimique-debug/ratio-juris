@@ -182,8 +182,18 @@
      $("pdfLeitorControles").classList.remove("hidden");
      await mostrarPagina(1);
      if(versao!==versaoSelecao||identidadeDocumento!==exame+"-"+tipo)return false;
-     avisar("Caderno oficial "+exame+"º, Tipo "+tipo+", carregado dentro do aplicativo ("+
-       documento.numPages+" páginas). O texto extraído depende da estrutura do PDF da OAB.");
+     // Abrir PDF e localizar enunciado são operações distintas. Nunca informar
+     // somente "carregado" quando o aluno pediu a leitura da questão atual.
+     const pos=Number($("questaoOficialNumeroSelect")?.value||1);
+     avisar("PDF oficial "+exame+"º, Tipo "+tipo+" aberto ("+documento.numPages+
+       " páginas). Localizando agora a questão "+pos+" e suas alternativas...");
+     const localizada=await localizarQuestao({foco:false});
+     if(versao!==versaoSelecao||identidadeDocumento!==exame+"-"+tipo)return false;
+     if(!localizada){
+       avisar("Caderno oficial "+exame+"º, Tipo "+tipo+" aberto ("+documento.numPages+
+         " páginas), mas a questão "+pos+" não pôde ser localizada no texto extraído. "+
+         "Use o visualizador do PDF original para consultar o enunciado.");
+     }
      return true;
    }catch(_){
      if(parsed && parsed!==documento)try{await parsed.destroy?.()}catch(_){}
