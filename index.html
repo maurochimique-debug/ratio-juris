@@ -715,6 +715,24 @@
           <button type="button" id="btnExibirArtigoRatio" onclick="return window.pesquisarArtigoPlanalto(false)" class="btn-touch relative z-10 min-h-[52px] touch-manipulation bg-ratio-purpleDeep hover:bg-purple-700 text-white px-5 py-3 rounded-xl text-sm font-bold">Exibir artigo aqui no RATIO JURIS</button>
           <span class="text-xs text-slate-300">Exemplo: Código Civil, art. 366; LINDB, art. 20</span>
         </div>
+        <details id="consultaProvimentosOAB" class="mt-5 rounded-xl border border-purple-500 p-4 bg-slate-900">
+          <summary class="cursor-pointer min-h-[44px] flex items-center font-bold text-purple-200">Provimentos do Conselho Federal da OAB — pesquisar por número e ano</summary>
+          <p class="mt-2 text-sm text-slate-300">Os provimentos são atos normativos distintos do Estatuto e do Código de Ética. Informe o número e o ano para consultar a norma na fonte oficial; a existência e a vigência devem ser confirmadas na OAB.</p>
+          <div class="mt-3 flex flex-wrap gap-3 items-end">
+            <label class="flex-1 min-w-[130px] text-xs font-bold text-white" for="provimentoOabNumero">Número
+              <input id="provimentoOabNumero" type="text" inputmode="numeric" maxlength="4" placeholder="Ex.: 144" class="mt-1 w-full min-h-[44px] rounded-lg border border-purple-500 bg-slate-950 px-3 text-white" />
+            </label>
+            <label class="flex-1 min-w-[130px] text-xs font-bold text-white" for="provimentoOabAno">Ano
+              <input id="provimentoOabAno" type="text" inputmode="numeric" maxlength="4" placeholder="Ex.: 2011" class="mt-1 w-full min-h-[44px] rounded-lg border border-purple-500 bg-slate-950 px-3 text-white" />
+            </label>
+            <button type="button" onclick="consultarProvimentoOAB()" class="min-h-[44px] rounded-lg bg-purple-700 px-4 py-2 font-bold text-white">Consultar na OAB</button>
+          </div>
+          <p id="provimentoOabStatus" class="mt-2 text-xs text-slate-300" role="status" aria-live="polite"></p>
+          <div id="provimentoOabLinks" class="mt-2 flex flex-wrap gap-3">
+            <a href="https://www.oab.org.br/leisnormas/legislacao/provimentos" rel="noopener noreferrer" class="underline font-bold text-purple-200">Catálogo oficial de provimentos</a>
+          </div>
+          <p class="mt-2 text-xs text-slate-400">Referências úteis: Provimento 144/2011 (Exame de Ordem) e 205/2021 (publicidade da advocacia). Consulte alterações e revogações posteriores.</p>
+        </details>
         <div id="resultadoBuscaContainer" class="mt-5 hidden" aria-live="polite" aria-atomic="false">
           <div class="p-5 bg-slate-950 border border-purple-500 rounded-xl">
             <h3 id="resultadoTitulo" class="text-base font-bold text-purple-300" tabindex="-1">Resultado da consulta</h3>
@@ -1184,6 +1202,31 @@
       return window.pesquisarArtigoPlanalto(false);
     }
     window.abrirTemaLegislativo=abrirTemaLegislativo;
+    function consultarProvimentoOAB(){
+      const numero=String(document.getElementById('provimentoOabNumero')?.value||'').trim();
+      const ano=String(document.getElementById('provimentoOabAno')?.value||'').trim();
+      const status=document.getElementById('provimentoOabStatus');
+      const links=document.getElementById('provimentoOabLinks');
+      if(!status||!links)return false;
+      // Nunca aceitar URLs arbitrárias: apenas o caminho oficial de provimentos.
+      if(!/^[1-9][0-9]{0,3}$/.test(numero)||!/^(19|20)[0-9]{2}$/.test(ano)){
+        status.textContent='Informe o número e o ano com quatro dígitos. Exemplo: 144 e 2011.';
+        return false;
+      }
+      const oficial='https://www.oab.org.br/leisnormas/legislacao/provimentos/'+numero+'-'+ano;
+      const catalogo='https://www.oab.org.br/leisnormas/legislacao/provimentos';
+      status.textContent='Consulta ao Provimento nº '+numero+'/'+ano+'. Confira na página da OAB se o documento existe e se continua vigente.';
+      links.replaceChildren();
+      for(const item of [{url:oficial,label:'Consultar Provimento '+numero+'/'+ano+' na OAB'},
+        {url:catalogo,label:'Pesquisar no catálogo oficial de provimentos'}]){
+        const a=document.createElement('a');
+        a.href=item.url;a.rel='noopener noreferrer';
+        a.className='inline-flex min-h-[44px] items-center underline font-bold text-purple-200';
+        a.textContent=item.label;links.appendChild(a);
+      }
+      return false;
+    }
+    window.consultarProvimentoOAB=consultarProvimentoOAB;
     function pesquisarArtigoPlanalto(abrirDiretamente=false){
       const campoLei=document.getElementById('gabineteLeiSelect');
       const campoArtigo=document.getElementById('gabineteArtigoInput');
