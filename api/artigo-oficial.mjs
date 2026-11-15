@@ -31,6 +31,11 @@ cadh:"https://www.planalto.gov.br/ccivil_03/decreto/d0678.htm"
 // Trecho curto conferido diretamente na fonte legislativa oficial.
  // Evita que indisponibilidade do portal impeça a leitura de dispositivo verificado.
 const ARTIGOS_CONFERIDOS=Object.freeze({
+ "hediondos:12":{
+  conteudo:"Art. 12. Esta lei entra em vigor na data de sua publicação.",
+  source:"https://www2.camara.leg.br/legin/fed/lei/1990/lei-8072-25-julho-1990-372192-normaatualizada-pl.html",
+  verificado_em:"2026-11-15"
+ },
  "l9784:6":{
   conteudo:"Art. 6º O requerimento inicial do interessado, salvo casos em que for admitida solicitação oral, deve ser formulado por escrito e conter os seguintes dados:\n\nI - órgão ou autoridade administrativa a que se dirige;\nII - identificação do interessado ou de quem o represente;\nIII - domicílio do requerente ou local para recebimento de comunicações;\nIV - formulação do pedido, com exposição dos fatos e de seus fundamentos;\nV - data e assinatura do requerente ou de seu representante.\n\nParágrafo único. É vedada à Administração a recusa imotivada de recebimento de documentos, devendo o servidor orientar o interessado quanto ao suprimento de eventuais falhas.",
   source:"https://www.planalto.gov.br/ccivil_03/leis/l9784.htm",verificado_em:"2026-11-15"
