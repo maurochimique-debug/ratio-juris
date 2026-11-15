@@ -288,3 +288,28 @@ body,#appBody{overflow-x:clip}
     max-width:1280px!important;
   }
 }
+
+/* Separação visual entre enunciado e alternativas — leitura confortável. */
+#simulador-oficial #cardEnunciadoCompleto{
+  margin-bottom:1.1rem!important;
+}
+#simulador-oficial #textoQuestaoDentroSimulador{
+  padding:12px 12px 18px!important;
+  line-height:1.75!important;
+}
+#simulador-oficial #alternativasQuestaoOficial{
+  margin-top:1.25rem!important;
+  gap:14px!important;
+}
+#simulador-oficial #alternativasQuestaoOficial button{
+  padding:16px 16px!important;
+  line-height:1.6!important;
+}
+@media(max-width:767px){
+ #simulador-oficial #cardEnunciadoCompleto{margin-bottom:1.4rem!important}
+ #simulador-oficial #textoQuestaoDentroSimulador{
+   padding:12px 10px 22px!important;
+   line-height:1.8!important;
+ }
+ #simulador-oficial #alternativasQuestaoOficial{margin-top:1.3rem!important;gap:16px!important}
+}
