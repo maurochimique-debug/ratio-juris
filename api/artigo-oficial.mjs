@@ -28,6 +28,18 @@ previdencia:"https://www.planalto.gov.br/ccivil_03/leis/l8213cons.htm"
 // Trecho curto conferido diretamente na fonte legislativa oficial.
  // Evita que indisponibilidade do portal impeça a leitura de dispositivo verificado.
 const ARTIGOS_CONFERIDOS=Object.freeze({
+ "l9784:6":{
+  conteudo:"Art. 6º O requerimento inicial do interessado, salvo casos em que for admitida solicitação oral, deve ser formulado por escrito e conter os seguintes dados:\n\nI - órgão ou autoridade administrativa a que se dirige;\nII - identificação do interessado ou de quem o represente;\nIII - domicílio do requerente ou local para recebimento de comunicações;\nIV - formulação do pedido, com exposição dos fatos e de seus fundamentos;\nV - data e assinatura do requerente ou de seu representante.\n\nParágrafo único. É vedada à Administração a recusa imotivada de recebimento de documentos, devendo o servidor orientar o interessado quanto ao suprimento de eventuais falhas.",
+  source:"https://www.planalto.gov.br/ccivil_03/leis/l9784.htm",verificado_em:"2026-11-15"
+ },
+ "lep:33":{
+  conteudo:"Art. 33. A jornada normal de trabalho não será inferior a seis, nem superior a oito horas, com descanso nos domingos e feriados.\n\nParágrafo único. Poderá ser atribuído horário especial de trabalho aos presos designados para os serviços de conservação e manutenção do estabelecimento penal.",
+  source:"https://www.planalto.gov.br/ccivil_03/leis/l7210.htm",verificado_em:"2026-11-15"
+ },
+ "je:23":{
+  conteudo:"Art. 23. Se o demandado não comparecer ou recusar-se a participar da tentativa de conciliação não presencial, o Juiz togado proferirá sentença.",
+  source:"https://www2.camara.leg.br/legin/fed/lei/1995/lei-9099-26-setembro-1995-348608-normaatualizada-pl.html",verificado_em:"2026-11-15"
+ },
  "clt:240":{
   conteudo:"Art. 240. Nos casos de urgência ou de acidente, capazes de afetar a segurança ou regularidade do serviço, poderá a duração do trabalho ser excepcionalmente elevada a qualquer número de horas, incumbindo à Estrada zelar pela incolumidade dos seus empregados e pela possibilidade de revezamento de turmas, assegurado ao pessoal um repouso correspondente e comunicando a ocorrência ao Ministério do Trabalho, Indústria e Comércio, dentro de 10 (dez) dias da sua verificação.\n\nParágrafo único. Nos casos previstos neste artigo, a recusa, sem causa justificada, por parte de qualquer empregado, à execução de serviço extraordinário será considerada falta grave.",
   source:"https://www2.camara.leg.br/legin/fed/declei/1940-1949/decreto-lei-5452-1-maio-1943-415500-normaatualizada-pe.html",
@@ -162,6 +174,8 @@ const resultados=await Promise.allSettled(candidates.map(async(candidate)=>{
   const html=/iso-8859-1|windows-1252/i.test(charset)||utf8.includes("�")?
     new TextDecoder("windows-1252").decode(bytes):utf8;
   if(!/<(?:html|body)/i.test(html))throw Error("Resposta não HTML");
+  if(/(?:captcha|verifique\s+que\s+voc[eê]\s+[eé]\s+humano|access\s+denied|cloudflare\s+ray)/i.test(html.slice(0,6000)))
+    throw Error("Portal exigiu verificação de acesso");
   let conteudo=extract(toText(html),artigo);
   if(!conteudo)throw Error("Artigo não localizado");
   if(lei==="clt"&&artigo==="878"&&candidate.includes("/17728053/"))
