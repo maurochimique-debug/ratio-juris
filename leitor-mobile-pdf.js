@@ -98,8 +98,16 @@
    return true;
   }catch(_){
    if(state.alive){
-    info.textContent="O navegador não conseguiu carregar o leitor paginado. Abra o PDF completo na fonte oficial.";
+    // Não deixar o card em branco se PDF.js não conseguir abrir no Android.
+    info.textContent="O leitor paginado falhou. Tentando a visualização nativa; abra o documento diretamente na OAB/FGV se necessário.";
     prev.disabled=next.disabled=true;
+    canvas.hidden=true;
+    frame.hidden=false;
+    frame.classList.remove("hidden");
+    frame.removeAttribute("loading");
+    frame.src=url.split("#")[0]+"#toolbar=1";
+    fallback.classList.add("min-h-[48px]","px-3","py-3","border","border-purple-600","rounded-lg");
+    fallback.textContent="Abrir o caderno completo na fonte oficial OAB/FGV";
    }
    return false;
   }
