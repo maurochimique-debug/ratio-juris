@@ -11,6 +11,7 @@ cdc:"https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm",
 eca:"https://www.planalto.gov.br/ccivil_03/leis/l8069.htm",
 lindb:"https://www.planalto.gov.br/ccivil_03/decreto-lei/del4657compilado.htm",
 oab:"https://www.planalto.gov.br/ccivil_03/leis/l8906.htm",
+ced:"https://www.oab.org.br/leisnormas/legislacao/resolucoes/02-2015",
 l14133:"https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/l14133.htm",
 l9784:"https://www.planalto.gov.br/ccivil_03/leis/l9784.htm",
 lep:"https://www.planalto.gov.br/ccivil_03/leis/l7210.htm",
@@ -36,6 +37,11 @@ const ARTIGOS_CONFERIDOS=Object.freeze({
   conteudo:"Art. 33. A jornada normal de trabalho não será inferior a seis, nem superior a oito horas, com descanso nos domingos e feriados.\n\nParágrafo único. Poderá ser atribuído horário especial de trabalho aos presos designados para os serviços de conservação e manutenção do estabelecimento penal.",
   source:"https://www.planalto.gov.br/ccivil_03/leis/l7210.htm",verificado_em:"2026-11-15"
  },
+ "je:5":{
+  conteudo:"Art. 5º O Juiz dirigirá o processo com liberdade para determinar as provas a serem produzidas, para apreciá-las e para dar especial valor às regras de experiência comum ou técnica.",
+  source:"https://www2.camara.leg.br/legin/fed/lei/1995/lei-9099-26-setembro-1995-348608-normaatualizada-pl.html",
+  verificado_em:"2026-11-15"
+ },
  "je:23":{
   conteudo:"Art. 23. Se o demandado não comparecer ou recusar-se a participar da tentativa de conciliação não presencial, o Juiz togado proferirá sentença.",
   source:"https://www2.camara.leg.br/legin/fed/lei/1995/lei-9099-26-setembro-1995-348608-normaatualizada-pl.html",verificado_em:"2026-11-15"
@@ -60,6 +66,7 @@ const FONTES_ALTERNATIVAS=Object.freeze({
   cc:["https://www2.camara.leg.br/legin/fed/lei/2002/lei-10406-10-janeiro-2002-432893-normaatualizada-pl.html","https://legis.senado.leg.br/norma/552282/publicacao/34620807"],
   cpp:["https://legis.senado.leg.br/norma/528776/publicacao/34620736","https://www2.camara.leg.br/legin/fed/declei/1940-1949/decreto-lei-3689-3-outubro-1941-322206-normaatualizada-pe.html"],
   oab:["https://www2.camara.leg.br/legin/fed/lei/1994/lei-8906-4-julho-1994-349751-normaatualizada-pl.html","https://legis.senado.leg.br/norma/550782/publicacao/34619591"],
+  ced:["https://eticaedisciplina.oab.org.br/assets/docs/3.codigodeeticanovo.pdf"],
   cf:["https://legis.senado.leg.br/norma/579494/publicacao/16434817"],
   cpc:["https://www2.camara.leg.br/legin/fed/lei/2015/lei-13105-16-marco-2015-780273-normaatualizada-pl.html","https://legis.senado.leg.br/norma/584917/publicacao/34619046"],
   lindb:["https://legis.senado.leg.br/norma/529744/publicacao/34620738"],
@@ -166,6 +173,7 @@ if(trechoConferido){
 const source=FONTES[lei];
 // Priorizar a Câmara na CLT: o Planalto pode exigir captcha no acesso automatizado.
 const candidates=lei==="clt"?[...(FONTES_ALTERNATIVAS[lei]||[]),source]:
+ lei==="ced"?[source]:
  [source,...(FONTES_ALTERNATIVAS[lei]||[])];
 // Consulta em paralelo às fontes oficiais para evitar que uma origem lenta
 // consuma todo o limite de execução e impeça as demais tentativas.
@@ -173,7 +181,7 @@ const resultados=await Promise.allSettled(candidates.map(async(candidate)=>{
   const response=await fetch(candidate,{headers:{"Accept":"text/html"},signal:AbortSignal.timeout(8500),redirect:"follow"});
   if(!response.ok)throw Error("HTTP "+response.status);
   const host=new URL(response.url).hostname;
-  if(!["www.planalto.gov.br","planalto.gov.br","www2.camara.leg.br","legis.senado.leg.br","normas.leg.br","www.presidencia.gov.br","presidencia.gov.br"].includes(host))
+  if(!["www.planalto.gov.br","planalto.gov.br","www2.camara.leg.br","legis.senado.leg.br","normas.leg.br","www.presidencia.gov.br","presidencia.gov.br","www.oab.org.br","eticaedisciplina.oab.org.br"].includes(host))
     throw Error("Redirecionamento inesperado");
   if(Number(response.headers.get("content-length")||"0")>8500000)throw Error("Documento excessivo");
   const bytes=await response.arrayBuffer();
@@ -186,7 +194,11 @@ const resultados=await Promise.allSettled(candidates.map(async(candidate)=>{
   if(!/<(?:html|body)/i.test(html))throw Error("Resposta não HTML");
   if(/(?:captcha|verifique\s+que\s+voc[eê]\s+[eé]\s+humano|access\s+denied|cloudflare\s+ray)/i.test(html.slice(0,6000)))
     throw Error("Portal exigiu verificação de acesso");
-  let conteudo=extract(toText(html),artigo);
+  const textoFonte=toText(html);
+  const textoNorma=lei==="ced"?
+    textoFonte.slice(Math.max(0,textoFonte.toUpperCase().indexOf("ANEXO ÚNICO DA RESOLUÇÃO"))):
+    textoFonte;
+  let conteudo=extract(textoNorma,artigo);
   if(!conteudo)throw Error("Artigo não localizado");
   if(lei==="clt"&&artigo==="878"&&candidate.includes("/17728053/"))
     conteudo=conteudo.replace(/\\s*[”"]\\s*\\(NR\\)\\s*[“"]?\\s*$/,"").trim();
