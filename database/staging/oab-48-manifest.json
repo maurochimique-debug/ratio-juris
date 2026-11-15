@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "exame": "48",
+  "banca": "FGV/OAB",
+  "status": "anunciado",
+  "estado": "staging_apenas_documentos_administrativos",
+  "data_verificacao": "2026-11-15",
+  "data_prova_objetiva": "2027-01-10",
+  "data_prova_pratico_profissional": "2027-02-28",
+  "fonte_consulta": "https://conhecimento.fgv.br/exames",
+  "pagina_fgv": "https://oab.fgv.br/home.aspx?key=651",
+  "calendario_oficial": "https://examedeordem.oab.org.br/Calendario",
+  "documentosOficiais": [
+    {
+      "tipo": "edital_abertura",
+      "data_publicacao": "2026-09-21",
+      "url": "https://s.oab.org.br/arquivos/2026/09/fb43fb37-838e-4d33-a863-99fa1f98b921.pdf",
+      "origem": "OAB",
+      "confirmacao": "PDF oficial; capa 48º EOU/EDITAL DE ABERTURA; não é caderno de questões nem gabarito",
+      "apto_simulado": false
+    },
+    {
+      "tipo": "edital_complementar_reaproveitamento",
+      "data_publicacao": "2026-11-12",
+      "url": "https://oab.fgv.br/arq/651/274193_48%C2%BA%20eou.%20edital%20complementar.%2012.11.2026.%20%281%29.pdf",
+      "origem": "FGV/OAB",
+      "confirmacao": "PDF oficial; reaproveitamento da 1ª fase do 47º no 48º EOU; não é caderno de questões nem gabarito",
+      "apto_simulado": false
+    }
+  ],
+  "cadernos": [],
+  "gabaritoPDF": null,
+  "natureza_gabarito": null,
+  "anulacoes": [],
+  "retificacoes_gabarito": [],
+  "questoes_importadas": 0,
+  "alternativas_importadas": 0,
+  "publicado_no_simulador": false,
+  "observacao": "Somente editais verificados; não são PDFs de prova objetiva nem chaves de respostas. Não inferir cadernos, questões, gabaritos ou anulações. Aguardar publicação oficial após a prova, com validação por tipo e gabarito definitivo."
+}
