@@ -19,7 +19,7 @@ async function consultar(caso){
  assert.equal(response.artigo,caso.artigo);
  assert.ok(response.conteudo.includes(caso.termo));
  assert.ok(response.source.startsWith('https://'));
- assert.match(response.verificado_em,/^\\d{4}-\\d{2}-\\d{2}$/);
+ assert.match(response.verificado_em,/^\d{4}-\d{2}-\d{2}$/);
 }
 for(const caso of casos)await consultar(caso);
 console.log('PASS: '+casos.length+' artigos oficiais com transcrição verificada disponíveis sem depender da rede.');
