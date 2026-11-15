@@ -1,6 +1,6 @@
 {
   "versao": 1,
-  "atualizado_em": "2026-11-14",
+  "atualizado_em": "2026-11-15",
   "politica": "Somente exames com quatro cadernos oficiais e gabarito documental revisado podem ser publicados no simulador; um edital nunca equivale a uma prova.",
   "exames": [
     {
@@ -10,8 +10,28 @@
       "cadernos": [],
       "gabaritoPDF": null,
       "natureza_gabarito": null,
-      "verificado_em": null,
-      "observacao": "48º Exame em andamento na FGV; aguardar publicação e validação dos cadernos da 1ª fase."
+      "verificado_em": "2026-11-15",
+      "observacao": "48º EOU anunciado. Edital de abertura 21/09/2026 e edital complementar de reaproveitamento 12/11/2026 conferidos em PDF oficial. Prova objetiva 10/01/2027: cadernos 1–4 e gabaritos ainda indisponíveis. Não habilitar questões até homologação documental.",
+      "documentosOficiais": [
+        {
+          "tipo": "edital_abertura",
+          "data_publicacao": "2026-09-21",
+          "url": "https://s.oab.org.br/arquivos/2026/09/fb43fb37-838e-4d33-a863-99fa1f98b921.pdf",
+          "origem": "OAB",
+          "confirmacao": "PDF oficial; capa 48º EOU/EDITAL DE ABERTURA; não é caderno de questões nem gabarito",
+          "apto_simulado": false
+        },
+        {
+          "tipo": "edital_complementar_reaproveitamento",
+          "data_publicacao": "2026-11-12",
+          "url": "https://oab.fgv.br/arq/651/274193_48%C2%BA%20eou.%20edital%20complementar.%2012.11.2026.%20%281%29.pdf",
+          "origem": "FGV/OAB",
+          "confirmacao": "PDF oficial; reaproveitamento da 1ª fase do 47º no 48º EOU; não é caderno de questões nem gabarito",
+          "apto_simulado": false
+        }
+      ],
+      "data_prova_objetiva": "2027-01-10",
+      "data_prova_pratico_profissional": "2027-02-28"
     },
     {
       "numero": 49,
