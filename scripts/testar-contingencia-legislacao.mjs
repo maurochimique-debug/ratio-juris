@@ -4,6 +4,7 @@ const casos=[
  {lei:'l9784',artigo:'6',termo:'O requerimento inicial do interessado'},
  {lei:'lep',artigo:'33',termo:'A jornada normal de trabalho'},
  {lei:'je',artigo:'5',termo:'O Juiz dirigirá o processo com liberdade'},
+ {lei:'hediondos',artigo:'12',termo:'Esta lei entra em vigor na data de sua publicação'},
  {lei:'je',artigo:'23',termo:'tentativa de conciliação não presencial'},
  {lei:'clt',artigo:'240',termo:'Nos casos de urgência ou de acidente'}
 ];
