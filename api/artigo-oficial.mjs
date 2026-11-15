@@ -24,7 +24,9 @@ lbi:"https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13146.htm",
 hediondos:"https://www.planalto.gov.br/ccivil_03/leis/l8072compilada.htm",
 lai:"https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2011/lei/l12527.htm",
 orgcrime:"https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2013/lei/l12850.htm",
-previdencia:"https://www.planalto.gov.br/ccivil_03/leis/l8213cons.htm"
+previdencia:"https://www.planalto.gov.br/ccivil_03/leis/l8213cons.htm",
+migracao:"https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2017/lei/l13445.htm",
+cadh:"https://www.planalto.gov.br/ccivil_03/decreto/d0678.htm"
 });
 // Trecho curto conferido diretamente na fonte legislativa oficial.
  // Evita que indisponibilidade do portal impeça a leitura de dispositivo verificado.
@@ -87,7 +89,9 @@ const FONTES_ALTERNATIVAS=Object.freeze({
   previdencia:["https://www2.camara.leg.br/legin/fed/lei/1991/lei-8213-24-julho-1991-363650-normaatualizada-pl.html"],
   hediondos:["https://www2.camara.leg.br/legin/fed/lei/1990/lei-8072-25-julho-1990-372192-normaatualizada-pl.html"],
   eleitoral:["https://www2.camara.leg.br/legin/fed/lei/1997/lei-9504-30-setembro-1997-365408-normaatualizada-pl.html"],
-  lrf:["https://www2.camara.leg.br/legin/fed/leicom/2000/leicomplementar-101-4-maio-2000-351480-normaatualizada-pl.html"]
+  lrf:["https://www2.camara.leg.br/legin/fed/leicom/2000/leicomplementar-101-4-maio-2000-351480-normaatualizada-pl.html"],
+  migracao:["https://www2.camara.leg.br/legin/fed/lei/2017/lei-13445-24-maio-2017-784925-publicacaooriginal-152812-pl.html"],
+  cadh:["https://www2.camara.leg.br/legin/fed/decret/1992/decreto-678-6-novembro-1992-449028-publicacaooriginal-1-pe.html"]
 });
 function entities(s){
 return s.replace(/&#x([0-9a-f]+);/gi,(_,h)=>String.fromCodePoint(parseInt(h,16)))
@@ -172,7 +176,8 @@ if(trechoConferido){
 }
 const source=FONTES[lei];
 // Priorizar a Câmara na CLT: o Planalto pode exigir captcha no acesso automatizado.
-const candidates=lei==="clt"?[...(FONTES_ALTERNATIVAS[lei]||[]),source]:
+const candidates=lei==="clt"||lei==="migracao"||lei==="cadh"?
+ [...(FONTES_ALTERNATIVAS[lei]||[]),source]:
  lei==="ced"?[source]:
  [source,...(FONTES_ALTERNATIVAS[lei]||[])];
 // Consulta em paralelo às fontes oficiais para evitar que uma origem lenta
@@ -195,9 +200,12 @@ const resultados=await Promise.allSettled(candidates.map(async(candidate)=>{
   if(/(?:captcha|verifique\s+que\s+voc[eê]\s+[eé]\s+humano|access\s+denied|cloudflare\s+ray)/i.test(html.slice(0,6000)))
     throw Error("Portal exigiu verificação de acesso");
   const textoFonte=toText(html);
+  // A Convenção Americana é anexo ao Decreto 678/1992: buscar os artigos
+  // a partir de "PARTE I", evitando confundir com artigos do decreto introdutório.
+  const marcoCADH=textoFonte.toUpperCase().indexOf("PARTE I");
   const textoNorma=lei==="ced"?
     textoFonte.slice(Math.max(0,textoFonte.toUpperCase().indexOf("ANEXO ÚNICO DA RESOLUÇÃO"))):
-    textoFonte;
+    lei==="cadh" && marcoCADH>=0?textoFonte.slice(marcoCADH):textoFonte;
   let conteudo=extract(textoNorma,artigo);
   if(!conteudo)throw Error("Artigo não localizado");
   if(lei==="clt"&&artigo==="878"&&candidate.includes("/17728053/"))
