@@ -1896,7 +1896,18 @@
       const {numero,tipo}=contexto;
       title.textContent='Questão '+numeroQuestao+' — entenda o erro';
       if(motivo)motivo.textContent='Você marcou '+alternativa+', mas o gabarito oficial desta edição indica '+letraCorreta+'. A explicação jurídica específica depende do enunciado e da análise das alternativas, não apenas da letra.';
-      const comentario=numero===47?comentarioOAB47(tipo,numeroQuestao):null;
+      const comentario=(Number(numero)===43 && Number(tipo)===2 && Number(numeroQuestao)===6 && letraCorreta==='A')
+        ? {
+            natureza:'LEGISLATIVA',
+            dispositivo:'Art. 24-A',
+            lei:'Lei nº 8.906/1994 (Estatuto da Advocacia e da OAB)',
+            fundamentacao:'O bloqueio judicial universal do patrimônio do cliente não impede, por si só, o pagamento dos honorários da defesa. O art. 24-A garante ao advogado a liberação de até 20% dos bens bloqueados para honorários e reembolso de gastos com a defesa, observadas as exceções legais. No caso de Roberto e Juvenal, a alternativa A reproduz essa proteção. O pedido é feito em autos apartados, sob sigilo e mediante apresentação do contrato (§ 1º).',
+            observacoes:'A garantia não se aplica às causas relacionadas aos crimes previstos na Lei nº 11.343/2006 e deve observar o parágrafo único do art. 243 da Constituição. A exceção não foi indicada no enunciado desta questão.',
+            fonteLegal:'https://www2.camara.leg.br/legin/fed/lei/1994/lei-8906-4-julho-1994-349751-normaatualizada-pl.html',
+            fonteCaderno:'https://s.oab.org.br/arquivos/2025/04/a7b60f68-32b5-44a8-9fea-41d9c4f2ccbc.pdf',
+            revisaoLegislacao:'15/11/2026'
+          }
+        : (numero===47?comentarioOAB47(tipo,numeroQuestao):null);
       if(!comentario||comentario.natureza==='REGISTRO_DE_ANULACAO'){
         ref.textContent='Gabarito oficial: alternativa '+letraCorreta+'.';
         explanation.textContent='O gabarito definitivo aponta a alternativa '+letraCorreta+'. Ainda não há fundamentação jurídica individual validada para esta questão. Não atribuímos artigos ou precedentes sem conferência documental.';
