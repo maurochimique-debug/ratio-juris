@@ -72,8 +72,8 @@
     const width=Math.max(250,host.clientWidth-24);
     const natural=page.getViewport({scale:1});
     const zoom=Math.min(2.1,Math.max(.5,width/natural.width));
-    const density=Math.min(1.5,window.devicePixelRatio||1);
-    const viewport=page.getViewport({scale:zoom*density});
+    const density=Math.min(1.2,window.devicePixelRatio||1);
+    const viewport=page.getViewport({scale:Math.min(1.65,zoom*density)});
     canvas.width=Math.ceil(viewport.width);canvas.height=Math.ceil(viewport.height);
     const context=canvas.getContext("2d",{alpha:false});
     await page.render({canvasContext:context,viewport}).promise;
@@ -90,7 +90,7 @@
   try{
    const mod=await loadPdfLibrary();
    if(!state.alive)return false;
-   state.task=mod.getDocument({url:url.split("#")[0],disableRange:true,disableStream:true,useSystemFonts:true,disableFontFace:true});
+   state.task=mod.getDocument({url:url.split("#")[0],disableRange:false,disableStream:false,rangeChunkSize:131072,useSystemFonts:true,disableFontFace:true});
    state.document=await state.task.promise;
    if(!state.alive)return false;
    state.total=state.document.numPages;
