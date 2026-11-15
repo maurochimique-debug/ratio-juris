@@ -1080,7 +1080,7 @@
         if(!resposta.ok||typeof json.conteudo!=='string'||!json.conteudo.trim()){
           area.textContent=json.codigo==='ARTIGO_INEXISTENTE'
             ? 'Artigo não encontrado na legislação escolhida. '+(json.aviso||'Confirme o número e a lei selecionada.')
-            : 'Não foi possível recuperar o texto verificado desta fonte nesta conexão. Consulte a versão oficial abaixo.';
+            : 'Este portal não permitiu recuperar o texto do artigo com segurança nesta consulta. Use a legislação oficial nos links abaixo; o aplicativo não apresenta texto presumido.';
           const link=document.createElement('a');
           link.href=fontesLegaisPlanalto[lei]?.url||json.source;
           // Navegação direta por toque: evita bloqueio de novas janelas no Android.
@@ -1389,9 +1389,28 @@
       if(!frame)return false;
       const painel=document.getElementById('historicoPainelPdf');
       painel?.classList.remove('hidden');
+      const status=document.getElementById('gabaritoHistoricoStatus');
+      if(status)status.textContent='Abrindo caderno '+numero+'º, Tipo '+tipo+' dentro do aplicativo...';
+      // Link permanente visível, inclusive se o Android bloquear PDF.js.
+      let fonte=document.getElementById('historicoCadernoLinkFonte');
+      if(!fonte){
+        fonte=document.createElement('a');
+        fonte.id='historicoCadernoLinkFonte';
+        fonte.rel='noopener noreferrer';
+        fonte.className='block mt-2 mb-3 min-h-[44px] py-2 font-bold underline text-purple-800 dark:text-purple-300';
+        painel?.appendChild(fonte);
+      }
+      fonte.href=pdf;
+      fonte.textContent='Abrir este caderno na fonte oficial OAB/FGV';
       if(window.RatioMobilePdf?.isMobile()){
         frame.removeAttribute('src');
-        window.RatioMobilePdf.mount(frame,destino,pdf,3).catch(()=>{});
+        Promise.resolve(window.RatioMobilePdf.mount(frame,destino,pdf,3)).then(ok=>{
+          if(status&&painel&&!painel.classList.contains('hidden'))
+            status.textContent=ok?'Caderno oficial disponível no leitor interno. Navegue pelas páginas abaixo.':
+              'O leitor interno não abriu o PDF neste navegador. Tente o visualizador nativo ou o link oficial acima.';
+        }).catch(()=>{
+          if(status)status.textContent='Falha ao abrir o PDF no leitor interno. Utilize o link oficial acima.';
+        });
       }else if(frame.getAttribute('src')!==destino)frame.src=destino;
       painel?.scrollIntoView({block:'nearest',behavior:'auto'});
       return true;
@@ -2851,7 +2870,7 @@
       }
     });
   </script>
-  <script src="/leitor-mobile-pdf.js?v=20261114-android-reliability-2"></script>
+  <script src="/leitor-mobile-pdf.js?v=20261115-native-pdf-fallback"></script>
   <script src="/stj-leitor.js?v=20261114-tecnico"></script>
   <script src="/leitor-pdf-oficial.js?v=20261115-autolocate-questao-v2"></script>
   <script src="/acessibilidade.js?v=20261113-01"></script>
