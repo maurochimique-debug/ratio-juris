@@ -325,16 +325,3 @@ body,#appBody{overflow-x:clip}
   #simulador-oficial #textoQuestaoDentroSimulador{padding-left:8px!important;padding-right:8px!important}
   #simulador-oficial #alternativasQuestaoOficial button{max-width:100%;box-sizing:border-box}
 }
-
-/* RATIO JURIS — guia de quatro acessos, sem componentes funcionais duplicados. */
-#guiaProvaRatio .ratio-etapas-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
-#guiaProvaRatio .ratio-etapa-prova{box-sizing:border-box;display:flex;align-items:center;gap:10px;min-width:0;min-height:78px;width:100%;padding:12px;border:1.5px solid #7e22ce;border-radius:12px;text-decoration:none;text-align:left;background:#fff;color:#581c87;cursor:pointer;font:inherit}
-html.dark #guiaProvaRatio .ratio-etapa-prova{background:#1a2026;color:#e9d5ff;border-color:#a855f7}
-#guiaProvaRatio .ratio-etapa-prova:focus-visible{outline:3px solid #facc15;outline-offset:2px}
-#guiaProvaRatio .ratio-etapa-numero{display:flex;align-items:center;justify-content:center;width:34px;height:34px;min-width:34px;border-radius:50%;background:#7e22ce;color:#fff;font-weight:800}
-#guiaProvaRatio .ratio-etapa-prova span:last-child{min-width:0}
-#guiaProvaRatio .ratio-etapa-prova strong{display:block;font-size:.94rem;line-height:1.3}
-#guiaProvaRatio .ratio-etapa-prova small{display:block;font-size:.77rem;line-height:1.4;margin-top:4px;color:#475569}
-html.dark #guiaProvaRatio .ratio-etapa-prova small{color:#cbd5e1}
-@media(max-width:900px){#guiaProvaRatio .ratio-etapas-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:480px){#guiaProvaRatio .ratio-etapas-grid{grid-template-columns:minmax(0,1fr)}#guiaProvaRatio .ratio-etapa-prova{min-height:64px;padding:10px 12px}}
