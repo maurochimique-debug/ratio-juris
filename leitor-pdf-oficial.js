@@ -275,6 +275,19 @@
    cache.set(numero,cleaned);
    return cleaned;
  }
+ // Segunda estratégia: recuperar a ordem original dos itens fornecidos pelo PDF.
+ // Utilizada apenas quando a reconstrução por colunas não isolou as respostas.
+ async function textoPaginaAlternativo(pageNo){
+   if(!documento)return "";
+   const pdfAtual=documento;
+   const versao=versaoSelecao;
+   const page=await pdfAtual.getPage(Number(pageNo));
+   const content=await page.getTextContent();
+   if(pdfAtual!==documento||versao!==versaoSelecao)return "";
+   return content.items.map(item=>typeof item.str==="string"?
+     item.str+(item.hasEOL?"\\n":" "):"").join("")
+     .replace(/[ \\t]+\\n/g,"\\n").replace(/\\n[ \\t]+/g,"\\n").trim();
+ }
  async function mostrarPagina(n){
    if(!documento){avisar("Carregue um PDF do caderno oficial primeiro.");return false;}
    const number=Number(n);
@@ -471,6 +484,13 @@
        if(token!==buscaAtual||(identidadeDocumento!==chaveDocumento&&identidadeDocumento!=="arquivo-local")||
           Number($("questaoOficialNumeroSelect")?.value)!==n)return false;
        let excerpt=extrairTrechoQuestao(full,n);
+       // Tentar outra ordem de leitura quando o PDF não separa corretamente
+       // as colunas e as alternativas A-D.
+       if(!separarAlternativasOficiais(excerpt)){
+         const other=await textoPaginaAlternativo(pageNo);
+         const candidate=extrairTrechoQuestao(other,n);
+         if(separarAlternativasOficiais(candidate))excerpt=candidate;
+       }
        // Questões que começam no fim da página podem continuar na próxima.
        // Só mesclar quando o marcador da questão está na página atual.
        if(excerpt && pageNo<documento.numPages &&
