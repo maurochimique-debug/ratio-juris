@@ -2465,6 +2465,7 @@
           }
         }
         seletor.value=String(numeroQuestao);
+        window.RatioCronometro?.questaoAlterada?.();
         sincronizarNavegadorEnunciado(numeroQuestao);
         const tituloSemChave=document.getElementById('questaoOficialTitulo');
         if(tituloSemChave)tituloSemChave.textContent='Questão '+numeroQuestao+' de 80 — '+exameSelecionado+'º Exame';
@@ -2559,6 +2560,7 @@
         }
       }
       selector.value=String(pos);
+      window.RatioCronometro?.questaoAlterada?.();
       sincronizarNavegadorEnunciado(pos);
       const idCarregamento=numero+'-'+tipo+'-'+pos;
       if(painel._ratioAutoQuestao!==idCarregamento){
