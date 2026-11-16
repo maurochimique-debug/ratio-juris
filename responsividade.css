@@ -313,3 +313,15 @@ body,#appBody{overflow-x:clip}
  }
  #simulador-oficial #alternativasQuestaoOficial{margin-top:1.3rem!important;gap:16px!important}
 }
+
+/* Ajuste fino da largura de leitura no celular — preview 16/11/2026.
+   Apenas espaçamento horizontal; preserva estrutura, tipografia e ações aprovadas. */
+@media (max-width:767px){
+  #oab-arquivo > .max-w-6xl{padding-left:2px!important;padding-right:2px!important}
+  #oab-arquivo > .max-w-6xl > .rounded-2xl{padding-left:6px!important;padding-right:6px!important}
+  #simulador-oficial{padding-left:8px!important;padding-right:8px!important}
+  #simulador-oficial .ratio-study-pane{padding-left:8px!important;padding-right:8px!important}
+  #simulador-oficial #cardEnunciadoCompleto{padding-left:8px!important;padding-right:8px!important}
+  #simulador-oficial #textoQuestaoDentroSimulador{padding-left:8px!important;padding-right:8px!important}
+  #simulador-oficial #alternativasQuestaoOficial button{max-width:100%;box-sizing:border-box}
+}
