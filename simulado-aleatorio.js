@@ -190,6 +190,7 @@
    if(chave==="*"){status("Questão NULA conforme o gabarito: não há resposta válida e não conta pontos no treino.");return false;}
    const anterior=s.respostas[pos];
    s.respostas[pos]=letra;
+   window.RatioCronometro?.respostaRegistrada?.();
    if(anterior!==letra && letra===chave && $("somAcertoSimulador")?.checked)window.RatioSomAcerto?.();
    atualizar();
    return true;
