@@ -33,7 +33,11 @@ florestal:"https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2012/lei/l12651.h
 sociedadesacoes:"https://www.planalto.gov.br/ccivil_03/leis/l6404compilada.htm",
 recuperacaofalencia:"https://www.planalto.gov.br/ccivil_03/_ato2004-2006/2005/lei/l11101compilado.htm",
 microempresa:"https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp123.htm",
-registroempresarial:"https://www.planalto.gov.br/ccivil_03/leis/l8934.htm"
+registroempresarial:"https://www.planalto.gov.br/ccivil_03/leis/l8934.htm",
+pidcp:"https://www.planalto.gov.br/ccivil_03/decreto/1990-1994/d0592.htm",
+pidesc:"https://www.planalto.gov.br/ccivil_03/decreto/1990-1994/d0591.htm",
+direitoscrianca:"https://presidencia.gov.br/ccivil_03/decreto/1990-1994/d99710.htm",
+direitosdeficiencia:"https://www.planalto.gov.br/ccivil_03/_ato2007-2010/2009/decreto/d6949.htm"
 });
 // Trecho curto conferido diretamente na fonte legislativa oficial.
  // Evita que indisponibilidade do portal impeça a leitura de dispositivo verificado.
@@ -110,7 +114,11 @@ const FONTES_ALTERNATIVAS=Object.freeze({
   sociedadesacoes:["https://www2.camara.leg.br/legin/fed/lei/1970-1979/lei-6404-15-dezembro-1976-368447-normaatualizada-pl.html"],
   recuperacaofalencia:["https://www2.camara.leg.br/legin/fed/lei/2005/lei-11101-9-fevereiro-2005-535663-normaatualizada-pl.html"],
   microempresa:[],
-  registroempresarial:["https://www2.camara.leg.br/legin/fed/lei/1994/lei-8934-18-novembro-1994-322478-normaatualizada-pl.html"]
+  registroempresarial:["https://www2.camara.leg.br/legin/fed/lei/1994/lei-8934-18-novembro-1994-322478-normaatualizada-pl.html"],
+  pidcp:["https://www2.camara.leg.br/legin/fed/decret/1992/decreto-592-6-julho-1992-449004-publicacaooriginal-1-pe.html"],
+  pidesc:["https://www2.camara.leg.br/legin/fed/decret/1992/decreto-591-6-julho-1992-449000-publicacaooriginal-1-pe.html"],
+  direitoscrianca:["https://www2.camara.leg.br/legin/fed/decret/1990/decreto-99710-21-novembro-1990-342735-publicacaooriginal-1-pe.html"],
+  direitosdeficiencia:[]
 });
 function entities(s){
 return s.replace(/&#x([0-9a-f]+);/gi,(_,h)=>String.fromCodePoint(parseInt(h,16)))
@@ -195,7 +203,7 @@ if(trechoConferido){
 }
 const source=FONTES[lei];
 // Priorizar a Câmara na CLT: o Planalto pode exigir captcha no acesso automatizado.
-const candidates=["sociedadesacoes","recuperacaofalencia","registroempresarial","crimesambientais","pnma","florestal","clt","migracao","cadh"].includes(lei)?
+const candidates=["pidcp","pidesc","direitoscrianca","sociedadesacoes","recuperacaofalencia","registroempresarial","crimesambientais","pnma","florestal","clt","migracao","cadh"].includes(lei)?
  [...(FONTES_ALTERNATIVAS[lei]||[]),source]:
  lei==="ced"?[source]:
  [source,...(FONTES_ALTERNATIVAS[lei]||[])];
@@ -225,9 +233,26 @@ const resultados=await Promise.allSettled(candidates.map(async(candidate)=>{
   // A Convenção é o ANEXO do Decreto 678/1992. Se o anexo
   // não estiver disponível, NÃO retornar por engano o art. 1º do Decreto.
   if(lei==="cadh" && marcoCADH<0)throw Error("Anexo da Convenção ausente da fonte");
-  const textoNorma=lei==="ced"?
+  const anexosTratados={
+    pidcp:"PACTO INTERNACIONAL SOBRE DIREITOS CIVIS E POLÍTICOS",
+    pidesc:"PACTO INTERNACIONAL SOBRE DIREITOS ECONÔMICOS, SOCIAIS E CULTURAIS",
+    direitoscrianca:"CONVENÇÃO SOBRE OS DIREITOS DA CRIANÇA",
+    direitosdeficiencia:"CONVENÇÃO SOBRE OS DIREITOS DAS PESSOAS COM DEFICIÊNCIA"
+  };
+  const tratado=anexosTratados[lei];
+  // Nunca utilizar o artigo 1º do decreto de promulgação como se fosse do tratado.
+  const indiceTratado=tratado?textoFonte.toUpperCase().lastIndexOf(tratado):-1;
+  if(tratado&&indiceTratado<0)throw Error("Anexo do tratado não encontrado");
+  let textoNorma=lei==="ced"?
     textoFonte.slice(Math.max(0,textoFonte.toUpperCase().indexOf("ANEXO ÚNICO DA RESOLUÇÃO"))):
-    lei==="cadh"?textoFonte.slice(marcoCADH):textoFonte;
+    lei==="cadh"?textoFonte.slice(marcoCADH):
+    tratado?textoFonte.slice(indiceTratado):textoFonte;
+  // O Decreto 6.949/2009 também traz um protocolo facultativo com
+  // nova numeração de artigos. Limitar a leitura à Convenção principal.
+  if(lei==="direitosdeficiencia"){
+    const inicioProtocolo=textoNorma.toUpperCase().indexOf("PROTOCOLO FACULTATIVO À CONVENÇÃO");
+    if(inicioProtocolo>=0)textoNorma=textoNorma.slice(0,inicioProtocolo);
+  }
   let conteudo=extract(textoNorma,artigo);
   if(!conteudo)throw Error("Artigo não localizado");
   if(lei==="clt"&&artigo==="878"&&candidate.includes("/17728053/"))
