@@ -6,7 +6,7 @@ const db=JSON.parse(read("oab-data.js").match(/window\.RATIO_OAB_DATA\s*=\s*(\{[
 const html=read("index.html"),proxy=read("api/oab-pdf.mjs"),keys=read("api/oab-gabarito.mjs");
 const source={};
 for(const match of proxy.matchAll(/^\s*"(\d{2})":\s*\[([\s\S]*?)\]/gm))
- source[match[1]]=[...match[2].matchAll(/"([^"]+)"/g)].map(m=>m[1]);
+ source[match[1]]=JSON.parse("["+match[2]+"]"); // Mantém tipos nulos na posição correta
 const answers=Object.fromEntries(
  [...keys.matchAll(/^\s*"(\d{2})"\s*:\s*"([^"]+)"/gm)].map(m=>[m[1],m[2]])
 );
@@ -30,7 +30,7 @@ const finish=html.indexOf("\n    function documentosDoExameOAB",start);
 if(start<0||finish<0)errors.push("Catálogo documental histórico não encontrado");
 else{
  const section=html.slice(start,finish);
- for(const n of [10,13,30,38]){
+ for(const n of [10,11,12,13,30,38]){
   const block=section.match(new RegExp("\\n\\s*"+n+":\\{([\\s\\S]*?)(?=\\n\\s*\\d+:\\{|\\n\\s*\\}\\);)"))?.[1];
   if(!block){errors.push(n+"º: documentos históricos ausentes");continue;}
   const cadernos=[...block.matchAll(/tipo:(\d),cor:'[^']+',pdf:'([^']+)'/g)];
