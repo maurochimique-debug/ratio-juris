@@ -2899,7 +2899,7 @@
     function fonte46() {
       const n=Number(document.getElementById('oabExamSelect').value);
       const dados=fonteOAB()['exam'+n];
-      if(n<14||n>46||!dados||dados.gabaritos?.length!==4||dados.gabaritos.some(x=>x.length!==80))
+      if(n<13||n>46||!dados||dados.gabaritos?.length!==4||dados.gabaritos.some(x=>x.length!==80))
         throw new Error('Gabaritos oficiais do exame selecionado incompletos');
       return dados;
     }
