@@ -42,6 +42,11 @@ direitosdeficiencia:"https://www.planalto.gov.br/ccivil_03/_ato2007-2010/2009/de
 // Trecho curto conferido diretamente na fonte legislativa oficial.
  // Evita que indisponibilidade do portal impeça a leitura de dispositivo verificado.
 const ARTIGOS_CONFERIDOS=Object.freeze({
+ "lgpd:21":{
+  conteudo:"Art. 21. Os dados pessoais referentes ao exercício regular de direitos pelo titular não podem ser utilizados em seu prejuízo.",
+  source:"https://www2.camara.leg.br/legin/fed/lei/2018/lei-13709-14-agosto-2018-787077-normaatualizada-pl.html",
+  verificado_em:"2026-11-16"
+ },
  "hediondos:12":{
   conteudo:"Art. 12. Esta lei entra em vigor na data de sua publicação.",
   source:"https://www2.camara.leg.br/legin/fed/lei/1990/lei-8072-25-julho-1990-372192-normaatualizada-pl.html",
