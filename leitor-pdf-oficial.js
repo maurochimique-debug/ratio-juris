@@ -222,7 +222,19 @@
      const x=Number(item.transform?.[4]),y=Number(item.transform?.[5]);
      if(!Number.isFinite(x)||!Number.isFinite(y))continue;
      if(y<altura*.055 || y>altura*.945)continue;
-     colunas[x<meio?0:1].push({x,y,text:item.str.trim(),width:Number(item.width)||0});
+     const texto=item.str.trim();
+     const largura=Number(item.width)||0;
+     const coluna=colunas[x<meio?0:1];
+     // PDF.js pode devolver a mesma camada de texto mais de uma vez.
+     // Remover apenas fragmentos idênticos nas mesmas coordenadas,
+     // preservando palavras repetidas de fato presentes na prova.
+     const duplicado=coluna.some(anterior=>
+       anterior.text===texto &&
+       Math.abs(anterior.x-x)<1.5 &&
+       Math.abs(anterior.y-y)<1.5 &&
+       Math.abs(anterior.width-largura)<2
+     );
+     if(!duplicado)coluna.push({x,y,text:texto,width:largura});
    }
    const juntar=(itemsCol)=>{
      const sorted=itemsCol.sort((a,b)=>b.y-a.y||a.x-b.x);
