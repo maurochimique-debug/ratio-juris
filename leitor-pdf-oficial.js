@@ -285,8 +285,8 @@
    const content=await page.getTextContent();
    if(pdfAtual!==documento||versao!==versaoSelecao)return "";
    return content.items.map(item=>typeof item.str==="string"?
-     item.str+(item.hasEOL?"\\n":" "):"").join("")
-     .replace(/[ \\t]+\\n/g,"\\n").replace(/\\n[ \\t]+/g,"\\n").trim();
+     item.str+(item.hasEOL?"\n":" "):"").join("")
+     .replace(/[ \t]+\n/g,"\n").replace(/\n[ \t]+/g,"\n").trim();
  }
  async function mostrarPagina(n){
    if(!documento){avisar("Carregue um PDF do caderno oficial primeiro.");return false;}
@@ -535,7 +535,7 @@
    const preview=$("textoQuestaoDentroSimulador");
    const validado=preview?.getAttribute("data-extracao-validada")==="sim" &&
      preview?._ratioQuestaoAnterior===exame+"-"+tipo+"-"+n;
-   if(!validado && /^\\d{2}$/.test(exame||"") && /^[1-4]$/.test(tipo||"")){
+   if(!validado && /^\d{2}$/.test(exame||"") && /^[1-4]$/.test(tipo||"")){
      exibirDocumentoNoCard(exame,tipo,
        "Questão "+String(n).padStart(2,"0")+" — preparando a transcrição do enunciado oficial. "+
        "Enquanto isso, o caderno original está disponível logo abaixo, dentro do aplicativo.");
