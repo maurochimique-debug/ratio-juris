@@ -414,7 +414,13 @@
        });
        return false;
      }
-     preview.textContent=formatarEnunciadoParaTela(separado.enunciado);
+     // Apresentação: número em linha própria e enunciado abaixo.
+     // O prefixo é removido apenas quando corresponde à questão selecionada.
+     const bruto=String(separado.enunciado||"").trim();
+     const prefixo=/^(?:(?:QUEST[AÃ]O|QUESTAO)\s*(?:N[º°.]?\s*)?)?0*(\d{1,2})(?:\s*[.):–—-]\s*|\s+)/i.exec(bruto);
+     const corpo=prefixo&&Number(prefixo[1])===n
+       ?bruto.slice(prefixo[0].length).trim():bruto;
+     preview.textContent="Questão "+String(n).padStart(2,"0")+"\n\n"+formatarEnunciadoParaTela(corpo);
      preview.setAttribute("data-extracao-validada","sim");
      const card=$("cardEnunciadoCompleto");if(card)card.open=true;
      const official=$("questaoOficialPdf");if(official)official.classList.add("hidden");
