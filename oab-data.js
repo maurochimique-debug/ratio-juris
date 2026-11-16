@@ -8,9 +8,10 @@ window.RATIO_OAB_DATA = {
     "aviso": "O gabarito é histórico. Comentários sobre legislação e jurisprudência atuais exigem revisão individual.",
     "validacaoJuridicaIndividual": false,
     "ultimaIntegracao": "2026-11-12",
-    "escopoGabaritos": "33 exames com gabaritos integrados (47º a 14º, exceto 30º); 13º a 10º pendentes de validação de gabaritos definitivos.",
+    "escopoGabaritos": "34 exames com gabaritos integrados (47º a 13º, exceto 30º). O 13º teve gabarito de 13/04/2014 mantido integralmente após os recursos.",
     "ultimaImportacao": "2026-11-10",
     "examesCorrigiveis": [
+      13,
       47,
       46,
       45,
@@ -48,7 +49,7 @@ window.RATIO_OAB_DATA = {
     "auditoriaAtual": {
       "data": "2026-11-12",
       "totalQuestoesDistintas": 2640,
-      "totalExamesCorrigiveis": 33,
+      "totalExamesCorrigiveis": 34,
       "totalExamesCatalogados": 38,
       "gabaritosPorExame": 4,
       "status": "AUDITORIA_ESTRUTURAL_33_EXAMES_4_CADERNOS_80_QUESTOES_SEM_HOMOLOGACAO_DOCUMENTAL_COMPLETA",
@@ -14327,6 +14328,47 @@ window.RATIO_OAB_DATA = {
     ],
     "disciplinas": [],
     "nota": "Gabarito definitivo 29/12/2014; anulações Q33 e Q78 Type1 e respectivas correspondentes, comunicado oficial 16/12/2014. Questões NULAS sem pontos no treino."
+  },
+  "exam13": {
+    "exame": 13,
+    "dataProva": "2014-04-13",
+    "status": "GABARITO_PRELIMINAR_MANTIDO_INTEGRALMENTE_APOS_RECURSOS",
+    "gabaritos": [
+      "BBDACBBBBCBDDBADCBDDCCACACDACACACBDCAADADADCDADBDDBADADDCACCDDBDABBDBDBACDABBCAB",
+      "BABBCBDCBBDBBADCBDDCCDCADCAAACACCBCDDAAAADDDCADDDBABCADDDADCCDDBBADBBBDCAADBABCB",
+      "DBBBBACCBBBDADBDDCBCDCACCAADBCCAACDCAAADDDACDDADBBDADDDAACDCCDBDBDABBABCADDBCBBA",
+      "ACBBBBDBCBDBDCDBABDDCCCAADACACCABCCDADADADADCDABDBADDAADDCDDBDCCBDBABCABADDABBBC"
+    ],
+    "cadernos": [
+      {
+        "tipo": 1,
+        "cor": "Branca",
+        "pdf": "https://s.oab.org.br/arquivos/2019/10/142282ca-0ad0-45b2-a21a-f03f1ffe0146.pdf"
+      },
+      {
+        "tipo": 2,
+        "cor": "Verde",
+        "pdf": "https://oab.fgv.br/arq/421/20140413061114-CADERNO%20TIPO%2002_VERDE_XIII_EXAME.pdf"
+      },
+      null,
+      {
+        "tipo": 4,
+        "cor": "Azul",
+        "pdf": "https://oab.fgv.br/arq/421/20140413061154-CADERNO%20TIPO%2004_AZUL_XIII_EXAME.pdf"
+      }
+    ],
+    "gabaritoPDF": "https://s.oab.org.br/arquivos/2019/10/001fe1bb-b295-4d5e-a87f-7908dca206b0.pdf",
+    "fonteOficial": "https://oab.fgv.br/home.aspx?key=421",
+    "comunicadoManutencao": "https://oab.fgv.br/arq/421/20140514111738-COMUNICADO.pdf",
+    "fonteGabaritos": "https://oab.fgv.br/arq/421/20140413060423-GABARITOS%20PRELIMIARES_XIII_EXAME_DE_ORDEM.pdf",
+    "anulacoesPorTipo": [
+      [],
+      [],
+      [],
+      []
+    ],
+    "disciplinas": [],
+    "nota": "A FGV/OAB em 14/05/2014 confirmou nenhuma anulação e manutenção integral do gabarito de 13/04/2014. As 320 respostas por tipo foram transcritas do documento oficial; a correspondência de questões entre cores permanece para conferência independente."
   },
   "exam14": {
     "exame": 14,
