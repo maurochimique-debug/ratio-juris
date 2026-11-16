@@ -346,21 +346,34 @@
  // Separa alternativas somente quando as quatro marcações estão inequívocas.
  // Se a extração estiver ambígua, preserva o texto integral para não omitir respostas.
  function separarAlternativasOficiais(trecho){
-   const texto=String(trecho||"").trim();
-   const marcador=/(^|[\n\r]|\s)([A-D])\s*[\)\.]\s+/g;
-   const achados=[];
-   let m;
-   while((m=marcador.exec(texto))!==null){
-     achados.push({letra:m[2],inicio:m.index+m[1].length,fim:marcador.lastIndex});
+   const texto=String(trecho||"").replace(/\r/g,"").trim();
+   if(!texto||texto.length<60)return null;
+   // Priorizar marcas A), B), C), D) em início de linha. As provas
+   // frequentemente possuem quebra entre a letra e o texto da resposta.
+   function candidatos(regex){
+     const found=[];
+     let m;
+     while((m=regex.exec(texto))!==null){
+       found.push({letra:m[2],inicio:m.index+m[1].length,fim:regex.lastIndex});
+     }
+     return found;
    }
-   for(let i=0;i<=achados.length-4;i++){
-     const seq=achados.slice(i,i+4);
-     if(seq.map(x=>x.letra).join("")!=="ABCD")continue;
-     if(achados.length!==4)continue;
-     const enunciado=texto.slice(0,seq[0].inicio).trim();
-     const opcoes=seq.map((x,j)=>texto.slice(x.fim,j===3?texto.length:seq[j+1].inicio).trim());
-     if(enunciado.length<35||opcoes.some(v=>v.length<2||v.length>1600))continue;
-     return {enunciado,alternativas:opcoes};
+   const sets=[
+     candidatos(/(^|\n)[ \t]*([A-D])[ \t]*[).][ \t]*/gm),
+     candidatos(/(^|\n|\s{2,})([A-D])[ \t]*[).][ \t]*/gm),
+     candidatos(/(^|\n|\s)([A-D])[ \t]*[).][ \t]+/gm)
+   ];
+   for(const achados of sets){
+     for(let i=0;i<=achados.length-4;i++){
+       const seq=achados.slice(i,i+4);
+       if(seq.map(x=>x.letra).join("")!=="ABCD")continue;
+       const enunciado=texto.slice(0,seq[0].inicio).trim();
+       const opcoes=seq.map((x,j)=>
+         texto.slice(x.fim,j===3?texto.length:seq[j+1].inicio).trim());
+       if(enunciado.length<35||opcoes.some(v=>v.length<2||v.length>1900))continue;
+       if(opcoes.some(v=>/(?:^|\n)\s*(?:QUEST[AÃ]O|QUESTAO)\s*\d{1,2}\b/i.test(v)))continue;
+       return {enunciado,alternativas:opcoes};
+     }
    }
    return null;
  }
@@ -467,8 +480,11 @@
          if(combined&&combined.length>excerpt.length)excerpt=combined;
        }
        if(excerpt){
+         // Um marcador de numeração em capa, rodapé ou outra coluna não
+         // deve encerrar a busca: procurar a próxima página/ocorrência.
+         if(!separarAlternativasOficiais(excerpt))continue;
          const ok=renderizarTextoQuestao(n,pageNo,excerpt,opcoes);
-         if(!ok)return false;
+         if(!ok)continue;
          cacheQuestoes.set(chaveQuestao,{pagina:pageNo,trecho:excerpt});
          avisar("Possível localização da questão "+n+" na página "+pageNo+
            ". Confira a formatação e as alternativas com o PDF original quando necessário.");
