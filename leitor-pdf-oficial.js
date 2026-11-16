@@ -326,11 +326,20 @@
    const start=preferido?.index??-1;
    if(start<0)return null;
    let end=lines.length;
+   // A próxima questão pode começar como "QUESTÃO 7", "7." ou
+   // simplesmente "7" na linha seguinte. Nunca anexar sua pergunta.
    for(let k=start+1;k<lines.length;k++){
      const m=marcador(lines[k]);
      if(m&&(m.numero===n+1||m.numero===n+2)){end=k;break;}
+     const inline=/(?:^|\s)(?:QUEST[AÃ]O|QUESTAO)\s*(?:N[º°.]?\s*)?0*(\d{1,2})\b/i.exec(lines[k]);
+     if(inline&&Number(inline[1])===n+1){end=k;break;}
    }
-   const excerpt=lines.slice(start,end).join("\n").trim();
+   let excerpt=lines.slice(start,end).join("\n").trim();
+   // Uma linha do PDF pode conter, por erro de extração, o início da
+   // pergunta seguinte; cortar somente quando o cabeçalho for inequívoco.
+   const nextExplicit=new RegExp('(?:\\n|\\s{2,})(?:QUEST[AÃ]O|QUESTAO)\\s*(?:N[º°.]?\\s*)?0*'+(n+1)+'(?:\\s*[.):-–—]|\\s+)','i');
+   const boundary=nextExplicit.exec(excerpt);
+   if(boundary&&boundary.index>20)excerpt=excerpt.slice(0,boundary.index).trim();
    if(excerpt.length<55||excerpt.length>9500)return null;
    return excerpt;
  }
@@ -392,8 +401,21 @@
      // O card recolhivel preserva integralmente o enunciado e as alternativas
      // do documento original; os botões abaixo servem apenas para responder.
      const separado=separarAlternativasOficiais(trecho);
-     preview.textContent=formatarEnunciadoParaTela(trecho);
-     preview.setAttribute("data-extracao-validada",separado?"sim":"nao");
+     // Não apresentar a extração bruta como se fosse um enunciado confirmado.
+     // Uma questão só pode ser exibida se as quatro alternativas forem isoladas.
+     // Isto evita concatenar a questão 6 com a 7 no celular.
+     if(!separado){
+       exibirDocumentoNoCard($("oabExamSelect")?.value,$("oabTipoSelect")?.value,
+         "A leitura automática não separou com segurança o enunciado e as quatro alternativas desta questão. Consulte o caderno oficial abaixo e responda A, B, C ou D.");
+       const botoes=$("alternativasQuestaoOficial")?.querySelectorAll("button");
+       if(botoes)Array.from(botoes).forEach((botao,i)=>{
+         botao.textContent="ABCD"[i];
+         botao.setAttribute("aria-label","Responder alternativa "+"ABCD"[i]);
+       });
+       return false;
+     }
+     preview.textContent=formatarEnunciadoParaTela(separado.enunciado);
+     preview.setAttribute("data-extracao-validada","sim");
      const card=$("cardEnunciadoCompleto");if(card)card.open=true;
      const official=$("questaoOficialPdf");if(official)official.classList.add("hidden");
      const wrap=$("fallbackEnunciado");if(wrap)wrap.classList.add("hidden");
