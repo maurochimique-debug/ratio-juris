@@ -529,6 +529,17 @@
  async function estudarQuestaoAtual(opcoes={}){
    const card=$("cardEnunciadoCompleto");if(card)card.open=true;
    const exame=$("oabExamSelect")?.value,tipo=$("oabTipoSelect")?.value;
+   // Exibir o documento original no próprio card enquanto o texto é extraído.
+   // Não representar uma transcrição parcial como prova integral e verificada.
+   const n=Number($("questaoOficialNumeroSelect")?.value||1);
+   const preview=$("textoQuestaoDentroSimulador");
+   const validado=preview?.getAttribute("data-extracao-validada")==="sim" &&
+     preview?._ratioQuestaoAnterior===exame+"-"+tipo+"-"+n;
+   if(!validado && /^\\d{2}$/.test(exame||"") && /^[1-4]$/.test(tipo||"")){
+     exibirDocumentoNoCard(exame,tipo,
+       "Questão "+String(n).padStart(2,"0")+" — preparando a transcrição do enunciado oficial. "+
+       "Enquanto isso, o caderno original está disponível logo abaixo, dentro do aplicativo.");
+   }
    if(!/^\d{2}$/.test(exame||"")||! /^[1-4]$/.test(tipo||"")){
      avisar("Selecione um exame oficial e o caderno primeiro.");return false;
    }
