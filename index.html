@@ -1497,7 +1497,13 @@
         return false;
       }
       const pdf=documentosDoExameOAB(numero)?.cadernos?.[tipo-1]?.pdf;
-      if(!pdf){atualizarConsultaGabaritoHistorico();return false;}
+      if(!pdf){
+        atualizarConsultaGabaritoHistorico();
+        const status=document.getElementById('gabaritoHistoricoStatus');
+        if(status)status.textContent=numero+'º Exame, Tipo '+tipo+
+          ': este caderno ainda não possui documento oficial confirmado. Escolha um tipo disponível ou consulte a página oficial da FGV.';
+        return false;
+      }
       const destino='/api/oab-pdf?exame='+numero+'&tipo='+tipo+'#toolbar=1&navpanes=0';
       const frame=document.getElementById('historicoIframePdf');
       if(!frame)return false;
@@ -1625,28 +1631,28 @@
     }
     const arquivosDocumentaisOAB=Object.freeze({
       10:{
-        cadernos:[{tipo:1,cor:'Branca',pdf:'https://s.oab.org.br/arquivos/2019/10/08400591-1675-4186-a04f-a0f2f0bfef08.pdf'}],
+        cadernos:[{tipo:1,cor:'Branca',pdf:'https://s.oab.org.br/arquivos/2019/10/08400591-1675-4186-a04f-a0f2f0bfef08.pdf'},null,null,null],
         gabaritoPDF:'https://s.oab.org.br/arquivos/2019/10/24c2df34-12d1-4c78-a0dc-23f899f7a01f.pdf',
         status:'GABARITO_PRELIMINAR_MANTIDO_SEM_ANULACOES_SEGUNDO_OAB',
         fonteOficial:'https://oab.fgv.br/home.aspx?key=303',
         aviso:'X Exame: a OAB confirmou que não houve anulações e manteve integralmente o gabarito de 28/04/2013. PDF disponível apenas para consulta; importação das letras e cadernos para correção eletrônica ainda pendente.'
       },
       11:{
-        cadernos:[],
+        cadernos:[{tipo:1,cor:'Branca',pdf:'https://oab.fgv.br/arq/336/20130819085026-CADERNO%20TIPO%2001_BRANCA_XI_EXAME.pdf'},null,{tipo:3,cor:'Amarela',pdf:'https://oab.fgv.br/arq/336/20130819085112-CADERNO%20TIPO%2003_AMARELA_XI_EXAME.pdf'},{tipo:4,cor:'Azul',pdf:'https://oab.fgv.br/arq/336/20130819085134-CADERNO%20TIPO%2004_AZUL_XI_EXAME.pdf'}],
         gabaritoPDF:'https://s.oab.org.br/arquivos/2019/10/bf6ea3db-67dc-4e41-bf55-57ec819aef83.pdf',
         status:'GABARITO_PRELIMINAR_SEM_CONCILIACAO_DEFINITIVA',
         fonteOficial:'https://oab.fgv.br/home.aspx?key=336',
         aviso:'XI Exame: gabarito preliminar oficial e correspondência dos quatro tipos disponíveis para consulta. A conciliação definitiva e a importação dos cadernos ainda estão pendentes.'
       },
       12:{
-        cadernos:[],
+        cadernos:[{tipo:1,cor:'Branca',pdf:'https://oab.fgv.br/arq/382/20131215064829-CADERNO%20TIPO%2001_BRANCA_XII_EXAME.pdf'},null,{tipo:3,cor:'Amarela',pdf:'https://oab.fgv.br/arq/382/20131215064908-CADERNO%20TIPO%2003_AMARELA_XII_EXAME.pdf'},null],
         gabaritoPDF:'https://s.oab.org.br/arquivos/2019/10/53f425fb-0a39-4c8f-a0b2-dce17bface02.pdf',
         status:'GABARITO_PRELIMINAR_SEM_CONCILIACAO_DEFINITIVA',
         fonteOficial:'https://oab.fgv.br/home.aspx?key=382',
         aviso:'XII Exame: gabarito preliminar oficial de 15/12/2013 para consulta. Resultado definitivo divulgado em 17/01/2014; não usar as letras preliminares como definitivas sem conferência da publicação final.'
       },
       13:{
-        cadernos:[{tipo:1,cor:'Branca',pdf:'https://s.oab.org.br/arquivos/2019/10/142282ca-0ad0-45b2-a21a-f03f1ffe0146.pdf'}],
+        cadernos:[{tipo:1,cor:'Branca',pdf:'https://s.oab.org.br/arquivos/2019/10/142282ca-0ad0-45b2-a21a-f03f1ffe0146.pdf'},null,null,{tipo:4,cor:'Azul',pdf:'https://oab.fgv.br/arq/421/20140413061154-CADERNO%20TIPO%2004_AZUL_XIII_EXAME.pdf'}],
         gabaritoPDF:'https://s.oab.org.br/arquivos/2019/10/001fe1bb-b295-4d5e-a87f-7908dca206b0.pdf',
         status:'caderno_tipo_1_e_gabarito_preliminar_documentados_sem_correcao',
         fonteOficial:'https://oab.fgv.br/home.aspx?key=421',
