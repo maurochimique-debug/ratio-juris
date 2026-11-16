@@ -42,6 +42,16 @@ direitosdeficiencia:"https://www.planalto.gov.br/ccivil_03/_ato2007-2010/2009/de
 // Trecho curto conferido diretamente na fonte legislativa oficial.
  // Evita que indisponibilidade do portal impeça a leitura de dispositivo verificado.
 const ARTIGOS_CONFERIDOS=Object.freeze({
+ "cadh:5":{
+  conteudo:"ARTIGO 5\nDireito à Integridade Pessoal\n\n1. Toda pessoa tem o direito de que se respeite sua integridade física, psíquica e moral.\n\n2. Ninguém deve ser submetido a torturas, nem a penas ou tratos cruéis, desumanos ou degradantes. Toda pessoa privada da liberdade deve ser tratada com o respeito devido à dignidade inerente ao ser humano.\n\n3. A pena não pode passar da pessoa do delinquente.\n\n4. Os processados devem ficar separados dos condenados, salvo em circunstâncias excepcionais, e ser submetidos a tratamento adequado à sua condição de pessoas não condenadas.\n\n5. Os menores, quando puderem ser processados, devem ser separados dos adultos e conduzidos a tribunal especializado, com a maior rapidez possível, para seu tratamento.\n\n6. As penas privativas da liberdade devem ter por finalidade essencial a reforma e a readaptação social dos condenados.",
+  source:"https://www.oas.org/pt/CIDH/mandato/Basicos/convencion.asp",
+  verificado_em:"2026-11-16"
+ },
+ "cadh:55":{
+  conteudo:"ARTIGO 55\n\n1. O juiz que for nacional de algum dos Estados Partes no caso submetido à Corte, conservará o seu direito de conhecer do mesmo.\n\n2. Se um dos juízes chamados a conhecer do caso for de nacionalidade de um dos Estados Partes, outro Estado Parte no caso poderá designar uma pessoa de sua escolha para fazer parte da Corte na qualidade de juiz ad hoc.\n\n3. Se, dentre os juízes chamados a conhecer do caso, nenhum for da nacionalidade dos Estados Partes, cada um destes poderá designar um juiz ad hoc.\n\n4. O juiz ad hoc deve reunir os requisitos indicados no artigo 52.\n\n5. Se vários Estados Partes na Convenção tiverem o mesmo interesse no caso, serão considerados como uma só Parte, para os fins das disposições anteriores. Em caso de dúvida, a Corte decidirá.",
+  source:"https://www.oas.org/pt/CIDH/mandato/Basicos/convencion.asp",
+  verificado_em:"2026-11-16"
+ },
  "lgpd:21":{
   conteudo:"Art. 21. Os dados pessoais referentes ao exercício regular de direitos pelo titular não podem ser utilizados em seu prejuízo.",
   source:"https://www2.camara.leg.br/legin/fed/lei/2018/lei-13709-14-agosto-2018-787077-normaatualizada-pl.html",
@@ -112,7 +122,7 @@ const FONTES_ALTERNATIVAS=Object.freeze({
   eleitoral:["https://www2.camara.leg.br/legin/fed/lei/1997/lei-9504-30-setembro-1997-365408-normaatualizada-pl.html"],
   lrf:["https://www2.camara.leg.br/legin/fed/leicom/2000/leicomplementar-101-4-maio-2000-351480-normaatualizada-pl.html"],
   migracao:["https://www2.camara.leg.br/legin/fed/lei/2017/lei-13445-24-maio-2017-784925-publicacaooriginal-152812-pl.html"],
-  cadh:["https://www2.camara.leg.br/legin/fed/decret/1992/decreto-678-6-novembro-1992-449028-publicacaooriginal-1-pe.html"],
+  cadh:["https://www.oas.org/pt/CIDH/mandato/Basicos/convencion.asp","https://www2.camara.leg.br/legin/fed/decret/1992/decreto-678-6-novembro-1992-449028-publicacaooriginal-1-pe.html"],
   crimesambientais:["https://www2.camara.leg.br/legin/fed/lei/1998/lei-9605-12-fevereiro-1998-365397-normaatualizada-pl.html"],
   pnma:["https://www2.camara.leg.br/legin/fed/lei/1980-1987/lei-6938-31-agosto-1981-366135-normaatualizada-pl.html"],
   florestal:["https://www2.camara.leg.br/legin/fed/lei/2012/lei-12651-25-maio-2012-613076-normaatualizada-pl.html"],
@@ -218,7 +228,7 @@ const resultados=await Promise.allSettled(candidates.map(async(candidate)=>{
   const response=await fetch(candidate,{headers:{"Accept":"text/html"},signal:AbortSignal.timeout(8500),redirect:"follow"});
   if(!response.ok)throw Error("HTTP "+response.status);
   const host=new URL(response.url).hostname;
-  if(!["www.planalto.gov.br","planalto.gov.br","www2.camara.leg.br","legis.senado.leg.br","normas.leg.br","www.presidencia.gov.br","presidencia.gov.br","www.oab.org.br","eticaedisciplina.oab.org.br"].includes(host))
+  if(!["www.planalto.gov.br","planalto.gov.br","www2.camara.leg.br","legis.senado.leg.br","normas.leg.br","www.presidencia.gov.br","presidencia.gov.br","www.oab.org.br","eticaedisciplina.oab.org.br","www.oas.org","oas.org"].includes(host))
     throw Error("Redirecionamento inesperado");
   if(Number(response.headers.get("content-length")||"0")>8500000)throw Error("Documento excessivo");
   const bytes=await response.arrayBuffer();
@@ -237,7 +247,7 @@ const resultados=await Promise.allSettled(candidates.map(async(candidate)=>{
   const marcoCADH=textoFonte.toUpperCase().indexOf("PARTE I");
   // A Convenção é o ANEXO do Decreto 678/1992. Se o anexo
   // não estiver disponível, NÃO retornar por engano o art. 1º do Decreto.
-  if(lei==="cadh" && marcoCADH<0)throw Error("Anexo da Convenção ausente da fonte");
+  if(lei==="cadh" && marcoCADH<0 && !new URL(response.url).hostname.endsWith("oas.org"))throw Error("Anexo da Convenção ausente da fonte");
   const anexosTratados={
     pidcp:"PACTO INTERNACIONAL SOBRE DIREITOS CIVIS E POLÍTICOS",
     pidesc:"PACTO INTERNACIONAL SOBRE DIREITOS ECONÔMICOS, SOCIAIS E CULTURAIS",
