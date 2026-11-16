@@ -331,13 +331,13 @@
    for(let k=start+1;k<lines.length;k++){
      const m=marcador(lines[k]);
      if(m&&(m.numero===n+1||m.numero===n+2)){end=k;break;}
-     const inline=/(?:^|\\s)(?:QUEST[AÃ]O|QUESTAO)\\s*(?:N[º°.]?\\s*)?0*(\\d{1,2})\\b/i.exec(lines[k]);
+     const inline=/(?:^|\s)(?:QUEST[AÃ]O|QUESTAO)\s*(?:N[º°.]?\s*)?0*(\d{1,2})\b/i.exec(lines[k]);
      if(inline&&Number(inline[1])===n+1){end=k;break;}
    }
    let excerpt=lines.slice(start,end).join("\n").trim();
    // Uma linha do PDF pode conter, por erro de extração, o início da
    // pergunta seguinte; cortar somente quando o cabeçalho for inequívoco.
-   const nextExplicit=new RegExp('(?:\\\\n|\\\\s{2,})(?:QUEST[AÃ]O|QUESTAO)\\\\s*(?:N[º°.]?\\\\s*)?0*'+(n+1)+'(?:\\\\s*[.):-–—]|\\\\s+)','i');
+   const nextExplicit=new RegExp('(?:\\n|\\s{2,})(?:QUEST[AÃ]O|QUESTAO)\\s*(?:N[º°.]?\\s*)?0*'+(n+1)+'(?:\\s*[.):-–—]|\\s+)','i');
    const boundary=nextExplicit.exec(excerpt);
    if(boundary&&boundary.index>20)excerpt=excerpt.slice(0,boundary.index).trim();
    if(excerpt.length<55||excerpt.length>9500)return null;
