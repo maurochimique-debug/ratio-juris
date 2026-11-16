@@ -241,7 +241,13 @@ const resultados=await Promise.allSettled(candidates.map(async(candidate)=>{
   };
   const tratado=anexosTratados[lei];
   // Nunca utilizar o artigo 1º do decreto de promulgação como se fosse do tratado.
-  const indiceTratado=tratado?textoFonte.toUpperCase().lastIndexOf(tratado):-1;
+  const textoMaiusculo=textoFonte.toUpperCase();
+  const referencias=tratado?[...textoMaiusculo.matchAll(new RegExp(tratado,"g"))].map(m=>m.index):[];
+  // Buscar cabeçalho do anexo que seja seguido de "Artigo 1", não citação
+  // incidental do nome do tratado no decreto ou no protocolo.
+  const indiceTratado=referencias.find(i=>
+    /ARTIGO\\s+1(?:\\s|[.º°])/i.test(textoFonte.slice(i+tratado.length,i+tratado.length+16000))
+  )??-1;
   if(tratado&&indiceTratado<0)throw Error("Anexo do tratado não encontrado");
   let textoNorma=lei==="ced"?
     textoFonte.slice(Math.max(0,textoFonte.toUpperCase().indexOf("ANEXO ÚNICO DA RESOLUÇÃO"))):
