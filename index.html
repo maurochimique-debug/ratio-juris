@@ -610,7 +610,7 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
         <div class="rounded-xl p-5 border-2 border-purple-600 bg-purple-50 dark:bg-ratio-cardDark">
           <h3 class="font-bold text-slate-900 dark:text-white">OAB — Exames de Ordem</h3>
-          <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">Simulado oficial independente, com cadernos e gabaritos já cadastrados.</p>
+          <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">Simulado oficial independente, com cadernos e gabaritos.</p>
           <a href="#consultaGabaritosHistoricos" onclick="return abrirExamesOabDoCard()" class="inline-flex min-h-[44px] items-center mt-3 underline font-bold text-purple-800 dark:text-purple-300">Abrir exames OAB</a>
         </div>
         <details id="acervo-stj" open class="rounded-xl p-5 border border-purple-500 bg-slate-50 dark:bg-ratio-cardDark">
@@ -737,8 +737,12 @@
           <button type="button" id="btnExibirArtigoRatio" onclick="return window.pesquisarArtigoPlanalto(false)" class="btn-touch relative z-10 min-h-[52px] touch-manipulation bg-ratio-purpleDeep hover:bg-purple-700 text-white px-5 py-3 rounded-xl text-sm font-bold">Exibir artigo aqui no RATIO JURIS</button>
           <span class="text-xs text-slate-300">Exemplo: Código Civil, art. 366; LINDB, art. 20</span>
         </div>
+        <div class="mt-4 flex flex-wrap items-center gap-2" role="group" aria-label="Exibir ou ocultar cards jurídicos">
+          <button type="button" onclick="document.querySelectorAll('#consultaDireitoEmpresarial,#consultaTratadosInternacionais,#consultaPactoSaoJose,#consultaProvimentosOAB').forEach(card=>card.open=true)" class="min-h-[44px] rounded-lg border border-purple-500 px-3 py-2 font-bold text-sm text-white">Exibir todos os cards jurídicos</button>
+          <button type="button" onclick="document.querySelectorAll('#consultaDireitoEmpresarial,#consultaTratadosInternacionais,#consultaPactoSaoJose,#consultaProvimentosOAB').forEach(card=>card.open=false)" class="min-h-[44px] rounded-lg border border-purple-500 px-3 py-2 font-bold text-sm text-white">Ocultar todos os cards jurídicos</button>
+        </div>
         <details id="consultaDireitoEmpresarial" class="mt-4 rounded-xl border border-purple-500 p-4 bg-slate-900">
-          <summary class="cursor-pointer min-h-[44px] flex items-center font-bold text-purple-200">Direito Empresarial — artigos essenciais para estudo</summary>
+          <summary class="cursor-pointer min-h-[44px] flex items-center font-bold text-purple-200">Direito Empresarial — artigos essenciais para estudo <span class="ml-auto pl-3 shrink-0 text-xs font-bold text-amber-300" aria-hidden="true">Exibir / ocultar</span></summary>
           <p class="mt-2 text-sm text-slate-300">O Código Civil já inclui o Direito de Empresa. As leis empresariais específicas também estão disponíveis no seletor “Qual legislação?”.</p>
           <div class="mt-3 flex flex-wrap gap-2">
             <button type="button" onclick="return abrirTemaLegislativo('cc','966')" class="min-h-[44px] rounded-lg border border-purple-500 px-3 py-2 font-semibold text-sm text-white">Empresário — CC art. 966</button>
@@ -750,7 +754,7 @@
           </div>
         </details>
         <details id="consultaTratadosInternacionais" class="mt-4 rounded-xl border border-purple-500 p-4 bg-slate-900">
-          <summary class="cursor-pointer min-h-[44px] flex items-center font-bold text-purple-200">Tratados internacionais — consultar artigos</summary>
+          <summary class="cursor-pointer min-h-[44px] flex items-center font-bold text-purple-200">Tratados internacionais — consultar artigos <span class="ml-auto pl-3 shrink-0 text-xs font-bold text-amber-300" aria-hidden="true">Exibir / ocultar</span></summary>
           <p class="mt-2 text-sm text-slate-300">Selecione o tratado e o número do artigo. O texto deve vir do anexo da norma promulgada no Brasil, nunca dos artigos introdutórios do decreto.</p>
           <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
             <label for="tratadoGabineteSelect" class="text-xs font-bold text-white">Tratado
@@ -770,7 +774,7 @@
           <p class="mt-2 text-xs text-slate-300">Disponibilidade sujeita à fonte oficial. Se a extração não puder ser verificada, o aplicativo mostrará o documento original, sem inventar textos.</p>
         </details>
         <details id="consultaPactoSaoJose" class="mt-4 rounded-xl border border-purple-500 p-4 bg-slate-900">
-          <summary class="cursor-pointer min-h-[44px] flex items-center font-bold text-purple-200">Direitos Humanos — artigos do Pacto de São José da Costa Rica</summary>
+          <summary class="cursor-pointer min-h-[44px] flex items-center font-bold text-purple-200">Direitos Humanos — artigos do Pacto de São José da Costa Rica <span class="ml-auto pl-3 shrink-0 text-xs font-bold text-amber-300" aria-hidden="true">Exibir / ocultar</span></summary>
           <p class="mt-2 text-sm text-slate-300">Convenção Americana sobre Direitos Humanos, promulgada no Brasil pelo Decreto 678/1992. Selecione o artigo para buscar o texto do anexo oficial, diretamente no Modo Gabinete.</p>
           <div class="mt-3 flex flex-wrap gap-2" role="group" aria-label="Artigos principais da Convenção Americana">
             <button type="button" onclick="return consultarArtigoPactoSaoJose(1)" class="min-h-[44px] rounded-lg border border-purple-500 px-3 py-2 text-sm font-semibold text-white">Art. 1 — respeito aos direitos</button>
@@ -785,7 +789,7 @@
           <a href="https://www2.camara.leg.br/legin/fed/decret/1992/decreto-678-6-novembro-1992-449028-publicacaooriginal-1-pe.html" rel="noopener noreferrer" class="mt-3 inline-flex min-h-[44px] items-center font-bold underline text-purple-200">Ler o texto integral da Convenção na Câmara dos Deputados</a>
         </details>
         <details id="consultaProvimentosOAB" class="mt-5 rounded-xl border border-purple-500 p-4 bg-slate-900">
-          <summary class="cursor-pointer min-h-[44px] flex items-center font-bold text-purple-200">Provimentos do Conselho Federal da OAB — pesquisar por número e ano</summary>
+          <summary class="cursor-pointer min-h-[44px] flex items-center font-bold text-purple-200">Provimentos do Conselho Federal da OAB — pesquisar por número e ano <span class="ml-auto pl-3 shrink-0 text-xs font-bold text-amber-300" aria-hidden="true">Exibir / ocultar</span></summary>
           <p class="mt-2 text-sm text-slate-300">Os provimentos são atos normativos distintos do Estatuto e do Código de Ética. Informe o número e o ano para consultar a norma na fonte oficial; a existência e a vigência devem ser confirmadas na OAB.</p>
           <div class="mt-3 flex flex-wrap gap-3 items-end">
             <label class="flex-1 min-w-[130px] text-xs font-bold text-white" for="provimentoOabNumero">Número
