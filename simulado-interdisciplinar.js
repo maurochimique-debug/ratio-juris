@@ -13,8 +13,8 @@ const AREAS=[
  ["Ética e Constitucional",["Ética Profissional e Estatuto da OAB","Direito Constitucional"]],
  ["Direitos Humanos e Processual",["Direitos Humanos","Direito Processual Civil"]]
 ];
-const exams=[47,46,45,44,43,42,41,40];
-let items=[],position=0,answers={},pdfjs=null,documentCache=new Map(),busy=false,version=0;
+const exams=[47,46,45];
+let items=[],position=0,answers={};
 const data=()=>window.RATIO_OAB_DATA||{};
 function examData(n){return data()["exam"+n]||null;}
 function checkedItem(exam,number){
@@ -25,18 +25,24 @@ function checkedItem(exam,number){
 }
 function construct(){
  items=[];
- // 8 blocos de 10 questões, usando 8 exames distintos e faixas de matérias do arquivo oficial.
- // A interdisciplinaridade é uma trilha de estudo, não uma alegação de que a banca classificou assim.
+ const used=new Set();
+ // 80 referências distintas (8 x 10), extraídas exclusivamente dos exames cujo
+ // gabarito e a classificação disciplinar estão presentes no acervo.
  for(let b=0;b<8;b++){
-   const d=examData(exams[b]),ranges=d?.disciplinas||[];
-   const preferred=ranges.filter(x=>AREAS[b][1].some(tag=>String(x.name).toLowerCase().includes(tag.toLowerCase().replace("direito ",""))));
+   const rotation=[...exams.slice(b%exams.length),...exams.slice(0,b%exams.length)];
    const candidates=[];
-   for(const range of [...preferred,...ranges]){
-     for(let n=range.start;n<=range.end;n++){const item=checkedItem(exams[b],n);if(item&&!candidates.some(v=>v.id===item.id))candidates.push(item);}
+   for(const exam of rotation){
+     const d=examData(exam);
+     const preferred=(d?.disciplinas||[]).filter(x=>AREAS[b][1].some(tag=>String(x.name).toLowerCase().includes(tag.toLowerCase().replace("direito ",""))));
+     for(const range of preferred){
+       for(let n=range.start;n<=range.end;n++){
+         const item=checkedItem(exam,n);
+         if(item&&!used.has(item.id)&&!candidates.some(v=>v.id===item.id))candidates.push(item);
+       }
+     }
    }
-   // Nunca criar questões artificiais: só aceitar referências com PDF e gabarito.
    const chosen=candidates.slice(0,10);
-   chosen.forEach(item=>items.push({...item,block:b,theme:AREAS[b][0]}));
+   chosen.forEach(item=>{used.add(item.id);items.push({...item,block:b,theme:AREAS[b][0]});});
  }
 }
 function save(){try{localStorage.setItem(KEY,JSON.stringify(answers));}catch(_){}}
