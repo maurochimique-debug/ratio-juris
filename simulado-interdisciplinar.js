@@ -63,7 +63,7 @@ function render(){
  $("interTitle").textContent="Questão "+(position+1)+" de 80 · Bloco "+(item.block+1)+"/8";
  $("interSubject").textContent=item.theme+" · "+item.subject+" · "+item.exam+"º Exame OAB, Tipo 1 (Branca), questão "+item.number;
  $("interBlock").value=String(item.block);$("interNumber").value=String(position);
- $("interPdf").href=item.pdf;$("interSource").href=item.source;
+ $("interPdf").href="/api/oab-pdf?exame="+encodeURIComponent(item.exam)+"&tipo=1";$("interSource").href=item.source;
  const out=$("interFeedback");out.textContent=item.key==="*"?"Questão oficialmente anulada: não entra na pontuação.":validAnswer(item)?"Resposta registrada: "+answers[item.id]+". "+(item.key==="*"?"Questão anulada.":result(item)==="acerto"?"Correta no gabarito histórico.":"Resposta divergente do gabarito histórico. Correta: "+item.key+"."):"";
  buttons.innerHTML="";
  "ABCD".split("").forEach(letter=>{
