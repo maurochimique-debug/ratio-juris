@@ -58,6 +58,8 @@ function metrics(){
 function render(){
  const item=items[position],container=$("interQuestion"),buttons=$("interAnswers");
  if(!item){status("O acervo ainda não contém 80 questões com referência oficial e gabarito vinculado. Não serão criadas questões fictícias.");$("interStart")?.setAttribute("disabled","");return;}
+ $("interPrev").disabled=position===0;
+ $("interNext").disabled=position===items.length-1;
  $("interTitle").textContent="Questão "+(position+1)+" de 80 · Bloco "+(item.block+1)+"/8";
  $("interSubject").textContent=item.theme+" · "+item.subject+" · "+item.exam+"º Exame OAB, Tipo 1 (Branca), questão "+item.number;
  $("interBlock").value=String(item.block);$("interNumber").value=String(position);
@@ -84,15 +86,27 @@ function goOriginal(){
  const item=items[position];if(!item)return;
  const exam=$("oabExamSelect"),type=$("oabTipoSelect"),num=$("questaoOficialNumeroSelect");
  if(!exam||!type||!num){status("Simulador principal indisponível.");return;}
- exam.value=String(item.exam);exam.dispatchEvent(new Event("change",{bubbles:true}));
- type.value="1";type.dispatchEvent(new Event("change",{bubbles:true}));
- // aguardar atualização das opções dependentes
- setTimeout(()=>{
-   if(typeof window.irParaQuestaoOficial==="function")window.irParaQuestaoOficial(item.number);
-   else{num.value=String(item.number);num.dispatchEvent(new Event("change",{bubbles:true}));}
-   $("simulador-oficial")?.scrollIntoView({behavior:"smooth",block:"start"});
-   window.RatioPdfAcessivel?.estudarQuestaoAtual?.({foco:true});
- },150);
+ // Atualizar exame e caderno antes de emitir um único evento de seleção.
+ // Evita que um evento intermediário restaure outra prova ou mostre PDF antigo.
+ type.value="1";
+ exam.value=String(item.exam);
+ exam.dispatchEvent(new Event("change",{bubbles:true}));
+ if(Number(exam.value)!==item.exam||Number(type.value)!==1){
+   status("A seleção do caderno mudou inesperadamente. Confirme a prova antes de responder.");
+   return;
+ }
+ // A atualização do arquivo é síncrona; não depender de tempo fixo do Android.
+ if(typeof window.irParaQuestaoOficial!=="function"){
+   status("Navegação oficial indisponível nesta versão. Utilize o PDF oficial.");
+   return;
+ }
+ const ok=window.irParaQuestaoOficial(item.number);
+ if(ok===false){status("Não foi possível selecionar a questão oficial.");return;}
+ $("simulador-oficial")?.scrollIntoView({behavior:"smooth",block:"start"});
+ Promise.resolve(window.RatioPdfAcessivel?.estudarQuestaoAtual?.({foco:true}))
+  .then(resolved=>{
+    if(resolved===false)status("A leitura automática do PDF não foi concluída. Consulte o caderno oficial vinculado à questão.");
+  }).catch(()=>status("O texto não pôde ser extraído com segurança. Consulte o PDF oficial da banca."));
 }
 function init(){
  construct();load();
