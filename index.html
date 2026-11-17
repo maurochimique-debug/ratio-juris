@@ -612,13 +612,36 @@
   </section>
   <section id="bancas-oficiais" class="py-12 border-b border-slate-200 dark:border-ratio-borderDark bg-white dark:bg-[#0E1216]">
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
-      <h2 class="text-xl font-black text-slate-900 dark:text-white">Provas anteriores de concursos jurídicos</h2>
-      <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">Provas jurídicas identificadas em fonte oficial, com os respectivos cadernos e gabaritos disponíveis para consulta documental.</p>
+      <h2 class="text-xl font-black text-slate-900 dark:text-white">Simulado Jurídico Interdisciplinar</h2>
+      <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">80 questões de provas oficiais, organizadas em oito blocos de 10. Estude conexões entre áreas do Direito sem perder o acesso aos acervos originais.</p>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
-        <div class="rounded-xl p-5 border-2 border-purple-600 bg-purple-50 dark:bg-ratio-cardDark">
-          <h3 class="font-bold text-slate-900 dark:text-white">OAB — Exames de Ordem</h3>
-          <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">Simulado oficial independente, com cadernos e gabaritos.</p>
-          <a href="#consultaGabaritosHistoricos" onclick="return abrirExamesOabDoCard()" class="inline-flex min-h-[44px] items-center mt-3 underline font-bold text-purple-800 dark:text-purple-300">Abrir exames OAB</a>
+        <div id="simulado-interdisciplinar" class="rounded-xl p-5 border-2 border-purple-600 bg-purple-50 dark:bg-ratio-cardDark" role="region" aria-labelledby="interModuleName">
+          <h3 id="interModuleName" class="text-xl font-bold text-purple-900 dark:text-purple-200">Simulado Jurídico Interdisciplinar — 80 questões</h3>
+          <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">Oito blocos de dez questões oficiais da OAB/FGV, em trilhas que conectam matérias jurídicas. Todos os exames existentes permanecem disponíveis no Simulador Livre. A classificação temática é editorial, não da banca.</p>
+          <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div><label for="interBlock" class="font-bold block mb-1 text-slate-900 dark:text-white">Bloco interdisciplinar</label><select id="interBlock" class="w-full min-h-[48px] rounded-lg border-2 border-purple-500 bg-white dark:bg-[#12161A] text-slate-900 dark:text-white p-2"></select></div>
+            <div><label for="interNumber" class="font-bold block mb-1 text-slate-900 dark:text-white">Selecionar questão</label><select id="interNumber" class="w-full min-h-[48px] rounded-lg border-2 border-purple-500 bg-white dark:bg-[#12161A] text-slate-900 dark:text-white p-2"></select></div>
+          </div>
+          <div class="mt-4 p-4 bg-white dark:bg-[#12161A] border border-purple-400 rounded-xl">
+            <h4 id="interTitle" class="font-black text-lg text-slate-900 dark:text-white">Questão 1 de 80</h4>
+            <p id="interSubject" class="text-sm mt-2 text-slate-700 dark:text-slate-200"></p>
+            <p id="interQuestion" class="whitespace-pre-wrap mt-3 text-base leading-relaxed text-slate-900 dark:text-slate-100"></p>
+            <div class="mt-4 flex flex-wrap gap-3">
+              <a id="interPdf" href="#oab-arquivo" target="_blank" rel="noopener noreferrer" class="underline font-bold text-purple-800 dark:text-purple-200 min-h-[44px] inline-flex items-center">Consultar caderno oficial</a>
+              <a id="interSource" href="#oab-arquivo" target="_blank" rel="noopener noreferrer" class="underline font-bold text-purple-800 dark:text-purple-200 min-h-[44px] inline-flex items-center">Fonte da banca</a>
+            </div>
+            <button id="interStart" type="button" class="mt-3 w-full min-h-[52px] bg-purple-700 rounded-xl px-4 py-3 text-white font-black">Abrir e ler no simulador principal</button>
+            <p class="text-xs mt-3 text-slate-700 dark:text-slate-300">As letras abaixo registram a resposta desta sessão; leia a questão oficial antes de selecionar. O gabarito é histórico e exige revisão da legislação vigente.</p>
+            <div id="interAnswers" class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3" aria-label="Alternativas de resposta"></div>
+            <p id="interFeedback" role="status" aria-live="polite" class="mt-3 font-semibold text-sm text-slate-900 dark:text-white"></p>
+          </div>
+          <p id="interMetrics" class="mt-4 text-sm font-bold text-slate-900 dark:text-white"></p>
+          <p id="interStatus" role="status" aria-live="polite" class="mt-2 text-xs text-slate-700 dark:text-slate-300"></p>
+          <div class="mt-4 flex flex-wrap gap-2">
+            <button id="interPrev" type="button" class="min-h-[48px] px-4 py-2 rounded-lg border-2 border-purple-500 text-purple-900 dark:text-purple-200 font-bold">Questão anterior</button>
+            <button id="interNext" type="button" class="min-h-[48px] px-4 py-2 rounded-lg bg-purple-700 text-white font-bold">Próxima questão</button>
+            <button id="interReset" type="button" class="min-h-[48px] px-4 py-2 rounded-lg border border-slate-400 text-slate-800 dark:text-slate-200">Reiniciar este simulado</button>
+          </div>
         </div>
         <details id="acervo-stj" open class="rounded-xl p-5 border border-purple-500 bg-slate-50 dark:bg-ratio-cardDark">
           <summary class="cursor-pointer min-h-[44px] flex items-center font-bold text-slate-900 dark:text-white">STJ — Provas jurídicas oficiais (Cebraspe)</summary>
@@ -3154,5 +3177,7 @@
   <script src="/ratio-auth.js?v=20261113-free"></script>
   <script src="/cronometro-oab.js?v=20261116"></script>
   <script src="/assistente-juridico.js?v=20261113-free"></script>
+  <script src="/simulado-interdisciplinar.js?v=20261116-1"></script>
+
 </body>
 </html>
