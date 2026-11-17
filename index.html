@@ -1143,11 +1143,29 @@
       detalhes.append(sum,area);
       target.appendChild(detalhes);
       try{
-        const resposta=await fetch('/api/artigo-oficial?lei='+encodeURIComponent(lei)+
-          '&artigo='+encodeURIComponent(numero),{cache:'no-store',signal:controller.signal});
-        const json=await resposta.json().catch(()=>({}));
+        // Contingência documental estrita: somente art. 33 da Lei 9.099/1995.
+        // Texto integral conferido contra a versão atualizada da Câmara em 17/11/2026.
+        // Nunca aplicar este conteúdo a outro artigo ou lei.
+        const artigo33Conferido=lei==='je'&&numero==='33'?{
+          conteudo:'Art. 33. Todas as provas serão produzidas na audiência de instrução e julgamento, ainda que não requeridas previamente, podendo o Juiz limitar ou excluir as que considerar excessivas, impertinentes ou protelatórias.',
+          source:'https://www2.camara.leg.br/legin/fed/lei/1995/lei-9099-26-setembro-1995-348608-normaatualizada-pl.html',
+          aviso:'Lei nº 9.099/1995, art. 33. Texto conferido na versão atualizada da Câmara dos Deputados em 17/11/2026. Cópia documental local; confira eventuais alterações posteriores nas fontes oficiais.'
+        }:null;
+        let json={};
+        let consultaOk=false;
+        // A consulta remota prevalece quando disponível; em caso de bloqueio
+        // de rede (403/502), usar exclusivamente esta transcrição verificada.
+        try{
+          const resposta=await fetch('/api/artigo-oficial?lei='+encodeURIComponent(lei)+
+            '&artigo='+encodeURIComponent(numero),{cache:'no-store',signal:controller.signal});
+          json=await resposta.json().catch(()=>({}));
+          consultaOk=resposta.ok&&typeof json.conteudo==='string'&&!!json.conteudo.trim();
+        }catch(erro){
+          if(erro?.name==='AbortError')return;
+        }
+        if(!consultaOk&&artigo33Conferido){json=artigo33Conferido;consultaOk=true;}
         if(token!==consultaArtigoOficialSeq||!detalhes.isConnected)return;
-        if(!resposta.ok||typeof json.conteudo!=='string'||!json.conteudo.trim()){
+        if(!consultaOk){
           area.textContent=json.codigo==='ARTIGO_INEXISTENTE'
             ? 'Artigo '+numero+' — '+fontesLegaisPlanalto[lei].nome+'. Artigo não encontrado nesta norma. '+(json.aviso||'Confirme o número e a legislação.')
             : fontesLegaisPlanalto[lei].nome+' — artigo '+numero+'. Não foi possível recuperar o texto oficial nesta conexão. A referência está identificada abaixo para consulta na legislação original; o RATIO JURIS não apresenta conteúdo não verificado.';
