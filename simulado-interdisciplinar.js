@@ -51,7 +51,7 @@ function validAnswer(item){return Object.prototype.hasOwnProperty.call(answers,i
 function result(item){const x=answers[item.id];return item.key==="*"?"anulada":!x?"branco":x===item.key?"acerto":"erro";}
 function status(message){const el=$("interStatus");if(el)el.textContent=message;}
 function metrics(){
- const all=items.filter(validAnswer);
+ const all=items.filter(i=>i.key!=="*"&&validAnswer(i));
  const a=all.filter(i=>result(i)==="acerto").length,e=all.filter(i=>result(i)==="erro").length,n=items.filter(i=>i.key==="*").length;
  const el=$("interMetrics");if(el)el.textContent="Respondidas: "+all.length+"/80 · Acertos: "+a+" · Erros: "+e+" · Anuladas: "+n+" · Aproveitamento: "+(a+e?Math.round(100*a/(a+e)):0)+"%";
 }
@@ -62,22 +62,24 @@ function render(){
  $("interSubject").textContent=item.theme+" · "+item.subject+" · "+item.exam+"º Exame OAB, Tipo 1 (Branca), questão "+item.number;
  $("interBlock").value=String(item.block);$("interNumber").value=String(position);
  $("interPdf").href=item.pdf;$("interSource").href=item.source;
- const out=$("interFeedback");out.textContent=validAnswer(item)?"Resposta registrada: "+answers[item.id]+". "+(item.key==="*"?"Questão anulada.":result(item)==="acerto"?"Correta no gabarito histórico.":"Resposta divergente do gabarito histórico. Correta: "+item.key+"."):"";
+ const out=$("interFeedback");out.textContent=item.key==="*"?"Questão oficialmente anulada: não entra na pontuação.":validAnswer(item)?"Resposta registrada: "+answers[item.id]+". "+(item.key==="*"?"Questão anulada.":result(item)==="acerto"?"Correta no gabarito histórico.":"Resposta divergente do gabarito histórico. Correta: "+item.key+"."):"";
  buttons.innerHTML="";
  "ABCD".split("").forEach(letter=>{
    const button=document.createElement("button");
    button.type="button";button.textContent=letter;button.className="min-h-[52px] rounded-xl border-2 border-purple-500 px-4 py-3 font-black text-purple-900 dark:text-white bg-white dark:bg-ratio-cardDark";
+   button.disabled=item.key==="*";
    button.setAttribute("aria-pressed",String(answers[item.id]===letter));
    if(answers[item.id]===letter)button.classList.add("ring-2","ring-amber-400");
    button.addEventListener("click",()=>{
      // Somente corrigir após o usuário conferir o enunciado oficial.
+     if(item.key==="*")return;
      answers[item.id]=letter;save();render();
    });buttons.appendChild(button);
  });
  container.textContent="Aguardando leitura segura do enunciado original. Consulte o PDF oficial abaixo ou use “Abrir no simulador principal”. Nenhuma pergunta será reconstruída por IA.";
  metrics();
 }
-function navigate(i){if(i<0||i>=items.length)return;position=i;version++;render();}
+function navigate(i){if(!Number.isInteger(i)||i<0||i>=items.length)return;position=i;render();}
 function goOriginal(){
  const item=items[position];if(!item)return;
  const exam=$("oabExamSelect"),type=$("oabTipoSelect"),num=$("questaoOficialNumeroSelect");
