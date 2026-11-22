@@ -325,3 +325,59 @@ body,#appBody{overflow-x:clip}
   #simulador-oficial #textoQuestaoDentroSimulador{padding-left:8px!important;padding-right:8px!important}
   #simulador-oficial #alternativasQuestaoOficial button{max-width:100%;box-sizing:border-box}
 }
+
+
+/* Homologação 22/11/2026 — iOS/Android em orientação horizontal.
+   Evita que a interface móvel herde colunas de desktop e clipe enunciados.
+   Limitado ao simulador oficial e ao layout de estudo; não altera desktop. */
+@media (orientation: landscape) and (max-height: 600px) and (pointer: coarse) {
+  html, body, #appBody {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: clip;
+  }
+  #oab-arquivo,
+  #oab-arquivo > .max-w-6xl,
+  #oab-arquivo > .max-w-6xl > .rounded-2xl,
+  #simulador-oficial,
+  #simulador-oficial .ratio-study-layout,
+  #simulador-oficial .ratio-study-pane,
+  #cardEnunciadoCompleto,
+  #textoQuestaoDentroSimulador {
+    width: 100%;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box;
+  }
+  #simulador-oficial .ratio-study-layout {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: .75rem !important;
+  }
+  #simulador-oficial .ratio-study-layout > * {
+    grid-column: 1 / -1;
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+  #textoQuestaoDentroSimulador {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    word-break: normal;
+  }
+  #alternativasQuestaoOficial {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100%;
+  }
+  #alternativasQuestaoOficial > * {
+    min-width: 0;
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: break-word;
+  }
+  .ratio-pdf-iframe { max-width: 100%; }
+}
