@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minha conta | Ratio Juris</title>
+<style>
+  body { font: 1rem/1.5 system-ui; color: #151225; background: #f8f6fd; margin: 0; }
+  main { max-width: 36rem; margin: 3rem auto; padding: 1.5rem; }
+  form { margin: 1rem 0; }
+  input, button { font: inherit; padding: .65rem; margin: .25rem 0; }
+  button { background: #6520a3; color: white; border: 0; border-radius: .4rem; }
+  button:disabled { opacity: .65; }
+</style>
+<main>
+  <a href="/">Ratio Juris</a>
+  <h1>Minha conta</h1>
+  <p>Entre ou crie sua conta com um código enviado por e-mail.</p>
+  <form id="email-form">
+    <label for="email">E-mail</label>
+    <input id="email" type="email" autocomplete="email" required>
+    <button>Enviar código</button>
+  </form>
+  <form id="code-form" hidden>
+    <label for="code">Código recebido por e-mail</label>
+    <input id="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]+" required>
+    <button>Confirmar código</button>
+  </form>
+  <section id="account" hidden>
+    <h2>Meu acesso</h2>
+    <p id="access"></p>
+    <button type="button" data-plan="mensal">Testar plano mensal · R$ 99</button>
+    <button type="button" data-plan="anual">Testar plano anual · R$ 370</button>
+    <button type="button" id="refresh">Atualizar situação</button>
+    <button type="button" id="logout">Sair</button>
+  </section>
+  <p id="message" role="status"></p>
+</main>
+<script type="module">
+const api = '/api/acesso-mercado-pago';
+const emailForm = document.querySelector('#email-form');
+const codeForm = document.querySelector('#code-form');
+const account = document.querySelector('#account');
+const message = document.querySelector('#message');
+const storageKey = 'ratio-juris-homologacao-session';
+let email;
+let token = sessionStorage.getItem(storageKey);
+
+async function request(url, headers, body) {
+  const options = body ? { method: 'POST', body: JSON.stringify(body) } : {};
+  const response = await fetch(url, { ...options, headers: { 'Content-Type': 'application/json', ...headers } });
+  if (!response.ok) throw new Error(String(response.status));
+  return response.json();
+}
+
+async function auth(action, body) {
+  const { authUrl, publicKey } = await request(api + '?action=config');
+  return request(authUrl + '/auth/v1/' + action, { apikey: publicKey }, body);
+}
+
+async function showAccess() {
+  const { access } = await request(api, { Authorization: 'Bearer ' + token });
+  emailForm.hidden = codeForm.hidden = true;
+  account.hidden = false;
+  document.querySelector('#access').textContent = access
+    ? 'Plano ' + access.plan + ' ativo até ' + new Date(access.access_until).toLocaleString('pt-BR')
+    : 'Nenhum plano ativo.';
+}
+
+function signOut() {
+  sessionStorage.removeItem(storageKey);
+  token = undefined;
+  account.hidden = codeForm.hidden = true;
+  emailForm.hidden = false;
+  message.textContent = '';
+}
+
+function run(element, action, failure) {
+  element.disabled = true;
+  message.textContent = '';
+  return action().catch(error => {
+    message.textContent = failure;
+    return error;
+  }).finally(() => { element.disabled = false; });
+}
+
+emailForm.addEventListener('submit', event => {
+  event.preventDefault();
+  const destination = document.querySelector('#email').value.trim();
+  codeForm.hidden = true;
+  run(event.submitter, async () => {
+    await auth('otp', { email: destination, create_user: true });
+    email = destination;
+    codeForm.reset();
+    codeForm.hidden = false;
+    message.textContent = 'Confira seu e-mail para ver o código.';
+  }, 'O código não pôde ser enviado. Tente novamente.');
+});
+
+codeForm.addEventListener('submit', event => {
+  event.preventDefault();
+  run(event.submitter, async () => {
+    const result = await auth('verify', { email, token: document.querySelector('#code').value, type: 'email' });
+    token = result.access_token;
+    sessionStorage.setItem(storageKey, token);
+    await showAccess();
+  }, 'Não foi possível entrar. Confira o código ou solicite outro.');
+});
+
+document.querySelector('#refresh').addEventListener('click', event =>
+  run(event.currentTarget, showAccess, 'Não foi possível consultar o acesso.'));
+document.querySelector('#logout').addEventListener('click', signOut);
+for (const button of account.querySelectorAll('[data-plan]')) {
+  button.addEventListener('click', () => run(button, async () => {
+    const checkout = await request(api, { Authorization: 'Bearer ' + token }, { plan: button.dataset.plan });
+    location.assign(checkout.url);
+  }, 'Não foi possível abrir o checkout de teste.'));
+}
+
+if (token) showAccess().catch(error => {
+  if (error.message === '401') signOut();
+  message.textContent = 'Não foi possível recuperar a sessão. Entre novamente.';
+});
+</script>
+</html>
