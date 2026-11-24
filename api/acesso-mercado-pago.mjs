@@ -60,6 +60,9 @@ export default async function handler(req, res) {
     }
 
     if (!['GET', 'POST'].includes(req.method)) return res.status(405).end()
+    if (req.method === 'GET' && url.searchParams.get('action') === 'config') {
+      return res.status(200).json({ authUrl: RJ_SUPABASE_URL, publicKey: RJ_SUPABASE_PUBLIC_KEY })
+    }
     const authorization = req.headers.authorization
     if (!authorization?.startsWith('Bearer ')) return res.status(401).end()
     let user
