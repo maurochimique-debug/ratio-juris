@@ -49,7 +49,9 @@ for(const id of ["simulador-oficial","oabExamSelect","oabTipoSelect",
  if(!html.includes('id="'+id+'"'))errors.push("Controle essencial ausente: "+id);
 }
 if(html.includes('id="configSimuladoAleatorio"'))errors.push("Seção aleatória removida reapareceu");
-if(!html.includes("R$ 99")||!html.includes("R$ 370"))errors.push("Preços comerciais divergentes");
+if (!["R$ 49,90", "R$ 99,90", "R$ 359,90"].every(preco => html.includes(preco))) {
+ errors.push("Preços comerciais divergentes");
+}
 if(!html.includes("pesquisarConjurGabinete"))errors.push("Pesquisa complementar ConJur ausente");
 if(!html.includes('id="leitorMobile"')&&!html.includes('/leitor-mobile-pdf.js'))
  errors.push("Leitor paginado para celular ausente");

@@ -25,7 +25,7 @@
 ## Situação encontrada em 14/11/2026
 - `ratio-auth.js` é sessão piloto de IA, em memória. NÃO cobre o restante do simulador.
 - `/api/assistente-juridico` já possui autenticação de piloto, mas não é um sistema de assinatura comercial completo.
-- A página oferece **planos propostos** de R$ 99/mês e R$ 370/ano, com compra desabilitada. Valores não devem ser ativados sem aprovação comercial final.
+- Em 26/11/2026, foram definidos os passes de pagamento único: 15 dias por R$ 49,90, 30 dias por R$ 99,90 e 12 meses por R$ 359,90. A compra pelo aplicativo segue desabilitada.
 - Nenhuma cobrança automática deve ser criada nesta fase.
 - A única conexão Supabase listada nesta conversa pertence a `language-learning-platform`; não utilizar no RATIO JURIS.
 
